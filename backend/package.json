@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "A backend for consenz",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "git+https://github.com/consenz-io/webapp.git",
+  "author": "Aviran Katz <aviran.katz@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/consenz-io/webapp/issues"
+  },
+  "homepage": "https://github.com/consenz-io/webapp#readme",
+  "devDependencies": {
+    "hasura-cli": "^2.6.1"
+  }
+}
