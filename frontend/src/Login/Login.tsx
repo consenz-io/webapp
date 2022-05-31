@@ -1,4 +1,11 @@
 import "./Login.css";
+import auth from "../auth/auth";
+
+function login(e: any) {
+  e.preventDefault();
+  auth.alternate();
+  console.log("current auth state:", auth.getAuth());
+}
 
 function Login() {
   return (
@@ -17,7 +24,9 @@ function Login() {
             <input name="password" type="text" />
           </p>
           <p id="buttons">
-            <button id="signIn">Sign In</button>
+            <button id="signIn" onClick={login}>
+              Sign In
+            </button>
             <label id="forgot">Forgot Password?</label>
           </p>
         </form>
