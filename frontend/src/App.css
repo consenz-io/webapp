@@ -1,3 +1,7 @@
 .container {
   height: 100vh;
 }
+
+nav {
+  background-color: #fff;
+}
