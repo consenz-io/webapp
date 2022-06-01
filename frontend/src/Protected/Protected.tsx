@@ -1,6 +1,5 @@
 import authFn from "../auth/auth";
-import { Route, Navigate } from "react-router-dom";
-import Login from "../Login/Login";
+import { Navigate } from "react-router-dom";
 export const ProtecedRoute = (props: any) => {
   let path = props.path;
   if (!authFn.getAuth()) {
