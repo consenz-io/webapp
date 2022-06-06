@@ -14,7 +14,7 @@ const createApolloClient = () => {
     link: new HttpLink({
       uri: "https://hasura-try-yishain11.hasura.app/v1/graphql",
       headers: {
-        "x-hasura-admin-secret": `tp2P42WhPSwWu4l6gy5aP8cdTVfMBTaN40Joi6PENFxx4H5QM09Hw4Rxnl8GVYGd`,
+        "x-hasura-admin-secret": ``,
         "Content-Type": "application/json",
       },
     }),
