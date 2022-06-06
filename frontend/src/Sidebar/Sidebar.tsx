@@ -33,7 +33,7 @@ import {
   SidebarHeaderSection,
   TitleSection,
   TitleText,
-} from "../styles/Sidebar.styles";
+} from "../components/styles/Sidebar.styles";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 

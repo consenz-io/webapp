@@ -4,7 +4,7 @@ import {
   FormLogin,
   MainLogin,
   ParagraphLogin,
-} from "../styles/LoginForm.styles";
+} from "../components/styles/LoginForm.styles";
 import { Link } from "@mui/material";
 import LoginButton, { LoginFooterButton } from "./LoginButton/LoginButton";
 
