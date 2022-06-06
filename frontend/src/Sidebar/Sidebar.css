@@ -3,4 +3,5 @@
 div#sidebar {
   background: #1e1c21;
   width: 30%;
+  height: 100vh;
 }
