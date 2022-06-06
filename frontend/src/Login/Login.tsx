@@ -1,5 +1,14 @@
 import "./Login.css";
 import auth from "../auth/auth";
+import { FooterButton } from "../styles/Button.styles";
+import {
+  FormLableLogin,
+  FormLogin,
+  InputLogin,
+  MainLogin,
+  ParagraphLogin,
+  SigninButton,
+} from "../styles/LoginForm.styles";
 
 function login(e: any) {
   e.preventDefault();
@@ -10,31 +19,31 @@ function login(e: any) {
 function Login() {
   return (
     <div id="container">
-      <main>
+      <MainLogin>
         <header>
           <h1>sign in to start agreeing!</h1>
         </header>
-        <form action="">
-          <p id="username">
-            <label htmlFor="username">USERNAME</label>
-            <input name="username" type="text" />
-          </p>
-          <p id="password">
-            <label htmlFor="password">PASSWORD</label>
-            <input name="password" type="text" />
-          </p>
-          <p id="buttons">
-            <button id="signIn" onClick={login}>
+        <FormLogin>
+          <ParagraphLogin id="username">
+            <FormLableLogin htmlFor="username">USERNAME</FormLableLogin>
+            <InputLogin name="username" type="text"></InputLogin>
+          </ParagraphLogin>
+          <ParagraphLogin id="password">
+            <FormLableLogin htmlFor="password">PASSWORD</FormLableLogin>
+            <InputLogin name="password" type="password"></InputLogin>
+          </ParagraphLogin>
+          <ParagraphLogin id="buttons">
+            <SigninButton id="signIn" onClick={login}>
               Sign In
-            </button>
+            </SigninButton>
             <label id="forgot">Forgot Password?</label>
-          </p>
-        </form>
+          </ParagraphLogin>
+        </FormLogin>
         <footer>
-          <button id="googleSignin">Continue with Google</button>
-          <button id="discordSignin">Continue with Discord</button>
+          <FooterButton>Continue with Google</FooterButton>
+          <FooterButton>Continue with Discord</FooterButton>
         </footer>
-      </main>
+      </MainLogin>
     </div>
   );
 }
