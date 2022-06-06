@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { DataProvider } from 'store';
 import { ApiProvider } from './services';
 import { RoutesProvider } from './routing';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const root = createRoot(document.getElementById('root') as HTMLElement); 
 root.render(
@@ -14,3 +15,5 @@ root.render(
     </ApiProvider>
   </StrictMode>
 );
+
+serviceWorkerRegistration.register();
