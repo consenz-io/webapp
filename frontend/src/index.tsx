@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -21,9 +22,24 @@ root.render(
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
+=======
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { DataProvider } from 'store';
+import { ApiProvider } from './services';
+import { RoutesProvider } from './routing';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+
+const root = createRoot(document.getElementById('root') as HTMLElement); 
+root.render(
+  <StrictMode>
+    <ApiProvider>
+      <DataProvider>
+          <RoutesProvider />
+      </DataProvider>
+    </ApiProvider>
+  </StrictMode>
+>>>>>>> dfbe8e8b21d5940d8bf0b97bfa003815fc288a0e
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+serviceWorkerRegistration.register();
