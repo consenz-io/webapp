@@ -1,51 +1,75 @@
 import "./Login.css";
-import auth from "../auth/auth";
-import { FooterButton } from "../styles/Button.styles";
+import { Box, Container, styled } from "@mui/system";
 import {
-  FormLableLogin,
   FormLogin,
-  InputLogin,
   MainLogin,
   ParagraphLogin,
-  SigninButton,
 } from "../styles/LoginForm.styles";
+import { Link } from "@mui/material";
+import LoginButton, { LoginFooterButton } from "./LoginButton/LoginButton";
 
-function login(e: any) {
-  e.preventDefault();
-  auth.alternate();
-  console.log("current auth state:", auth.getAuth());
+function signin(e: any) {
+  console.log("clicked sign in ");
+}
+function googleLogin() {
+  console.log("clicked google sign in ");
 }
 
-function Login() {
+const Input = styled("input")({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  gap: "10px",
+  width: "360px",
+  height: "42px",
+  background: " #292d36",
+  border: "1px solid #595f68",
+  borderRadius: "4px",
+  color: "white",
+});
+
+const Label = styled("label")({
+  fontFamily: "Lato",
+  color: "#adb2b8",
+  fontStyle: "normal",
+  fontWeight: 600,
+  fontSize: "12px",
+  lineHeight: "22px",
+});
+
+function MaterialLogin() {
   return (
-    <div id="container">
-      <MainLogin>
-        <header>
-          <h1>sign in to start agreeing!</h1>
-        </header>
-        <FormLogin>
-          <ParagraphLogin id="username">
-            <FormLableLogin htmlFor="username">USERNAME</FormLableLogin>
-            <InputLogin name="username" type="text"></InputLogin>
-          </ParagraphLogin>
-          <ParagraphLogin id="password">
-            <FormLableLogin htmlFor="password">PASSWORD</FormLableLogin>
-            <InputLogin name="password" type="password"></InputLogin>
-          </ParagraphLogin>
-          <ParagraphLogin id="buttons">
-            <SigninButton id="signIn" onClick={login}>
-              Sign In
-            </SigninButton>
-            <label id="forgot">Forgot Password?</label>
-          </ParagraphLogin>
-        </FormLogin>
-        <footer>
-          <FooterButton>Continue with Google</FooterButton>
-          <FooterButton>Continue with Discord</FooterButton>
-        </footer>
-      </MainLogin>
-    </div>
+    <Box>
+      <Container>
+        <MainLogin>
+          <header>
+            <h1>sign in to start agreeing!</h1>
+          </header>
+          <FormLogin>
+            <ParagraphLogin id="username">
+              <Label htmlFor="username">USERNAME</Label>
+              <Input type="text" name="username"></Input>
+            </ParagraphLogin>
+            <ParagraphLogin id="password">
+              <Label htmlFor="password">PASSWORD</Label>
+              <Input type="password" name="password"></Input>
+            </ParagraphLogin>
+            <ParagraphLogin id="buttons">
+              <LoginButton btnTitle="Sign In" clickFn={signin}></LoginButton>
+              <Link href="#">Forgot Password?</Link>
+            </ParagraphLogin>
+          </FormLogin>
+          <footer>
+            <LoginFooterButton
+              clickFn={googleLogin}
+              btnTitle="Continue with Google"
+            ></LoginFooterButton>
+          </footer>
+        </MainLogin>
+      </Container>
+      ,
+    </Box>
   );
 }
 
-export default Login;
+export default MaterialLogin;
