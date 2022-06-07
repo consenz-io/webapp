@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import { DataContext } from 'store';
 import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
