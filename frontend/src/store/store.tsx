@@ -9,6 +9,7 @@ const DataContext = createContext<IDataContext>(defaultState);
 
 const DataProvider:FC<FCProps> = ({ children }) => {
   const [globalIsItGood, setGlobalIsItGood] = useState(defaultState.globalIsItGood);
+
   const toggleGlobalIsItGood = () => {
     setGlobalIsItGood(!globalIsItGood);
   };
