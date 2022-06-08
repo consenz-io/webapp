@@ -1,8 +1,8 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import "./index.css";
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import App from 'App';
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import App from "App";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 
