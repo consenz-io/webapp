@@ -13,9 +13,7 @@ const Home = () => {
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const { getJwt, storeJwt } = useContext(AuthContext);
   const setJwtState = (jwt: string) => {
-    console.log("before", jwt);
     storeJwt(jwt);
-    console.log("after", jwt);
   };
   return (
     <SC.Main>
