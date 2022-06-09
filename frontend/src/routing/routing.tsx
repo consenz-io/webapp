@@ -1,19 +1,16 @@
 // routing/index.jsx
 
-import { createContext, FC } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { FCProps, IRoutingContext } from './types';
+import { createContext, FC } from "react";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { FCProps, IRoutingContext } from "./types";
 
-import {
-  Home,
-  Page404
-} from '../pages';
+import { Home, Page404 } from "../pages";
 
 const HOME_ROUTE = "/";
 
 const RoutingContext = createContext<IRoutingContext | null>(null);
 
-const RoutingProvider:FC<FCProps> = ({ children }) => {
+const RoutingProvider: FC<FCProps> = ({ children }) => {
   const navigate = useNavigate();
 
   const routingState = {
