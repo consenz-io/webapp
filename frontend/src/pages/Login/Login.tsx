@@ -5,7 +5,7 @@ import {
   MainLogin,
   ParagraphLogin,
 } from "../../components/styles/LoginForm.styles";
-import { Link } from "@mui/material";
+import { Link, Typography } from "@mui/material";
 import LoginButton, {
   LoginFooterButton,
 } from "../../components/LoginButton/LoginButton";
@@ -46,7 +46,9 @@ function Login() {
         <Container>
           <MainLogin>
             <header>
-              <h1>sign in to start agreeing!</h1>
+              <Typography variant="h1">
+                Sign In To Start Agreeing!
+              </Typography>
             </header>
             <FormLogin>
               <ParagraphLogin id="username">

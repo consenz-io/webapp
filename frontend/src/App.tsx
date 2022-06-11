@@ -9,7 +9,6 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeModeType } from "types";
 import {
   ApolloClient,
-  ApolloProvider,
   InMemoryCache,
   HttpLink,
 } from "@apollo/client";
@@ -19,7 +18,7 @@ const createApolloClient = () => {
     link: new HttpLink({
       uri: "https://hasura-try-yishain11.hasura.app/v1/graphql",
       headers: {
-        "x-hasura-admin-secret": ``,
+        "x-hasura-admin-secret": "",
         "Content-Type": "application/json",
       },
     }),
@@ -30,7 +29,7 @@ const createApolloClient = () => {
 const App = () => {
   const [mode, setMode] = useState<ThemeModeType>(ThemeModeType.LIGHT);
   const [client] = useState(createApolloClient());
-
+  
   const colorModeState = useMemo(
     () => ({
       mode,
