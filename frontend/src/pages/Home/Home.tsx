@@ -11,7 +11,7 @@ import { AuthContext } from "services";
 const Home = () => {
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
-  const { storeJwt } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   return (
     <SC.Main>
       Home page
@@ -24,7 +24,9 @@ const Home = () => {
         )}
       </IconButton>
       <span>Theme is: {mode}</span>
-      <button onClick={() => storeJwt("new_jwt")}>click set jwt</button>
+      <button onClick={() => authContext?.storeJwt("new_jwt")}>
+        click set jwt
+      </button>
       <Button variant="contained">Contained</Button>
     </SC.Main>
   );
