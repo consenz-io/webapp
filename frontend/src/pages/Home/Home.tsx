@@ -9,13 +9,9 @@ import { ColorModeContext } from "theme/theme";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
-  console.log("process.env", process.env);
-
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-  console.log("isAuthenticated", isAuthenticated);
+  const { isAuthenticated } = useAuth0();
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
-  getAccessTokenSilently().then((token) => {});
   return (
     <SC.Main>
       Home page

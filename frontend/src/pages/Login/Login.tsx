@@ -1,8 +1,9 @@
 import "./Login.css";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Container } from "@mui/system";
 import { MainLogin } from "../../components/styles/LoginForm.styles";
-import LoginButton from "../../components/LoginButton/LoginButton";
-import { useAuth0 } from "@auth0/auth0-react";
+import { Typography } from "@mui/material";
+import LoginButton from "components/LoginButton/LoginButton";
 
 function Login() {
   const { loginWithRedirect, logout } = useAuth0();
@@ -12,7 +13,7 @@ function Login() {
         <Container>
           <MainLogin>
             <header>
-              <h1>sign in to start agreeing!</h1>
+              <Typography variant="h1">Sign In To Start Agreeing!</Typography>
             </header>
             <LoginButton
               btnTitle="Sign In"

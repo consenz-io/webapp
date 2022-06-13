@@ -4,7 +4,6 @@ import "./index.css";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import App from "App";
 import { Auth0Provider } from "@auth0/auth0-react";
-console.log("process.env", process.env.NODE_ENV);
 const AUTH0_CLIENT_ID = process.env.REACT_APP_AUTH0_CLIENT_ID || "clientid";
 const AUTH0_DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN || "domain";
 const root = createRoot(document.getElementById("root") as HTMLElement);
