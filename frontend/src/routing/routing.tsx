@@ -7,6 +7,10 @@ import { Home, Page404, Login } from "../pages";
 
 const HOME_ROUTE = "/";
 const LOGIN_ROUTE = "/login";
+// const LOGIN_ROUTE = `https://soficoop.eu.auth0.com/authorize?
+// response_type=token&
+// client_id=MITeFpxQlcYimynTQYYUfcMPeFqSOCiZ&
+// redirect_uri=http://localhost:3000`;
 
 const RoutingContext = createContext<IRoutingContext | null>(null);
 

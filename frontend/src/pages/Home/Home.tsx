@@ -9,7 +9,7 @@ import { ColorModeContext } from "theme/theme";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, logout } = useAuth0();
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   return (
@@ -26,6 +26,13 @@ const Home = () => {
       <span>Theme is: {mode}</span>
       <Button variant="contained">Contained</Button> |<a href="/login">login</a>{" "}
       | User Auth state: {isAuthenticated.toString()}|
+      <button
+        onClick={() => {
+          logout();
+        }}
+      >
+        log out
+      </button>
     </SC.Main>
   );
 };

@@ -35,7 +35,7 @@ const App = () => {
           <Auth0Provider
             domain={AUTH0_DOMAIN}
             clientId={AUTH0_CLIENT_ID}
-            redirectUri={window.location.origin}
+            redirectUri="http://localhost:3000"
             cacheLocation="localstorage"
             audience="hasura"
           >
