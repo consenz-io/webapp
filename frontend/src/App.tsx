@@ -1,17 +1,13 @@
+import { ApiProvider, AuthProvider } from "./services";
 import "./App.css";
 import { DataProvider } from "store";
-import { ApiProvider } from "./services";
 import { RoutesProvider } from "./routing";
 import { ThemeProvider } from "@mui/material/styles";
 import { getDesignTokens, ColorModeContext } from "theme/theme";
 import { useMemo, useState } from "react";
 import { createTheme } from "@mui/material/styles";
 import { ThemeModeType } from "types";
-import {
-  ApolloClient,
-  InMemoryCache,
-  HttpLink,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 
 const createApolloClient = () => {
   return new ApolloClient({
@@ -29,7 +25,7 @@ const createApolloClient = () => {
 const App = () => {
   const [mode, setMode] = useState<ThemeModeType>(ThemeModeType.LIGHT);
   const [client] = useState(createApolloClient());
-  
+
   const colorModeState = useMemo(
     () => ({
       mode,
@@ -45,13 +41,14 @@ const App = () => {
   );
 
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-
   return (
     <ApiProvider>
       <DataProvider>
         <ColorModeContext.Provider value={colorModeState}>
           <ThemeProvider theme={theme}>
-            <RoutesProvider />
+            <AuthProvider>
+              <RoutesProvider />
+            </AuthProvider>
           </ThemeProvider>
         </ColorModeContext.Provider>
       </DataProvider>

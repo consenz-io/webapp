@@ -6,11 +6,12 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Button from "@mui/material/Button";
 import * as SC from "./style";
 import { ColorModeContext } from "theme/theme";
+import { AuthContext } from "services";
 
 const Home = () => {
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
-
+  const authContext = useContext(AuthContext);
   return (
     <SC.Main>
       Home page
@@ -23,6 +24,9 @@ const Home = () => {
         )}
       </IconButton>
       <span>Theme is: {mode}</span>
+      <button onClick={() => authContext?.storeJwt("new_jwt")}>
+        click set jwt
+      </button>
       <Button variant="contained">Contained</Button>
     </SC.Main>
   );
