@@ -12,6 +12,10 @@ import { AuthContext } from "services";
 const Home = () => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const theme = useTheme();
+  getAccessTokenSilently().then((token) => {
+    console.log("token", token);
+  });
+
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const authContext = useContext(AuthContext);
   return (
