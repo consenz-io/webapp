@@ -15,7 +15,7 @@ const ApiProvider: FC<FCProps> = ({ children }) => {
 const AuthContext = createContext<IAuthContext | null>(null);
 
 const AuthProvider: FC<FCProps> = ({ children }: any) => {
-  const [jwt, setJwt] = useState("sample_jwt");
+  const [jwt, setJwt] = useState("");
   const storeJwt = (jwt: string) => {
     setJwt(jwt);
   };
