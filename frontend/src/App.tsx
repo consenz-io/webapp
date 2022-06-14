@@ -1,6 +1,6 @@
 import "./App.css";
 import { DataProvider } from "store";
-import { ApiProvider } from "./services";
+import { ApiProvider, AuthProvider } from "./services";
 import { RoutesProvider } from "./routing";
 import { ThemeProvider } from "@mui/material/styles";
 import { getDesignTokens, ColorModeContext } from "theme/theme";
@@ -26,7 +26,6 @@ const App = () => {
   );
 
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-
   return (
     <ApiProvider>
       <DataProvider>
