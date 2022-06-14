@@ -1,1 +1,1 @@
-export { RoutesProvider, RoutingContext } from './routing';
+export { RoutesProvider, RoutingContext } from "./routing";

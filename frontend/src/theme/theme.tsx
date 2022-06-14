@@ -53,4 +53,5 @@ export const getDesignTokens: (mode: ThemeModeType) => ThemeOptions = (mode) => 
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const ColorModeContext = createContext({ toggleColorMode: () => {}, mode: ThemeModeType.LIGHT });
