@@ -24,7 +24,7 @@ const Home = () => {
         )}
       </IconButton>
       <span>Theme is: {mode}</span>
-      <button onClick={() => authContext?.storeJwt("new_jwt")}>
+      <button onClick={() => authContext?.setJwt("new_jwt")}>
         click set jwt
       </button>
       <Button variant="contained">Contained</Button>

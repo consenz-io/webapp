@@ -3,13 +3,12 @@ import { FCProps, IAuthContext } from "./types";
 
 const AuthContext = createContext<IAuthContext | null>(null);
 
-const AuthProvider: FC<FCProps> = ({ children }: any) => {
+const AuthProvider: FC<FCProps> = ({ children }: FCProps) => {
   const [jwt, setJwt] = useState("sample_jwt");
-  const storeJwt = (jwt: string) => {
-    setJwt(jwt);
-  };
+
   const authContextState: IAuthContext = {
-    storeJwt,
+    setJwt,
+    jwt
   };
   return (
     <AuthContext.Provider value={authContextState}>

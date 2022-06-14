@@ -1,5 +1,6 @@
 export interface IAuthContext {
-  storeJwt: (jwt: string) => void;
+  setJwt: (jwt: string) => void;
+  jwt: string
 }
 
 export type FCProps = {
