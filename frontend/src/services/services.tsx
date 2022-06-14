@@ -1,6 +1,6 @@
-import { createContext, FC } from 'react';
-import { isVideoExist } from './youtube'
-import { IApiContext, FCProps } from './types'
+import { createContext, FC } from "react";
+import { isVideoExist } from "./youtube";
+import { IApiContext, FCProps } from "./types";
 
 const ApiContext = createContext<IApiContext | null>(null);
 
