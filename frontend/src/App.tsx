@@ -1,4 +1,4 @@
-import { ApiProvider, AuthProvider } from "./services";
+import { AuthProvider } from "./services";
 import "./App.css";
 import { DataProvider } from "store";
 import { RoutesProvider } from "./routing";
@@ -42,17 +42,15 @@ const App = () => {
 
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
   return (
-    <ApiProvider>
-      <DataProvider>
-        <ColorModeContext.Provider value={colorModeState}>
-          <ThemeProvider theme={theme}>
-            <AuthProvider>
-              <RoutesProvider />
-            </AuthProvider>
-          </ThemeProvider>
-        </ColorModeContext.Provider>
-      </DataProvider>
-    </ApiProvider>
+    <DataProvider>
+      <ColorModeContext.Provider value={colorModeState}>
+        <ThemeProvider theme={theme}>
+          <AuthProvider>
+            <RoutesProvider />
+          </AuthProvider>
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    </DataProvider>
   );
 };
 
