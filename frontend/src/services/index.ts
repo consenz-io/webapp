@@ -1,1 +1,1 @@
-export { ApiProvider, AuthContext, AuthProvider } from "./services";
+export {  AuthContext, AuthProvider } from "./services";

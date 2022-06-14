@@ -6,8 +6,8 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Button from "@mui/material/Button";
 import * as SC from "./style";
 import { ColorModeContext } from "theme/theme";
-import { useAuth0 } from "@auth0/auth0-react";
 import { AuthContext } from "services";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -16,7 +16,7 @@ const Home = () => {
   const authContext = useContext(AuthContext);
 
   getAccessTokenSilently().then((token) => {
-    authContext?.storeJwt(token);
+    authContext?.setJwt(token);
   });
 
   return (
@@ -33,6 +33,7 @@ const Home = () => {
       <span>Theme is: {mode}</span>
       <Button variant="contained">Contained</Button> |<a href="/login">login</a>{" "}
       | User Auth state: {isAuthenticated.toString()}|
+      <Button variant="contained">Contained</Button>
     </SC.Main>
   );
 };
