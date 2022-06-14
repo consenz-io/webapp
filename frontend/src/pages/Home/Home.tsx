@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -33,9 +33,6 @@ const Home = () => {
       <span>Theme is: {mode}</span>
       <Button variant="contained">Contained</Button> |<a href="/login">login</a>{" "}
       | User Auth state: {isAuthenticated.toString()}|
-      <button onClick={() => authContext?.storeJwt("new_jwt")}>
-        click set jwt
-      </button>
     </SC.Main>
   );
 };

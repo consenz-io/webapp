@@ -31,7 +31,9 @@ const App = () => {
       <DataProvider>
         <ColorModeContext.Provider value={colorModeState}>
           <ThemeProvider theme={theme}>
-            <RoutesProvider />
+            <AuthProvider>
+              <RoutesProvider />
+            </AuthProvider>
           </ThemeProvider>
         </ColorModeContext.Provider>
       </DataProvider>
