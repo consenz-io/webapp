@@ -9,7 +9,7 @@ import { ColorModeContext } from "theme/theme";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   return (
