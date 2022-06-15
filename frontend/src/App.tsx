@@ -1,10 +1,10 @@
+import { useMemo, useState } from "react";
 import { AuthProvider } from "./services";
 import "./App.css";
 import { DataProvider } from "store";
 import { RoutesProvider } from "./routing";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "styled-components";
 import { getDesignTokens, ColorModeContext } from "theme/theme";
-import { useMemo, useState } from "react";
 import { createTheme } from "@mui/material/styles";
 import { ThemeModeType } from "types";
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
@@ -24,7 +24,7 @@ const createApolloClient = () => {
 
 const App = () => {
   const [mode, setMode] = useState<ThemeModeType>(ThemeModeType.LIGHT);
-  const [client] = useState(createApolloClient());
+  const [client] = useState(createApolloClient()); //TODO: remove?
 
   const colorModeState = useMemo(
     () => ({
