@@ -1,9 +1,9 @@
-import { createContext, useState, FC } from 'react';
-import { FCProps, IDataContext } from './types'
+import { createContext, useState, FC } from "react";
+import { FCProps, IDataContext } from "./types";
 
 export const defaultState: IDataContext = {
   globalIsItGood: false,
-}
+};
 
 const DataContext = createContext<IDataContext>(defaultState);
 

@@ -1,7 +1,8 @@
-export interface IApiContext {
-    isVideoExist: (url: string) => Promise<string>;
-  }
+export interface IAuthContext {
+  setJwt: (jwt: string) => void;
+  jwt: string
+}
 
 export type FCProps = {
-  children: JSX.Element,
+  children: JSX.Element;
 };

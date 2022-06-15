@@ -1,15 +1,20 @@
-import { createContext, FC } from 'react';
-import { isVideoExist } from './youtube'
-import { IApiContext, FCProps } from './types'
+import { createContext, FC, useState } from "react";
+import { FCProps, IAuthContext } from "./types";
 
-const ApiContext = createContext<IApiContext | null>(null);
+const AuthContext = createContext<IAuthContext | null>(null);
 
-const ApiProvider:FC<FCProps> = ({ children }) => {
-  const apiState:IApiContext = {
-    isVideoExist,
+const AuthProvider: FC<FCProps> = ({ children }: FCProps) => {
+  const [jwt, setJwt] = useState("sample_jwt");
+
+  const authContextState: IAuthContext = {
+    setJwt,
+    jwt
   };
-
-  return <ApiContext.Provider value={apiState}>{children}</ApiContext.Provider>;
+  return (
+    <AuthContext.Provider value={authContextState}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export { ApiContext, ApiProvider };
+export { AuthProvider, AuthContext };
