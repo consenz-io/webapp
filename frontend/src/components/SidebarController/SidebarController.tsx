@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { IFCProps } from "./types";
 
-const SidebarController:FC<IFCProps>= ({ open, onOpenChange }) => {
+const SidebarController:FC<IFCProps>= ({ handleSidebarToggle }) => {
   return (
-    <button onClick={() => onOpenChange(!open)}>toggle drawer</button>
+    <button onClick={() => handleSidebarToggle()}>toggle drawer</button>
   );
 };
 

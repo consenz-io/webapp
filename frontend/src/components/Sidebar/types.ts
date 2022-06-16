@@ -1,4 +1,4 @@
 export interface IFCProps {
-    open: boolean,
-    setOpen: (open: boolean) => void,
+    mobileOpen: boolean,
+    handleSidebarToggle: () => void,
 }

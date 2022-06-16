@@ -5,7 +5,6 @@ export enum ThemeModeType {
 
 export interface IOutletContext {
     sidebar: {
-        open: boolean,
-        setOpen: (open: boolean) => void,
+        handleSidebarToggle: () => void,
     }
 }

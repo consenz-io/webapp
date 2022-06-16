@@ -10,10 +10,11 @@ import { AuthContext } from "services";
 import { SidebarController } from "components";
 import { useOutletContext } from "react-router-dom";
 import { IOutletContext } from "types";
+import { useResponsive } from "hooks";
 
 const Home = () => {
+  const { isMobile } = useResponsive();
   const { sidebar } = useOutletContext<IOutletContext>();
-  console.log("sidebarr: ", sidebar);
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const authContext = useContext(AuthContext);
@@ -34,7 +35,9 @@ const Home = () => {
         click set jwt
       </button>
       <Button variant="contained">Contained</Button>
-      <SidebarController open={sidebar.open} onOpenChange={sidebar.setOpen} />
+      {isMobile &&
+          <SidebarController handleSidebarToggle={sidebar.handleSidebarToggle} />
+      }
     </SC.Main>
   );
 };
