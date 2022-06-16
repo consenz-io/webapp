@@ -7,11 +7,17 @@ import Button from "@mui/material/Button";
 import * as SC from "./style";
 import { ColorModeContext } from "theme/theme";
 import { AuthContext } from "services";
+import { SidebarController } from "components";
+import { useOutletContext } from "react-router-dom";
+import { IOutletContext } from "types";
 
 const Home = () => {
+  const { sidebar } = useOutletContext<IOutletContext>();
+  console.log("sidebarr: ", sidebar);
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const authContext = useContext(AuthContext);
+
   return (
     <SC.Main>
       Home page
@@ -28,6 +34,7 @@ const Home = () => {
         click set jwt
       </button>
       <Button variant="contained">Contained</Button>
+      <SidebarController open={sidebar.open} onOpenChange={sidebar.setOpen} />
     </SC.Main>
   );
 };
