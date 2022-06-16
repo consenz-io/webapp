@@ -3,9 +3,9 @@ import { AuthProvider } from "./services";
 import "./App.css";
 import { DataProvider } from "store";
 import { RoutesProvider } from "./routing";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { getDesignTokens, ColorModeContext } from "theme/theme";
-import { createTheme } from "@mui/material/styles";
+import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import { ThemeModeType } from "types";
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 
@@ -44,11 +44,13 @@ const App = () => {
   return (
     <DataProvider>
       <ColorModeContext.Provider value={colorModeState}>
-        <ThemeProvider theme={theme}>
-          <AuthProvider>
-            <RoutesProvider />
-          </AuthProvider>
-        </ThemeProvider>
+        <MuiThemeProvider theme={theme}>
+          <StyledThemeProvider theme={theme}>
+            <AuthProvider>
+              <RoutesProvider />
+            </AuthProvider>
+          </StyledThemeProvider>
+        </MuiThemeProvider>
       </ColorModeContext.Provider>
     </DataProvider>
   );
