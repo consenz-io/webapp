@@ -9,8 +9,10 @@ import { Link, Typography } from "@mui/material";
 import LoginButton, {
   LoginFooterButton,
 } from "../../components/LoginButton/LoginButton";
+import { useTranslation } from "react-i18next";
+import { StringBank } from "strings";
 
-function signin(e: any) {
+function signin() {
   console.log("clicked sign in ");
 }
 function googleLogin() {
@@ -40,6 +42,7 @@ const Label = styled("label")({
 });
 
 function Login() {
+  const {t} = useTranslation();
   return (
     <div className="container">
       <Box>
@@ -47,7 +50,7 @@ function Login() {
           <MainLogin>
             <header>
               <Typography variant="h1">
-                Sign In To Start Agreeing!
+                {t(StringBank.LOGIN_TAGLINE)}
               </Typography>
             </header>
             <FormLogin>
