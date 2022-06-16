@@ -10,7 +10,7 @@ const useResponsive = () => {
   useEffect(() => {
     function handleResize() {
       setWindowWidth({
-		  width: window.innerWidth,
+		  width: window.outerWidth,
 	  });
     }
     window.addEventListener("resize", handleResize);
@@ -18,7 +18,7 @@ const useResponsive = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return { isMobile: !!(width === undefined ? 0 : width < 1024) };
+  return { isMobile: !!(width === undefined ? 0 : width < 900) };
 };
 
 export default useResponsive;
