@@ -44,6 +44,7 @@ export const getDesignTokens: (mode: ThemeModeType) => ThemeOptions = (mode) => 
         },
         background: {
           paper: "#3f4550",
+          sidebar: "#2C2E33",
           default: "#292D36",
         },
         text: {

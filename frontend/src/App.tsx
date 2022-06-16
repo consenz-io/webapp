@@ -1,18 +1,20 @@
+import { useMemo, useState } from "react";
 import { AuthProvider } from "./services";
 import "./App.css";
 import { DataProvider } from "store";
 import { RoutesProvider } from "./routing";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { getDesignTokens, ColorModeContext } from "theme/theme";
-import { useMemo, useState } from "react";
-import { createTheme } from "@mui/material/styles";
+import {
+  createTheme,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material/styles";
 import { ThemeModeType } from "types";
 import { Auth0Provider } from "@auth0/auth0-react";
 
 const App = () => {
   const [mode, setMode] = useState<ThemeModeType>(ThemeModeType.LIGHT);
-  const AUTH0_CLIENT_ID = process.env.REACT_APP_AUTH0_CLIENT_ID || "";
-  const AUTH0_DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN || "";
+
   const colorModeState = useMemo(
     () => ({
       mode,
@@ -31,19 +33,13 @@ const App = () => {
   return (
     <DataProvider>
       <ColorModeContext.Provider value={colorModeState}>
-        <ThemeProvider theme={theme}>
-          <Auth0Provider
-            domain={AUTH0_DOMAIN}
-            clientId={AUTH0_CLIENT_ID}
-            redirectUri="http://localhost:3000"
-            cacheLocation="localstorage"
-            audience="hasura"
-          >
+        <MuiThemeProvider theme={theme}>
+          <StyledThemeProvider theme={theme}>
             <AuthProvider>
               <RoutesProvider />
             </AuthProvider>
-          </Auth0Provider>
-        </ThemeProvider>
+          </StyledThemeProvider>
+        </MuiThemeProvider>
       </ColorModeContext.Provider>
     </DataProvider>
   );
