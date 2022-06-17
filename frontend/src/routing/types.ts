@@ -2,6 +2,6 @@ export interface IRoutingContext {
     navigateToHome: () => void;
   }
 
-export interface FCProps {
+export interface IFCProps {
     children?: JSX.Element,
 }

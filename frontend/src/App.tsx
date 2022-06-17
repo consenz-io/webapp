@@ -10,7 +10,6 @@ import {
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles";
 import { ThemeModeType } from "types";
-import { Auth0Provider } from "@auth0/auth0-react";
 
 const App = () => {
   const [mode, setMode] = useState<ThemeModeType>(ThemeModeType.LIGHT);

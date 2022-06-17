@@ -1,14 +1,23 @@
 import * as SC from "./style";
 import { Sidebar } from "components";
-import { FC } from "react";
+import {FC, useState} from "react";
 import { Outlet } from "react-router-dom";
 
-export const SidebarLayout:FC = () =>
-  <>
-    <Sidebar/>
-    <SC.Container>
-      <SC.Wrapper>
-        <Outlet />
-      </SC.Wrapper>
-    </SC.Container>
-  </>;
+export const SidebarLayout:FC = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleSidebarToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  return (
+    <>
+      {<Sidebar mobileOpen={mobileOpen} handleSidebarToggle={handleSidebarToggle} />}
+      <SC.Main>
+        <SC.Wrapper>
+          <Outlet context={{sidebar: {mobileOpen, handleSidebarToggle}}}/>
+        </SC.Wrapper>
+      </SC.Main>
+    </>
+  );
+};
