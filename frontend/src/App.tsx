@@ -5,26 +5,14 @@ import { DataProvider } from "store";
 import { RoutesProvider } from "./routing";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { getDesignTokens, ColorModeContext } from "theme/theme";
-import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import {
+  createTheme,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material/styles";
 import { ThemeModeType } from "types";
-import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
-
-const createApolloClient = () => {
-  return new ApolloClient({
-    link: new HttpLink({
-      uri: "https://hasura-try-yishain11.hasura.app/v1/graphql",
-      headers: {
-        "x-hasura-admin-secret": "",
-        "Content-Type": "application/json",
-      },
-    }),
-    cache: new InMemoryCache(),
-  });
-};
 
 const App = () => {
   const [mode, setMode] = useState<ThemeModeType>(ThemeModeType.LIGHT);
-  const [client] = useState(createApolloClient()); //TODO: remove?
 
   const colorModeState = useMemo(
     () => ({

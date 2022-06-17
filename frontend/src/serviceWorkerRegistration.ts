@@ -15,7 +15,9 @@ const isLocalhost = Boolean(
     // [::1] is the IPv6 localhost address.
     window.location.hostname === "[::1]" ||
     // 127.0.0.0/8 are considered localhost for IPv4.
-    window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
+    window.location.hostname.match(
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+    )
 );
 
 type Config = {
@@ -28,7 +30,7 @@ export function register(config?: Config) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
-      // Our service worker won't work if PUBLIC_URL is on a different origin
+      // Our service worker won"t work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
       return;
@@ -38,7 +40,7 @@ export function register(config?: Config) {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
       if (isLocalhost) {
-        // This is running on localhost. Let's check if a service worker still exists or not.
+        // This is running on localhost. Let"s check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config);
 
         // Add some additional logging to localhost, pointing developers to the
@@ -83,7 +85,7 @@ function registerValidSW(swUrl: string, config?: Config) {
               }
             } else {
               // At this point, everything has been precached.
-              // It's the perfect time to display a
+              // It"s the perfect time to display a
               // "Content is cached for offline use." message.
               console.log("Content is cached for offline use.");
 
@@ -102,7 +104,7 @@ function registerValidSW(swUrl: string, config?: Config) {
 }
 
 function checkValidServiceWorker(swUrl: string, config?: Config) {
-  // Check if the service worker can be found. If it can't reload the page.
+  // Check if the service worker can be found. If it can"t reload the page.
   fetch(swUrl, {
     headers: { "Service-Worker": "script" },
   })
@@ -125,7 +127,9 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
       }
     })
     .catch(() => {
-      console.log("No internet connection found. App is running in offline mode.");
+      console.log(
+        "No internet connection found. App is running in offline mode."
+      );
     });
 }
 
