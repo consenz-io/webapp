@@ -7,9 +7,16 @@ import Button from "@mui/material/Button";
 import * as SC from "./style";
 import { ColorModeContext } from "theme/theme";
 import { AuthContext } from "services";
+import { SidebarController } from "components";
+import { useOutletContext } from "react-router-dom";
+import { IOutletContext } from "types";
+import { useResponsive } from "hooks";
 import { useAuth0 } from "@auth0/auth0-react";
 
+  
 const Home = () => {
+  const { isMobile } = useResponsive();
+  const { sidebar } = useOutletContext<IOutletContext>();
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
@@ -34,6 +41,9 @@ const Home = () => {
       <Button variant="contained">Contained</Button> |<a href="/login">login</a>{" "}
       | User Auth state: {isAuthenticated.toString()}|
       <Button variant="contained">Contained</Button>
+      {isMobile &&
+          <SidebarController handleSidebarToggle={sidebar.handleSidebarToggle} />
+      }
     </SC.Main>
   );
 };
