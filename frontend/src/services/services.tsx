@@ -8,7 +8,7 @@ const AuthProvider: FC<FCProps> = ({ children }: FCProps) => {
 
   const authContextState: IAuthContext = {
     setJwt,
-    jwt
+    jwt,
   };
   return (
     <AuthContext.Provider value={authContextState}>

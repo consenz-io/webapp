@@ -61,7 +61,11 @@
       ],
       "quotes": [
         "error",
-        "double"
+        "double",
+        {
+          "allowTemplateLiterals": true,
+          "avoidEscape": true
+        }
       ],
       "semi": [
         "error",
