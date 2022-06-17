@@ -1,47 +1,14 @@
 import "./Login.css";
-import { Box, Container, styled } from "@mui/system";
-import {
-  FormLogin,
-  MainLogin,
-  ParagraphLogin,
-} from "../../components/styles/LoginForm.styles";
-import { Link, Typography } from "@mui/material";
-import LoginButton, {
-  LoginFooterButton,
-} from "../../components/LoginButton/LoginButton";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Box, Container } from "@mui/system";
+import { MainLogin } from "../../components/styles/LoginForm.styles";
+import { Typography } from "@mui/material";
+import LoginButton from "components/LoginButton/LoginButton";
 import { useTranslation } from "react-i18next";
 import { StringBank } from "strings";
 
-function signin() {
-  console.log("clicked sign in ");
-}
-function googleLogin() {
-  console.log("clicked google sign in ");
-}
-
-const Input = styled("input")({
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  gap: "10px",
-  width: "360px",
-  height: "42px",
-  background: " #292d36",
-  border: "1px solid #595f68",
-  borderRadius: "4px",
-  color: "white",
-});
-
-const Label = styled("label")({
-  fontFamily: "Lato",
-  color: "#adb2b8",
-  fontStyle: "normal",
-  fontWeight: 600,
-  fontSize: "12px",
-  lineHeight: "22px",
-});
-
 function Login() {
+  const { loginWithRedirect, logout } = useAuth0();
   const {t} = useTranslation();
   return (
     <div className="container">
@@ -53,29 +20,13 @@ function Login() {
                 {t(StringBank.LOGIN_TAGLINE)}
               </Typography>
             </header>
-            <FormLogin>
-              <ParagraphLogin id="username">
-                <Label htmlFor="username">USERNAME</Label>
-                <Input type="text" name="username"></Input>
-              </ParagraphLogin>
-              <ParagraphLogin id="password">
-                <Label htmlFor="password">PASSWORD</Label>
-                <Input type="password" name="password"></Input>
-              </ParagraphLogin>
-              <ParagraphLogin id="buttons">
-                <LoginButton btnTitle="Sign In" clickFn={signin}></LoginButton>
-                <Link href="#">Forgot Password?</Link>
-              </ParagraphLogin>
-            </FormLogin>
-            <footer>
-              <LoginFooterButton
-                clickFn={googleLogin}
-                btnTitle="Continue with Google"
-              ></LoginFooterButton>
-            </footer>
+            <LoginButton
+              btnTitle="Sign In"
+              clickFn={loginWithRedirect}
+            ></LoginButton>
+            <LoginButton btnTitle="Log Out" clickFn={logout}></LoginButton>
           </MainLogin>
         </Container>
-        ,
       </Box>
     </div>
   );

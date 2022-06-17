@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 
-function LoginButton(props: any) {
+function LoginButton(props: { btnTitle: string; clickFn: () => void }) {
   return (
     <Button
       onClick={props.clickFn}
@@ -28,7 +28,7 @@ function LoginButton(props: any) {
     </Button>
   );
 }
-export function LoginFooterButton(props: any) {
+export function LoginFooterButton(props: { btnTitle: string; clickFn: () => void }) {
   return (
     <Button
       sx={{

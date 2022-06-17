@@ -4,8 +4,8 @@
 // This service worker can be customized!
 // See https://developers.google.com/web/tools/workbox/modules
 // for the list of available Workbox modules, or add any other
-// code you'd like.
-// You can also remove this file if you'd prefer not to use a
+// code you"d like.
+// You can also remove this file if you"d prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
 import { clientsClaim } from "workbox-core";
@@ -31,7 +31,7 @@ const fileExtensionRegexp = new RegExp("/[^/?]+\\.[^/]+$");
 registerRoute(
   // Return false to exempt requests from being fulfilled by index.html.
   ({ request, url }: { request: Request; url: URL }) => {
-    // If this isn't a navigation, skip.
+    // If this isn"t a navigation, skip.
     if (request.mode !== "navigate") {
       return false;
     }
@@ -53,7 +53,7 @@ registerRoute(
   createHandlerBoundToURL(process.env.PUBLIC_URL + "/index.html")
 );
 
-// An example runtime caching route for requests that aren't handled by the
+// An example runtime caching route for requests that aren"t handled by the
 // precache, in this case same-origin .png requests like those from in public/
 registerRoute(
   // Add in any other file extensions or routing criteria as needed.
