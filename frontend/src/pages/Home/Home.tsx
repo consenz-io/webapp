@@ -21,13 +21,9 @@ const Home = () => {
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const authContext = useContext(AuthContext);
 
-  getAccessTokenSilently().then((token) => {
-    authContext?.setJwt(token);
-  });
-
-  if (!isAuthenticated) {
-    loginWithRedirect();
-  }
+  getAccessTokenSilently()
+    .then((token) => authContext?.setJwt(token))
+    .catch(() => loginWithRedirect());
 
   return (
     <SC.Main>
