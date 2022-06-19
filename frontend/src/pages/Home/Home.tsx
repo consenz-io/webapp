@@ -16,7 +16,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Home = () => {
   const { isMobile } = useResponsive();
   const { sidebar } = useOutletContext<IOutletContext>();
-  const { isAuthenticated, getAccessTokenSilently, logout } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } = useAuth0();
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const authContext = useContext(AuthContext);
@@ -24,6 +24,10 @@ const Home = () => {
   getAccessTokenSilently().then((token) => {
     authContext?.setJwt(token);
   });
+
+  if (!isAuthenticated) {
+    loginWithRedirect();
+  }
 
   return (
     <SC.Main>
