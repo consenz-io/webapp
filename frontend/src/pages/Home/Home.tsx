@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -12,18 +12,23 @@ import { useOutletContext } from "react-router-dom";
 import { IOutletContext } from "types";
 import { useResponsive } from "hooks";
 import { useAuth0 } from "@auth0/auth0-react";
-  
+
 const Home = () => {
   const { isMobile } = useResponsive();
   const { sidebar } = useOutletContext<IOutletContext>();
-  const { isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
+    useAuth0();
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const authContext = useContext(AuthContext);
-
-  getAccessTokenSilently()
-    .then((token) => authContext?.setJwt(token))
-    .catch(() => loginWithRedirect());
+  useEffect(() => {
+    getAccessTokenSilently()
+      .then((token) => {
+        authContext?.setJwt(token);
+        console.log("token", token);
+      })
+      .catch(() => loginWithRedirect());
+  });
 
   return (
     <SC.Main>
@@ -47,9 +52,9 @@ const Home = () => {
         log out
       </button>
       <Button variant="contained">Contained</Button>
-      {isMobile &&
-          <SidebarController handleSidebarToggle={sidebar.handleSidebarToggle} />
-      }
+      {isMobile && (
+        <SidebarController handleSidebarToggle={sidebar.handleSidebarToggle} />
+      )}
     </SC.Main>
   );
 };
