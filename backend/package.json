@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/consenz-io/webapp#readme",
   "devDependencies": {
-    "hasura-cli": "^2.6.1"
+    "hasura-cli": "^2.7.0"
   }
 }
