@@ -15,7 +15,7 @@ const LOGIN_ROUTE = "/login";
 
 const RoutingContext = createContext<IRoutingContext | null>(null);
 
-const RoutingProvider:FC<IFCProps> = ({ children }) => {
+const RoutingProvider :FC<IFCProps> = ({ children }) => {
   const navigate = useNavigate();
 
   const routingState = {

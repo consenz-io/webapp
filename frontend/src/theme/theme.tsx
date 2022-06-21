@@ -7,7 +7,7 @@ export const getDesignTokens: (mode: ThemeModeType) => ThemeOptions = (mode) => 
     fontFamily: "Lato, sans-serif",
     h1: {
       fontFamily: "Lato",
-      fontSize: 32,
+      fontSize: "2rem",
       fontWeight: "bold",
       fontStretch: "normal",
       fontStyle: "normal",

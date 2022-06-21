@@ -2,13 +2,16 @@ import * as SC from "./style";
 import { FC } from "react";
 import { IFCProps } from "./types";
 import { useResponsive } from "hooks";
+import { Logo } from "assets";
 
-const Sidebar:FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
+const Sidebar :FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { isMobile } = useResponsive();
 
-  console.log("ismobile", isMobile);
   const content = (
     <>
+      <SC.LogoContainer>
+        <Logo />
+      </SC.LogoContainer>
       <span>Sidebar</span>
     </>
   );
