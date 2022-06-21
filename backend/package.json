@@ -4,7 +4,11 @@
   "description": "A backend for consenz",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "console": "hasura console",
+    "metadata:apply": "hasura metadata apply",
+    "metadata:reload": "hasura metadata reload",
+    "migrate:apply": "hasura migrate apply"
   },
   "repository": "git+https://github.com/consenz-io/webapp.git",
   "author": "Aviran Katz <aviran.katz@gmail.com>",
