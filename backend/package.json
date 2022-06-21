@@ -4,7 +4,6 @@
   "description": "A backend for consenz",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "console": "hasura console",
     "metadata:apply": "hasura metadata apply",
     "metadata:reload": "hasura metadata reload",
