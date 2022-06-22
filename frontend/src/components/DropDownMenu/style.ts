@@ -65,6 +65,7 @@ export const DropDownMenuItem = styled(MenuItem)`
 `;
 
 export const BtnCapital = styled.span`
+    text-transform: uppercase;
     font-size: 1.25rem;
     font-weight: 500;
     z-index: 1;

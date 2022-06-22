@@ -1,13 +1,14 @@
 import * as SC from "./style";
-import React, { FC } from "react";
+import React, {FC, useState} from "react";
 import { IFCProps } from "./types";
 import CircleIcon from "@mui/icons-material/Circle";
 
-const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, anchorEl, setAnchorEl, endIcon, btnCapital }) => {
+const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnCapital }) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(e.currentTarget);
+    setAnchorEl(e.currentTarget); //TODO fix anchorEl error on console
   };
 
   const handleClose = () => {
@@ -15,16 +16,16 @@ const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, anchorEl, set
   };
 
   const handleMenuItemOnClick = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
+    return e;
   };
 
   return <>
     <SC.DropDownMenuButton
       id={`${name}-button`}
-      onClick={handleClick}
-      aria-controls={`${name}-menu`}
+      aria-controls={open ? `${name}-menu` : undefined}
       aria-haspopup="true"
       aria-expanded={open ? "true" : undefined}
+      onClick={handleClick}
       endIcon={endIcon}
       isUser={!!btnCapital}
     >
@@ -38,10 +39,10 @@ const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, anchorEl, set
     <SC.DropDownMenu
       id={`${name}-menu`}
       open={open}
+      onClose={handleClose}
       MenuListProps={{
         "aria-labelledby": `${name}-button`,
       }}
-      onClose={handleClose}
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "left",

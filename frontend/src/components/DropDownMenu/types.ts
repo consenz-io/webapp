@@ -5,14 +5,11 @@ type MenuItem = {
     color: string,
 }
 
-type AnchorEl = EventTarget | null;
-
 export interface IFCProps {
     name: string,
     buttonText: string
     menuItems: MenuItem[],
-    anchorEl: AnchorEl,
-    setAnchorEl: (el: AnchorEl) => void,
     endIcon: React.ReactNode,
     btnCapital?: string,
 }
+//TODO AVIRAN: Weird ts error in this file, what's the cause?
