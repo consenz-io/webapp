@@ -9,7 +9,7 @@ type AnchorEl = EventTarget | null;
 
 export interface IFCProps {
     name: string,
-    buttonText: string,
+    buttonText: string
     menuItems: MenuItem[],
     anchorEl: AnchorEl,
     setAnchorEl: (el: AnchorEl) => void,
