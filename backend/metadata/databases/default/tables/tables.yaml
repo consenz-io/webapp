@@ -1,1 +1,2 @@
+- "!include core_groups.yaml"
 - "!include core_users.yaml"

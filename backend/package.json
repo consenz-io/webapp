@@ -7,7 +7,8 @@
     "console": "hasura console",
     "metadata:apply": "hasura metadata apply",
     "metadata:reload": "hasura metadata reload",
-    "migrate:apply": "hasura migrate apply"
+    "migrate:apply": "hasura migrate apply",
+    "sync": "hasura metadata apply && hasura migrate apply --all-databases && hasura metadata reload"
   },
   "repository": "git+https://github.com/consenz-io/webapp.git",
   "author": "Aviran Katz <aviran.katz@gmail.com>",
