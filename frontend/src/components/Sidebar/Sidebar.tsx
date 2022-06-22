@@ -1,50 +1,1 @@
-import * as SC from "./style";
-import { FC } from "react";
-import { IFCProps } from "./types";
-import { useResponsive } from "hooks";
-import { Logo } from "assets";
-
-const Sidebar :FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
-  const { isMobile } = useResponsive();
-
-  const content = (
-    <>
-      <SC.LogoContainer>
-        <Logo />
-      </SC.LogoContainer>
-      <span>Sidebar</span>
-    </>
-  );
-
-  return (
-    <>
-      <SC.Container>
-        <nav>
-          {isMobile
-            ?
-            <SC.Drawer
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleSidebarToggle}
-              ModalProps={{
-                keepMounted: true
-              }}
-            >
-              {content}
-            </SC.Drawer>
-            :
-            <SC.Drawer
-              variant="persistent"
-              anchor="left"
-              open
-            >
-              {content}
-            </SC.Drawer>
-          }
-        </nav>
-      </SC.Container>
-    </>
-  );
-};
-
-export default Sidebar;
+import * as SC from "./style";import { FC, useState, useEffect } from "react";import { IFCProps, IMenuItems } from "./types";import { useResponsive } from "hooks";import { Logo } from "assets";import { Link } from "react-router-dom";import { useTranslation } from "react-i18next";import { StringBank } from "strings";import { DropDownMenu }  from "components";import { useAuth0 } from "@auth0/auth0-react";import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";const Sidebar :FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {  const { user } = useAuth0();  const { isMobile } = useResponsive();  const { t } = useTranslation();  const [groupAnchorEl, setGroupAnchorEl] = useState<EventTarget | null>(null);  const [userAnchorEl, setUserAnchorEl] = useState<EventTarget | null>(null);  const [groupMenuItems, setGroupMenuItems] = useState<IMenuItems[]>([ //TODO replace static items with user groups    {      color: "#4fe3d1",      text: "Soficoop"    },    {      color: "#8b61e5",      text: "Another Group"    },    {      color: "#ed4fae",      text: "Another Group"    },  ]);  const [userMenuItems, setUserItems] = useState<IMenuItems[]>([]);  useEffect(() => {    console.log({ user }); //TODO replace static items with user groups  }, [user]);  const content = (    <>      <SC.LogoContainer>        <Link to="/" title={t(StringBank.GOTO_HOMEPAGE_TITLE)}>          <Logo />        </Link>      </SC.LogoContainer>      <DropDownMenu        name='group'        anchorEl={groupAnchorEl}        setAnchorEl={setGroupAnchorEl}        menuItems={groupMenuItems}        buttonText='Soficoop' //TODO make buttonText dynamic        endIcon={<KeyboardArrowDownIcon />}      />      <SC.Content>Sidebar content</SC.Content>      <DropDownMenu        name='user'        anchorEl={userAnchorEl}        setAnchorEl={setUserAnchorEl}        menuItems={userMenuItems}        buttonText='Tzur.S' //TODO make buttonText dynamic        btnCapital='T' //TODO make btnCapital dynamic        endIcon={<KeyboardArrowRightIcon />}      />    </>  );  return (    <>      <SC.Container>        <nav>          {isMobile            ?            <SC.Drawer              variant="temporary"              open={mobileOpen}              onClose={handleSidebarToggle}              ModalProps={{                keepMounted: true              }}            >              {content}            </SC.Drawer>            :            <SC.Drawer              variant="persistent"              anchor="left"              open            >              {content}            </SC.Drawer>          }        </nav>      </SC.Container>    </>  );};export default Sidebar;

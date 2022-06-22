@@ -31,8 +31,8 @@ export const getDesignTokens: (mode: ThemeModeType) => ThemeOptions = (mode) => 
           default: "#ffffff",
         },
         text: {
-          secondary: "#ADB2B8",
           primary: "#000000",
+          secondary: "#ADB2B8",
         },
       }
       : {
@@ -45,9 +45,13 @@ export const getDesignTokens: (mode: ThemeModeType) => ThemeOptions = (mode) => 
         background: {
           paper: "#3f4550",
           sidebar: "#2C2E33",
+          active: "#333842",
+          border: "#595f68",
           default: "#292D36",
+          capital: "#4c67f6"
         },
         text: {
+          primary: "#ffffff",
           secondary: "#ADB2B8",
         },
       }),

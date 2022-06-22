@@ -5,7 +5,7 @@ export const Drawer = styled(MuiDrawer)`
     && {
         .MuiDrawer-paper {
             width: 15rem;
-            box-sizing: border-box;
+            border: none;
             background: ${props => props.theme.palette.background.sidebar};
         }
     }
@@ -17,4 +17,8 @@ export const Container = styled.div`
 
 export const LogoContainer = styled.div`
   padding: 1.25rem 1rem;
+`;
+
+export const Content = styled.div`
+  flex: 1;
 `;
