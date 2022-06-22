@@ -1,4 +1,3 @@
-import {SvgIconTypeMap} from "@mui/material/SvgIcon/SvgIcon";
 import * as React from "react";
 
 type MenuItem = {
