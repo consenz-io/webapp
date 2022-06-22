@@ -7,8 +7,10 @@ services:
       - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
   graphql-engine:
-    image: hasura/graphql-engine:v2.7.0
+    image: hasura/graphql-engine:latest.cli-migrations-v3
     ports:
       - "8080:8080"
     depends_on:
@@ -18,9 +20,9 @@ services:
       ## postgres database to store Hasura metadata
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
       ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs
-      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
       ## enable the console served by server
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "false" # set to "false" to disable console
+      HASURA_GRAPHQL_ENABLE_CONSOLE: false
       ## enable debugging mode. It is recommended to disable this in production
       HASURA_GRAPHQL_DEV_MODE: "true"
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log

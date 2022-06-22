@@ -4,7 +4,11 @@
   "description": "A backend for consenz",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "console": "hasura console",
+    "metadata:apply": "hasura metadata apply",
+    "metadata:reload": "hasura metadata reload",
+    "migrate:apply": "hasura migrate apply",
+    "sync": "hasura metadata apply && hasura migrate apply --all-databases && hasura metadata reload"
   },
   "repository": "git+https://github.com/consenz-io/webapp.git",
   "author": "Aviran Katz <aviran.katz@gmail.com>",
@@ -14,6 +18,6 @@
   },
   "homepage": "https://github.com/consenz-io/webapp#readme",
   "devDependencies": {
-    "hasura-cli": "^2.6.1"
+    "hasura-cli": "^2.7.0"
   }
 }
