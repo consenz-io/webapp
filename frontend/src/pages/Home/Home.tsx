@@ -41,7 +41,7 @@ const Home = () => {
       | User Auth state: {isAuthenticated.toString()}|
       <button
         onClick={() => {
-          logout();
+          logout({returnTo: window.location.origin});
         }}
       >
         log out
