@@ -4,5 +4,6 @@ table:
 select_permissions:
   - role: guest
     permission:
-      columns: []
+      columns:
+        - name
       filter: {}
