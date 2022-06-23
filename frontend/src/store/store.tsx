@@ -7,13 +7,13 @@ export const defaultState: IDataContext = {
 
 const DataContext = createContext<IDataContext>(defaultState);
 
-const DataProvider:FC<FCProps> = ({ children }) => {
+const DataProvider :FC<FCProps> = ({ children }) => {
   const [globalIsItGood, setGlobalIsItGood] = useState(defaultState.globalIsItGood);
 
   const toggleGlobalIsItGood = () => {
     setGlobalIsItGood(!globalIsItGood);
   };
-  
+
   const dataState = {
     globalIsItGood,
     toggleGlobalIsItGood,
