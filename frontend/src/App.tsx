@@ -11,12 +11,7 @@ import {
 } from "@mui/material/styles";
 import { ThemeModeType } from "types";
 import { Auth0Provider } from "@auth0/auth0-react";
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  HttpLink,
-} from "@apollo/client";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { useAuth0 } from "@auth0/auth0-react";
