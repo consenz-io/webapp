@@ -7,24 +7,37 @@
 
 # 1. <a id="set-up">Set Up</a>
 ## 1.1. Backend
-### 1.1.1. Install
+### 1.1.1 ENV variables
+Copy .env.example content to a new file '.env'
+### 1.1.2. Install
 ```
 cd backend
-yarn install
+npm install
 ```
-### 1.1.2. Start server
+### 1.1.3. Start server
 ```
-yarn serve
+docker-compose up
+npm run console
 ```
 ## 1.2. Frontend
-### 1.2.1. Install
+### 1.2.1. ENV variables
+Follow instructions in https://hasura.io/docs/latest/graphql/core/guides/integrations/auth0-jwt/ to do the following:<br>
+Create user in Auth0.<br>
+Create a new app for development.<br>
+Copy the client ID and client secret to new file '.env.local':
+```
+REACT_APP_SECRET_HASURA=[client_secret]
+REACT_APP_AUTH0_DOMAIN=[auth0_domain_name]
+REACT_APP_AUTH0_CLIENT_ID=[client_id]
+```
+### 1.2.2. Install
 ```
 cd frontend
-yarn install
+npm install
 ```
-### 1.2.2. Start app
+### 1.2.3. Start app
 ```
-yarn run serve
+npm start
 ```
 ## 1.3. Test functionality
 
@@ -53,7 +66,6 @@ and the process has a clear product: a text that reflects the consent of the par
 - Users are to be managed using some third party service (e.g. auth0)
 - Authentication - based on jwt flow
 - Cronjobs based actions and asynchronous operations are to be implemented using some serverless technology (e.g. AWS Lambda)
-### Cardano ?
 ## 2.2. <a id="definitions">Definitions</a>
 Here you'll find terms and definitions for the app's structure and components.
 - __Group__: Every user signs up as part of a group, in which they can view, comment and vote on Agreements.
