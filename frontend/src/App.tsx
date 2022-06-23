@@ -60,7 +60,7 @@ const AUTH0_DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN || "domain";
 const hasuraUri = "http://localhost:8080/v1/graphql";
 
 const App = () => {
-  const [mode, setMode] = useState<ThemeModeType>(ThemeModeType.LIGHT);
+  const [mode, setMode] = useState<ThemeModeType>(ThemeModeType.DARK);
 
   const colorModeState = useMemo(
     () => ({

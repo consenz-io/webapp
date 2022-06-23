@@ -78,7 +78,9 @@
           "maxBOF": 0,
           "maxEOF": 0
         }
-      ]
+      ],
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["error"]
     }
   },
   "browserslist": {

@@ -1,3 +1,4 @@
 export enum StringBank {
   LOGIN_TAGLINE = "LOGIN_TAGLINE",
+  GOTO_HOMEPAGE_TITLE = "GOTO_HOMEPAGE_TITLE"
 }
