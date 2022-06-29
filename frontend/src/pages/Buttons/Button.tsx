@@ -4,9 +4,11 @@ import {
   OutlinedBtn,
   OutlinedSymbolBtn,
   TextBtn,
+  IconBtn,
 } from "../../components/styles/Button.styles";
 
 import AddIcon from "@mui/icons-material/Add";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 export default function Buttons() {
   return (
@@ -29,6 +31,10 @@ export default function Buttons() {
       </OutlinedSymbolBtn>
       <h3>text btn</h3>
       <TextBtn>New Agreement</TextBtn>
+      <h3>icon btn</h3>
+      <IconBtn>
+        <PeopleAltIcon />
+      </IconBtn>
     </div>
   );
 }
