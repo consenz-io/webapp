@@ -18,6 +18,7 @@ const Welcome = () => {
           <ContentLine>
             ask your Group Manager to invite you to join
           </ContentLine>
+          <br />
           <ContentLine>and have fun!</ContentLine>
         </Content>
       </ContentWrapper>
