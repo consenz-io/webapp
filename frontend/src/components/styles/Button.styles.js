@@ -1,5 +1,7 @@
-import styled from "styled-components";
-export const FooterButton = styled.button`
+import { styled } from "@mui/system";
+import IconButton from "@mui/material/IconButton";
+
+export const FooterButton = styled("button")`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -18,3 +20,162 @@ export const FooterButton = styled.button`
   width: 360px;
   height: 48px;
 `;
+
+export const MainDefaultBtn = styled("button")({
+  width: "133px",
+  height: "37px",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "8px",
+  padding: "10px 16px",
+  borderRadius: "8px",
+  backgroundColor: "#3f4550",
+  color: "white",
+  "&:hover": {
+    width: "133px",
+    height: "37px",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "8px",
+    padding: "10px 16px",
+    borderRadius: "8px",
+    backgroundColor: "#686d73",
+  },
+});
+
+export const SymbolBtn = styled(IconButton)({
+  width: "161px",
+  height: "36px",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "8px",
+  borderRadius: "8px",
+  backgroundColor: "#4f545c",
+  color: "white",
+  fontFamily: "Lato",
+  fontSize: "14px",
+  fontWeight: "600",
+  fontStretch: "normal",
+  fontStyle: "normal",
+  lineHeight: "normal",
+  letterSpacing: "normal",
+  textAlign: "left",
+  "&:hover": {
+    width: "161px",
+    height: "36px",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "8px",
+    borderRadius: "8px",
+    backgroundColor: "#686d73",
+  },
+});
+
+export const OutlinedBtn = styled("button")({
+  width: "133px",
+  height: "37px",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "8px",
+  borderRadius: "8px",
+  border: "solid 1px white",
+  backgroundColor: "#686d73",
+  color: "white",
+  fontFamily: "Lato",
+  fontSize: "14px",
+  fontWeight: "600",
+  fontStretch: "normal",
+  fontStyle: "normal",
+  lineHeight: "normal",
+  letterSpacing: "normal",
+  textAlign: "left",
+  "&:hover": {
+    width: "133px",
+    height: "37px",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "8px",
+    borderRadius: "8px",
+    border: "solid 1px white",
+    backgroundColor: "#4f545c",
+  },
+});
+
+export const OutlinedSymbolBtn = styled(IconButton)({
+  width: "161px",
+  height: "36px",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "8px",
+  borderRadius: "8px",
+  border: "solid 1px white",
+  backgroundColor: "#686d73",
+  color: "white",
+  fontFamily: "Lato",
+  fontSize: "14px",
+  fontWeight: "600",
+  fontStretch: "normal",
+  fontStyle: "normal",
+  lineHeight: "normal",
+  letterSpacing: "normal",
+  textAlign: "left",
+  "&:hover": {
+    width: "161px",
+    height: "36px",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "8px",
+    borderRadius: "8px",
+    border: "solid 1px white",
+    backgroundColor: "#4f545c",
+  },
+});
+
+export const TextBtn = styled("button")({
+  width: "133px",
+  height: "37px",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "8px",
+  borderRadius: "8px",
+  border: "solid 1px white",
+  color: "#c49eff",
+  fontFamily: "Lato",
+  fontSize: "14px",
+  fontWeight: "600",
+  fontStretch: "normal",
+  fontStyle: "normal",
+  lineHeight: "normal",
+  letterSpacing: "normal",
+  textAlign: "left",
+  "&:hover": {
+    width: "133px",
+    height: "37px",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "8px",
+    borderRadius: "8px",
+    border: "solid 1px white",
+    backgroundColor: "rgba(255, 255, 255, 0.08)",
+  },
+});

@@ -1,0 +1,34 @@
+import {
+  MainDefaultBtn,
+  SymbolBtn,
+  OutlinedBtn,
+  OutlinedSymbolBtn,
+  TextBtn,
+} from "../../components/styles/Button.styles";
+
+import AddIcon from "@mui/icons-material/Add";
+
+export default function Buttons() {
+  return (
+    <div
+      style={{ marginLeft: "50px", backgroundColor: "gray", height: "80vh" }}
+    >
+      <h3>main</h3>
+      <MainDefaultBtn>New Agreement</MainDefaultBtn>
+      <h3>with symbol</h3>
+      <SymbolBtn>
+        <AddIcon />
+        New Agreement
+      </SymbolBtn>
+      <h3>outline</h3>
+      <OutlinedBtn>New Agreement</OutlinedBtn>
+      <h3>outline + symbol</h3>
+      <OutlinedSymbolBtn>
+        <AddIcon />
+        New Agreement
+      </OutlinedSymbolBtn>
+      <h3>text btn</h3>
+      <TextBtn>New Agreement</TextBtn>
+    </div>
+  );
+}

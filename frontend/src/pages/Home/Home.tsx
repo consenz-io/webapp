@@ -12,11 +12,12 @@ import { useOutletContext } from "react-router-dom";
 import { IOutletContext } from "types";
 import { useResponsive } from "hooks";
 import { useAuth0 } from "@auth0/auth0-react";
-  
+
 const Home = () => {
   const { isMobile } = useResponsive();
   const { sidebar } = useOutletContext<IOutletContext>();
-  const { isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
+    useAuth0();
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const authContext = useContext(AuthContext);
@@ -41,15 +42,16 @@ const Home = () => {
       | User Auth state: {isAuthenticated.toString()}|
       <button
         onClick={() => {
-          logout({returnTo: window.location.origin});
+          logout({ returnTo: window.location.origin });
         }}
       >
         log out
       </button>
       <Button variant="contained">Contained</Button>
-      {isMobile &&
-          <SidebarController handleSidebarToggle={sidebar.handleSidebarToggle} />
-      }
+      {isMobile && (
+        <SidebarController handleSidebarToggle={sidebar.handleSidebarToggle} />
+      )}
+      <a href="/buttons">BTNS</a>
     </SC.Main>
   );
 };
