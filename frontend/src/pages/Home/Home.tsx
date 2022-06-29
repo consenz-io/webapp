@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -12,7 +12,37 @@ import { useOutletContext } from "react-router-dom";
 import { IOutletContext } from "types";
 import { useResponsive } from "hooks";
 import { useAuth0 } from "@auth0/auth0-react";
-
+import {
+  ApolloClient,
+  gql,
+  // useQuery,
+  InMemoryCache,
+  HttpLink,
+} from "@apollo/client";
+const userQuery = gql`
+  query Q1 {
+    core_users {
+      email
+      id
+      user_groups {
+        group {
+          name
+        }
+      }
+    }
+  }
+`;
+const createApolloClient = (authToken: string) => {
+  return new ApolloClient({
+    link: new HttpLink({
+      uri: "postgres://postgres:postgrespassword@postgres:5432/postgres",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    }),
+    cache: new InMemoryCache(),
+  });
+};
 const Home = () => {
   const { isMobile } = useResponsive();
   const { sidebar } = useOutletContext<IOutletContext>();
@@ -21,10 +51,24 @@ const Home = () => {
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const authContext = useContext(AuthContext);
-
-  getAccessTokenSilently()
-    .then((token) => authContext?.setJwt(token))
-    .catch(() => loginWithRedirect());
+  function showJWT() {
+    const token = authContext?.jwt;
+    console.log("token in home comp", token);
+  }
+  useEffect(() => {
+    async function fetchToken() {
+      try {
+        const token = await getAccessTokenSilently();
+        authContext?.setJwt(token);
+        console.log("authContext!.jwt", authContext?.jwt);
+        const client = createApolloClient(authContext!.jwt);
+        console.log("client", client);
+      } catch (error) {
+        loginWithRedirect();
+      }
+    }
+    fetchToken();
+  }, [authContext?.jwt]);
 
   return (
     <SC.Main>
@@ -52,6 +96,7 @@ const Home = () => {
         <SidebarController handleSidebarToggle={sidebar.handleSidebarToggle} />
       )}
       <a href="/welcome">welcome</a>
+      <button onClick={showJWT}>Get JWT</button>
     </SC.Main>
   );
 };
