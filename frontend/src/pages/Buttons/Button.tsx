@@ -23,14 +23,14 @@ export default function Buttons() {
         New Agreement
       </SymbolBtn>
       <h3>outline</h3>
-      <OutlinedBtn>New Agreement</OutlinedBtn>
+      <OutlinedBtn variant="outlined">New Agreement</OutlinedBtn>
       <h3>outline + symbol</h3>
       <OutlinedSymbolBtn>
         <AddIcon />
         New Agreement
       </OutlinedSymbolBtn>
       <h3>text btn</h3>
-      <TextBtn>New Agreement</TextBtn>
+      <TextBtn variant="text">New Agreement</TextBtn>
       <h3>icon btn</h3>
       <IconBtn>
         <PeopleAltIcon />

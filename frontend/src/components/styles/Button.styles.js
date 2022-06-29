@@ -1,7 +1,8 @@
 import { styled } from "@mui/system";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 
-export const FooterButton = styled("button")`
+export const FooterButton = styled(Button)`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -21,7 +22,7 @@ export const FooterButton = styled("button")`
   height: 48px;
 `;
 
-export const MainDefaultBtn = styled("button")({
+export const MainDefaultBtn = styled(Button)({
   width: "133px",
   height: "37px",
   display: "flex",
@@ -79,7 +80,7 @@ export const SymbolBtn = styled(IconButton)({
   },
 });
 
-export const OutlinedBtn = styled("button")({
+export const OutlinedBtn = styled(Button)({
   width: "133px",
   height: "37px",
   display: "flex",
@@ -147,7 +148,7 @@ export const OutlinedSymbolBtn = styled(IconButton)({
   },
 });
 
-export const TextBtn = styled("button")({
+export const TextBtn = styled(Button)({
   width: "133px",
   height: "37px",
   display: "flex",
