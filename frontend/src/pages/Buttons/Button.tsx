@@ -13,7 +13,7 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 export default function Buttons() {
   return (
     <div
-      style={{ marginLeft: "50px", backgroundColor: "gray", height: "80vh" }}
+      style={{ marginLeft: "50px", backgroundColor: "#36393f", height: "80vh" }}
     >
       <h3>main</h3>
       <MainDefaultBtn>New Agreement</MainDefaultBtn>
