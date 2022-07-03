@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -12,42 +12,14 @@ import { useOutletContext } from "react-router-dom";
 import { IOutletContext } from "types";
 import { useResponsive } from "hooks";
 import { useAuth0 } from "@auth0/auth0-react";
-import {
-  ApolloClient,
-  gql,
-  // useQuery,
-  InMemoryCache,
-  HttpLink,
-} from "@apollo/client";
-const userQuery = gql`
-  query Q1 {
-    core_users {
-      email
-      id
-      user_groups {
-        group {
-          name
-        }
-      }
-    }
-  }
-`;
-const createApolloClient = (authToken: string) => {
-  return new ApolloClient({
-    link: new HttpLink({
-      uri: "postgres://postgres:postgrespassword@postgres:5432/postgres",
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    }),
-    cache: new InMemoryCache(),
-  });
-};
+import { userQuery } from "../../services/queries";
+import { useQuery } from "@apollo/client";
+import { UserQueryObject } from "services/types";
+import { Navigate } from "react-router-dom";
 const Home = () => {
   const { isMobile } = useResponsive();
   const { sidebar } = useOutletContext<IOutletContext>();
-  const { isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } =
-    useAuth0();
+  const { isAuthenticated, logout } = useAuth0();
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const authContext = useContext(AuthContext);
@@ -55,20 +27,31 @@ const Home = () => {
     const token = authContext?.jwt;
     console.log("token in home comp", token);
   }
-  useEffect(() => {
-    async function fetchToken() {
-      try {
-        const token = await getAccessTokenSilently();
-        authContext?.setJwt(token);
-        console.log("authContext!.jwt", authContext?.jwt);
-        const client = createApolloClient(authContext!.jwt);
-        console.log("client", client);
-      } catch (error) {
-        loginWithRedirect();
+  const { loading, error, data } = useQuery(userQuery);
+
+  if (loading) {
+    console.log("loading...");
+  }
+  if (error) {
+    console.log("error", error);
+  }
+  if (data) {
+    console.log("data", data);
+    if (data.core_users.length > 0) {
+      for (let i = 0; i < data.core_users.length; i++) {
+        const userObj: UserQueryObject = data.core_users[i];
+        if (userObj.user_groups.length < 1) {
+          return (
+            <Navigate
+              to={{
+                pathname: "/welcome",
+              }}
+            />
+          );
+        }
       }
     }
-    fetchToken();
-  }, [authContext?.jwt]);
+  }
 
   return (
     <SC.Main>
