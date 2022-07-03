@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Menu, MenuItem } from "@mui/material";
 import { DropDownMenuButton as Button } from "./parts";
+import { NavLink as RouterLink } from "react-router-dom";
 
 export const DropDownMenuButton = styled(Button)`
   && {
@@ -80,5 +81,12 @@ export const BtnCapital = styled.span`
       top: 50%;
       transform: translate(-50%, -50%);
       z-index: -1;
+    }
+`;
+
+export const Link = styled(RouterLink)`
+    && {
+        color: ${props => props.theme.palette.text.primary};
+        text-decoration: none;
     }
 `;

@@ -33,6 +33,7 @@ const App = () => {
   );
 
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+
   return (
     <Auth0Provider
       domain={AUTH0_DOMAIN}

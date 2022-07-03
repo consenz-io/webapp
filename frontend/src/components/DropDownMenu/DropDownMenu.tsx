@@ -1,64 +1,87 @@
-import * as SC from "./style";
 import React, {FC, useState} from "react";
 import { IFCProps } from "./types";
-import CircleIcon from "@mui/icons-material/Circle";
+import * as SC from "./style";
+
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+// import ListItemText from "@mui/material/ListItemText";
+// import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import {useNavigate} from "react-router-dom";
+// import {DropDownMenuItem} from "./style";
+
+// const options = [
+//   "Show some love to MUI",
+//   "Show all notification content",
+//   "Hide sensitive notification content",
+//   "Hide all notification content",
+// ];
 
 const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnCapital }) => {
+  // const {globalUser} = useContext(DataContext);
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedIndex, setSelectedIndex] = useState(1);
   const open = Boolean(anchorEl);
+  // const {groups, currentGroup} = globalUser;
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleClickListItem = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget); //TODO fix anchorEl error on console
+  };
+
+  const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, index: number, slug: string) => {
+    setSelectedIndex(index);
+    navigate(`/${slug}/all-agreements`);
+    setAnchorEl(null);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleMenuItemOnClick = (e: React.MouseEvent<HTMLElement>) => {
-    return e;
-  };
-
   return <>
-    <SC.DropDownMenuButton
-      id={`${name}-button`}
-      aria-controls={open ? `${name}-menu` : undefined}
-      aria-haspopup="true"
-      aria-expanded={open ? "true" : undefined}
-      onClick={handleClick}
-      endIcon={endIcon}
-      isUser={!!btnCapital}
+    <List
+      component="nav"
+      aria-label={`${name} select`}
+      sx={{ bgcolor: "background.paper" }}
     >
-      {btnCapital &&
-        <SC.BtnCapital className="capital">{btnCapital}</SC.BtnCapital>
-      }
+      <ListItem
+        id={`${name}-button`}
+        aria-haspopup="listbox"
+        aria-controls={`${name}-menu`}
+        aria-label="when device is locked" //TODO make dynamic
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClickListItem}
+      >
+        ss
+        {/*<ListItemText*/}
+        {/*  primary={options[selectedIndex]}*/}
+        {/*/>*/}
+      </ListItem>
+    </List>
 
-      {buttonText}
-    </SC.DropDownMenuButton>
-
-    <SC.DropDownMenu
+    <Menu
       id={`${name}-menu`}
+      anchorEl={anchorEl}
       open={open}
       onClose={handleClose}
       MenuListProps={{
         "aria-labelledby": `${name}-button`,
-      }}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
+        role: "listbox",
       }}
     >
-      {menuItems.map((menuItem, i) => {
-        return <SC.DropDownMenuItem
-          key={i}
-          onClick={handleMenuItemOnClick}
-        >
-          <CircleIcon style={{fill: menuItem.color, marginRight: ".5rem", marginLeft: "-.25rem"}} />
-          {menuItem.text}
-        </SC.DropDownMenuItem>;
 
-      })}
-    </SC.DropDownMenu>
+      {menuItems.map((menuItem, index) => (
+        <SC.DropDownMenuItem
+          key={menuItem.slug}
+          disabled={index === 0}
+          selected={index === selectedIndex}
+          onClick={(event) => handleMenuItemClick(event, index, menuItem.slug)}
+        >
+          {menuItem.text}
+        </SC.DropDownMenuItem>
+      ))}
+    </Menu>
   </>;
 };
 

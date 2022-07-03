@@ -7,5 +7,5 @@ export {
   Sidebar,
   SidebarLayout,
   SidebarController,
-  DropDownMenu
+  DropDownMenu,
 };

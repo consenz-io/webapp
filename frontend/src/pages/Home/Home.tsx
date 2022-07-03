@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -8,18 +8,28 @@ import * as SC from "./style";
 import { ColorModeContext } from "theme/theme";
 import { AuthContext } from "services";
 import { SidebarController } from "components";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { IOutletContext } from "types";
 import { useResponsive } from "hooks";
 import { useAuth0 } from "@auth0/auth0-react";
-  
+import {DataContext} from "store";
+
 const Home = () => {
+  const navigate = useNavigate();
   const { isMobile } = useResponsive();
   const { sidebar } = useOutletContext<IOutletContext>();
   const { isAuthenticated, getAccessTokenSilently, logout, loginWithRedirect } = useAuth0();
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const authContext = useContext(AuthContext);
+  const {globalUser} = useContext(DataContext);
+  const {groups} = globalUser;
+
+  useEffect(() => {
+    if (groups.length > 100) {
+      navigate(`/${groups[0].slug}/all-agreements`);
+    }
+  }, []);
 
   getAccessTokenSilently()
     .then((token) => authContext?.setJwt(token))

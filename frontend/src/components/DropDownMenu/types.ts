@@ -3,6 +3,7 @@ import * as React from "react";
 type MenuItem = {
     text: string,
     color: string,
+    slug: string
 }
 
 export interface IFCProps {

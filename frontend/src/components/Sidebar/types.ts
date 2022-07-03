@@ -5,9 +5,6 @@ export interface IFCProps {
 
 export interface IMenuItems {
     text: string,
-    color: string
-}
-
-export interface IUserData {
-    name: string,
+    color: string,
+    slug: string
 }
