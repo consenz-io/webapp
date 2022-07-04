@@ -5,9 +5,11 @@ import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { IFCProps, IRoutingContext } from "./types";
 import { Home, Page404, Login } from "../pages";
 import { SidebarLayout } from "components";
+import Agreements from "pages/Agreements";
 
 const HOME_ROUTE = "/";
 const LOGIN_ROUTE = "/login";
+const AGREEMENT_ROUTE = "/agreements";
 // const LOGIN_ROUTE = `https://soficoop.eu.auth0.com/authorize?
 // response_type=token&
 // client_id=MITeFpxQlcYimynTQYYUfcMPeFqSOCiZ&
@@ -15,7 +17,7 @@ const LOGIN_ROUTE = "/login";
 
 const RoutingContext = createContext<IRoutingContext | null>(null);
 
-const RoutingProvider :FC<IFCProps> = ({ children }) => {
+const RoutingProvider: FC<IFCProps> = ({ children }) => {
   const navigate = useNavigate();
 
   const routingState = {
@@ -38,6 +40,7 @@ const RoutesProvider = () => {
             <Route path={HOME_ROUTE} element={<Home />} />
           </Route>
           <Route path={LOGIN_ROUTE} element={<Login />} />
+          <Route path={AGREEMENT_ROUTE} element={<Agreements />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
       </RoutingProvider>
