@@ -15,7 +15,7 @@ function AgreementCard({
       <header>
         <div className="tag">{tag}</div>
         <div className="icon">
-          <img src={docImage} alt="" />
+          <img src={docImage} alt="document" width="43.5px" height="64px" />
         </div>
       </header>
       <footer>
