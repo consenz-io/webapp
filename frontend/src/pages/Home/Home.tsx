@@ -15,9 +15,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { userQuery } from "../../services/queries";
 import { useQuery } from "@apollo/client";
 import { UserQueryObject } from "services/types";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 const Home = () => {
   const { isMobile } = useResponsive();
+  const { getAccessTokenSilently } = useAuth0();
   const { sidebar } = useOutletContext<IOutletContext>();
   const { isAuthenticated, logout } = useAuth0();
   const theme = useTheme();
@@ -27,6 +28,10 @@ const Home = () => {
     const token = authContext?.jwt;
     console.log("token in home comp", token);
   }
+  getAccessTokenSilently().then((token) => {
+    console.log("token", token);
+    authContext?.setJwt(token);
+  });
   const { loading, error, data } = useQuery(userQuery);
 
   if (loading) {
@@ -41,13 +46,13 @@ const Home = () => {
       for (let i = 0; i < data.core_users.length; i++) {
         const userObj: UserQueryObject = data.core_users[i];
         if (userObj.user_groups.length < 1) {
-          return (
-            <Navigate
-              to={{
-                pathname: "/welcome",
-              }}
-            />
-          );
+          // return (
+          //   <Navigate
+          //     to={{
+          //       pathname: "/welcome",
+          //     }}
+          //   />
+          // );
         }
       }
     }
