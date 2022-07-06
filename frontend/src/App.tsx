@@ -34,25 +34,27 @@ const App = () => {
 
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
   return (
-    <Auth0Provider
-      domain={AUTH0_DOMAIN}
-      clientId={AUTH0_CLIENT_ID}
-      redirectUri={window.location.origin}
-      cacheLocation="localstorage"
-      audience="hasura"
-    >
-      <DataProvider>
-        <ColorModeContext.Provider value={colorModeState}>
-          <MuiThemeProvider theme={theme}>
-            <StyledThemeProvider theme={theme}>
-              <AuthProvider>
-                <RoutesProvider />
-              </AuthProvider>
-            </StyledThemeProvider>
-          </MuiThemeProvider>
-        </ColorModeContext.Provider>
-      </DataProvider>
-    </Auth0Provider>
+    <div className="container">
+      <Auth0Provider
+        domain={AUTH0_DOMAIN}
+        clientId={AUTH0_CLIENT_ID}
+        redirectUri={window.location.origin}
+        cacheLocation="localstorage"
+        audience="hasura"
+      >
+        <DataProvider>
+          <ColorModeContext.Provider value={colorModeState}>
+            <MuiThemeProvider theme={theme}>
+              <StyledThemeProvider theme={theme}>
+                <AuthProvider>
+                  <RoutesProvider />
+                </AuthProvider>
+              </StyledThemeProvider>
+            </MuiThemeProvider>
+          </ColorModeContext.Provider>
+        </DataProvider>
+      </Auth0Provider>
+    </div>
   );
 };
 
