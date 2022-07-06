@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import {useContext, useEffect} from "react";
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -12,7 +12,8 @@ import { useOutletContext } from "react-router-dom";
 import { IOutletContext } from "types";
 import { useResponsive } from "hooks";
 import { useAuth0 } from "@auth0/auth0-react";
-  
+import { DataContext } from "store";
+
 const Home = () => {
   const { isMobile } = useResponsive();
   const { sidebar } = useOutletContext<IOutletContext>();
@@ -20,6 +21,11 @@ const Home = () => {
   const theme = useTheme();
   const { toggleColorMode, mode } = useContext(ColorModeContext);
   const authContext = useContext(AuthContext);
+  const { globalIsRTL, toggleGlobalIsRTL } = useContext(DataContext);
+
+  useEffect(() => {
+    document.dir = globalIsRTL ? "rtl" : "ltr";
+  }, [globalIsRTL]);
 
   getAccessTokenSilently()
     .then((token) => authContext?.setJwt(token))
@@ -28,6 +34,10 @@ const Home = () => {
   return (
     <SC.Main>
       Home page
+      {globalIsRTL && <span>RTL</span>}
+      <button onClick={toggleGlobalIsRTL}>
+        Toggle RTL
+      </button>
       <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
         Toggle theme -{" "}
         {theme.palette.mode === "dark" ? (
