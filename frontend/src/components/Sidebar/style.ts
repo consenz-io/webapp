@@ -7,6 +7,7 @@ export const Drawer = styled(MuiDrawer)`
             width: 15rem;
             border: none;
             background: ${props => props.theme.palette.background.sidebar};
+            left: ${props => props.theme.direction === "rtl" ? "auto" : "0"};
         }
     }
 `;

@@ -2,7 +2,8 @@ import { ThemeModeType } from "types";
 import { createContext } from "react";
 import { ThemeOptions } from "@mui/material";
 
-export const getDesignTokens: (mode: ThemeModeType) => ThemeOptions = (mode) => ({
+export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOptions = (mode, isRTL) => ({
+  direction: isRTL ? "rtl" : "ltr",
   typography: {
     fontFamily: "Lato, sans-serif",
     h1: {
@@ -59,4 +60,4 @@ export const getDesignTokens: (mode: ThemeModeType) => ThemeOptions = (mode) => 
 });
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export const ColorModeContext = createContext({ toggleColorMode: () => {}, mode: ThemeModeType.LIGHT });
+export const ColorModeAndDirectionContext = createContext({ toggleColorMode: () => {}, mode: ThemeModeType.LIGHT, toggleDirection: () => {}, isRTL: false });

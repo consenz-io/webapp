@@ -16,12 +16,19 @@ export const DropDownMenuButton = styled(Button)`
     text-transform: none;
 
     ${props => props.isUser && `
-        padding-left: 3rem;
+        padding-left: ${props.theme.direction === "rtl" ? "auto" : "3rem"};
+        padding-right: ${props.theme.direction === "rtl" ? "3rem" : "auto"};
     `}
     
-    svg {
-      font-size: 1.5rem;
+    .MuiButton-endIcon {
+        margin-left: ${props => props.theme.direction === "rtl" ? "-4px" : "8px"};
+        margin-right: ${props => props.theme.direction === "rtl" ? "8px" : "-4px"};
+        
+        svg {
+            font-size: 1.5rem;
+        }
     }
+ 
 
     &:hover, &[aria-expanded] {
       background-color: ${props => props.theme.palette.background.active};
@@ -30,7 +37,8 @@ export const DropDownMenuButton = styled(Button)`
     ${props => props.isUser && `
         .capital {
           position: absolute;
-          left: 1rem;
+          left: ${props.theme.direction === "rtl" ? "auto" : "1rem"};
+          right: ${props.theme.direction === "rtl" ? "1rem" : "auto"};
         }
     `}
   }
