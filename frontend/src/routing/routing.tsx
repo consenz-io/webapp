@@ -39,10 +39,10 @@ const RoutesProvider = () => {
         <Routes>
           <Route element={<SidebarLayout />}>
             <Route path={HOME_ROUTE} element={<Home />} />
+            <Route path={ALL_AGREEMENTS_ROUTE} element={<AllAgreements />} />
           </Route>
           <Route path={LOGIN_ROUTE} element={<Login />} />
           <Route path={BUTTONS_ROUTE} element={<Buttons />} />
-          <Route path={ALL_AGREEMENTS_ROUTE} element={<AllAgreements />} />
           <Route path={AGREEMENT_ROUTE} element={<Agreements />} />
           <Route path="*" element={<Page404 />} />
         </Routes>

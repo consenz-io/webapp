@@ -12,12 +12,10 @@ export const SidebarLayout :FC = () => {
 
   return (
     <>
-      {<Sidebar mobileOpen={mobileOpen} handleSidebarToggle={handleSidebarToggle} />}
-      <SC.Main>
-        <SC.Wrapper>
-          <Outlet context={{sidebar: {mobileOpen, handleSidebarToggle}}}/>
-        </SC.Wrapper>
-      </SC.Main>
+      <Sidebar mobileOpen={mobileOpen} handleSidebarToggle={handleSidebarToggle} />
+      <SC.Wrapper>
+        <Outlet context={{sidebar: {mobileOpen, handleSidebarToggle}}}/>
+      </SC.Wrapper>
     </>
   );
 };
