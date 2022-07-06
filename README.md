@@ -4,6 +4,7 @@
 - [Project Overview](#project-overview)
 - [Technologies](#technologies)
 - [Definitions](#definitions)
+- [Contributing](#contributing)
 
 # 1. <a id="project-overview">Project Overview</a>
 
@@ -63,3 +64,12 @@ A Comment may have multiple Comment on Comments.
 A Vote can be pro or con.<br>
 A Suggestion may have multiple Votes.
 - __User__: A member in the Group that may create a Section, vote in discussion, comment, etc.
+
+# 4. <a id="contributing">Contributing</a>
+
+This project has a CI/CD pipeline.  
+Pushes to dev automatically update the staging site at https://stage.consenz.io  
+
+## 4.1. Work Process
+
+Create new branches from dev, and merge back into dev.  
