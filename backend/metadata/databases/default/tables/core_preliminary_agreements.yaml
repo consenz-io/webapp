@@ -1,3 +1,7 @@
 table:
   schema: core
   name: preliminary_agreements
+object_relationships:
+  - name: groupByGroup
+    using:
+      foreign_key_constraint_on: group
