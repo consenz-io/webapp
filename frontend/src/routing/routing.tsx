@@ -3,9 +3,8 @@
 import { createContext, FC } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { IFCProps, IRoutingContext } from "./types";
-import { Home, Page404, Login, Buttons, AllAgreements } from "../pages";
+import { Home, Page404, Login, Buttons, AllAgreements, Agreements } from "../pages";
 import { SidebarLayout } from "components";
-import Agreements from "pages/Agreements";
 
 const HOME_ROUTE = "/";
 const LOGIN_ROUTE = "/login";
