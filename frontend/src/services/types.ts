@@ -12,5 +12,5 @@ export type AgreementCardProps = {
   title: string;
   updatedAt: string;
   participants: string;
-  icon: string;
+  icon: string | any;
 };

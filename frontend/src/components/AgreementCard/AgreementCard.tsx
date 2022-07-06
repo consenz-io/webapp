@@ -1,6 +1,15 @@
 import { AgreementCardProps } from "../../services/types";
-import "./AgreementCard.css";
-import docImage from "../../assets/icons8-document-100.png";
+import {
+  UpdatedAt,
+  Participants,
+  Title,
+  Footer,
+  CardEl,
+  Header,
+  IconContainer,
+  Tag,
+  Icon,
+} from "./Agreemen.style";
 
 function AgreementCard({
   tag,
@@ -8,22 +17,21 @@ function AgreementCard({
   updatedAt,
   participants,
   icon,
-  ...props
 }: AgreementCardProps) {
   return (
-    <div className="card">
-      <header>
-        <div className="tag">{tag}</div>
-        <div className="icon">
-          <img src={docImage} alt="document" width="43.5px" height="64px" />
-        </div>
-      </header>
-      <footer>
-        <div className="title">{title}</div>
-        <div className="participants">{participants}</div>
-        <div className="updatedAt">{updatedAt}</div>
-      </footer>
-    </div>
+    <CardEl variant="outlined">
+      <Header>
+        <Tag>{tag}</Tag>
+        <IconContainer>
+          <Icon>{icon}</Icon>
+        </IconContainer>
+      </Header>
+      <Footer>
+        <Title>{title}</Title>
+        <Participants>{participants}</Participants>
+        <UpdatedAt>{updatedAt}</UpdatedAt>
+      </Footer>
+    </CardEl>
   );
 }
 

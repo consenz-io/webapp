@@ -1,5 +1,5 @@
 import AgreementCard from "../../components/AgreementCard/AgreementCard";
-
+import ArticleIcon from "@mui/icons-material/Article";
 function Agreements() {
   return (
     <>
@@ -10,7 +10,7 @@ function Agreements() {
         title="Agreement title"
         updatedAt={new Date().toLocaleDateString()}
         participants="16 Participants"
-        icon="icons8-document-100.png"
+        icon={<ArticleIcon sx={{ fontSize: "4rem" }} />}
       ></AgreementCard>
     </>
   );
