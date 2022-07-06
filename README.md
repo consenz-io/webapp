@@ -1,72 +1,44 @@
-- [Set Up](#set-up)
+- Set Up
+  - [Backend](./backend/README.md)
+  - [Frontend](./frontend/README.md)
 - [Project Overview](#project-overview)
-- [Data Model](#data-model)
-- [Logics](#logics)
-- [Features](#features)
-- [Road Map](#road-map)
+- [Technologies](#technologies)
+- [Definitions](#definitions)
 
-# 1. <a id="set-up">Set Up</a>
-## 1.1. Backend
-### 1.1.1 ENV variables
-Copy .env.example content to a new file '.env'
-### 1.1.2. Install
-```
-cd backend
-npm install
-```
-### 1.1.3. Start server
-```
-docker-compose up
-npm run console
-```
-## 1.2. Frontend
-### 1.2.1. ENV variables
-Follow instructions in https://hasura.io/docs/latest/graphql/core/guides/integrations/auth0-jwt/ to do the following:<br>
-Create user in Auth0.<br>
-Create a new app for development.<br>
-Copy the client ID and client secret to new file '.env.local':
-```
-REACT_APP_SECRET_HASURA=[client_secret]
-REACT_APP_AUTH0_DOMAIN=[auth0_domain_name]
-REACT_APP_AUTH0_CLIENT_ID=[client_id]
-```
-### 1.2.2. Install
-```
-cd frontend
-npm install
-```
-### 1.2.3. Start app
-```
-npm start
-```
-## 1.3. Test functionality
+# 1. <a id="project-overview">Project Overview</a>
 
-# 2. <a id="project-overview">Project Overview</a>
-A platform for creating agreements.<br>
-The platform lets a group of people create a document that reflects the issues they agree upon<br>
+A platform for creating agreements.  
+The platform lets a group of people create a document that reflects the issues they agree upon  
 and discuss the issues that are in disagreement.
 
-The platform allows any group of people at any scale to formulate a text<br>
-in a single, coherent and clear document in a transparent and democratic way.<br>
-The platform enables it through a new kind of Internet discussion.<br>
-Instead of spreading across countless responses,<br>
-the discussion converges around a collaborative and democratic document<br>
-by incorporating voting mechanisms with discussion tools.<br>
-This allows distinguishment between agreed upon and controversial issues,<br>
+The platform allows any group of people at any scale to formulate a text  
+in a single, coherent and clear document in a transparent and democratic way.  
+The platform enables it through a new kind of Internet discussion.  
+Instead of spreading across countless responses,  
+the discussion converges around a collaborative and democratic document  
+by incorporating voting mechanisms with discussion tools.  
+This allows distinguishment between agreed upon and controversial issues,  
 and the process has a clear product: a text that reflects the consent of the participants.
-## 2.1. <a id="technologies-overview"></a>Technologies
-### Frontend
+
+# 2. <a id="technologies">Technologies</a>
+
+## 2.2. Frontend
+
 - Framework - react
 - PWA Template
 - Components Library - MUI
-### Backend
+
+## 2.2. Backend
+
 - GraphQL API using Hasura in order to automate CRUD operations as much as possible.
 - Secondary Graphql API for non-CRUD operations (e.g. for querying the cardano blockchain).
 - The client isn’t going to be aware of this API, as it is going to extend the Hasura API using remote schemas.
 - Users are to be managed using some third party service (e.g. auth0)
 - Authentication - based on jwt flow
 - Cronjobs based actions and asynchronous operations are to be implemented using some serverless technology (e.g. AWS Lambda)
-## 2.2. <a id="definitions">Definitions</a>
+
+# 3. <a id="definitions">Definitions</a>
+
 Here you'll find terms and definitions for the app's structure and components.
 - __Group__: Every user signs up as part of a group, in which they can view, comment and vote on Agreements.
 - __Category__: A Group can have multiple Categories, which contain all the Agreements.

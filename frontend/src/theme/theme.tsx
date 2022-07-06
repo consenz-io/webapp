@@ -17,7 +17,7 @@ export const getDesignTokens: (mode: ThemeModeType) => ThemeOptions = (mode) => 
     },
   },
   palette: {
-    palletMode: mode,
+    paletteMode: mode,
     ...(mode === ThemeModeType.LIGHT
       ? {
         primary: {

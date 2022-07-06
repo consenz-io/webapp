@@ -1,10 +1,24 @@
-# Getting Started with Create React App
+- [Back to Main](../README.md)
+- [Set Up](#set-up)
+- [Scripts](#scripts)
+- [Folders](#folders)
+- [Variables](#variables)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 1. <a id="set-up">Set Up</a>
 
-## Available Scripts
+## 1.1. ENV variables
 
-In the project directory, you can run:
+Follow instructions in https://hasura.io/docs/latest/graphql/core/guides/integrations/auth0-jwt/ to do the following:<br>
+Create user in Auth0.<br>
+Create a new app for development.<br>
+Copy the client ID and client secret to new file '.env.local':
+```
+REACT_APP_SECRET_HASURA=[client_secret]
+REACT_APP_AUTH0_DOMAIN=[auth0_domain_name]
+REACT_APP_AUTH0_CLIENT_ID=[client_id]
+```
+
+# 2. <a id="scripts">Scripts</a>
 
 ### `npm start`
 
@@ -27,20 +41,42 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# 3. <a id="folders">Folders</a>
 
-### `npm run eject`
+## 4.1. Components
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Any component that can be used in a page should be in this folder.  
+The folder is divided into sub-folders by subject of components, as necessary.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 4.2. Pages
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Each screen has its own folder, with the page layout and style.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+# 3. <a id="variables">Variables</a>
 
-## Learn More
+## 3.1. Strings
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+All strings in the project are defined in the [strings](./src/strings/) folder, to allow easy compatibility with other languages.  
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### How to add a string to the app:
+- Add the name to [strings/bank.ts](./src/strings/bank.ts) (e.g. LOGIN_TAGLINE)
+- Add the definition to [strings/en.ts](./src/strings/en.ts) (e.g. LOGIN_TAGLINE: "Sign In To Start Agreeing!")
+- Add the definition to [strings/he.ts](./src/strings/he.ts) (optional)
+- In the component:
+```
+import { useTranslation } from "react-i18next";
+
+const {t} = useTranslation();
+```
+Use it in the returned content: 
+```
+{t(StringBank.LOGIN_TAGLINE)}
+```
+See example [pages/login/Login.tsx](./src/pages/login/Login.tsx)  
+
+## 3.2 Theme
+
+Theme variables are defined in [theme/theme.tsx](./src/theme/theme.tsx).  
+Styles that are defined in the theme:  
+__typography__  
+__palette__  
