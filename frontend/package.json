@@ -27,6 +27,8 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.5",
+    "stylis": "^4.1.1",
+    "stylis-plugin-rtl": "^1.1.0",
     "typescript": "^4.7.2",
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "^6.5.3",
@@ -80,7 +82,9 @@
         }
       ],
       "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": ["error"]
+      "@typescript-eslint/no-unused-vars": [
+        "error"
+      ]
     }
   },
   "browserslist": {
@@ -94,5 +98,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/stylis": "^4.0.2"
   }
 }
