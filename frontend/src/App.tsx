@@ -24,41 +24,48 @@ const App = () => {
       isRTL,
       mode,
       toggleColorMode: () => {
-        setMode(prevMode =>
+        setMode((prevMode) =>
           prevMode === ThemeModeType.LIGHT
             ? ThemeModeType.DARK
             : ThemeModeType.LIGHT
         );
       },
       toggleDirection: () => {
-        setIsRTL(prevMode => !prevMode);
+        setIsRTL((prevMode) => !prevMode);
       },
     }),
     [mode, isRTL]
   );
 
-  const theme = useMemo(() => createTheme(getDesignTokens(mode, isRTL)), [mode, isRTL]);
+  const theme = useMemo(
+    () => createTheme(getDesignTokens(mode, isRTL)),
+    [mode, isRTL]
+  );
 
   return (
-    <Auth0Provider
-      domain={AUTH0_DOMAIN}
-      clientId={AUTH0_CLIENT_ID}
-      redirectUri={window.location.origin}
-      cacheLocation="localstorage"
-      audience="hasura"
-    >
-      <DataProvider>
-        <ColorModeAndDirectionContext.Provider value={colorModeAndDirectionState}>
-          <MuiThemeProvider theme={theme}>
-            <StyledThemeProvider theme={theme}>
-              <AuthProvider>
-                <RoutesProvider />
-              </AuthProvider>
-            </StyledThemeProvider>
-          </MuiThemeProvider>
-        </ColorModeAndDirectionContext.Provider>
-      </DataProvider>
-    </Auth0Provider>
+    <div className="container">
+      <Auth0Provider
+        domain={AUTH0_DOMAIN}
+        clientId={AUTH0_CLIENT_ID}
+        redirectUri={window.location.origin}
+        cacheLocation="localstorage"
+        audience="hasura"
+      >
+        <DataProvider>
+          <ColorModeAndDirectionContext.Provider
+            value={colorModeAndDirectionState}
+          >
+            <MuiThemeProvider theme={theme}>
+              <StyledThemeProvider theme={theme}>
+                <AuthProvider>
+                  <RoutesProvider />
+                </AuthProvider>
+              </StyledThemeProvider>
+            </MuiThemeProvider>
+          </ColorModeAndDirectionContext.Provider>
+        </DataProvider>
+      </Auth0Provider>
+    </div>
   );
 };
 
