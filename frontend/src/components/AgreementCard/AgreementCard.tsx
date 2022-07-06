@@ -9,7 +9,7 @@ import {
   IconContainer,
   Tag,
   Icon,
-} from "./Agreemen.style";
+} from "./Agreement.style";
 
 function AgreementCard({
   tag,
