@@ -1,0 +1,66 @@
+main {
+  background-color: #333842;
+  display: flex;
+  flex-direction: column;
+}
+
+head {
+  order: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h3 {
+  order: 1;
+  padding: 0;
+  font-family: Lato;
+  font-size: 26px;
+  line-height: 0.85;
+  color: white;
+}
+
+#btn {
+  order: 2;
+}
+
+section {
+  order: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2rem;
+}
+
+img {
+  order: 1;
+  object-fit: contain;
+}
+
+.msg {
+  order: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Lato;
+  font-size: 32px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.27;
+}
+
+p {
+  height: min-content;
+  padding: 0;
+  margin: 0;
+  color: white;
+  font-weight: 600;
+}
+
+.btnRow {
+  order: 3;
+  margin-top: 2rem;
+}

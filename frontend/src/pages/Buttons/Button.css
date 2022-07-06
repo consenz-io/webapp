@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  background-color: yellow;
+  padding-left: 10px;
+}
+
+.col2 {
+  padding-left: 10px;
+}
