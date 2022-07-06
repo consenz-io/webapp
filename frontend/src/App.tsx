@@ -4,7 +4,7 @@ import "./App.css";
 import { DataProvider } from "store";
 import { RoutesProvider } from "./routing";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
-import { getDesignTokens, ColorModeContext } from "theme/theme";
+import { getDesignTokens, ColorModeAndDirectionContext } from "theme/theme";
 import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
@@ -17,22 +17,28 @@ const AUTH0_DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN || "domain";
 
 const App = () => {
   const [mode, setMode] = useState<ThemeModeType>(ThemeModeType.DARK);
+  const [isRTL, setIsRTL] = useState(false);
 
-  const colorModeState = useMemo(
+  const colorModeAndDirectionState = useMemo(
     () => ({
+      isRTL,
       mode,
       toggleColorMode: () => {
-        setMode((prevMode) =>
+        setMode(prevMode =>
           prevMode === ThemeModeType.LIGHT
             ? ThemeModeType.DARK
             : ThemeModeType.LIGHT
         );
       },
+      toggleDirection: () => {
+        setIsRTL(prevMode => !prevMode);
+      },
     }),
-    [mode]
+    [mode, isRTL]
   );
 
-  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  const theme = useMemo(() => createTheme(getDesignTokens(mode, isRTL)), [mode, isRTL]);
+
   return (
     <Auth0Provider
       domain={AUTH0_DOMAIN}
@@ -42,7 +48,7 @@ const App = () => {
       audience="hasura"
     >
       <DataProvider>
-        <ColorModeContext.Provider value={colorModeState}>
+        <ColorModeAndDirectionContext.Provider value={colorModeAndDirectionState}>
           <MuiThemeProvider theme={theme}>
             <StyledThemeProvider theme={theme}>
               <AuthProvider>
@@ -50,7 +56,7 @@ const App = () => {
               </AuthProvider>
             </StyledThemeProvider>
           </MuiThemeProvider>
-        </ColorModeContext.Provider>
+        </ColorModeAndDirectionContext.Provider>
       </DataProvider>
     </Auth0Provider>
   );
