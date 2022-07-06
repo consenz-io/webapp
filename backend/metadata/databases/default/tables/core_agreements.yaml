@@ -1,0 +1,7 @@
+table:
+  schema: core
+  name: agreements
+object_relationships:
+  - name: group
+    using:
+      foreign_key_constraint_on: group_id

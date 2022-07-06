@@ -1,3 +1,3 @@
+- "!include core_agreements.yaml"
 - "!include core_groups.yaml"
-- "!include core_preliminary_agreements.yaml"
 - "!include core_users.yaml"
