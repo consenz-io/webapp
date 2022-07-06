@@ -1,1 +1,1 @@
-export { getDesignTokens, ColorModeContext } from "./theme";
+export { getDesignTokens, ColorModeAndDirectionContext } from "./theme";

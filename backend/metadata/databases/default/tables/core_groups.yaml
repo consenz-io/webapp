@@ -1,3 +1,11 @@
 table:
   schema: core
   name: groups
+array_relationships:
+  - name: agreements
+    using:
+      foreign_key_constraint_on:
+        column: group_id
+        table:
+          schema: core
+          name: agreements
