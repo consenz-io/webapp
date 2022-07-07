@@ -35,7 +35,7 @@ export const MainDefaultBtn = styled(Button)`
   }
 `;
 
-export const SymbolBtn = styled(IconButton)`
+export const SymbolBtn = styled(Button)`
   && {
     display: flex;
     height: 2.57rem;
@@ -75,7 +75,7 @@ export const OutlinedBtn = styled(Button)`
   }
 `;
 
-export const OutlinedSymbolBtn = styled(IconButton)`
+export const OutlinedSymbolBtn = styled(Button)`
   && {
     width: 11.5rem;
     height: 2.57rem;
