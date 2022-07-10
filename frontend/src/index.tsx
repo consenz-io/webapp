@@ -4,11 +4,18 @@ import "./index.css";
 import "./utils/i18n";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import App from "App";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
+const queryClient = new QueryClient();
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <App />
+    </QueryClientProvider>
   </StrictMode>
 );
 
