@@ -1,14 +1,16 @@
-import {useContext} from "react";
-import {getGroupName} from "utils";
-import {DataContext} from "store";
+import {useEffect} from "react";
+import {useGetUser} from "hooks";
 
 const AllAgreements = () => {
-  const {globalUser} = useContext(DataContext);
-  const {groups, currentGroup} = globalUser;
+  const { data, isLoading, isSuccess, error  } = useGetUser("nadav@sofi.coop");
+
+  useEffect(() => {
+    console.log({data, isLoading, isSuccess, error});
+  },[data, isLoading, isSuccess, error]);
 
   return (
     <>
-      {`${getGroupName(currentGroup, groups)} Agreements`}
+      {/*{`${getGroupName(currentGroup, groups)} Agreements`}*/}
     </>
   );
 };
