@@ -22,13 +22,4 @@ select_permissions:
       filter:
         user_id:
           _eq: X-Hasura-User-Id
-  - role: public
-    permission:
-      columns:
-        - id
-        - created_at
-        - updated_at
-        - email
-        - user_id
-        - provider
-      filter: {}
+      allow_aggregations: true
