@@ -9,3 +9,26 @@ array_relationships:
         table:
           schema: core
           name: users_groups
+select_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - id
+        - email
+        - provider
+        - user_id
+        - created_at
+        - updated_at
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+  - role: public
+    permission:
+      columns:
+        - id
+        - created_at
+        - updated_at
+        - email
+        - user_id
+        - provider
+      filter: {}
