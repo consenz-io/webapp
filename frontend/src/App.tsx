@@ -1,23 +1,25 @@
 import { useMemo, useState } from "react";
-import { AuthProvider } from "./services";
+import { AuthProvider, RoutesProvider } from "./contexts";
 import "./App.css";
-import { DataProvider } from "store";
-import { RoutesProvider } from "./routing";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { getDesignTokens, ColorModeAndDirectionContext } from "theme/theme";
 import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles";
-import { ThemeModeType } from "types";
+import { ThemeModeType } from "types/misc";
 import { Auth0Provider } from "@auth0/auth0-react";
-
-const AUTH0_CLIENT_ID = process.env.REACT_APP_AUTH0_CLIENT_ID || "clientid";
-const AUTH0_DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN || "domain";
+import { apiUrl, auth0ClientId, auth0Domain } from "utils/constants";
+import { DataProvider } from "contexts/data";
 
 const App = () => {
   const [mode, setMode] = useState<ThemeModeType>(ThemeModeType.DARK);
   const [isRTL, setIsRTL] = useState(false);
+  const apolloClient = new ApolloClient({
+    uri: apiUrl,
+    cache: new InMemoryCache()    
+  });
 
   const colorModeAndDirectionState = useMemo(
     () => ({
@@ -45,25 +47,27 @@ const App = () => {
   return (
     <div className="container">
       <Auth0Provider
-        domain={AUTH0_DOMAIN}
-        clientId={AUTH0_CLIENT_ID}
+        domain={auth0Domain}
+        clientId={auth0ClientId}
         redirectUri={window.location.origin}
         cacheLocation="localstorage"
         audience="hasura"
       >
-        <DataProvider>
+        <ApolloProvider client={apolloClient}>
           <ColorModeAndDirectionContext.Provider
             value={colorModeAndDirectionState}
           >
             <MuiThemeProvider theme={theme}>
               <StyledThemeProvider theme={theme}>
                 <AuthProvider>
-                  <RoutesProvider />
+                  <DataProvider>
+                    <RoutesProvider />
+                  </DataProvider>
                 </AuthProvider>
               </StyledThemeProvider>
             </MuiThemeProvider>
           </ColorModeAndDirectionContext.Provider>
-        </DataProvider>
+        </ApolloProvider>
       </Auth0Provider>
     </div>
   );

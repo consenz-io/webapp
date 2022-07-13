@@ -1,4 +1,4 @@
-import { AgreementCardProps } from "../../services/types";
+import { AgreementCardProps } from "types";
 import {
   UpdatedAt,
   Participants,

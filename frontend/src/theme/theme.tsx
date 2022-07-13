@@ -1,4 +1,4 @@
-import { ThemeModeType } from "types";
+import { ThemeModeType } from "types/misc";
 import { createContext } from "react";
 import { ThemeOptions } from "@mui/material";
 
