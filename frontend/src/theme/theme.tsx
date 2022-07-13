@@ -7,14 +7,9 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
   typography: {
     fontFamily: "Lato, sans-serif",
     h1: {
-      fontFamily: "Lato",
       fontSize: "2rem",
       fontWeight: "bold",
-      fontStretch: "normal",
-      fontStyle: "normal",
-      lineHeight: 1.27,
-      letterSpacing: "normal",
-      textAlign: "center",
+      color: mode === ThemeModeType.LIGHT ? "black" : "white",
     },
   },
   palette: {

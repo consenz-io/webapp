@@ -7,4 +7,5 @@ export const Wrapper = styled.div`
     margin-right: ${props => props.theme.direction === "rtl" ? "15rem" : "auto"};
   }
   padding: 0rem 1rem;
+  height: 100vh;
 `;

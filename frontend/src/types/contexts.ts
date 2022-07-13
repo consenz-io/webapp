@@ -10,5 +10,5 @@ export interface IDataContext {
 }
 
 export interface IRoutingContext {
-  navigateToHome: () => void;
+  navigateToWelcome: () => void;
 }
