@@ -16,3 +16,16 @@ array_relationships:
         table:
           schema: core
           name: users_groups
+select_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - id
+        - name
+        - slug
+        - created_at
+      filter:
+        group_users:
+          user:
+            user_id:
+              _eq: X-Hasura-User-Id
