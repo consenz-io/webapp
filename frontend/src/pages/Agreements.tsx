@@ -1,4 +1,4 @@
-import AgreementCard from "../../components/AgreementCard/AgreementCard";
+import AgreementCard from "../components/AgreementCard/AgreementCard";
 import ArticleIcon from "@mui/icons-material/Article";
 function Agreements() {
   return (

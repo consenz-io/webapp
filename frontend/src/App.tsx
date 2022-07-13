@@ -26,6 +26,7 @@ const App = () => {
       isRTL,
       mode,
       toggleColorMode: () => {
+        console.info("toggle");
         setMode((prevMode) =>
           prevMode === ThemeModeType.LIGHT
             ? ThemeModeType.DARK

@@ -5,9 +5,7 @@ import {
   OutlinedSymbolBtn,
   TextBtn,
   IconBtn,
-} from "../../components/styles/Button.styles";
-
-import "./Button.css";
+} from "../components/styles/Button.styles";
 
 import AddIcon from "@mui/icons-material/Add";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
