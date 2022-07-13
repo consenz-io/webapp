@@ -1,7 +1,7 @@
 import { gql, useApolloClient } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createContext, useContext, useState } from "react";
-import { IDataContext, IFCProps, IUser } from "types";
+import { IDataContext, IFCProps, IUser, IGroup } from "types";
 import { AuthContext } from "./auth";
 
 const DataContext = createContext<IDataContext>({});
@@ -36,7 +36,12 @@ const DataProvider = ({ children }: IFCProps) => {
         }
       }
     }).then(({data}) => {
-      setUser(data.core_users[0]);
+      const user = data.core_users[0];
+      setUser({
+        id: user.id,
+        email: user.email,
+        groups: user.user_groups.map(({group}: {group:IGroup}) => group)
+      });
     });
   }
   const state: IDataContext = {
