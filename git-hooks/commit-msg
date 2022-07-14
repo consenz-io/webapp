@@ -1,0 +1,2 @@
+#!/bin/sh
+./frontend/npx --no -- commitlint --edit "\${1}"
