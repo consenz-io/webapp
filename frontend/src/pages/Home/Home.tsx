@@ -11,7 +11,9 @@ import { SidebarController } from "components";
 import { useOutletContext } from "react-router-dom";
 import { IOutletContext } from "types";
 import { useResponsive } from "hooks";
+import { useTranslation } from "react-i18next";
 import { useAuth0 } from "@auth0/auth0-react";
+import { StringBank } from "strings";
 
 const Home = () => {
   const { isMobile } = useResponsive();
@@ -20,6 +22,7 @@ const Home = () => {
     useAuth0();
   const theme = useTheme();
   const { toggleColorMode, mode, toggleDirection, isRTL } = useContext(ColorModeAndDirectionContext);
+  const { t } = useTranslation();
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
@@ -53,7 +56,7 @@ const Home = () => {
           logout({ returnTo: window.location.origin });
         }}
       >
-        log out
+        {t(StringBank.LOGOUT_BUTTON)}
       </button>
       <Button variant="contained">Contained</Button>
       {isMobile && (
