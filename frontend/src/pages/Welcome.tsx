@@ -10,8 +10,11 @@ import { StringBank } from "strings";
 
 export const Welcome: FC = () => {
   const {t} = useTranslation();
-  const { user } = useAuth0();
+  const { user, loginWithRedirect } = useAuth0();
   const {logout} = useContext(AuthContext);
+  if (!user) {
+    loginWithRedirect();
+  }
   return (
     <Page>
       <Stack flexGrow={1}>
@@ -22,8 +25,8 @@ export const Welcome: FC = () => {
           <DropDownMenu
             isBorderHidden
             name='user'
-            menuItems={[{text: "log out", color: "#ed4fae", action: logout}]}
-            buttonText={user?.given_name || ""}
+            menuItems={[{text: t(StringBank.LOGOUT), color: "#ed4fae", action: logout}]}
+            buttonText={user?.given_name || user?.nickname || ""}
             btnCapital={user?.nickname?.charAt(0)}
             endIcon={<KeyboardArrowDown/>} />
         </Stack>

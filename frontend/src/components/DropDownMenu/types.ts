@@ -1,6 +1,6 @@
 import * as React from "react";
 
-type MenuItem = {
+export type MenuItem = {
     text: string,
     color: string,
     action?: () => void,

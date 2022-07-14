@@ -1,6 +1,6 @@
 import * as SC from "./style";
 import React, {FC, useState} from "react";
-import { IFCProps } from "./types";
+import { IFCProps, MenuItem } from "./types";
 import CircleIcon from "@mui/icons-material/Circle";
 
 const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnCapital, isBorderHidden }) => {
@@ -15,8 +15,9 @@ const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnC
     setAnchorEl(null);
   };
 
-  const handleMenuItemOnClick = (e: React.MouseEvent<HTMLElement>) => {
-    return e;
+  const handleMenuItemOnClick = (menuItem: MenuItem) => {
+    menuItem.action?.();
+    handleClose();
   };
   return <>
     <SC.DropDownMenuButton
@@ -52,7 +53,7 @@ const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnC
       {menuItems.map((menuItem, i) => {
         return <SC.DropDownMenuItem
           key={i}
-          onClick={handleMenuItemOnClick}
+          onClick={_ => handleMenuItemOnClick(menuItem)}
         >
           <CircleIcon style={{fill: menuItem.color, marginRight: ".5rem", marginLeft: "-.25rem"}} />
           {menuItem.text}
