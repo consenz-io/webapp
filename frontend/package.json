@@ -43,7 +43,7 @@
     "workbox-streams": "^6.5.3"
   },
   "scripts": {
-    "prepare": "git config --replace-all core.hooksPath ../git-hooks && chmod +x ../git-hooks/pre-commit && chmod +x ../git-hooks/commit-msg",
+    "prepare": "cd .. && git config --replace-all core.hooksPath git-hooks && chmod +x git-hooks/pre-commit && chmod +x git-hooks/commit-msg",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
