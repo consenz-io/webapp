@@ -18,13 +18,13 @@ function AllAgreements() {
 
   return (
     <main>
-      <head>
+      <header>
         <SC.UserAgreements>{`${getGroupNameBySlug(groupSlug || "")}'s Agreements`}</SC.UserAgreements>
         <SymbolBtn id="btn">
           <AddIcon />
           {t(StringBank.NEW_AGREEMENT)}
         </SymbolBtn>
-      </head>
+      </header>
       <section>
         <img src={img} alt="" />
         <div className="msg">
