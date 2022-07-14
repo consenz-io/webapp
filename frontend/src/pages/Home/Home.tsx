@@ -26,10 +26,10 @@ const Home = () => {
   const {groups} = globalUser;
 
   useEffect(() => {
-    if (groups.length > 100) {
+    if (groups.length > 0) {
       navigate(`/${groups[0].slug}/all-agreements`);
     }
-  }, []);
+  }, [groups]);
 
   getAccessTokenSilently()
     .then((token) => authContext?.setJwt(token))
