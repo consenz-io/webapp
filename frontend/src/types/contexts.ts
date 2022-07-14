@@ -6,9 +6,10 @@ export interface IAuthContext {
 }
 
 export interface IDataContext {
-  user?: IUser;
+  user?: IUser | null;
 }
 
 export interface IRoutingContext {
-  navigateToWelcome: () => void;
+  navigateToWelcome: () => void,
+  navigateToAllAgreements: (groupSlug: string | undefined) => void,
 }

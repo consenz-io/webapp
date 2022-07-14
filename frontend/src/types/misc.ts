@@ -16,7 +16,7 @@ export interface IOutletContext {
 export interface IUser {
   id: number;
   email: string;
-  groups: IGroup[];
+  groups?: IGroup[];
 }
 
 export interface IGroup {
