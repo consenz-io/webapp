@@ -3,7 +3,7 @@ import React, {FC, useState} from "react";
 import { IFCProps } from "./types";
 import CircleIcon from "@mui/icons-material/Circle";
 
-const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnCapital }) => {
+const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnCapital, isBorderHidden }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -18,7 +18,6 @@ const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnC
   const handleMenuItemOnClick = (e: React.MouseEvent<HTMLElement>) => {
     return e;
   };
-
   return <>
     <SC.DropDownMenuButton
       id={`${name}-button`}
@@ -28,6 +27,7 @@ const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnC
       onClick={handleClick}
       endIcon={endIcon}
       isUser={!!btnCapital}
+      isBorderHidden={isBorderHidden}
     >
       {btnCapital &&
         <SC.BtnCapital className="capital">{btnCapital}</SC.BtnCapital>
@@ -43,6 +43,7 @@ const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnC
       MenuListProps={{
         "aria-labelledby": `${name}-button`,
       }}
+      anchorEl={anchorEl}
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "left",

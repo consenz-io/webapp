@@ -9,10 +9,12 @@ export const DropDownMenuButton = styled(Button)`
     font-size: 0.875rem;
     color: ${props => props.theme.palette.text.primary};
     padding: .68rem 1rem;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
+    ${props => !props.isBorderHidden && `
+      border-bottom: 1px solid;
+      border-top: 1px solid;
+    `}
     border-color: ${props => props.theme.palette.background.border};
-    border-radius: 0;
+    border-radius: ${props => props.isBorderHidden ? "4px" : "0"};
     text-transform: none;
 
     ${props => props.isUser && `
