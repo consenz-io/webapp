@@ -1,7 +1,7 @@
 import * as React from "react";
 
 type MenuItem = {
-    text: string,
+    name: string,
     color: string,
     slug: string
 }

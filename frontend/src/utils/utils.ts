@@ -9,5 +9,5 @@ import {IgetGroupName} from "./types";
  * @return string
  */
 export const getGroupName: IgetGroupName = (index, groups) => {
-  return groups[index]?.text;
+  return groups[index]?.name;
 };

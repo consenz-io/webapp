@@ -53,7 +53,7 @@ const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnC
           <SC.Link key={i} to={`/${menuItem.slug}/all-agreements`} onClick={handleClose}>
             <SC.DropDownMenuItem value={menuItem.slug}>
               <CircleIcon style={{fill: menuItem.color, marginRight: ".5rem", marginLeft: "-.25rem"}} />
-              {menuItem.text}
+              {menuItem.name}
             </SC.DropDownMenuItem>
           </SC.Link>
         );

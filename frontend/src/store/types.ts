@@ -1,13 +1,9 @@
+import { Group } from "utils/types";
+
 export type User = {
   name: string,
   groups: Group[],
   currentGroup: number
-}
-
-type Group = {
-  slug: string,
-  text: string,
-  color: string,
 }
 
 export interface IDataContext {

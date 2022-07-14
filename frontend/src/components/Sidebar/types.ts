@@ -4,7 +4,7 @@ export interface IFCProps {
 }
 
 export interface IMenuItems {
-    text: string,
+    name: string,
     color: string,
     slug: string
 }

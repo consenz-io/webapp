@@ -1,21 +1,10 @@
 import React, {FC, useState} from "react";
 import { IFCProps } from "./types";
 import * as SC from "./style";
-
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-// import ListItemText from "@mui/material/ListItemText";
-// import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import {useNavigate} from "react-router-dom";
-// import {DropDownMenuItem} from "./style";
-
-// const options = [
-//   "Show some love to MUI",
-//   "Show all notification content",
-//   "Hide sensitive notification content",
-//   "Hide all notification content",
-// ];
 
 const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnCapital }) => {
   // const {globalUser} = useContext(DataContext);
@@ -78,7 +67,7 @@ const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnC
           selected={index === selectedIndex}
           onClick={(event) => handleMenuItemClick(event, index, menuItem.slug)}
         >
-          {menuItem.text}
+          {menuItem.name}
         </SC.DropDownMenuItem>
       ))}
     </Menu>

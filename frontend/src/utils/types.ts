@@ -1,6 +1,6 @@
-type Group = {
+export type Group = {
+  name: string;
   slug: string,
-  text: string,
   color: string,
 }
 

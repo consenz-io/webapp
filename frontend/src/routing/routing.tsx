@@ -6,7 +6,7 @@ import {SidebarLayout} from "components";
 import {LOGIN_ROUTE, HOME_ROUTE} from "consts";
 import {useAuth0} from "@auth0/auth0-react";
 import {DataContext} from "store";
-import {USER_GROUPS} from "consts";
+import {useUser} from "../hooks";
 // const LOGIN_ROUTE = `https://soficoop.eu.auth0.com/authorize?
 // response_type=token&
 // client_id=MITeFpxQlcYimynTQYYUfcMPeFqSOCiZ&
@@ -30,22 +30,22 @@ const RoutingProvider :FC<IFCProps> = ({ children }) => {
 
 const RoutesProvider = () => {
   const { user } = useAuth0();
-  const {setGlobalUserData, globalUser} = useContext(DataContext);
+  const { groups } = useUser();
+  const {setGlobalUserData} = useContext(DataContext);
 
   useEffect(()=> {
     if (user) {
       const name: string = user.given_name || user.nickname || "";
-      console.log({name});
-      if (setGlobalUserData) {
+
+      if (setGlobalUserData) { //TODO @aviran: how to ts define setGlobalUserData to make it more  it's not elegant?
         setGlobalUserData({
           name,
-          groups: USER_GROUPS,
+          groups,
           currentGroup: 0
         });
-        console.log({globalUser});
       }
     }
-  },[user]);
+  },[user, groups]);
 
   return (
     <BrowserRouter>
