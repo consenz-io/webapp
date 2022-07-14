@@ -5,13 +5,21 @@ import img from "../../assets/Group_120.png";
 import * as SC from "./AllAgreements.style";
 import { useTranslation } from "react-i18next";
 import { StringBank } from "../../strings";
+import {useParams} from "react-router-dom";
+import {useContext} from "react";
+import {DataContext} from "../../contexts/data";
 
 function AllAgreements() {
   const {t} = useTranslation();
+  const {groupSlug} = useParams();
+  const {user} = useContext(DataContext);
+
+  const getGroupNameBySlug = (slug: string) => user?.groups?.find(group => group.slug === slug)?.name;
+
   return (
     <main>
       <head>
-        <SC.UserAgreements>Soficoop's Agreements</SC.UserAgreements>
+        <SC.UserAgreements>{`${getGroupNameBySlug(groupSlug || "")}'s Agreements`}</SC.UserAgreements>
         <SymbolBtn id="btn">
           <AddIcon />
           {t(StringBank.NEW_AGREEMENT)}
