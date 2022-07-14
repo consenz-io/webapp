@@ -1,7 +1,7 @@
 import { createContext, FC } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { IFCProps, IRoutingContext } from "types";
-import { Home, Page404, Buttons, AllAgreements, Agreements, Welcome } from "pages";
+import { Home, Page404, Buttons, AllAgreements, Agreement, Welcome } from "pages";
 import { SidebarLayout } from "components";
 
 const BUTTONS_ROUTE = "/buttons";
@@ -37,7 +37,7 @@ const RoutesProvider = () => {
             <Route path={`${HOME_ROUTE}/:groupSlug/all-agreements`} element={<AllAgreements />} />
           </Route>
           <Route path={HOME_ROUTE} element={<Home />} />
-          <Route path={`${HOME_ROUTE}/:agreementSlug/agreement`} element={<Agreements />} />
+          <Route path={`${HOME_ROUTE}/:agreementSlug/agreement`} element={<Agreement />} />
           <Route path={BUTTONS_ROUTE} element={<Buttons />} />
           <Route path={WELCOME_ROUTE} element={<Welcome />} />
           <Route path="*" element={<Page404 />} />
