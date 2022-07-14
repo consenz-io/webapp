@@ -2,6 +2,7 @@ import * as SC from "./style";
 import React, {FC, useState} from "react";
 import { IFCProps, MenuItem } from "./types";
 import CircleIcon from "@mui/icons-material/Circle";
+import { capitalize } from "utils/functions";
 
 const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnCapital, isBorderHidden }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -34,7 +35,7 @@ const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnC
         <SC.BtnCapital className="capital">{btnCapital}</SC.BtnCapital>
       }
 
-      {buttonText}
+      {!!btnCapital ? capitalize(buttonText) : buttonText}
     </SC.DropDownMenuButton>
 
     <SC.DropDownMenu

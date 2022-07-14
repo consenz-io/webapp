@@ -10,11 +10,9 @@ import { StringBank } from "strings";
 
 export const Welcome: FC = () => {
   const {t} = useTranslation();
-  const { user, loginWithRedirect } = useAuth0();
+  const {user} = useAuth0();
   const {logout} = useContext(AuthContext);
-  if (!user) {
-    loginWithRedirect();
-  }
+
   return (
     <Page>
       <Stack flexGrow={1}>
