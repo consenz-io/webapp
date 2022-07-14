@@ -1,2 +1,2 @@
 #!/bin/sh
-./frontend/npx --no -- commitlint --edit "\${1}"
+cd frontend && npx --no -- commitlint --edit "\${1}"
