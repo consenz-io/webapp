@@ -4,14 +4,20 @@ import { CircularProgress, Stack } from "@mui/material";
 import { RoutingContext } from "contexts";
 import { DataContext } from "contexts/data";
 
-const Home = () => {  
+const Home = () => {
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const {user} = useContext(DataContext);
-  const {navigateToWelcome} = useContext(RoutingContext);
+  const {navigateToWelcome, navigateToAllAgreements} = useContext(RoutingContext);
 
-  if (user && !user.groups.length) {
-    navigateToWelcome();
-  }
+  useEffect(() => {
+    if (user) {
+      if (user.groups?.length) {
+        navigateToAllAgreements(user.groups?.[0].slug);
+      } else {
+        navigateToWelcome();
+      }
+    }
+  }, [user]);
 
   useEffect(() => {
     document.dir = isRTL ? "rtl" : "ltr";

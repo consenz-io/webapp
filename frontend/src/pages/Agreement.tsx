@@ -1,6 +1,6 @@
 import AgreementCard from "../components/AgreementCard/AgreementCard";
 import ArticleIcon from "@mui/icons-material/Article";
-function Agreements() {
+function Agreement() {
   return (
     <>
       <link rel="icon" href={`%PUBLIC_URL%/assets/icons8-document-100.png`} />
@@ -16,4 +16,4 @@ function Agreements() {
   );
 }
 
-export default Agreements;
+export default Agreement;

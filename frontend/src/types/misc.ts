@@ -16,13 +16,15 @@ export interface IOutletContext {
 export interface IUser {
   id: number;
   email: string;
-  groups: IGroup[];
+  groups?: IGroup[] | null;
+  displayName?: string;
 }
 
 export interface IGroup {
   id: number;
   name: string;
   slug: string;
+  color: string;
 }
 
 export type AgreementCardProps = {

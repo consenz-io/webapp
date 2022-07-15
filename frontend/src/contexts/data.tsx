@@ -40,7 +40,8 @@ const DataProvider = ({ children }: IFCProps) => {
       setUser({
         id: user.id,
         email: user.email,
-        groups: user.user_groups.map(({group}: {group:IGroup}) => group)
+        groups: user.user_groups.map(({group}: {group:IGroup}) => group),
+        displayName: userAuth0?.given_name || userAuth0?.nickname
       });
     });
   }
@@ -53,5 +54,5 @@ const DataProvider = ({ children }: IFCProps) => {
     </DataContext.Provider>
   );
 };
-  
+
 export { DataProvider, DataContext};
