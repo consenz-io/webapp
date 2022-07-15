@@ -6,11 +6,37 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
   return {
     direction: isRTL ? "rtl" : "ltr",
     typography: {
-      fontFamily: "Lato, sans-serif",
+      fontFamily: "Lato, Assistant, sans-serif",
       h1: {
         fontSize: "2rem",
         fontWeight: "bold",
       },
+    },
+    components: {
+      MuiButton: {
+        defaultProps: {
+          disableElevation: true,
+        },
+        styleOverrides: {
+          root: {
+            borderRadius: 8,
+            color: "#fff",
+            textTransform: "capitalize",
+            fontWeight: "bold",
+            padding: "8px 16px",
+            ":hover": {
+              background: "#686d73",
+            },
+          },
+          contained: {
+            background: "#3f4550",
+          },
+          startIcon: {
+            marginInlineStart: "-4px",
+            marginInlineEnd: "8px",
+          }
+        }
+      }
     },
     palette: {
       mode,

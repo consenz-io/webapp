@@ -1,5 +1,4 @@
 import "./AllAgreements.css";
-import { SymbolBtn } from "../../components/styles/Button.styles";
 import AddIcon from "@mui/icons-material/Add";
 import img from "../../assets/Group_120.png";
 import * as SC from "./AllAgreements.style";
@@ -8,7 +7,7 @@ import { StringBank } from "../../strings";
 import {useParams} from "react-router-dom";
 import {useContext} from "react";
 import {DataContext} from "../../contexts/data";
-import { Container, Stack } from "@mui/material";
+import { Button, Container, Stack } from "@mui/material";
 
 function AllAgreements() {
   const {t} = useTranslation();
@@ -21,10 +20,9 @@ function AllAgreements() {
     <Container>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between">
         <SC.UserAgreements>{`${getGroupNameBySlug(groupSlug || "")}'s Agreements`}</SC.UserAgreements> {/* TODO @aviran translation could be tricky here */}
-        <SymbolBtn id="btn">
-          <AddIcon />
+        <Button variant="contained" startIcon={<AddIcon/>}>
           {t(StringBank.NEW_AGREEMENT)}
-        </SymbolBtn>
+        </Button>
       </Stack>
       <section>
         <img src={img} alt="" />
@@ -32,10 +30,9 @@ function AllAgreements() {
           <p>{t(StringBank.CREATE_FIRST_AGREEMENT)}</p>
         </div>
         <div className="btnRow">
-          <SymbolBtn>
-            <AddIcon />
+          <Button variant="contained" startIcon={<AddIcon/>}>
             {t(StringBank.NEW_AGREEMENT)}
-          </SymbolBtn>
+          </Button>
         </div>
       </section>
     </Container>
