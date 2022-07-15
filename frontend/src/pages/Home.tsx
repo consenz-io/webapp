@@ -17,7 +17,7 @@ const Home = () => {
         navigateToWelcome();
       }
     }
-  }, [user]);
+  }, [navigateToAllAgreements, navigateToWelcome, user]);
 
   useEffect(() => {
     document.dir = isRTL ? "rtl" : "ltr";

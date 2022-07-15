@@ -29,7 +29,7 @@ const GroupsNav: FC<IFCProps> = ({ name, menuItems, endIcon }) => {
         setCurrentGroupName(group.name);
       }
     }
-  }, [user]);
+  }, [groupSlug, user]);
 
   return <>
     <SC.DropDownMenuButton
