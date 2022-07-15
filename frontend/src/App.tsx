@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AuthProvider, RoutesProvider } from "./contexts";
 import "./App.css";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
@@ -12,14 +12,37 @@ import { ThemeModeType } from "types/misc";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { apiUrl, auth0ClientId, auth0Domain } from "utils/constants";
 import { DataProvider } from "contexts/data";
+import { useTranslation } from "react-i18next";
 
 const App = () => {
   const [mode, setMode] = useState<ThemeModeType>(ThemeModeType.DARK);
   const [isRTL, setIsRTL] = useState(false);
+  const { i18n } = useTranslation();
+  
   const apolloClient = new ApolloClient({
     uri: apiUrl,
     cache: new InMemoryCache()    
   });
+  
+  const toggleLanguage = useCallback((e: globalThis.KeyboardEvent) => {
+    if (e.key === "`") {
+      if (i18n.language === "en") {
+        i18n.changeLanguage("he");
+        setIsRTL(true);
+      } else {
+        setIsRTL(false);
+        i18n.changeLanguage("en");
+      }
+    }
+  },[i18n]);
+
+  useEffect(() => {
+    window.addEventListener("keydown", toggleLanguage);
+
+    return () => {
+      window.removeEventListener("keydown", toggleLanguage);
+    };
+  }, [toggleLanguage]);
 
   const colorModeAndDirectionState = useMemo(
     () => ({
