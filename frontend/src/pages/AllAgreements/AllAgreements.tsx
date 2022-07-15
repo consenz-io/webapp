@@ -19,7 +19,7 @@ function AllAgreements() {
   return (
     <main>
       <header>
-        <SC.UserAgreements>{`${getGroupNameBySlug(groupSlug || "")}'s Agreements`}</SC.UserAgreements> //TODO @aviran translation could be tricky here
+        <SC.UserAgreements>{`${getGroupNameBySlug(groupSlug || "")}'s Agreements`}</SC.UserAgreements> {/* TODO @aviran translation could be tricky here */}
         <SymbolBtn id="btn">
           <AddIcon />
           {t(StringBank.NEW_AGREEMENT)}
