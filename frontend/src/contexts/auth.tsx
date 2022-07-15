@@ -19,7 +19,6 @@ const AuthProvider = ({ children }: IFCProps) => {
   function logout(): void {
     setJwt(undefined);
     logoutAuth0({ returnTo: window.location.origin });
-    loginWithRedirect();
   }
 
   const authContextState: IAuthContext = {

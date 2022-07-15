@@ -46,10 +46,6 @@ const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnC
         "aria-labelledby": `${name}-button`,
       }}
       anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
-      }}
     >
       {menuItems.map((menuItem, i) => {
         return <SC.DropDownMenuItem

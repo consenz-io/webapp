@@ -1,6 +1,6 @@
 export enum ThemeModeType {
-  DARK = "DARK",
-  LIGHT = "LIGHT",
+  DARK = "dark",
+  LIGHT = "light",
 }
 
 export type IFCProps = {

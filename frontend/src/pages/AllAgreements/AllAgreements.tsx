@@ -8,6 +8,7 @@ import { StringBank } from "../../strings";
 import {useParams} from "react-router-dom";
 import {useContext} from "react";
 import {DataContext} from "../../contexts/data";
+import { Container, Stack } from "@mui/material";
 
 function AllAgreements() {
   const {t} = useTranslation();
@@ -17,14 +18,14 @@ function AllAgreements() {
   const getGroupNameBySlug = (slug: string) => user?.groups?.find(group => group.slug === slug)?.name;
 
   return (
-    <main>
-      <header>
+    <Container>
+      <Stack flexDirection="row" alignItems="center" justifyContent="space-between">
         <SC.UserAgreements>{`${getGroupNameBySlug(groupSlug || "")}'s Agreements`}</SC.UserAgreements> {/* TODO @aviran translation could be tricky here */}
         <SymbolBtn id="btn">
           <AddIcon />
           {t(StringBank.NEW_AGREEMENT)}
         </SymbolBtn>
-      </header>
+      </Stack>
       <section>
         <img src={img} alt="" />
         <div className="msg">
@@ -37,7 +38,7 @@ function AllAgreements() {
           </SymbolBtn>
         </div>
       </section>
-    </main>
+    </Container>
   );
 }
 
