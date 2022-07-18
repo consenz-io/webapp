@@ -8,4 +8,5 @@ export const he: Partial<Record<StringBank, string>> = {
   
   ותהנו!`,
   NEW_AGREEMENT: "הסכם חדש",
+  LOGOUT: "יציאה",
 };
