@@ -9,6 +9,13 @@ array_relationships:
         table:
           schema: core
           name: agreements
+  - name: categories
+    using:
+      foreign_key_constraint_on:
+        column: group_id
+        table:
+          schema: core
+          name: categories
   - name: group_users
     using:
       foreign_key_constraint_on:

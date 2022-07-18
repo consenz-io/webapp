@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
+import styled from 'styled-components';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 
 export const FooterButton = styled(Button)`
   display: flex;
@@ -37,16 +37,11 @@ export const MainDefaultBtn = styled(Button)`
 
 export const SymbolBtn = styled(Button)`
   && {
-    display: flex;
-    height: 2.57rem;
-    width: 11.5rem;
     border-radius: 8px;
-    padding: 0.6rem 0.5rem;
+    padding: 8px 16px;
     background-color: #3f4550;
     text-transform: capitalize;
     color: white;
-    font-family: Lato;
-    font-size: 14px;
     font-weight: 600;
     &:hover {
       background-color: #686d73;

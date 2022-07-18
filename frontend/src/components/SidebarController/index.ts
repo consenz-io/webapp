@@ -1,1 +1,1 @@
-export { default } from "./SidebarController";
+export { default } from './SidebarController';

@@ -1,6 +1,6 @@
 export enum ThemeModeType {
-  DARK = "DARK",
-  LIGHT = "LIGHT",
+  DARK = 'dark',
+  LIGHT = 'light',
 }
 
 export type IFCProps = {
@@ -9,20 +9,22 @@ export type IFCProps = {
 
 export interface IOutletContext {
   sidebar: {
-      handleSidebarToggle: () => void,
-  }
+    handleSidebarToggle: () => void;
+  };
 }
 
 export interface IUser {
   id: number;
   email: string;
-  groups: IGroup[];
+  groups?: IGroup[] | null;
+  displayName?: string;
 }
 
 export interface IGroup {
   id: number;
   name: string;
   slug: string;
+  color: string;
 }
 
 export type AgreementCardProps = {

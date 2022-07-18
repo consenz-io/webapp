@@ -1,5 +1,3 @@
-import  DropDownMenuButton from "./DropDownMenuButton";
+import DropDownMenuButton from './DropDownMenuButton';
 
-export {
-  DropDownMenuButton
-};
+export { DropDownMenuButton };

@@ -1,4 +1,4 @@
-import { AgreementCardProps } from "types";
+import { AgreementCardProps } from 'types';
 import {
   UpdatedAt,
   Participants,
@@ -9,15 +9,9 @@ import {
   IconContainer,
   Tag,
   Icon,
-} from "./Agreement.style";
+} from './Agreement.style';
 
-function AgreementCard({
-  tag,
-  title,
-  updatedAt,
-  participants,
-  icon,
-}: AgreementCardProps) {
+function AgreementCard({ tag, title, updatedAt, participants, icon }: AgreementCardProps) {
   return (
     <CardEl variant="outlined">
       <Header>

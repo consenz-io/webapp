@@ -2,6 +2,9 @@ table:
   schema: core
   name: agreements
 object_relationships:
+  - name: category
+    using:
+      foreign_key_constraint_on: category_id
   - name: group
     using:
       foreign_key_constraint_on: group_id

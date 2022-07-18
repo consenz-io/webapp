@@ -1,15 +1,16 @@
-import * as React from "react";
+import * as React from 'react';
 
-type MenuItem = {
-    text: string,
-    color: string,
-}
+export type MenuItem = {
+  text: string;
+  color: string;
+  action?: () => void;
+};
 
 export interface IFCProps {
-    name: string,
-    buttonText: string
-    menuItems: MenuItem[],
-    endIcon: React.ReactNode,
-    btnCapital?: string,
+  name: string;
+  buttonText: string;
+  menuItems: MenuItem[];
+  endIcon: React.ReactNode;
+  btnCapital?: string;
+  isBorderHidden?: boolean;
 }
-//TODO AVIRAN: Weird ts error in this file, what's the cause?

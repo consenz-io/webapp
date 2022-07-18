@@ -1,3 +1,3 @@
 export interface IWindowWidth {
-    width: undefined | number;
+  width: undefined | number;
 }

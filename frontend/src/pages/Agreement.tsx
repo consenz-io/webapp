@@ -1,6 +1,6 @@
-import AgreementCard from "../components/AgreementCard/AgreementCard";
-import ArticleIcon from "@mui/icons-material/Article";
-function Agreements() {
+import AgreementCard from '../components/AgreementCard/AgreementCard';
+import ArticleIcon from '@mui/icons-material/Article';
+function Agreement() {
   return (
     <>
       <link rel="icon" href={`%PUBLIC_URL%/assets/icons8-document-100.png`} />
@@ -10,10 +10,10 @@ function Agreements() {
         title="Agreement title"
         updatedAt={new Date().toLocaleDateString()}
         participants="16 Participants"
-        icon={<ArticleIcon sx={{ fontSize: "4rem" }} />}
+        icon={<ArticleIcon sx={{ fontSize: '4rem' }} />}
       ></AgreementCard>
     </>
   );
 }
 
-export default Agreements;
+export default Agreement;
