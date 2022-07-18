@@ -14,6 +14,10 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         fontSize: '2rem',
         fontWeight: 'bold',
       },
+      h2: {
+        fontSize: '1.625rem',
+        fontWeight: 600,
+      },
     },
     components: {
       MuiButton: {

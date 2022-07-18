@@ -6,6 +6,6 @@ export const Wrapper = styled.div`
     margin-left: ${(props) => (props.theme.direction === 'rtl' ? 'auto' : '15rem')};
     margin-right: ${(props) => (props.theme.direction === 'rtl' ? '15rem' : 'auto')};
   }
-  padding: 0rem 1rem;
+  padding: 1rem;
   height: 100vh;
 `;

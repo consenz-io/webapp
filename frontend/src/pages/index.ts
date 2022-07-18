@@ -1,7 +1,7 @@
 import Page404 from './Page404';
 import Home from './Home';
 import Buttons from './Buttons';
-import AllAgreements from './AllAgreements/AllAgreements';
+import AllAgreements from './AllAgreements';
 import Agreement from './Agreement';
 import { Welcome } from './Welcome';
 
