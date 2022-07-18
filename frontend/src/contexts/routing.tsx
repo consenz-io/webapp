@@ -25,7 +25,7 @@ const RoutingProvider: FC<IFCProps> = ({ children }) => {
   return <RoutingContext.Provider value={routingState}>{children}</RoutingContext.Provider>;
 };
 
-const RoutesProvider = () => {
+const RoutesProvider: FC = () => {
   return (
     <BrowserRouter>
       <RoutingProvider>
