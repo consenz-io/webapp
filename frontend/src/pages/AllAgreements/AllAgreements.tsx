@@ -19,7 +19,7 @@ function AllAgreements() {
   return (
     <Container>
       <Stack flexDirection="row" alignItems="center" justifyContent="space-between">
-        <SC.UserAgreements>{`${getGroupNameBySlug(groupSlug || "")}'s Agreements`}</SC.UserAgreements> {/* TODO @aviran translation could be tricky here */}
+        <SC.UserAgreements>{t(StringBank.GROUP_AGREEMENTS, {group: getGroupNameBySlug(groupSlug || "")})}</SC.UserAgreements>
         <Button variant="contained" startIcon={<AddIcon/>}>
           {t(StringBank.NEW_AGREEMENT)}
         </Button>
