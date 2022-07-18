@@ -1,6 +1,6 @@
 export enum ThemeModeType {
-  DARK = "dark",
-  LIGHT = "light",
+  DARK = 'dark',
+  LIGHT = 'light',
 }
 
 export type IFCProps = {
@@ -9,8 +9,8 @@ export type IFCProps = {
 
 export interface IOutletContext {
   sidebar: {
-      handleSidebarToggle: () => void,
-  }
+    handleSidebarToggle: () => void;
+  };
 }
 
 export interface IUser {

@@ -5,10 +5,10 @@ import {
   OutlinedSymbolBtn,
   TextBtn,
   IconBtn,
-} from "../components/styles/Button.styles";
+} from '../components/styles/Button.styles';
 
-import AddIcon from "@mui/icons-material/Add";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import AddIcon from '@mui/icons-material/Add';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 export default function Buttons() {
   return (

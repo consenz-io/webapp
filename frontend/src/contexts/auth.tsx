@@ -1,8 +1,8 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { createContext, useEffect, useState } from "react";
-import { IAuthContext, IFCProps } from "types";
+import { useAuth0 } from '@auth0/auth0-react';
+import { createContext, useEffect, useState } from 'react';
+import { IAuthContext, IFCProps } from 'types';
 
-const AuthContext = createContext<IAuthContext>({logout: () => ({})});
+const AuthContext = createContext<IAuthContext>({ logout: () => ({}) });
 
 const AuthProvider = ({ children }: IFCProps) => {
   const [jwt, setJwt] = useState<string>();
@@ -25,11 +25,7 @@ const AuthProvider = ({ children }: IFCProps) => {
     jwt,
     logout,
   };
-  return (
-    <AuthContext.Provider value={authContextState}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={authContextState}>{children}</AuthContext.Provider>;
 };
-  
+
 export { AuthProvider, AuthContext };

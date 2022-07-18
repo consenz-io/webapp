@@ -1,4 +1,4 @@
-import { IUser } from "./misc";
+import { IUser } from './misc';
 
 export interface IAuthContext {
   jwt?: string;
@@ -10,6 +10,6 @@ export interface IDataContext {
 }
 
 export interface IRoutingContext {
-  navigateToWelcome: () => void,
-  navigateToAllAgreements: (groupSlug: string | undefined) => void,
+  navigateToWelcome: () => void;
+  navigateToAllAgreements: (groupSlug: string | undefined) => void;
 }

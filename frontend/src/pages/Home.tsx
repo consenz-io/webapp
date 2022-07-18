@@ -1,11 +1,11 @@
-import {useContext, useEffect} from "react";
-import { CircularProgress, Stack } from "@mui/material";
-import { RoutingContext } from "contexts";
-import { DataContext } from "contexts/data";
+import { useContext, useEffect } from 'react';
+import { CircularProgress, Stack } from '@mui/material';
+import { RoutingContext } from 'contexts';
+import { DataContext } from 'contexts/data';
 
 const Home = () => {
-  const {user} = useContext(DataContext);
-  const {navigateToWelcome, navigateToAllAgreements} = useContext(RoutingContext);
+  const { user } = useContext(DataContext);
+  const { navigateToWelcome, navigateToAllAgreements } = useContext(RoutingContext);
 
   useEffect(() => {
     if (user) {
@@ -18,7 +18,7 @@ const Home = () => {
   }, [navigateToAllAgreements, navigateToWelcome, user]);
 
   return (
-    <Stack style={{height:"100vh"}} flexGrow={1} alignItems="center" justifyContent="center">
+    <Stack style={{ height: '100vh' }} flexGrow={1} alignItems="center" justifyContent="center">
       <CircularProgress />
     </Stack>
   );

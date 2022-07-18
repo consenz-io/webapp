@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
+import styled from 'styled-components';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 
 export const FooterButton = styled(Button)`
   display: flex;

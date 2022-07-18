@@ -1,16 +1,16 @@
-import { createContext, FC } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import { IFCProps, IRoutingContext } from "types";
-import { Home, Page404, Buttons, AllAgreements, Agreement, Welcome } from "pages";
-import { SidebarLayout } from "components";
+import { createContext, FC } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { IFCProps, IRoutingContext } from 'types';
+import { Home, Page404, Buttons, AllAgreements, Agreement, Welcome } from 'pages';
+import { SidebarLayout } from 'components';
 
-const BUTTONS_ROUTE = "/buttons";
-const HOME_ROUTE = "/";
-const WELCOME_ROUTE = "/welcome";
+const BUTTONS_ROUTE = '/buttons';
+const HOME_ROUTE = '/';
+const WELCOME_ROUTE = '/welcome';
 
 const RoutingContext = createContext<IRoutingContext>({
   navigateToAllAgreements: () => ({}),
-  navigateToWelcome: () => ({})
+  navigateToWelcome: () => ({}),
 });
 
 const RoutingProvider: FC<IFCProps> = ({ children }) => {
@@ -18,14 +18,11 @@ const RoutingProvider: FC<IFCProps> = ({ children }) => {
 
   const routingState = {
     navigateToWelcome: () => navigate(WELCOME_ROUTE),
-    navigateToAllAgreements: (groupSlug: string | undefined) => navigate(`/${groupSlug}/all-agreements`),
+    navigateToAllAgreements: (groupSlug: string | undefined) =>
+      navigate(`/${groupSlug}/all-agreements`),
   };
 
-  return (
-    <RoutingContext.Provider value={routingState}>
-      {children}
-    </RoutingContext.Provider>
-  );
+  return <RoutingContext.Provider value={routingState}>{children}</RoutingContext.Provider>;
 };
 
 const RoutesProvider = () => {

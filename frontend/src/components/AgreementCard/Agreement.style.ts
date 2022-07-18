@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Card } from "@mui/material";
+import styled from 'styled-components';
+import { Card } from '@mui/material';
 
 export const CardEl = styled(Card)`
   border-radius: 8px;
