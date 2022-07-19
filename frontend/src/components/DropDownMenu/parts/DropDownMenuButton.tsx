@@ -6,7 +6,8 @@ interface IButtonProps extends ButtonProps {
   isBorderHidden?: boolean;
 }
 
-const DropDownMenuButton: FC<IButtonProps> = ({ children, ...rest }) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const DropDownMenuButton: FC<IButtonProps> = ({ children, isUser, isBorderHidden, ...rest }) => {
   return <MuiButton {...rest}>{children}</MuiButton>;
 };
 
