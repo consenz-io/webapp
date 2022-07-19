@@ -24,6 +24,13 @@ const DataProvider = ({ children }: IFCProps) => {
                 name
                 slug
                 id
+                agreements {
+                  category {
+                    name
+                  }
+                  name
+                  updated_at
+                }
               }
             }
           }
