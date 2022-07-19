@@ -14,8 +14,9 @@ insert_permissions:
       check:
         group:
           group_users:
-            user_id:
-              _eq: X-Hasura-User-Id
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
       set:
         created_at: ""
         group_id: X-Hasura-Group-Id
@@ -37,8 +38,9 @@ select_permissions:
       filter:
         group:
           group_users:
-            user_id:
-              _eq: X-Hasura-User-Id
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
 update_permissions:
   - role: authenticated
     permission:
@@ -48,8 +50,9 @@ update_permissions:
       filter:
         group:
           group_users:
-            user_id:
-              _eq: X-Hasura-User-Id
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
       check:
         group:
           group_users:
