@@ -37,12 +37,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           <Logo />
         </Link>
       </SC.LogoContainer>
-      <GroupsNav
-        name="group"
-        menuItems={user?.groups}
-        buttonText="Soficoop" //TODO make buttonText dynamic
-        endIcon={<KeyboardArrowDownIcon />}
-      />
+      <GroupsNav name="group" menuItems={user?.groups} endIcon={<KeyboardArrowDownIcon />} />
       <SC.Content>Sidebar content</SC.Content>
       <DropDownMenu
         name="user"

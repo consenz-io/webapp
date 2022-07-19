@@ -10,7 +10,7 @@ export type MenuItem = {
 
 export interface IFCProps {
   name: string;
-  buttonText: string;
+  buttonText?: string;
   menuItems: MenuItem[] | undefined | null;
   endIcon: React.ReactNode;
   btnCapital?: string;
