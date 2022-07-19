@@ -1,8 +1,8 @@
 import { StringBank } from './bank';
 
 export const he: Partial<Record<StringBank, string>> = {
+  AGREEMENT_PARTICIPANTS: '{{count}} משתתפים',
   GROUP_AGREEMENTS: 'ההסכמים של {{group}}',
-  LOGIN_TAGLINE: 'התחברו להתחיל להסכים!',
   WELCOME_HEADER: 'ברוכים הבאים לקונסנז!',
   WELCOME_PARAGRAPH: `אתן עוד לא חלק מקבוצה.
   בקשו ממנהל הקבוצה שלכן הזמנה על מנת להשתתף

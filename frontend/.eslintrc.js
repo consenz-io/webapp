@@ -25,7 +25,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'error',
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
-    'react-hooks/exhaustive-deps': 'off',
     'no-var': 'error',
     'brace-style': 'error',
     'object-curly-spacing': ['error', 'always'],

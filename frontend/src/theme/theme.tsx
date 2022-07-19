@@ -2,6 +2,12 @@ import { ThemeModeType } from 'types/misc';
 import { createContext } from 'react';
 import { ThemeOptions } from '@mui/material';
 
+declare module '@mui/material/Chip' {
+  interface ChipPropsVariantOverrides {
+    category: true;
+  }
+}
+
 export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOptions = (
   mode,
   isRTL
@@ -20,6 +26,17 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
       },
     },
     components: {
+      MuiCard: {
+        defaultProps: {
+          variant: 'outlined',
+        },
+      },
+      MuiChip: {
+        defaultProps: {
+          variant: 'category',
+        },
+        variants: [{ props: { variant: 'category' }, style: { borderRadius: 4 } }],
+      },
       MuiButton: {
         defaultProps: {
           disableElevation: true,

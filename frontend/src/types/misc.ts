@@ -39,10 +39,9 @@ export interface IGroup {
   color: string;
 }
 
-export type AgreementCardProps = {
-  tag: string;
+export type IAgreementCardProps = {
+  category?: string;
   title: string;
-  updatedAt: string;
-  participants: string;
-  icon: string | JSX.Element;
+  updatedAt: Date;
+  participants: number;
 };

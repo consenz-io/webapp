@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { FC, useContext } from 'react';
 import { DataContext } from '../contexts/data';
 import { Button, Stack, Typography } from '@mui/material';
-import AgreementCard from 'components/AgreementCard/AgreementCard';
+import { AgreementCard } from 'components';
 
 const AllAgreements: FC = () => {
   const { t } = useTranslation();
@@ -26,13 +26,17 @@ const AllAgreements: FC = () => {
         </Button>
       </Stack>
       {getGroupBySlug(groupSlug)?.agreements?.length ? (
-        <AgreementCard
-          icon="add"
-          participants="14"
-          tag="finance"
-          title="payments"
-          updatedAt="2022"
-        />
+        <Stack flexDirection="row" flexWrap="wrap">
+          {getGroupBySlug(groupSlug)?.agreements?.map((agreement, i) => (
+            <AgreementCard
+              key={i}
+              participants={14}
+              category={agreement.category?.name}
+              title={agreement.name}
+              updatedAt={new Date(agreement.updated_at)}
+            />
+          ))}
+        </Stack>
       ) : (
         <Stack alignItems="center" justifyContent="center">
           <Stack flexDirection="row" justifyContent="center">

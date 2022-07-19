@@ -4,6 +4,6 @@ export type {
   IOutletContext,
   ThemeModeType,
   IFCProps,
-  AgreementCardProps,
+  IAgreementCardProps,
 } from './misc';
 export type { IAuthContext, IRoutingContext, IDataContext } from './contexts';
