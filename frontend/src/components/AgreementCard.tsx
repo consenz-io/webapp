@@ -5,17 +5,24 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
+import { generateColorFromString } from 'utils/functions';
 
 const AgreementCard: FC<IAgreementCardProps> = ({ category, title, updatedAt, participants }) => {
   const { t } = useTranslation();
   return (
     <Card>
       <Stack>
-        <CardContent sx={{ backgroundColor: '#595F68' }}>
-          <Stack flexDirection="row" justifyContent="space-between">
-            <Box flex={1}>{category && <Chip color="primary" label={category} />}</Box>
-            <DescriptionOutlinedIcon sx={{ fontSize: 52, marginY: 1 }} />
-            <Box flex={1} />
+        <CardContent sx={{ backgroundColor: '#595F68', position: 'relative' }}>
+          <Box position="absolute" left="1rem">
+            {category && (
+              <Chip
+                sx={{ background: generateColorFromString(category || '', true) }}
+                label={category}
+              />
+            )}
+          </Box>
+          <Stack flexDirection="row" justifyContent="center" paddingY={2}>
+            <DescriptionOutlinedIcon sx={{ fontSize: 52 }} color="disabled" />
           </Stack>
         </CardContent>
         <CardContent>
