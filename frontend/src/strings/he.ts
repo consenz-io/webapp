@@ -2,6 +2,7 @@ import { StringBank } from './bank';
 
 export const he: Partial<Record<StringBank, string>> = {
   AGREEMENT_PARTICIPANTS: '{{count}} משתתפים',
+  AGREEMENT_UPDATED_AT: 'עדכון אחרון: {{date}}',
   GROUP_AGREEMENTS: 'ההסכמים של {{group}}',
   WELCOME_HEADER: 'ברוכים הבאים לקונסנז!',
   WELCOME_PARAGRAPH: `אתן עוד לא חלק מקבוצה.
