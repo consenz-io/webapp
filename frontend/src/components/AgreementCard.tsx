@@ -1,6 +1,7 @@
-import { Box, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
+import { Box, Card, CardContent, Chip, IconButton, Stack, Typography } from '@mui/material';
 import { IAgreementCardProps } from 'types';
-import ArticleIcon from '@mui/icons-material/Article';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
@@ -12,16 +13,27 @@ const AgreementCard: FC<IAgreementCardProps> = ({ category, title, updatedAt, pa
       <Stack>
         <CardContent sx={{ backgroundColor: '#595F68' }}>
           <Stack flexDirection="row" justifyContent="space-between">
-            {category ? <Chip color="primary" label={category} /> : <Box />}
-            <ArticleIcon sx={{ fontSize: 52 }} />
-            <Box />
+            <Box flex={1}>{category && <Chip color="primary" label={category} />}</Box>
+            <DescriptionOutlinedIcon sx={{ fontSize: 52, marginY: 1 }} />
+            <Box flex={1} />
           </Stack>
         </CardContent>
         <CardContent>
           <Stack>
-            <Typography fontWeight="bold" variant="body1">
-              {title}
-            </Typography>
+            <Stack
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
+              paddingBottom={1}
+            >
+              <Typography fontWeight="bold" variant="body1">
+                {title}
+              </Typography>
+              <Box paddingX={1} />
+              <IconButton aria-label="menu" sx={{ padding: 0 }}>
+                <MoreHorizIcon />
+              </IconButton>
+            </Stack>
             <Typography variant="caption">
               {t(StringBank.AGREEMENT_PARTICIPANTS, { count: participants })}
             </Typography>

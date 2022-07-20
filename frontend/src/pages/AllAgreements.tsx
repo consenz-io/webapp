@@ -5,7 +5,7 @@ import { StringBank } from '../strings';
 import { useParams } from 'react-router-dom';
 import { FC, useContext } from 'react';
 import { DataContext } from '../contexts/data';
-import { Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { AgreementCard } from 'components';
 
 const AllAgreements: FC = () => {
@@ -13,28 +13,34 @@ const AllAgreements: FC = () => {
   const { groupSlug } = useParams();
   const { user } = useContext(DataContext);
 
-  const getGroupBySlug = (slug?: string) => user?.groups?.find((group) => group.slug === slug);
+  const currentGroup = user?.groups?.find((group) => group.slug === groupSlug);
 
   return (
-    <Stack justifyContent="space-between" height="100%" padding={2}>
-      <Stack flexDirection="row" justifyContent="space-between">
+    <Stack
+      justifyContent={currentGroup?.agreements?.length ? 'start' : 'space-between'}
+      height="100%"
+      padding={{ sm: 2 }}
+      spacing={2}
+    >
+      <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
         <Typography variant="h2">
-          {t(StringBank.GROUP_AGREEMENTS, { group: getGroupBySlug(groupSlug)?.name })}
+          {t(StringBank.GROUP_AGREEMENTS, { group: currentGroup?.name })}
         </Typography>
         <Button variant="contained" startIcon={<AddIcon />}>
           {t(StringBank.NEW_AGREEMENT)}
         </Button>
       </Stack>
-      {getGroupBySlug(groupSlug)?.agreements?.length ? (
-        <Stack flexDirection="row" flexWrap="wrap">
-          {getGroupBySlug(groupSlug)?.agreements?.map((agreement, i) => (
-            <AgreementCard
-              key={i}
-              participants={14}
-              category={agreement.category?.name}
-              title={agreement.name}
-              updatedAt={new Date(agreement.updated_at)}
-            />
+      {currentGroup?.agreements?.length ? (
+        <Stack flexDirection={{ xs: 'column', sm: 'row' }} flexWrap={{ sx: 'nowrap', sm: 'wrap' }}>
+          {currentGroup?.agreements?.map((agreement, i) => (
+            <Box key={i} flexBasis={{ xs: '25%', sm: '33%', lg: '25%' }} padding={1}>
+              <AgreementCard
+                participants={14}
+                category={agreement.category?.name}
+                title={agreement.name}
+                updatedAt={new Date(agreement.updated_at)}
+              />
+            </Box>
           ))}
         </Stack>
       ) : (
