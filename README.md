@@ -31,8 +31,6 @@ and the process has a clear product: a text that reflects the consent of the par
 ## 2.2. Backend
 
 - GraphQL API using Hasura in order to automate CRUD operations as much as possible.
-- Secondary Graphql API for non-CRUD operations (e.g. for querying the cardano blockchain).
-- The client isn’t going to be aware of this API, as it is going to extend the Hasura API using remote schemas.
 - Users are to be managed using some third party service (e.g. auth0)
 - Authentication - based on jwt flow
 - Cronjobs based actions and asynchronous operations are to be implemented using some serverless technology (e.g. AWS Lambda)
