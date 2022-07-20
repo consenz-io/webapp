@@ -5,7 +5,7 @@ export const en: Record<StringBank, string> = {
   AGREEMENT_UPDATED_AT: 'Updated at: {{date}}',
   CREATE_FIRST_AGREEMENT: 'Create your first agreement',
   GOTO_HOMEPAGE_TITLE: 'Go to consenz homepage',
-  GROUP_AGREEMENTS: "{{group}}'s agreements",
+  GROUP_AGREEMENTS: "{{group}}'s Agreements",
   LOGOUT: 'Log Out',
   NEW_AGREEMENT: 'New Agreement',
   WELCOME_HEADER: 'Welcome to consenz!',
