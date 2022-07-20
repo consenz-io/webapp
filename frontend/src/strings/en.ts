@@ -13,4 +13,9 @@ export const en: Record<StringBank, string> = {
   ask your Group Manager to invite you to join
   
   and have fun!`,
+  AGREEMENT_NAME_FIELD: 'Agreement Name',
+  NEW_AGREEMENT_NAME_DEFAULT: 'My New Agreement',
+  CATEGORY_SELECT: 'Category',
+  ADD_RATIONALE_HEADER: 'Add Rationale',
+  CONTINUE: 'Continue',
 };
