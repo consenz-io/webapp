@@ -24,6 +24,7 @@ insert_permissions:
         - category_id
         - group_id
         - name
+        - rationale
 select_permissions:
   - role: authenticated
     permission:
@@ -33,6 +34,7 @@ select_permissions:
         - group_id
         - id
         - name
+        - rationale
         - updated_at
       filter:
         group:
@@ -44,7 +46,9 @@ update_permissions:
   - role: authenticated
     permission:
       columns:
+        - category_id
         - name
+        - rationale
         - updated_at
       filter:
         group:
