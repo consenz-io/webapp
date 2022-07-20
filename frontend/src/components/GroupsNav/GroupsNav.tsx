@@ -4,6 +4,7 @@ import { IFCProps } from './types';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DataContext } from 'contexts/data';
 import CircleIcon from '@mui/icons-material/Circle';
+import { generateColorFromString } from 'utils/functions';
 
 const GroupsNav: FC<IFCProps> = ({ name, menuItems, endIcon }) => {
   const { user } = useContext(DataContext);
@@ -62,7 +63,11 @@ const GroupsNav: FC<IFCProps> = ({ name, menuItems, endIcon }) => {
             onClick={(event) => handleMenuItemClick(event, index, menuItem.slug || '')}
           >
             <CircleIcon
-              style={{ fill: 'palegreen', marginRight: '.5rem', marginLeft: '-.25rem' }}
+              style={{
+                fill: generateColorFromString(menuItem.slug || ''),
+                marginRight: '.5rem',
+                marginLeft: '-.25rem',
+              }}
             />
             {menuItem.name}
           </SC.DropDownMenuItem>

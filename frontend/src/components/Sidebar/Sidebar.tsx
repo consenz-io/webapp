@@ -26,7 +26,6 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
     {
       text: t(StringBank.LOGOUT),
       action: logout,
-      color: '#ed4fae',
     },
   ]);
 

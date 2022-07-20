@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export type MenuItem = {
   text: string;
-  color: string;
+  color?: string;
   action?: () => void;
 };
 

@@ -21,7 +21,7 @@ export const Welcome: FC = () => {
         <DropDownMenu
           isBorderHidden
           name="user"
-          menuItems={[{ text: t(StringBank.LOGOUT), color: '#ed4fae', action: logout }]}
+          menuItems={[{ text: t(StringBank.LOGOUT), action: logout }]}
           buttonText={user?.given_name || user?.nickname || ''}
           btnCapital={user?.nickname?.charAt(0)}
           endIcon={<KeyboardArrowDown />}

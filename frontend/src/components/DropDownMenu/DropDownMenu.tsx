@@ -56,9 +56,11 @@ const DropDownMenu: FC<IFCProps> = ({
         {menuItems.map((menuItem, i) => {
           return (
             <SC.DropDownMenuItem key={i} onClick={() => handleMenuItemOnClick(menuItem)}>
-              <CircleIcon
-                style={{ fill: menuItem.color, marginRight: '.5rem', marginLeft: '-.25rem' }}
-              />
+              {menuItem.color && (
+                <CircleIcon
+                  style={{ fill: menuItem.color, marginRight: '.5rem', marginLeft: '-.25rem' }}
+                />
+              )}
               {menuItem.text}
             </SC.DropDownMenuItem>
           );
