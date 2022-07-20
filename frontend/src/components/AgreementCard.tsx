@@ -29,8 +29,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({ category, title, updatedAt, pa
               <Typography fontWeight="bold" variant="body1">
                 {title}
               </Typography>
-              <Box paddingX={1} />
-              <IconButton aria-label="menu" sx={{ padding: 0 }}>
+              <IconButton aria-label="menu" size="small">
                 <MoreHorizIcon />
               </IconButton>
             </Stack>
