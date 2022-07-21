@@ -1,7 +1,7 @@
 import { gql, useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
-import React, { FC, useState, useRef, useEffect, useContext, useCallback } from 'react';
+import React, { FC, useState, useEffect, useContext, useCallback } from 'react';
 import { AuthContext } from 'contexts/auth';
 import CategorySelect from '../components/CategorySelect';
 import { useParams } from 'react-router-dom';
@@ -11,14 +11,15 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 // Mutation to insert new agreement record
 const ADD_AGREEMENT = gql`
-  mutation AddAgreement($category_id: Int!, $group_id: Int!, $name: String!) {
+  mutation AddAgreement($category_id: Int!, $group_id: Int!, $name: String!, $rationale: String!) {
     insert_core_agreements_one(
-      object: { category_id: $category_id, group_id: $group_id, name: $name }
+      object: { category_id: $category_id, group_id: $group_id, name: $name, rationale: $rationale }
     ) {
       id
       category_id
       group_id
       name
+      rationale
     }
   }
 `;
@@ -32,6 +33,33 @@ const NewAgreement: FC = () => {
 
   //@todo implement stepper: https://mui.com/material-ui/react-stepper/
 
+  // Text field keyboard control.
+  const handleTextEditKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    setIsFieldEditing: (value: boolean) => void,
+    setIsFieldEdited: (value: boolean) => void,
+    setValue: (value: string) => void,
+    querySelector: string
+  ) => {
+    if (e.key === 'Escape') {
+      // Escape reverts edits to the name.
+      setIsFieldEditing(false);
+    } else if (e.key === 'Enter') {
+      // Enter persists edits to the name.
+      e.preventDefault();
+      const input: HTMLInputElement | HTMLTextAreaElement | null =
+        document.querySelector(querySelector);
+      if (input !== null && input.value !== '') {
+        setValue(input.value);
+        setIsFieldEdited(true);
+        setIsFieldEditing(false);
+      }
+    } else if (e.key === '`') {
+      //@todo: Decide how we want to handle the user enterting backticks, which will switch the langugae.
+    }
+  };
+  //@todo click away listener to duplicate Escape behavior?
+
   /**
    * Agreement Name
    */
@@ -40,28 +68,9 @@ const NewAgreement: FC = () => {
   ); //@todo default to value in extant record if one exists
   const [isNameEdited, setIsNameEdited] = useState(false); //@todo set true when name is loaded from extant record in Hasura
   const [isNameEditing, setIsNameEditing] = useState(false);
-  const nameEditRef = useRef<HTMLDivElement>(null);
   const handleNameEditClick = () => {
     setIsNameEditing(true);
   };
-  const handleNameEditKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Escape') {
-      // Escape reverts edits to the name.
-      setIsNameEditing(false);
-    } else if (e.key === 'Enter') {
-      // Enter persists edits to the name.
-      e.preventDefault();
-      const input: HTMLInputElement | null = document.querySelector('input#agreement-name');
-      if (input !== null && input.value !== '') {
-        setAgreementName(input.value);
-        setIsNameEdited(true);
-        setIsNameEditing(false);
-      }
-    } else if (e.key === '`') {
-      //@todo: Decide how we want to handle the user enterting backticks, which will switch the langugae.
-    }
-  };
-  //@todo click away listener to duplicate Escape behavior
   const handleLanguageChanged = useCallback(() => {
     // If name hasn't yet been edited, switch language of the default name.
     if (!isNameEdited) {
@@ -82,16 +91,49 @@ const NewAgreement: FC = () => {
   const groupId = getGroupBySlug(groupSlug)?.id;
 
   /**
+   * Rationale
+   */
+  const [rationale, setRationale] = useState(''); //@todo default to value in extant record if one exists
+  const [isRationaleEdited, setIsRationaleEdited] = useState(false); //@todo set true when name is loaded from extant record in Hasura
+  const [isRationaleEditing, setIsRationaleEditing] = useState(false);
+  const handleRationaleEditClick = () => {
+    setIsRationaleEditing(true);
+  };
+  const handleBlurRationale = () => {
+    const input: HTMLTextAreaElement | null = document.querySelector('textarea#rationale');
+    const isContentEntered = input !== null && input.value !== '';
+    if (isContentEntered) {
+      // Persist entered content on blur.
+      setRationale(input.value);
+    }
+    setIsRationaleEditing(false);
+  };
+
+  /**
    * "Continue" and insert new agreement
    */
   const [
     addAgreement,
     { data: addAgreementData, loading: addAgreementLoading, error: addAgreementError },
   ] = useMutation(ADD_AGREEMENT);
+  const isContinueEnabled =
+    isNameEdited &&
+    categoryId &&
+    isRationaleEdited &&
+    !isNameEditing &&
+    !isRationaleEditing &&
+    !addAgreementLoading &&
+    !addAgreementError &&
+    addAgreementData === undefined;
   const handleContinueClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     addAgreement({
-      variables: { category_id: 2, group_id: 1, name: 'Test Agreement Insert' },
+      variables: {
+        category_id: categoryId,
+        group_id: groupId,
+        name: agreementName,
+        rationale: rationale,
+      },
       context: {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -100,18 +142,13 @@ const NewAgreement: FC = () => {
     });
     //@todo advance step
   };
-  if (addAgreementLoading) {
-    console.log('addAgreement loading');
-  }
   if (addAgreementError) {
     console.log(addAgreementError);
   }
-  if (addAgreementData) {
-    console.log(addAgreementData);
-  }
 
   return (
-    <Stack justifyContent="flex-start" spacing={8} width="80%">
+    <Stack justifyContent="center" spacing={8} paddingLeft="15%" paddingRight="15%">
+      {/* Title row */}
       <Stack
         direction="row"
         spacing={2}
@@ -125,15 +162,22 @@ const NewAgreement: FC = () => {
             id="agreement-name"
             label={t(StringBank.AGREEMENT_NAME_FIELD)}
             variant="standard"
-            onKeyDown={handleNameEditKeyDown}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
+              handleTextEditKeyDown(
+                e,
+                setIsNameEditing,
+                setIsNameEdited,
+                setAgreementName,
+                'input#agreement-name'
+              )
+            }
             defaultValue={agreementName}
-            ref={nameEditRef}
             autoFocus
           />
         ) : (
           <>
             <Typography variant="h2">{agreementName}</Typography>
-            <IconButton sx={{ paddingLeft: '0' }} onClick={handleNameEditClick}>
+            <IconButton sx={{ marginLeft: '0!important' }} onClick={handleNameEditClick}>
               <EditOutlinedIcon sx={{ color: '#B9BBBE' }} />
             </IconButton>
           </>
@@ -146,8 +190,46 @@ const NewAgreement: FC = () => {
           />
         )}
       </Stack>
+      {/* Add rationale */}
+      <Stack spacing={1}>
+        <Typography variant="h3">{t(StringBank.ADD_RATIONALE_HEADER)}:</Typography>
+        {isRationaleEditing ? (
+          <TextField
+            id="rationale"
+            variant="standard"
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
+              handleTextEditKeyDown(
+                e,
+                setIsRationaleEditing,
+                setIsRationaleEdited,
+                setRationale,
+                'textarea#rationale'
+              )
+            }
+            defaultValue={rationale}
+            multiline
+            rows={4}
+            autoFocus
+            onBlur={handleBlurRationale}
+          />
+        ) : (
+          <Typography
+            variant="body1"
+            color={!isRationaleEdited && !isRationaleEditing ? '#B9BBBE' : 'white'}
+            onClick={handleRationaleEditClick}
+            sx={{ minHeight: '6.3em', lineHeight: '1.45em', paddingTop: '0.2em' }}
+          >
+            {isRationaleEdited ? rationale : t(StringBank.ADD_RATIONALE_PARAGRAPH)}
+          </Typography>
+        )}
+      </Stack>
+      {/* Continue button */}
       <Stack flexDirection="row-reverse" alignItems="center" justifyContent="flex-start">
-        <Button variant="contained" onClick={(event) => handleContinueClick(event)}>
+        <Button
+          variant="contained"
+          onClick={(event) => handleContinueClick(event)}
+          disabled={!isContinueEnabled}
+        >
           {t(StringBank.CONTINUE)}
         </Button>
       </Stack>
