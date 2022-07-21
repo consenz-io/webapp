@@ -42,7 +42,7 @@ const AllAgreements: FC = () => {
       {currentGroup?.agreements?.length ? (
         <Stack flexDirection={{ xs: 'column', sm: 'row' }} flexWrap={{ sx: 'nowrap', sm: 'wrap' }}>
           {currentGroup?.agreements?.map((agreement, i) => (
-            <Box key={i} flexBasis={{ xs: '25%', sm: '33%', lg: '25%' }} padding={1}>
+            <Box key={i} flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }} padding={1}>
               <AgreementCard
                 participants={14}
                 category={agreement.category?.name}
