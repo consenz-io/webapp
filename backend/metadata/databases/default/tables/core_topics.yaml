@@ -1,0 +1,37 @@
+table:
+  schema: core
+  name: topics
+object_relationships:
+  - name: agreement
+    using:
+      foreign_key_constraint_on: agreement_id
+insert_permissions:
+  - role: authenticated
+    permission:
+      check:
+        agreement:
+          group:
+            group_users:
+              user_id:
+                _eq: X-Hasura-User-Id
+      columns:
+        - id
+        - created_at
+        - updated_at
+        - name
+        - agreement_id
+select_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - id
+        - created_at
+        - updated_at
+        - name
+        - agreement_id
+      filter:
+        agreement:
+          group:
+            group_users:
+              user_id:
+                _eq: X-Hasura-User-Id

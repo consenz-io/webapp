@@ -1,5 +1,7 @@
 - "!include core_agreements.yaml"
 - "!include core_categories.yaml"
 - "!include core_groups.yaml"
+- "!include core_sections.yaml"
+- "!include core_topics.yaml"
 - "!include core_users.yaml"
 - "!include core_users_groups.yaml"

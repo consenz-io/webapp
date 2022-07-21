@@ -1,0 +1,59 @@
+table:
+  schema: core
+  name: sections
+object_relationships:
+  - name: agreement
+    using:
+      foreign_key_constraint_on: agreement_id
+  - name: topic
+    using:
+      foreign_key_constraint_on: topic_id
+insert_permissions:
+  - role: authenticated
+    permission:
+      check:
+        agreement:
+          group:
+            group_users:
+              user_id:
+                _eq: X-Hasura-User-Id
+      columns:
+        - agreement_id
+        - id
+        - index
+        - topic_id
+        - created_at
+        - updated_at
+select_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - agreement_id
+        - id
+        - index
+        - topic_id
+        - created_at
+        - updated_at
+      filter:
+        agreement:
+          group:
+            group_users:
+              user_id:
+                _eq: X-Hasura-User-Id
+update_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - agreement_id
+        - id
+        - index
+        - topic_id
+        - created_at
+        - updated_at
+      filter:
+        agreement:
+          group:
+            group_users:
+              user_id:
+                _eq: X-Hasura-User-Id
+      check: null
