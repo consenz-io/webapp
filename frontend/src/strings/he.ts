@@ -13,7 +13,7 @@ export const he: Partial<Record<StringBank, string>> = {
   LOGOUT: 'יציאה',
   AGREEMENT_NAME_FIELD: 'כותרת ההסכם',
   NEW_AGREEMENT_NAME_DEFAULT: 'ההסכם החדש שלי',
-  CATEGORY_SELECT: 'סוג',
+  CATEGORY_SELECT: 'קטגוריה',
   ADD_RATIONALE_HEADER: 'להוסיף היגיון',
   CONTINUE: 'להמשיך',
 };

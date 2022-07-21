@@ -45,3 +45,9 @@ export type IAgreementCardProps = {
   updatedAt: Date;
   participants: number;
 };
+
+export type ICategorySelectProps = {
+  groupId: number;
+  categoryId: number | null;
+  onChange: (categoryId: number) => void;
+};
