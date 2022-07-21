@@ -6,7 +6,7 @@ import { AuthContext } from 'contexts/auth';
 import CategorySelect from '../components/CategorySelect';
 import { useParams } from 'react-router-dom';
 import { DataContext } from '../contexts/data';
-import { Button, Stack, Typography, TextField } from '@mui/material';
+import { Button, IconButton, Stack, Typography, TextField } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 // Mutation to insert new agreement record
@@ -131,9 +131,12 @@ const NewAgreement: FC = () => {
             autoFocus
           />
         ) : (
-          <Typography variant="h2">
-            {agreementName} <EditOutlinedIcon onClick={handleNameEditClick} />
-          </Typography>
+          <>
+            <Typography variant="h2">{agreementName}</Typography>
+            <IconButton sx={{ paddingLeft: '0' }} onClick={handleNameEditClick}>
+              <EditOutlinedIcon sx={{ color: '#B9BBBE' }} />
+            </IconButton>
+          </>
         )}
         {groupId !== undefined && (
           <CategorySelect

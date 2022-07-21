@@ -4,7 +4,9 @@ import { StringBank } from 'strings';
 import { ICategorySelectProps } from 'types';
 import { useContext, useState, FC } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { MenuItem, FormControl, InputLabel, Chip } from '@mui/material';
+import { MenuItem, FormControl, InputLabel, Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AuthContext } from 'contexts/auth';
 import { generateColorFromString } from 'utils/functions';
 
@@ -68,12 +70,21 @@ const CategorySelect: FC<ICategorySelectProps> = ({ groupId, categoryId, onChang
     return '';
   };
 
+  // Styled button for selected state.
+  const buttonColor = categoryId ? generateColorFromString(categoryName(categoryId), true) : '';
+  const CategorySelectButton = styled(Button)({
+    boxShadow: 'none',
+    borderRadius: '4px',
+    padding: '4px 8px 4px 16px',
+    textTransform: 'none',
+    backgroundColor: buttonColor,
+    borderColor: buttonColor,
+  });
+
   return categoryId && !isSelecting ? (
-    <Chip
-      sx={{ background: generateColorFromString(categoryName(categoryId), true) }}
-      label={categoryName(categoryId)}
-      onClick={() => setIsSelecting(true)}
-    />
+    <CategorySelectButton size="small" onClick={() => setIsSelecting(true)}>
+      {categoryName(categoryId)} <ExpandMoreIcon />
+    </CategorySelectButton>
   ) : (
     <FormControl size="small" sx={{ minWidth: 120 }}>
       <InputLabel>{t(StringBank.CATEGORY_SELECT)}</InputLabel>
