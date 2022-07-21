@@ -24,6 +24,10 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         fontSize: '1.625rem',
         fontWeight: 600,
       },
+      h3: {
+        fontSize: '1.1rem',
+        fontWeight: 600,
+      },
     },
     components: {
       MuiCard: {
