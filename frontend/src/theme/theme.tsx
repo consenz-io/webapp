@@ -30,6 +30,11 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         defaultProps: {
           variant: 'outlined',
         },
+        styleOverrides: {
+          root: {
+            borderRadius: '8px',
+          },
+        },
       },
       MuiChip: {
         defaultProps: {
