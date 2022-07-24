@@ -33,6 +33,7 @@ select_permissions:
         - created_at
         - group_id
         - id
+        - is_archived
         - name
         - rationale
         - updated_at
