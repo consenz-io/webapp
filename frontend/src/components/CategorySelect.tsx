@@ -2,12 +2,11 @@ import { useQuery, gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { ICategorySelectProps } from 'types';
-import { useContext, useState, FC } from 'react';
+import { useState, FC } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { MenuItem, FormControl, InputLabel, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { AuthContext } from 'contexts/auth';
 import { generateColorFromString } from 'utils/functions';
 
 // Query for active group's categories
@@ -22,18 +21,12 @@ const CATEGORIES_BY_GROUP_ID = gql`
 
 const CategorySelect: FC<ICategorySelectProps> = ({ groupId, categoryId, onChange }) => {
   const { t } = useTranslation();
-  const { jwt } = useContext(AuthContext);
 
   const [isSelecting, setIsSelecting] = useState(false);
 
   // Query Hasura for the given group's category data.
   const { loading, error, data } = useQuery(CATEGORIES_BY_GROUP_ID, {
     variables: { group_id: groupId },
-    context: {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    },
   });
 
   // Wait until Hasura returns category data before displaying anything.

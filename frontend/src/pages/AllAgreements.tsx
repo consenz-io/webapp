@@ -7,6 +7,8 @@ import { FC, useContext } from 'react';
 import { DataContext } from '../contexts/data';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { AgreementCard } from 'components';
+import { gql, useQuery } from '@apollo/client';
+import { IAgreement } from 'types/misc';
 
 const AllAgreements: FC = () => {
   const navigate = useNavigate();
@@ -16,9 +18,30 @@ const AllAgreements: FC = () => {
 
   const currentGroup = user?.groups?.find((group) => group.slug === groupSlug);
 
+  const { loading, data } = useQuery<{ core_agreements: IAgreement[] }>(
+    gql`
+      query agreements($groupId: Int!) {
+        core_agreements(where: { group_id: { _eq: $groupId }, is_archived: { _eq: false } }) {
+          id
+          name
+          rationale
+          category {
+            id
+            name
+          }
+        }
+      }
+    `,
+    { variables: { groupId: currentGroup?.id || -1 } }
+  );
+
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
     navigate(`/${slug}/new-agreement`);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Stack
@@ -39,9 +62,9 @@ const AllAgreements: FC = () => {
           {t(StringBank.NEW_AGREEMENT)}
         </Button>
       </Stack>
-      {currentGroup?.agreements?.length ? (
+      {data?.core_agreements?.length ? (
         <Stack flexDirection={{ xs: 'column', sm: 'row' }} flexWrap={{ sx: 'nowrap', sm: 'wrap' }}>
-          {currentGroup?.agreements?.map((agreement, i) => (
+          {data?.core_agreements?.map((agreement, i) => (
             <Box key={i} flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }} padding={1}>
               <AgreementCard
                 participants={14}

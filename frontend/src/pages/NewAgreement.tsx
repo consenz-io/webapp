@@ -2,7 +2,6 @@ import { gql, useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
 import React, { FC, useState, useEffect, useContext, useCallback } from 'react';
-import { AuthContext } from 'contexts/auth';
 import CategorySelect from '../components/CategorySelect';
 import { useParams } from 'react-router-dom';
 import { DataContext } from '../contexts/data';
@@ -26,7 +25,6 @@ const ADD_AGREEMENT = gql`
 
 const NewAgreement: FC = () => {
   const { i18n, t } = useTranslation();
-  const { jwt } = useContext(AuthContext);
   const { groupSlug } = useParams();
   const { user } = useContext(DataContext);
   const getGroupBySlug = (slug?: string) => user?.groups?.find((group) => group.slug === slug);
@@ -133,11 +131,6 @@ const NewAgreement: FC = () => {
         group_id: groupId,
         name: agreementName,
         rationale: rationale,
-      },
-      context: {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
       },
     });
     //@todo advance step
