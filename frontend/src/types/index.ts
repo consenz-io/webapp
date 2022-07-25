@@ -5,6 +5,6 @@ export type {
   ThemeModeType,
   IFCProps,
   ICategorySelectProps,
-  IAgreementCardProps,
+  MenuItem,
 } from './misc';
 export type { IAuthContext, IRoutingContext, IDataContext } from './contexts';

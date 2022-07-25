@@ -1,12 +1,24 @@
 import * as SC from './style';
-import React, { FC, useState } from 'react';
-import { IFCProps, MenuItem } from './types';
+import { FC, useState, ReactNode, MouseEvent } from 'react';
+import { MenuItem } from 'types';
 import CircleIcon from '@mui/icons-material/Circle';
 import { capitalize } from 'utils/functions';
+import { IconButton } from '@mui/material';
 
-const DropDownMenu: FC<IFCProps> = ({
+interface IProps {
+  name: string;
+  buttonText?: string;
+  menuItems: MenuItem[];
+  endIcon?: ReactNode;
+  btnCapital?: string;
+  isBorderHidden?: boolean;
+  mainIcon?: ReactNode;
+}
+
+const DropDownMenu: FC<IProps> = ({
   name,
-  buttonText,
+  buttonText = '',
+  mainIcon,
   menuItems,
   endIcon,
   btnCapital,
@@ -15,7 +27,7 @@ const DropDownMenu: FC<IFCProps> = ({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (e: MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget); //TODO fix anchorEl error on console
   };
 
@@ -29,20 +41,24 @@ const DropDownMenu: FC<IFCProps> = ({
   };
   return (
     <>
-      <SC.DropDownMenuButton
-        id={`${name}-button`}
-        aria-controls={open ? `${name}-menu` : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-        endIcon={endIcon}
-        isUser={!!btnCapital}
-        isBorderHidden={isBorderHidden}
-      >
-        {btnCapital && <SC.BtnCapital className="capital">{btnCapital}</SC.BtnCapital>}
+      {mainIcon ? (
+        <IconButton onClick={handleClick}>{mainIcon}</IconButton>
+      ) : (
+        <SC.DropDownMenuButton
+          id={`${name}-button`}
+          aria-controls={open ? `${name}-menu` : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          endIcon={endIcon}
+          isUser={!!btnCapital}
+          isBorderHidden={isBorderHidden}
+        >
+          {btnCapital && <SC.BtnCapital className="capital">{btnCapital}</SC.BtnCapital>}
 
-        {btnCapital ? capitalize(buttonText) : buttonText}
-      </SC.DropDownMenuButton>
+          {btnCapital ? capitalize(buttonText) : buttonText}
+        </SC.DropDownMenuButton>
+      )}
 
       <SC.DropDownMenu
         id={`${name}-menu`}
@@ -61,6 +77,7 @@ const DropDownMenu: FC<IFCProps> = ({
                   style={{ fill: menuItem.color, marginRight: '.5rem', marginLeft: '-.25rem' }}
                 />
               )}
+              {menuItem.icon}
               {menuItem.text}
             </SC.DropDownMenuItem>
           );

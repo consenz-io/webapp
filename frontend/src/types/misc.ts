@@ -1,7 +1,16 @@
+import { ReactNode } from 'react';
+
 export enum ThemeModeType {
   DARK = 'dark',
   LIGHT = 'light',
 }
+
+export type MenuItem = {
+  text: string;
+  color?: string;
+  icon?: ReactNode;
+  action?: () => void;
+};
 
 export type IFCProps = {
   children: JSX.Element;
@@ -19,7 +28,7 @@ export interface ICategory {
 }
 
 export interface IAgreement {
-  id: string;
+  id: number;
   name: string;
   category: ICategory;
   updated_at: string;
@@ -39,13 +48,6 @@ export interface IGroup {
   slug: string;
   color: string;
 }
-
-export type IAgreementCardProps = {
-  category?: string;
-  title: string;
-  updatedAt: Date;
-  participants: number;
-};
 
 export type ICategorySelectProps = {
   groupId: number;

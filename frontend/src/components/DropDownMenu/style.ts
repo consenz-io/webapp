@@ -56,7 +56,7 @@ export const DropDownMenu = styled(Menu)`
   && {
     .MuiPaper-root {
       max-width: none;
-      min-width: 15rem;
+      min-width: 12rem;
       border: 1px solid ${(props) => props.theme.palette.background.border};
       background-color: ${(props) => props.theme.palette.background.sidebar};
       border-radius: 8px;
@@ -73,7 +73,7 @@ export const DropDownMenuItem = styled(MenuItem)`
     font-size: 0.875rem;
     border-radius: 4px;
     padding: 0.68rem 1rem;
-
+    gap: 0.5rem;
     &:hover {
       background-color: ${(props) => props.theme.palette.background.active};
     }

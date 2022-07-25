@@ -12,7 +12,7 @@ import { DataContext } from '../../contexts/data';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { ColorModeAndDirectionContext } from '../../theme';
-import { MenuItem } from 'components/DropDownMenu/types';
+import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
 
 const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {

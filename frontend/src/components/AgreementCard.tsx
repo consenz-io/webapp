@@ -1,14 +1,33 @@
-import { Box, Card, CardContent, Chip, IconButton, Stack, Typography } from '@mui/material';
-import { IAgreementCardProps } from 'types';
+import { Box, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { generateColorFromString } from 'utils/functions';
+import DropDownMenu from './DropDownMenu';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import { GroupContext } from 'contexts/group';
 
-const AgreementCard: FC<IAgreementCardProps> = ({ category, title, updatedAt, participants }) => {
+interface IAgreementCardProps {
+  id: number;
+  category?: string;
+  title: string;
+  updatedAt: Date;
+  participants: number;
+  isArchived?: boolean;
+}
+
+const AgreementCard: FC<IAgreementCardProps> = ({
+  id,
+  category,
+  title,
+  updatedAt,
+  participants,
+  isArchived,
+}) => {
   const { t } = useTranslation();
+  const { archiveAgreement } = useContext(GroupContext);
   return (
     <Card>
       <Stack>
@@ -36,9 +55,17 @@ const AgreementCard: FC<IAgreementCardProps> = ({ category, title, updatedAt, pa
               <Typography fontWeight="bold" variant="body1">
                 {title}
               </Typography>
-              <IconButton aria-label="menu" size="small">
-                <MoreHorizIcon />
-              </IconButton>
+              <DropDownMenu
+                mainIcon={<MoreHorizIcon />}
+                name="agreement-menu"
+                menuItems={[
+                  {
+                    text: t(isArchived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
+                    icon: <Inventory2OutlinedIcon />,
+                    action: () => archiveAgreement(id, !isArchived),
+                  },
+                ]}
+              />
             </Stack>
             <Typography variant="caption">
               {t(StringBank.AGREEMENT_PARTICIPANTS, { count: participants })}

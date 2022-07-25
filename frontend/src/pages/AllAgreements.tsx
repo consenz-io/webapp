@@ -40,6 +40,7 @@ const AllAgreements: FC = () => {
           {agreements.map((agreement, i) => (
             <Box key={i} flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }} padding={1}>
               <AgreementCard
+                id={agreement.id}
                 participants={14}
                 category={agreement.category?.name}
                 title={agreement.name}

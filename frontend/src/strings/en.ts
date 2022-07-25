@@ -3,6 +3,7 @@ import { StringBank } from './bank';
 export const en: Record<StringBank, string> = {
   AGREEMENT_PARTICIPANTS: '{{count}} participants',
   AGREEMENT_UPDATED_AT: 'Updated at: {{date}}',
+  ARCHIVE: 'Archive',
   CREATE_FIRST_AGREEMENT: 'Create your first agreement',
   GOTO_HOMEPAGE_TITLE: 'Go to consenz homepage',
   GROUP_AGREEMENTS: "{{group}}'s Agreements",
@@ -19,4 +20,5 @@ export const en: Record<StringBank, string> = {
   ADD_RATIONALE_HEADER: 'Add Rationale',
   ADD_RATIONALE_PARAGRAPH: `Why is this agreement needed? What's the background behind its creation? What needs or problems is it meant to answer? ...`,
   CONTINUE: 'Continue',
+  UNARCHIVE: 'Unarchive',
 };
