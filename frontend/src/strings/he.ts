@@ -17,4 +17,8 @@ export const he: Partial<Record<StringBank, string>> = {
   ADD_RATIONALE_HEADER: 'להוסיף היגיון',
   ADD_RATIONALE_PARAGRAPH: `למה זקוקים להסכם הזה? מה הרקע ליצירתו? מה אלה הצרכים והבעיות שהוא נועד להשיב? ...`,
   CONTINUE: 'להמשיך',
+  ARCHIVE: 'ארכיון',
+  UNARCHIVE: 'העברה מארכיון',
+  ALL_AGREEMENTS: 'כל ההסכמים',
+  GOTO_HOMEPAGE_TITLE: 'לעבור לדף הבית',
 };
