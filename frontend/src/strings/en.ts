@@ -3,6 +3,7 @@ import { StringBank } from './bank';
 export const en: Record<StringBank, string> = {
   AGREEMENT_PARTICIPANTS: '{{count}} participants',
   AGREEMENT_UPDATED_AT: 'Updated at: {{date}}',
+  ALL_AGREEMENTS: 'All Agreements',
   ARCHIVE: 'Archive',
   CREATE_FIRST_AGREEMENT: 'Create your first agreement',
   GOTO_HOMEPAGE_TITLE: 'Go to consenz homepage',

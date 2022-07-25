@@ -3,7 +3,7 @@ import { FC, useState, useContext } from 'react';
 import { IFCProps } from './types';
 import { useResponsive } from 'hooks';
 import { Logo } from 'assets';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { DropDownMenu, GroupsNav } from 'components';
@@ -14,6 +14,8 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { ColorModeAndDirectionContext } from '../../theme';
 import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
+import { List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 
 const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { user } = useContext(DataContext);
@@ -21,6 +23,8 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { isMobile } = useResponsive();
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
+  const navigate = useNavigate();
+  const { groupSlug } = useParams();
 
   const [userMenuItems] = useState<MenuItem[]>([
     {
@@ -37,7 +41,18 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
         </Link>
       </SC.LogoContainer>
       <GroupsNav name="group" menuItems={user?.groups} endIcon={<KeyboardArrowDownIcon />} />
-      <SC.Content>Sidebar content</SC.Content>
+      <SC.Content>
+        <List>
+          <ListItemButton onClick={() => navigate(`${groupSlug}/all-agreements`)} selected>
+            <ListItemIcon>
+              <ContentCopyOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography variant="h4">{t(StringBank.ALL_AGREEMENTS)}</Typography>
+            </ListItemText>
+          </ListItemButton>
+        </List>
+      </SC.Content>
       <DropDownMenu
         name="user"
         menuItems={userMenuItems}

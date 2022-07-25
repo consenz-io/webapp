@@ -28,6 +28,10 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         fontSize: '1.1rem',
         fontWeight: 600,
       },
+      h4: {
+        fontSize: '0.875rem',
+        fontWeight: 600,
+      },
     },
     components: {
       MuiCard: {
@@ -37,6 +41,22 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         styleOverrides: {
           root: {
             borderRadius: '8px',
+          },
+        },
+      },
+      MuiListItemButton: {
+        styleOverrides: {
+          root: {
+            margin: '2px 4px',
+            borderRadius: 8,
+          },
+        },
+      },
+      MuiListItemIcon: {
+        styleOverrides: {
+          root: {
+            minWidth: 'unset',
+            marginRight: '1rem',
           },
         },
       },
