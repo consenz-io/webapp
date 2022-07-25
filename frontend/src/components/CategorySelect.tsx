@@ -1,40 +1,20 @@
-import { useQuery, gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { ICategorySelectProps } from 'types';
-import { useState, FC } from 'react';
+import { useState, FC, useContext } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { MenuItem, FormControl, InputLabel, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { generateColorFromString } from 'utils/functions';
+import { GroupContext } from 'contexts/group';
 
-// Query for active group's categories
-const CATEGORIES_BY_GROUP_ID = gql`
-  query categories($group_id: Int!) {
-    core_categories(where: { group_id: { _eq: $group_id } }, order_by: { name: asc }) {
-      id
-      name
-    }
-  }
-`;
-
-const CategorySelect: FC<ICategorySelectProps> = ({ groupId, categoryId, onChange }) => {
+const CategorySelect: FC<ICategorySelectProps> = ({ categoryId, onChange }) => {
   const { t } = useTranslation();
 
   const [isSelecting, setIsSelecting] = useState(false);
 
-  // Query Hasura for the given group's category data.
-  const { loading, error, data } = useQuery(CATEGORIES_BY_GROUP_ID, {
-    variables: { group_id: groupId },
-  });
-
-  // Wait until Hasura returns category data before displaying anything.
-  if (loading) return <></>;
-  if (error) {
-    console.log(error);
-    return <></>;
-  }
+  const { categories } = useContext(GroupContext);
 
   /**
    * Event handlers.
@@ -55,7 +35,7 @@ const CategorySelect: FC<ICategorySelectProps> = ({ groupId, categoryId, onChang
 
   // Utility to get category name from ID.
   const categoryName = (id: number) => {
-    for (const category of data.core_categories) {
+    for (const category of categories) {
       if (category.id === id) {
         return category.name;
       }
@@ -82,15 +62,15 @@ const CategorySelect: FC<ICategorySelectProps> = ({ groupId, categoryId, onChang
     <FormControl size="small" sx={{ minWidth: 120 }}>
       <InputLabel>{t(StringBank.CATEGORY_SELECT)}</InputLabel>
       <Select
-        value={(categoryId as unknown as string) || ''}
+        value={String(categoryId || '')}
         label="Category"
         onChange={handleChange}
         onClick={handleClick}
         onFocus={handleOnFocus}
         open={isSelecting}
       >
-        {data.core_categories?.map((category: { id: number; name: string }) => (
-          <MenuItem key={category.id as unknown as string} value={category.id as unknown as string}>
+        {categories.map((category, i) => (
+          <MenuItem key={i} value={category.id}>
             {category.name}
           </MenuItem>
         ))}

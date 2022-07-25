@@ -15,6 +15,7 @@ export interface IOutletContext {
 
 export interface ICategory {
   name: string;
+  id: number;
 }
 
 export interface IAgreement {

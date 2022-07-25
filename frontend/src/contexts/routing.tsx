@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { IFCProps, IRoutingContext } from 'types';
 import { Home, Page404, AllAgreements, NewAgreement, Welcome } from 'pages';
 import { SidebarLayout } from 'components';
+import { GroupProvider } from './group';
 
 const HOME_ROUTE = '/';
 const WELCOME_ROUTE = '/welcome';
@@ -30,8 +31,10 @@ const RoutesProvider: FC = () => {
       <RoutingProvider>
         <Routes>
           <Route element={<SidebarLayout />}>
-            <Route path={`${HOME_ROUTE}/:groupSlug/all-agreements`} element={<AllAgreements />} />
-            <Route path={`${HOME_ROUTE}/:groupSlug/new-agreement`} element={<NewAgreement />} />
+            <Route path={`${HOME_ROUTE}/:groupSlug`} element={<GroupProvider />}>
+              <Route path="all-agreements" element={<AllAgreements />} />
+              <Route path="new-agreement" element={<NewAgreement />} />
+            </Route>
           </Route>
           <Route path={HOME_ROUTE} element={<Home />} />
           <Route path={WELCOME_ROUTE} element={<Welcome />} />

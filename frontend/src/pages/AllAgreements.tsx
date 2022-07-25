@@ -2,69 +2,42 @@ import AddIcon from '@mui/icons-material/Add';
 import img from '../assets/Group_120.png';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FC, useContext } from 'react';
-import { DataContext } from '../contexts/data';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { AgreementCard } from 'components';
-import { gql, useQuery } from '@apollo/client';
-import { IAgreement } from 'types/misc';
+import { GroupContext } from 'contexts/group';
 
 const AllAgreements: FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { groupSlug } = useParams();
-  const { user } = useContext(DataContext);
 
-  const currentGroup = user?.groups?.find((group) => group.slug === groupSlug);
-
-  const { loading, data } = useQuery<{ core_agreements: IAgreement[] }>(
-    gql`
-      query agreements($groupId: Int!) {
-        core_agreements(where: { group_id: { _eq: $groupId }, is_archived: { _eq: false } }) {
-          id
-          name
-          rationale
-          category {
-            id
-            name
-          }
-        }
-      }
-    `,
-    { variables: { groupId: currentGroup?.id || -1 } }
-  );
+  const { agreements, name, slug } = useContext(GroupContext);
 
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
     navigate(`/${slug}/new-agreement`);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <Stack
-      justifyContent={currentGroup?.agreements?.length ? 'start' : 'space-between'}
+      justifyContent={agreements?.length ? 'start' : 'space-between'}
       height="100%"
       padding={{ sm: 2 }}
       spacing={2}
     >
       <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
-        <Typography variant="h2">
-          {t(StringBank.GROUP_AGREEMENTS, { group: currentGroup?.name })}
-        </Typography>
+        <Typography variant="h2">{t(StringBank.GROUP_AGREEMENTS, { group: name })}</Typography>
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          onClick={(event) => handleMenuItemClick(event, groupSlug)}
+          onClick={(event) => handleMenuItemClick(event, slug)}
         >
           {t(StringBank.NEW_AGREEMENT)}
         </Button>
       </Stack>
-      {data?.core_agreements?.length ? (
+      {agreements.length ? (
         <Stack flexDirection={{ xs: 'column', sm: 'row' }} flexWrap={{ sx: 'nowrap', sm: 'wrap' }}>
-          {data?.core_agreements?.map((agreement, i) => (
+          {agreements.map((agreement, i) => (
             <Box key={i} flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }} padding={1}>
               <AgreementCard
                 participants={14}
@@ -86,7 +59,7 @@ const AllAgreements: FC = () => {
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            onClick={(event) => handleMenuItemClick(event, groupSlug)}
+            onClick={(event) => handleMenuItemClick(event, slug)}
           >
             {t(StringBank.NEW_AGREEMENT)}
           </Button>

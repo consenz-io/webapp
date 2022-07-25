@@ -3,10 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
 import React, { FC, useState, useEffect, useContext, useCallback } from 'react';
 import CategorySelect from '../components/CategorySelect';
-import { useParams } from 'react-router-dom';
-import { DataContext } from '../contexts/data';
 import { Button, IconButton, Stack, Typography, TextField } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { GroupContext } from 'contexts/group';
 
 // Mutation to insert new agreement record
 const ADD_AGREEMENT = gql`
@@ -25,9 +24,7 @@ const ADD_AGREEMENT = gql`
 
 const NewAgreement: FC = () => {
   const { i18n, t } = useTranslation();
-  const { groupSlug } = useParams();
-  const { user } = useContext(DataContext);
-  const getGroupBySlug = (slug?: string) => user?.groups?.find((group) => group.slug === slug);
+  const { id } = useContext(GroupContext);
 
   //@todo implement stepper: https://mui.com/material-ui/react-stepper/
 
@@ -86,7 +83,7 @@ const NewAgreement: FC = () => {
    * Category
    */
   const [categoryId, setCategoryId] = useState<number | null>(null); //@todo set default based on extant record in Hasura
-  const groupId = getGroupBySlug(groupSlug)?.id;
+  const groupId = id;
 
   /**
    * Rationale
