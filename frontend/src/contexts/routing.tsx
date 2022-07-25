@@ -31,8 +31,6 @@ const RoutesProvider: FC = () => {
         <Routes>
           <Route element={<SidebarLayout />}>
             <Route path={`${HOME_ROUTE}/:groupSlug/all-agreements`} element={<AllAgreements />} />
-          </Route>
-          <Route element={<SidebarLayout />}>
             <Route path={`${HOME_ROUTE}/:groupSlug/new-agreement`} element={<NewAgreement />} />
           </Route>
           <Route path={HOME_ROUTE} element={<Home />} />
