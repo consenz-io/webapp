@@ -19,7 +19,7 @@ const RoutingProvider: FC<IFCProps> = ({ children }) => {
   const routingState = {
     navigateToWelcome: () => navigate(WELCOME_ROUTE),
     navigateToAllAgreements: (groupSlug: string | undefined) =>
-      navigate(`/${groupSlug}/all-agreements`),
+      navigate(`/${groupSlug}/active-agreements`),
   };
 
   return <RoutingContext.Provider value={routingState}>{children}</RoutingContext.Provider>;
@@ -32,7 +32,8 @@ const RoutesProvider: FC = () => {
         <Routes>
           <Route element={<SidebarLayout />}>
             <Route path={`${HOME_ROUTE}/:groupSlug`} element={<GroupProvider />}>
-              <Route path="all-agreements" element={<AllAgreements />} />
+              <Route path="active-agreements" element={<AllAgreements />} />
+              <Route path="archive" element={<AllAgreements isArchive />} />
               <Route path="new-agreement" element={<NewAgreement />} />
             </Route>
           </Route>

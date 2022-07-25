@@ -16,6 +16,26 @@ import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
 import { List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+
+interface SidebarItem {
+  name: string;
+  to: string;
+  icon: React.ReactElement;
+}
+
+const sidebarItems: SidebarItem[] = [
+  {
+    name: StringBank.ALL_AGREEMENTS,
+    to: 'active-agreements',
+    icon: <ContentCopyOutlinedIcon />,
+  },
+  {
+    name: StringBank.ARCHIVE,
+    to: 'archive',
+    icon: <Inventory2OutlinedIcon />,
+  },
+];
 
 const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { user } = useContext(DataContext);
@@ -43,14 +63,18 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
       <GroupsNav name="group" menuItems={user?.groups} endIcon={<KeyboardArrowDownIcon />} />
       <SC.Content>
         <List>
-          <ListItemButton onClick={() => navigate(`${groupSlug}/all-agreements`)} selected>
-            <ListItemIcon>
-              <ContentCopyOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <Typography variant="h4">{t(StringBank.ALL_AGREEMENTS)}</Typography>
-            </ListItemText>
-          </ListItemButton>
+          {sidebarItems.map((item, i) => (
+            <ListItemButton
+              key={i}
+              onClick={() => navigate(`${groupSlug}/${item.to}`)}
+              selected={window.location.href.endsWith(item.to)}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText>
+                <Typography variant="h4">{t(item.name)}</Typography>
+              </ListItemText>
+            </ListItemButton>
+          ))}
         </List>
       </SC.Content>
       <DropDownMenu

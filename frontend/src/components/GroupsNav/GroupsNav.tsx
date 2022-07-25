@@ -20,7 +20,7 @@ const GroupsNav: FC<IFCProps> = ({ name, menuItems, endIcon }) => {
 
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, index: number, slug: string) => {
     setAnchorEl(null);
-    navigate(`/${slug}/all-agreements`);
+    navigate(`/${slug}/active-agreements`);
   };
 
   useEffect(() => {

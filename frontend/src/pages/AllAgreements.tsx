@@ -8,11 +8,17 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import { AgreementCard } from 'components';
 import { GroupContext } from 'contexts/group';
 
-const AllAgreements: FC = () => {
+interface IProps {
+  isArchive?: boolean;
+}
+
+const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { agreements, name, slug } = useContext(GroupContext);
+  const { activeAgreements, archivedAgreements, name, slug } = useContext(GroupContext);
+
+  const agreements = isArchive ? archivedAgreements : activeAgreements;
 
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
     navigate(`/${slug}/new-agreement`);
@@ -45,6 +51,7 @@ const AllAgreements: FC = () => {
                 category={agreement.category?.name}
                 title={agreement.name}
                 updatedAt={new Date(agreement.updated_at)}
+                isArchived={isArchive}
               />
             </Box>
           ))}

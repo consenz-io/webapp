@@ -1,18 +1,10 @@
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { createContext, FC, useContext } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
+import { IGroupContext } from 'types';
 import { IAgreement, ICategory } from 'types/misc';
 import { agreementsQuery } from 'utils/queries';
 import { DataContext } from './data';
-
-interface IGroupContext {
-  slug: string;
-  name: string;
-  id: number;
-  agreements: IAgreement[];
-  categories: ICategory[];
-  archiveAgreement: (id: number, iArchived: boolean) => void;
-}
 
 const GroupContext = createContext<IGroupContext>({} as IGroupContext);
 
@@ -22,9 +14,16 @@ const GroupProvider: FC = () => {
 
   const currentGroup = user?.groups?.find((group) => group.slug === groupSlug);
 
-  const { data: agreementsData } = useQuery<{ core_agreements: IAgreement[] }>(agreementsQuery, {
+  const { data: activeAgreements } = useQuery<{ core_agreements: IAgreement[] }>(agreementsQuery, {
     variables: { groupId: currentGroup?.id || -1, isArchived: false },
   });
+
+  const { data: archivedAgreements } = useQuery<{ core_agreements: IAgreement[] }>(
+    agreementsQuery,
+    {
+      variables: { groupId: currentGroup?.id || -1, isArchived: true },
+    }
+  );
 
   const { data: categoriesData } = useQuery<{ core_categories: ICategory[] }>(
     gql`
@@ -55,6 +54,7 @@ const GroupProvider: FC = () => {
           id: cache.identify(update_core_agreements.returning[0]),
         });
       },
+      refetchQueries: ['agreements'],
     }
   );
 
@@ -62,7 +62,8 @@ const GroupProvider: FC = () => {
     slug: currentGroup?.slug || '',
     name: currentGroup?.name || '',
     id: currentGroup?.id || -1,
-    agreements: agreementsData?.core_agreements || [],
+    activeAgreements: activeAgreements?.core_agreements || [],
+    archivedAgreements: archivedAgreements?.core_agreements || [],
     categories: categoriesData?.core_categories || [],
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
   };

@@ -7,4 +7,4 @@ export type {
   ICategorySelectProps,
   MenuItem,
 } from './misc';
-export type { IAuthContext, IRoutingContext, IDataContext } from './contexts';
+export type { IAuthContext, IRoutingContext, IDataContext, IGroupContext } from './contexts';
