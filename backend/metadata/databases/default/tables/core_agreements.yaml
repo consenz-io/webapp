@@ -48,6 +48,7 @@ update_permissions:
     permission:
       columns:
         - category_id
+        - is_archived
         - name
         - rationale
         - updated_at
@@ -60,5 +61,6 @@ update_permissions:
       check:
         group:
           group_users:
-            user_id:
-              _eq: X-Hasura-User-Id
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
