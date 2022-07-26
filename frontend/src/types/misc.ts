@@ -32,6 +32,7 @@ export interface IAgreement {
   name: string;
   category: ICategory;
   updated_at: string;
+  rationale: string;
 }
 
 export interface IUser {

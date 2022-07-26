@@ -4,7 +4,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
-import { generateColorFromString } from 'utils/functions';
+import { generateColorFromString, truncateAfterWords } from 'utils/functions';
 import DropDownMenu from './DropDownMenu';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { GroupContext } from 'contexts/group';
@@ -12,6 +12,7 @@ import { GroupContext } from 'contexts/group';
 interface IAgreementCardProps {
   id: number;
   category?: string;
+  rationale?: string;
   title: string;
   updatedAt: Date;
   participants: number;
@@ -21,6 +22,7 @@ interface IAgreementCardProps {
 const AgreementCard: FC<IAgreementCardProps> = ({
   id,
   category,
+  rationale = '',
   title,
   updatedAt,
   participants,
@@ -28,6 +30,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const { archiveAgreement } = useContext(GroupContext);
+  console.info(updatedAt);
   return (
     <Card>
       <Stack>
@@ -70,6 +73,11 @@ const AgreementCard: FC<IAgreementCardProps> = ({
             <Typography variant="caption">
               {t(StringBank.AGREEMENT_PARTICIPANTS, { count: participants })}
             </Typography>
+            {rationale && (
+              <Typography variant="body2" marginY={1}>
+                {truncateAfterWords(rationale, 10)}
+              </Typography>
+            )}
             <Typography variant="caption">
               {t(StringBank.AGREEMENT_UPDATED_AT, {
                 date: updatedAt.toLocaleString(navigator.language, {

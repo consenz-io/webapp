@@ -71,7 +71,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText>
-                <Typography variant="h4">{t(item.name)}</Typography>
+                <Typography variant="h6">{t(item.name)}</Typography>
               </ListItemText>
             </ListItemButton>
           ))}

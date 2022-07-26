@@ -28,9 +28,13 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         fontSize: '1.1rem',
         fontWeight: 600,
       },
-      h4: {
+      h6: {
         fontSize: '0.875rem',
         fontWeight: 600,
+      },
+      caption: {
+        fontSize: '0.75rem',
+        color: '#bdbdbd',
       },
     },
     components: {
