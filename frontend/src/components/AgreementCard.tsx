@@ -75,7 +75,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
             </Typography>
             {rationale && (
               <Typography variant="body2" marginY={1}>
-                {truncateAfterWords(rationale, 10)}
+                {truncateAfterWords(rationale, 12)}
               </Typography>
             )}
             <Typography variant="caption">
