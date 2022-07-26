@@ -6,6 +6,7 @@ export const agreementsQuery = gql`
       id
       name
       rationale
+      updated_at
       category {
         id
         name

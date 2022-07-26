@@ -51,6 +51,7 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
                 category={agreement.category?.name}
                 title={agreement.name}
                 updatedAt={new Date(agreement.updated_at)}
+                rationale={agreement.rationale}
                 isArchived={isArchive}
               />
             </Box>

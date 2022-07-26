@@ -8,3 +8,11 @@ export function generateColorFromString(str: string, isDark = false): string {
   }, 0);
   return `hsl(${stringUniqueHash % 360}, ${isDark ? '80%' : '100%'}, ${isDark ? '40%' : '70%'})`;
 }
+
+export function truncateAfterWords(str: string, numWords: number): string {
+  const words = str.split(' ');
+  if (words.length <= numWords) {
+    return str;
+  }
+  return `${words.slice(0, numWords).join(' ')}...`;
+}
