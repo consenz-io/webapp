@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
+import { useTheme } from '@mui/material/styles';
 import { ICategorySelectProps } from 'types';
-import { useContext, useState, FC, useEffect } from 'react';
+import React, { useContext, useState, FC, useEffect } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { MenuItem, FormControl, InputLabel, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -11,6 +12,7 @@ import { GroupContext } from 'contexts/group';
 
 const CategorySelect: FC<ICategorySelectProps> = ({ categoryId, onChange, onReady }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const [isSelecting, setIsSelecting] = useState(false);
 
@@ -63,11 +65,21 @@ const CategorySelect: FC<ICategorySelectProps> = ({ categoryId, onChange, onRead
 
   return categoryId && !isSelecting ? (
     <CategorySelectButton size="small" onClick={() => setIsSelecting(true)}>
-      {categoryName(categoryId)} <ExpandMoreIcon />
+      {theme.direction === 'ltr' ? (
+        <>
+          {categoryName(categoryId)} <ExpandMoreIcon />
+        </>
+      ) : (
+        <>
+          <ExpandMoreIcon /> {categoryName(categoryId)}
+        </>
+      )}
     </CategorySelectButton>
   ) : (
     <FormControl size="small" sx={{ minWidth: 120 }}>
-      <InputLabel>{t(StringBank.CATEGORY_SELECT)}</InputLabel>
+      <InputLabel sx={{ fontSize: '0.85em', fontWeight: 600, color: '#f2f2f2' }}>
+        {t(StringBank.CATEGORY_SELECT)}
+      </InputLabel>
       <Select
         value={String(categoryId || '')}
         label="Category"
@@ -75,9 +87,17 @@ const CategorySelect: FC<ICategorySelectProps> = ({ categoryId, onChange, onRead
         onClick={handleClick}
         onFocus={handleOnFocus}
         open={isSelecting}
+        IconComponent={ExpandMoreIcon}
+        sx={{
+          fontSize: '0.85em',
+          fontWeight: 600,
+          paddingLeft: theme.direction == 'ltr' ? '0.1em' : 'inherit',
+          paddingRight: theme.direction == 'rtl' ? '0.15em' : 'inherit',
+          '& .MuiSelect-icon': { color: '#f2f2f2' },
+        }}
       >
         {categories.map((category, i) => (
-          <MenuItem key={i} value={category.id}>
+          <MenuItem key={i} value={category.id} sx={{ fontSize: '0.85em', fontWeight: 600 }}>
             {category.name}
           </MenuItem>
         ))}

@@ -33,14 +33,15 @@ const InlineTextEdit: FC<IInlineTextEditProps> = ({
     }
   };
   const onBlur = () => {
+    setIsEditing(false);
     const editedValue = getTextareaValue().trim();
     if (editedValue === '') {
       setEditingValue(editedValue);
     } else {
+      const isChanged = editedValue !== value;
       setEditingValue(editedValue);
-      onChange(editedValue);
+      if (isChanged) onChange(editedValue);
     }
-    setIsEditing(false);
   };
   const onFocus = () => {
     setIsEditing(true);
@@ -101,32 +102,35 @@ const InlineTextEdit: FC<IInlineTextEditProps> = ({
           /* trailing characters ensure the textarea sizing is adequately padded */
         }
       </span>
-      <textarea
-        ref={refTextarea}
-        rows={1}
-        aria-label={label}
-        title={label}
-        value={editingValue}
-        onInput={onInput}
-        onKeyDown={onKeyDown}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        autoComplete="off"
-        wrap="soft"
-        style={{
-          margin: 0,
-          width: width,
-          height: height,
-          background: 'none',
-          border: 'none',
-          outline: 'none',
-          padding: 0,
-          resize: 'none',
-          color: isEditing ? '#fff' : '#f2f2f2',
-          fontFamily: theme.typography.fontFamily,
-          ...style,
-        }}
-      />
+      {(!isMeasuring || isEditing) && (
+        <textarea
+          ref={refTextarea}
+          rows={1}
+          aria-label={label}
+          title={label}
+          value={editingValue}
+          onInput={onInput}
+          onKeyDown={onKeyDown}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          autoComplete="off"
+          wrap="soft"
+          style={{
+            margin: 0,
+            width: width,
+            height: height,
+            background: 'none',
+            border: 'none',
+            outline: 'none',
+            padding: 0,
+            resize: 'none',
+            overflow: 'hidden',
+            color: isEditing ? '#fff' : '#f2f2f2',
+            fontFamily: theme.typography.fontFamily,
+            ...style,
+          }}
+        />
+      )}
     </div>
   );
 };

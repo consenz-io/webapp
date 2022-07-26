@@ -91,7 +91,6 @@ const NewAgreement: FC = () => {
   const refTitleLine = useRef<HTMLElement>(null);
   const refTitleIcons = useRef<HTMLElement>(null);
   const calculateTitleMaxWidth = useCallback(() => {
-    console.log('recalculating');
     const titleLineWidth = refTitleLine?.current?.getBoundingClientRect().width || 0;
     const titleIconsWidth = refTitleIcons?.current?.getBoundingClientRect().width || 0;
     if (titleLineWidth > 0) setTitleMaxWidth(titleLineWidth - titleIconsWidth);
@@ -174,7 +173,7 @@ const NewAgreement: FC = () => {
         <InlineTextEdit
           label={t(StringBank.AGREEMENT_NAME_FIELD)}
           value={agreementName}
-          onChange={(value) => {
+          onChange={(value: string) => {
             setAgreementName(value);
             setIsNameEdited(true);
           }}
