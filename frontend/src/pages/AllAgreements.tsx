@@ -43,8 +43,12 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
       </Stack>
       {agreements.length ? (
         <Stack flexDirection={{ xs: 'column', sm: 'row' }} flexWrap={{ sx: 'nowrap', sm: 'wrap' }}>
-          {agreements.map((agreement, i) => (
-            <Box key={i} flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }} padding={1}>
+          {agreements.map((agreement) => (
+            <Box
+              key={agreement.id}
+              flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }}
+              padding={1}
+            >
               <AgreementCard
                 id={agreement.id}
                 participants={14}
