@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import React, { FC } from 'react';
 import { useState, useEffect, useContext, useCallback, useRef, useLayoutEffect } from 'react';
 import { InlineTextEdit, CategorySelect } from '../components';
-import { Button, Stack, Typography, TextField } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { GroupContext } from 'contexts/group';
 
@@ -30,33 +30,6 @@ const NewAgreement: FC = () => {
   const theme = useTheme();
 
   //@todo implement stepper: https://mui.com/material-ui/react-stepper/
-
-  // Text field keyboard control.
-  const handleTextEditKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-    setIsFieldEditing: (value: boolean) => void,
-    setIsFieldEdited: (value: boolean) => void,
-    setValue: (value: string) => void,
-    querySelector: string
-  ) => {
-    if (e.key === 'Escape') {
-      // Escape reverts edits to the name.
-      setIsFieldEditing(false);
-    } else if (e.key === 'Enter') {
-      // Enter persists edits to the name.
-      e.preventDefault();
-      const input: HTMLInputElement | HTMLTextAreaElement | null =
-        document.querySelector(querySelector);
-      if (input !== null && input.value !== '') {
-        setValue(input.value);
-        setIsFieldEdited(true);
-        setIsFieldEditing(false);
-      }
-    } else if (e.key === '`') {
-      //@todo: Decide how we want to handle the user enterting backticks, which will switch the langugae.
-    }
-  };
-  //@todo click away listener to duplicate Escape behavior?
 
   /**
    * Agreement Name/Title
@@ -108,19 +81,6 @@ const NewAgreement: FC = () => {
    */
   const [rationale, setRationale] = useState(''); //@todo default to value in extant record if one exists
   const [isRationaleEdited, setIsRationaleEdited] = useState(false); //@todo set true when name is loaded from extant record in Hasura
-  const [isRationaleEditing, setIsRationaleEditing] = useState(false);
-  const handleRationaleEditClick = () => {
-    setIsRationaleEditing(true);
-  };
-  const handleBlurRationale = () => {
-    const input: HTMLTextAreaElement | null = document.querySelector('textarea#rationale');
-    const isContentEntered = input !== null && input.value !== '';
-    if (isContentEntered) {
-      // Persist entered content on blur.
-      setRationale(input.value);
-    }
-    setIsRationaleEditing(false);
-  };
 
   /**
    * "Continue" and insert new agreement
@@ -133,7 +93,6 @@ const NewAgreement: FC = () => {
     isNameEdited &&
     categoryId &&
     isRationaleEdited &&
-    !isRationaleEditing &&
     !addAgreementLoading &&
     !addAgreementError &&
     addAgreementData === undefined;
@@ -203,35 +162,20 @@ const NewAgreement: FC = () => {
       {/* Add rationale */}
       <Stack spacing={1}>
         <Typography variant="h3">{t(StringBank.ADD_RATIONALE_HEADER)}:</Typography>
-        {isRationaleEditing ? (
-          <TextField
-            id="rationale"
-            variant="standard"
-            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
-              handleTextEditKeyDown(
-                e,
-                setIsRationaleEditing,
-                setIsRationaleEdited,
-                setRationale,
-                'textarea#rationale'
-              )
-            }
-            defaultValue={rationale}
-            multiline
-            rows={4}
-            autoFocus
-            onBlur={handleBlurRationale}
-          />
-        ) : (
-          <Typography
-            variant="body1"
-            color={!isRationaleEdited && !isRationaleEditing ? '#B9BBBE' : 'white'}
-            onClick={handleRationaleEditClick}
-            sx={{ minHeight: '6.3em', lineHeight: '1.45em', paddingTop: '0.2em' }}
-          >
-            {isRationaleEdited ? rationale : t(StringBank.ADD_RATIONALE_PARAGRAPH)}
-          </Typography>
-        )}
+        <InlineTextEdit
+          value={rationale}
+          hint={t(StringBank.ADD_RATIONALE_PARAGRAPH)}
+          onChange={(value: string) => {
+            setRationale(value);
+            setIsRationaleEdited(true);
+          }}
+          style={{
+            lineHeight: '1.45em',
+            paddingTop: '0.2em',
+            ...theme.typography.body1,
+          }}
+          staticWidth
+        />
       </Stack>
       {/* Continue button */}
       <Stack flexDirection="row-reverse" alignItems="center" justifyContent="flex-start">

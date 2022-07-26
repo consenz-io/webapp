@@ -58,8 +58,10 @@ export type ICategorySelectProps = {
 
 export type IInlineTextEditProps = {
   value: string | undefined;
-  label: string | undefined;
-  maxWidth: number;
+  hint?: string;
+  label?: string;
+  maxWidth?: number;
+  staticWidth?: boolean;
   onChange: (value: string) => void;
   style?: object;
 };

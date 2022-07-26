@@ -1,11 +1,13 @@
-import React, { FC, useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { FC, useState, useEffect, useRef, useLayoutEffect, useCallback } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { IInlineTextEditProps } from 'types';
 
 const InlineTextEdit: FC<IInlineTextEditProps> = ({
-  value,
+  value = '',
+  hint = '',
   label,
   maxWidth,
+  staticWidth,
   onChange,
   style = {},
 }) => {
@@ -30,6 +32,8 @@ const InlineTextEdit: FC<IInlineTextEditProps> = ({
       const target = event.target as HTMLTextAreaElement;
       target.value = value || '';
       target.blur();
+    } else if (event.key === '`') {
+      //@todo: Decide how we want to handle the user enterting backticks, which will switch the langugae.
     }
   };
   const onBlur = () => {
@@ -68,11 +72,23 @@ const InlineTextEdit: FC<IInlineTextEditProps> = ({
   useLayoutEffect(() => {
     if (isMeasuring && measuringBox?.current) {
       const rect = measuringBox.current.getBoundingClientRect();
-      setWidth(rect.width > maxWidth ? maxWidth : Math.ceil(rect.width));
+      if (maxWidth !== undefined) {
+        setWidth(rect.width > maxWidth ? maxWidth : Math.ceil(rect.width));
+      } else {
+        setWidth(Math.ceil(rect.width));
+      }
       setHeight(Math.ceil(rect.height) + 2); // These two extra pixels prevent internal scrolling. I don't understand why.
       setIsMeasuring(false);
     }
   }, [editingValue, isEditing, isMeasuring, maxWidth]);
+
+  const handleResize = useCallback(() => setIsMeasuring(true), [setIsMeasuring]);
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [handleResize]);
 
   /**
    * LTR/RTL handling
@@ -80,19 +96,27 @@ const InlineTextEdit: FC<IInlineTextEditProps> = ({
   const theme = useTheme();
 
   return (
-    <div style={{ maxWidth: maxWidth, display: 'inline-block', direction: theme.direction }}>
+    <div
+      style={{
+        maxWidth: maxWidth || 'inherit',
+        display: staticWidth ? 'block' : 'inline-block',
+        direction: theme.direction,
+      }}
+    >
       <span
         ref={measuringBox}
         style={{
           boxSizing: 'border-box',
-          display: 'inline-block',
+          display: isMeasuring ? (staticWidth ? 'block' : 'inline-block') : 'inline',
           whiteSpace: 'break-spaces',
           ...style,
         }}
       >
         {
           isMeasuring &&
-            (theme.direction === 'ltr'
+            (hint && editingValue === ''
+              ? hint
+              : theme.direction === 'ltr'
               ? isEditing
                 ? `${editingValue} W`
                 : `${value}.`
@@ -109,6 +133,7 @@ const InlineTextEdit: FC<IInlineTextEditProps> = ({
           aria-label={label}
           title={label}
           value={editingValue}
+          placeholder={hint}
           onInput={onInput}
           onKeyDown={onKeyDown}
           onFocus={onFocus}
