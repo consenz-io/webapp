@@ -1,9 +1,11 @@
 import { gql, useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
-import React, { FC, useState, useEffect, useContext, useCallback } from 'react';
-import CategorySelect from '../components/CategorySelect';
-import { Button, IconButton, Stack, Typography, TextField } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import React, { FC } from 'react';
+import { useState, useEffect, useContext, useCallback, useRef, useLayoutEffect } from 'react';
+import { InlineTextEdit, CategorySelect } from '../components';
+import { Button, Stack, Typography, TextField } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { GroupContext } from 'contexts/group';
 
@@ -25,6 +27,7 @@ const ADD_AGREEMENT = gql`
 const NewAgreement: FC = () => {
   const { i18n, t } = useTranslation();
   const { id } = useContext(GroupContext);
+  const theme = useTheme();
 
   //@todo implement stepper: https://mui.com/material-ui/react-stepper/
 
@@ -56,16 +59,12 @@ const NewAgreement: FC = () => {
   //@todo click away listener to duplicate Escape behavior?
 
   /**
-   * Agreement Name
+   * Agreement Name/Title
    */
   const [agreementName, setAgreementName] = useState<string>(
     t(StringBank.NEW_AGREEMENT_NAME_DEFAULT)
   ); //@todo default to value in extant record if one exists
   const [isNameEdited, setIsNameEdited] = useState(false); //@todo set true when name is loaded from extant record in Hasura
-  const [isNameEditing, setIsNameEditing] = useState(false);
-  const handleNameEditClick = () => {
-    setIsNameEditing(true);
-  };
   const handleLanguageChanged = useCallback(() => {
     // If name hasn't yet been edited, switch language of the default name.
     if (!isNameEdited) {
@@ -84,6 +83,26 @@ const NewAgreement: FC = () => {
    */
   const [categoryId, setCategoryId] = useState<number | null>(null); //@todo set default based on extant record in Hasura
   const groupId = id;
+
+  /**
+   * Manage dynamic widths of elements in the Agreement Name/Title line
+   */
+  const [titleMaxWidth, setTitleMaxWidth] = useState(0);
+  const refTitleLine = useRef<HTMLElement>(null);
+  const refTitleIcons = useRef<HTMLElement>(null);
+  const calculateTitleMaxWidth = useCallback(() => {
+    console.log('recalculating');
+    const titleLineWidth = refTitleLine?.current?.getBoundingClientRect().width || 0;
+    const titleIconsWidth = refTitleIcons?.current?.getBoundingClientRect().width || 0;
+    if (titleLineWidth > 0) setTitleMaxWidth(titleLineWidth - titleIconsWidth);
+  }, [refTitleLine, refTitleIcons]);
+  useLayoutEffect(calculateTitleMaxWidth, [calculateTitleMaxWidth, refTitleIcons, categoryId]);
+  useEffect(() => {
+    window.addEventListener('resize', calculateTitleMaxWidth);
+    return () => {
+      window.removeEventListener('resize', calculateTitleMaxWidth);
+    };
+  }, [calculateTitleMaxWidth]);
 
   /**
    * Rationale
@@ -115,7 +134,6 @@ const NewAgreement: FC = () => {
     isNameEdited &&
     categoryId &&
     isRationaleEdited &&
-    !isNameEditing &&
     !isRationaleEditing &&
     !addAgreementLoading &&
     !addAgreementError &&
@@ -137,48 +155,51 @@ const NewAgreement: FC = () => {
   }
 
   return (
-    <Stack justifyContent="center" spacing={8} paddingLeft="15%" paddingRight="15%">
+    <Stack
+      justifyContent="center"
+      spacing={8}
+      paddingLeft="15%"
+      paddingRight="15%"
+      component="form"
+      sx={{ marginTop: '1em' }}
+    >
       {/* Title row */}
       <Stack
         direction="row"
         spacing={2}
         alignItems="center"
-        justifyContent="center"
-        component="form"
-        autoComplete="off"
+        justifyContent="flex-start"
+        ref={refTitleLine}
       >
-        {isNameEditing ? (
-          <TextField
-            id="agreement-name"
-            label={t(StringBank.AGREEMENT_NAME_FIELD)}
-            variant="standard"
-            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
-              handleTextEditKeyDown(
-                e,
-                setIsNameEditing,
-                setIsNameEdited,
-                setAgreementName,
-                'input#agreement-name'
-              )
-            }
-            defaultValue={agreementName}
-            autoFocus
-          />
-        ) : (
-          <>
-            <Typography variant="h2">{agreementName}</Typography>
-            <IconButton sx={{ marginLeft: '0!important' }} onClick={handleNameEditClick}>
-              <EditOutlinedIcon sx={{ color: '#B9BBBE' }} />
-            </IconButton>
-          </>
-        )}
-        {groupId !== undefined && (
-          <CategorySelect
-            groupId={groupId}
-            categoryId={categoryId}
-            onChange={(newCategoryId) => setCategoryId(newCategoryId)}
-          />
-        )}
+        <InlineTextEdit
+          label={t(StringBank.AGREEMENT_NAME_FIELD)}
+          value={agreementName}
+          onChange={(value) => {
+            setAgreementName(value);
+            setIsNameEdited(true);
+          }}
+          maxWidth={titleMaxWidth}
+          style={{
+            paddingTop: '0.3em',
+            ...theme.typography.h2,
+          }}
+        />
+        <Stack
+          direction="row"
+          spacing={2}
+          alignItems="center"
+          justifyContent="flex-start"
+          ref={refTitleIcons}
+        >
+          <EditOutlinedIcon sx={{ color: '#B9BBBE' }} />
+          {groupId !== undefined && (
+            <CategorySelect
+              categoryId={categoryId}
+              onChange={(newCategoryId) => setCategoryId(newCategoryId)}
+              onReady={calculateTitleMaxWidth}
+            />
+          )}
+        </Stack>
       </Stack>
       {/* Add rationale */}
       <Stack spacing={1}>

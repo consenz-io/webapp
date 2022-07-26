@@ -50,7 +50,15 @@ export interface IGroup {
 }
 
 export type ICategorySelectProps = {
-  groupId: number;
   categoryId: number | null;
   onChange: (categoryId: number) => void;
+  onReady: () => void;
+};
+
+export type IInlineTextEditProps = {
+  value: string | undefined;
+  label: string | undefined;
+  maxWidth: number;
+  onChange: (value: string) => void;
+  style?: object;
 };

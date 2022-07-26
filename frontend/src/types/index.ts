@@ -4,7 +4,8 @@ export type {
   IOutletContext,
   ThemeModeType,
   IFCProps,
-  ICategorySelectProps,
   MenuItem,
+  ICategorySelectProps,
+  IInlineTextEditProps,
 } from './misc';
 export type { IAuthContext, IRoutingContext, IDataContext, IGroupContext } from './contexts';

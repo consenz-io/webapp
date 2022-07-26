@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { ICategorySelectProps } from 'types';
-import { useState, FC, useContext } from 'react';
+import { useContext, useState, FC, useEffect } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { MenuItem, FormControl, InputLabel, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -9,12 +9,19 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { generateColorFromString } from 'utils/functions';
 import { GroupContext } from 'contexts/group';
 
-const CategorySelect: FC<ICategorySelectProps> = ({ categoryId, onChange }) => {
+const CategorySelect: FC<ICategorySelectProps> = ({ categoryId, onChange, onReady }) => {
   const { t } = useTranslation();
 
   const [isSelecting, setIsSelecting] = useState(false);
 
   const { categories } = useContext(GroupContext);
+
+  useEffect(() => {
+    // When category data is available and rendered, fire onReady.
+    if (categories) {
+      onReady();
+    }
+  }, [categories, onReady]);
 
   /**
    * Event handlers.
