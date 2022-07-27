@@ -48,6 +48,7 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
               key={agreement.id}
               flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }}
               padding={1}
+              minWidth="0"
             >
               <AgreementCard
                 id={agreement.id}
