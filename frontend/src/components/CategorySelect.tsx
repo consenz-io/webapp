@@ -10,20 +10,27 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { generateColorFromString } from 'utils/functions';
 import { GroupContext } from 'contexts/group';
 
-const CategorySelect: FC<ICategorySelectProps> = ({ categoryId, onChange, onReady }) => {
+const CategorySelect: FC<ICategorySelectProps> = ({
+  categoryId,
+  onChange,
+  onReady,
+  onSelecting,
+}) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
+  const [isReady, setIsReady] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
 
   const { categories } = useContext(GroupContext);
 
   useEffect(() => {
     // When category data is available and rendered, fire onReady.
-    if (categories) {
+    if (!isReady && categories) {
+      setIsReady(true);
       onReady();
     }
-  }, [categories, onReady]);
+  }, [categories, onReady, isReady, setIsReady]);
 
   /**
    * Event handlers.
@@ -34,10 +41,13 @@ const CategorySelect: FC<ICategorySelectProps> = ({ categoryId, onChange, onRead
     setIsSelecting(false);
   };
 
-  const handleClick = () => setIsSelecting(!isSelecting);
+  const handleClick = () => {
+    setIsSelecting(!isSelecting);
+  };
 
   const handleOnFocus = () => {
     if (!isSelecting) setIsSelecting(true);
+    onSelecting();
   };
 
   //@todo click away closes select
@@ -64,7 +74,13 @@ const CategorySelect: FC<ICategorySelectProps> = ({ categoryId, onChange, onRead
   });
 
   return categoryId && !isSelecting ? (
-    <CategorySelectButton size="small" onClick={() => setIsSelecting(true)}>
+    <CategorySelectButton
+      size="small"
+      onClick={() => {
+        setIsSelecting(true);
+        onSelecting();
+      }}
+    >
       {theme.direction === 'ltr' ? (
         <>
           {categoryName(categoryId)} <ExpandMoreIcon />

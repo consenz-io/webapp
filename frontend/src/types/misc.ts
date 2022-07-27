@@ -53,5 +53,6 @@ export interface IGroup {
 export type ICategorySelectProps = {
   categoryId: number | null;
   onChange: (categoryId: number) => void;
+  onSelecting: () => void;
   onReady: () => void;
 };

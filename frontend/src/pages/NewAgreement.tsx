@@ -43,7 +43,7 @@ const NewAgreement: FC = () => {
   ) => {
     setAgreementName(event.target.value);
     setIsNameEdited(true);
-    setIsNameMeasuring(true);
+    setIsNameMeasuring(true); // Prepare to re-measure the Agreement Name field's content.
   };
   const handleLanguageChanged = useCallback(() => {
     // If name hasn't yet been edited, switch language of the default name.
@@ -65,32 +65,27 @@ const NewAgreement: FC = () => {
   const groupId = id;
 
   /**
-   * Manage dynamic widths and placements of elements in the Agreement Name line
+   * Manage dynamic widths and layout of elements in the Agreement Name line.
    */
   const [nameMaxWidth, setNameMaxWidth] = useState(0);
-  const refNameLine = useRef<HTMLElement>(null);
+  const [nameIconsOffset, setNameIconsOffset] = useState(0);
+  const [isNameMeasuring, setIsNameMeasuring] = useState(false);
+  const refNameMeasuringBox = useRef<HTMLElement>(null);
+  const refNameLine = useRef<HTMLDivElement>(null);
   const refNameIcons = useRef<HTMLElement>(null);
-  const calculateNameMaxWidth = useCallback(() => {
+  const measureNameFieldRegion = useCallback(() => {
+    // Calculate the Agreement Name field's available horizontal space.
     const nameLineWidth = refNameLine?.current?.getBoundingClientRect().width || 0;
     const nameIconsWidth = refNameIcons?.current?.getBoundingClientRect().width || 0;
     if (nameLineWidth > 0) setNameMaxWidth(nameLineWidth - nameIconsWidth);
-  }, [refNameLine, refNameIcons]);
-  useLayoutEffect(calculateNameMaxWidth, [calculateNameMaxWidth, refNameIcons, categoryId]);
-  useEffect(() => {
-    window.addEventListener('resize', calculateNameMaxWidth);
     setIsNameMeasuring(true);
-    return () => {
-      window.removeEventListener('resize', calculateNameMaxWidth);
-    };
-  }, [calculateNameMaxWidth]);
-  const [isNameMeasuring, setIsNameMeasuring] = useState(false);
-  const [nameIconsOffset, setNameIconsOffset] = useState(0);
-  const refNameMeasuringBox = useRef<HTMLElement>(null);
-  useLayoutEffect(() => {
+  }, [setNameMaxWidth, refNameLine, refNameIcons]);
+  const measureNameFieldContent = useCallback(() => {
+    // Calculate the Agreement Name field's content width and position icons accordingly.
     if (isNameMeasuring && refNameMeasuringBox?.current) {
+      const nameLineWidth = refNameLine?.current?.getBoundingClientRect().width || 0;
+      const nameIconsWidth = refNameIcons?.current?.getBoundingClientRect().width || 0;
       const editedTextWidth = refNameMeasuringBox.current?.getBoundingClientRect().width || 0;
-      const nameLineWidth = refNameLine.current?.getBoundingClientRect().width || 0;
-      const nameIconsWidth = refNameIcons.current?.getBoundingClientRect().width || 0;
       if (
         nameIconsWidth > 0 &&
         editedTextWidth > 0 &&
@@ -100,7 +95,18 @@ const NewAgreement: FC = () => {
       }
       setIsNameMeasuring(false);
     }
-  }, [isNameMeasuring, refNameIcons, refNameLine]);
+  }, [refNameLine, refNameIcons, isNameMeasuring, setIsNameMeasuring]);
+  // When viewport resizes, re-measure all elements in the Agreement Name line.
+  useEffect(() => {
+    window.addEventListener('resize', measureNameFieldRegion);
+    return () => {
+      window.removeEventListener('resize', measureNameFieldRegion);
+    };
+  }, [measureNameFieldRegion]);
+  // When category changes, re-measure all elements in the Agreement Name line.
+  useLayoutEffect(measureNameFieldRegion, [measureNameFieldRegion, categoryId]);
+  // When Agreement Name content changes, re-measure just its content
+  useLayoutEffect(measureNameFieldContent, [measureNameFieldContent, isNameMeasuring]);
 
   /**
    * Rationale
@@ -148,65 +154,67 @@ const NewAgreement: FC = () => {
       sx={{ marginTop: '1em' }}
     >
       {/* Agreement Name row */}
-      <Stack
-        direction="row"
-        spacing={2}
-        alignItems="center"
-        justifyContent="flex-start"
-        ref={refNameLine}
-      >
-        <div>
-          <InputBase
-            placeholder={t(StringBank.AGREEMENT_NAME_FIELD)}
-            value={agreementName}
-            color="primary"
-            onChange={handleAgreementNameChange}
+      <div ref={refNameLine}>
+        <Stack direction="row" spacing={0} alignItems="center" justifyContent="flex-start">
+          <div style={{ width: nameMaxWidth }}>
+            <InputBase
+              placeholder={t(StringBank.AGREEMENT_NAME_FIELD)}
+              value={agreementName}
+              color="primary"
+              onChange={handleAgreementNameChange}
+              sx={{
+                paddingTop: '0.3em',
+                ...theme.typography.h2,
+              }}
+              multiline
+              fullWidth
+              autoComplete="off"
+            />
+            <span
+              ref={refNameMeasuringBox}
+              style={{
+                boxSizing: 'border-box',
+                display: isNameMeasuring ? 'inline-block' : 'inline-block',
+                whiteSpace: 'break-spaces',
+                ...theme.typography.h2,
+              }}
+            >
+              {isNameMeasuring &&
+                (agreementName === '' ? t(StringBank.AGREEMENT_NAME_FIELD) : agreementName)}
+            </span>
+          </div>
+          <Stack
+            direction="row"
+            spacing={0}
+            alignItems="center"
+            justifyContent="flex-start"
+            ref={refNameIcons}
             sx={{
-              paddingTop: '0.3em',
-              width: nameMaxWidth,
-              ...theme.typography.h2,
-            }}
-            multiline
-            autoComplete="off"
-          />
-          <span
-            ref={refNameMeasuringBox}
-            style={{
-              boxSizing: 'border-box',
-              display: isNameMeasuring ? 'inline-block' : 'inline-block',
-              whiteSpace: 'break-spaces',
-              ...theme.typography.h2,
+              position: 'relative',
+              left: theme.direction === 'ltr' ? -nameIconsOffset : 0,
+              right: theme.direction === 'rtl' ? -nameIconsOffset : 0,
+              paddingLeft: theme.direction === 'ltr' ? '0.5em' : 0,
+              paddingRight: theme.direction === 'rtl' ? '0.5em' : 0,
             }}
           >
-            {isNameMeasuring &&
-              (agreementName === '' ? t(StringBank.AGREEMENT_NAME_FIELD) : agreementName)}
-          </span>
-        </div>
-        <Stack
-          direction="row"
-          spacing={2}
-          alignItems="center"
-          justifyContent="flex-start"
-          ref={refNameIcons}
-          sx={{
-            position: 'relative',
-            left: theme.direction == 'ltr' ? -nameIconsOffset : 0,
-            right: theme.direction == 'rtl' ? -nameIconsOffset : 0,
-          }}
-        >
-          <EditOutlinedIcon sx={{ color: '#B9BBBE' }} />
-          {groupId !== undefined && (
-            <CategorySelect
-              categoryId={categoryId}
-              onChange={(newCategoryId) => setCategoryId(newCategoryId)}
-              onReady={() => {
-                calculateNameMaxWidth();
-                setIsNameMeasuring(true);
+            <EditOutlinedIcon
+              sx={{
+                color: '#B9BBBE',
+                marginRight: theme.direction === 'ltr' ? '0.5em' : 0,
+                marginLeft: theme.direction === 'rtl' ? '0.5em' : 0,
               }}
             />
-          )}
+            {groupId !== undefined && (
+              <CategorySelect
+                categoryId={categoryId}
+                onChange={(newCategoryId) => setCategoryId(newCategoryId)}
+                onReady={measureNameFieldRegion}
+                onSelecting={measureNameFieldRegion}
+              />
+            )}
+          </Stack>
         </Stack>
-      </Stack>
+      </div>
       {/* Add rationale */}
       <Stack spacing={1}>
         <Typography variant="h3">{t(StringBank.ADD_RATIONALE_HEADER)}:</Typography>
