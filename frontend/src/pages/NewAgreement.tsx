@@ -32,12 +32,19 @@ const NewAgreement: FC = () => {
   //@todo implement stepper: https://mui.com/material-ui/react-stepper/
 
   /**
-   * Agreement Name/Title
+   * Agreement Name
    */
   const [agreementName, setAgreementName] = useState<string>(
     t(StringBank.NEW_AGREEMENT_NAME_DEFAULT)
   ); //@todo default to value in extant record if one exists
   const [isNameEdited, setIsNameEdited] = useState(false); //@todo set true when name is loaded from extant record in Hasura
+  const handleAgreementNameChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setAgreementName(event.target.value);
+    setIsNameEdited(true);
+    setIsNameMeasuring(true);
+  };
   const handleLanguageChanged = useCallback(() => {
     // If name hasn't yet been edited, switch language of the default name.
     if (!isNameEdited) {
@@ -58,23 +65,42 @@ const NewAgreement: FC = () => {
   const groupId = id;
 
   /**
-   * Manage dynamic widths of elements in the Agreement Name/Title line
+   * Manage dynamic widths and placements of elements in the Agreement Name line
    */
-  const [titleMaxWidth, setTitleMaxWidth] = useState(0);
-  const refTitleLine = useRef<HTMLElement>(null);
-  const refTitleIcons = useRef<HTMLElement>(null);
-  const calculateTitleMaxWidth = useCallback(() => {
-    const titleLineWidth = refTitleLine?.current?.getBoundingClientRect().width || 0;
-    const titleIconsWidth = refTitleIcons?.current?.getBoundingClientRect().width || 0;
-    if (titleLineWidth > 0) setTitleMaxWidth(titleLineWidth - titleIconsWidth);
-  }, [refTitleLine, refTitleIcons]);
-  useLayoutEffect(calculateTitleMaxWidth, [calculateTitleMaxWidth, refTitleIcons, categoryId]);
+  const [nameMaxWidth, setNameMaxWidth] = useState(0);
+  const refNameLine = useRef<HTMLElement>(null);
+  const refNameIcons = useRef<HTMLElement>(null);
+  const calculateNameMaxWidth = useCallback(() => {
+    const nameLineWidth = refNameLine?.current?.getBoundingClientRect().width || 0;
+    const nameIconsWidth = refNameIcons?.current?.getBoundingClientRect().width || 0;
+    if (nameLineWidth > 0) setNameMaxWidth(nameLineWidth - nameIconsWidth);
+  }, [refNameLine, refNameIcons]);
+  useLayoutEffect(calculateNameMaxWidth, [calculateNameMaxWidth, refNameIcons, categoryId]);
   useEffect(() => {
-    window.addEventListener('resize', calculateTitleMaxWidth);
+    window.addEventListener('resize', calculateNameMaxWidth);
+    setIsNameMeasuring(true);
     return () => {
-      window.removeEventListener('resize', calculateTitleMaxWidth);
+      window.removeEventListener('resize', calculateNameMaxWidth);
     };
-  }, [calculateTitleMaxWidth]);
+  }, [calculateNameMaxWidth]);
+  const [isNameMeasuring, setIsNameMeasuring] = useState(false);
+  const [nameIconsOffset, setNameIconsOffset] = useState(0);
+  const refNameMeasuringBox = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    if (isNameMeasuring && refNameMeasuringBox?.current) {
+      const editedTextWidth = refNameMeasuringBox.current?.getBoundingClientRect().width || 0;
+      const nameLineWidth = refNameLine.current?.getBoundingClientRect().width || 0;
+      const nameIconsWidth = refNameIcons.current?.getBoundingClientRect().width || 0;
+      if (
+        nameIconsWidth > 0 &&
+        editedTextWidth > 0 &&
+        nameLineWidth > nameIconsWidth + editedTextWidth
+      ) {
+        setNameIconsOffset(nameLineWidth - nameIconsWidth - editedTextWidth);
+      }
+      setIsNameMeasuring(false);
+    }
+  }, [isNameMeasuring, refNameIcons, refNameLine]);
 
   /**
    * Rationale
@@ -121,43 +147,62 @@ const NewAgreement: FC = () => {
       component="form"
       sx={{ marginTop: '1em' }}
     >
-      {/* Title row */}
+      {/* Agreement Name row */}
       <Stack
         direction="row"
         spacing={2}
         alignItems="center"
         justifyContent="flex-start"
-        ref={refTitleLine}
+        ref={refNameLine}
       >
-        <InputBase
-          placeholder={t(StringBank.AGREEMENT_NAME_FIELD)}
-          value={agreementName}
-          color="primary"
-          onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-            setAgreementName(event.target.value);
-            setIsNameEdited(true);
-          }}
-          sx={{
-            paddingTop: '0.3em',
-            width: titleMaxWidth,
-            ...theme.typography.h2,
-          }}
-          multiline
-          autoComplete="off"
-        />
+        <div>
+          <InputBase
+            placeholder={t(StringBank.AGREEMENT_NAME_FIELD)}
+            value={agreementName}
+            color="primary"
+            onChange={handleAgreementNameChange}
+            sx={{
+              paddingTop: '0.3em',
+              width: nameMaxWidth,
+              ...theme.typography.h2,
+            }}
+            multiline
+            autoComplete="off"
+          />
+          <span
+            ref={refNameMeasuringBox}
+            style={{
+              boxSizing: 'border-box',
+              display: isNameMeasuring ? 'inline-block' : 'inline-block',
+              whiteSpace: 'break-spaces',
+              ...theme.typography.h2,
+            }}
+          >
+            {isNameMeasuring &&
+              (agreementName === '' ? t(StringBank.AGREEMENT_NAME_FIELD) : agreementName)}
+          </span>
+        </div>
         <Stack
           direction="row"
           spacing={2}
           alignItems="center"
           justifyContent="flex-start"
-          ref={refTitleIcons}
+          ref={refNameIcons}
+          sx={{
+            position: 'relative',
+            left: theme.direction == 'ltr' ? -nameIconsOffset : 0,
+            right: theme.direction == 'rtl' ? -nameIconsOffset : 0,
+          }}
         >
           <EditOutlinedIcon sx={{ color: '#B9BBBE' }} />
           {groupId !== undefined && (
             <CategorySelect
               categoryId={categoryId}
               onChange={(newCategoryId) => setCategoryId(newCategoryId)}
-              onReady={calculateTitleMaxWidth}
+              onReady={() => {
+                calculateNameMaxWidth();
+                setIsNameMeasuring(true);
+              }}
             />
           )}
         </Stack>
