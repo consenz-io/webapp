@@ -4,8 +4,8 @@ import { StringBank } from '../strings';
 import { useTheme } from '@mui/material/styles';
 import React, { FC } from 'react';
 import { useState, useEffect, useContext, useCallback, useRef, useLayoutEffect } from 'react';
-import { InlineTextEdit, CategorySelect } from '../components';
-import { Button, Stack, Typography } from '@mui/material';
+import { CategorySelect } from '../components';
+import { Button, Stack, Typography, InputBase } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { GroupContext } from 'contexts/group';
 
@@ -129,18 +129,21 @@ const NewAgreement: FC = () => {
         justifyContent="flex-start"
         ref={refTitleLine}
       >
-        <InlineTextEdit
-          label={t(StringBank.AGREEMENT_NAME_FIELD)}
+        <InputBase
+          placeholder={t(StringBank.AGREEMENT_NAME_FIELD)}
           value={agreementName}
-          onChange={(value: string) => {
-            setAgreementName(value);
+          color="primary"
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+            setAgreementName(event.target.value);
             setIsNameEdited(true);
           }}
-          maxWidth={titleMaxWidth}
-          style={{
+          sx={{
             paddingTop: '0.3em',
+            width: titleMaxWidth,
             ...theme.typography.h2,
           }}
+          multiline
+          autoComplete="off"
         />
         <Stack
           direction="row"
@@ -162,19 +165,21 @@ const NewAgreement: FC = () => {
       {/* Add rationale */}
       <Stack spacing={1}>
         <Typography variant="h3">{t(StringBank.ADD_RATIONALE_HEADER)}:</Typography>
-        <InlineTextEdit
+        <InputBase
           value={rationale}
-          hint={t(StringBank.ADD_RATIONALE_PARAGRAPH)}
-          onChange={(value: string) => {
-            setRationale(value);
+          placeholder={t(StringBank.ADD_RATIONALE_PARAGRAPH)}
+          color="primary"
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+            setRationale(event.target.value);
             setIsRationaleEdited(true);
           }}
-          style={{
+          sx={{
             lineHeight: '1.45em',
             paddingTop: '0.2em',
             ...theme.typography.body1,
           }}
-          staticWidth
+          multiline
+          autoComplete="off"
         />
       </Stack>
       {/* Continue button */}
