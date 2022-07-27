@@ -14,7 +14,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { ColorModeAndDirectionContext } from '../../theme';
 import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
-import { List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { List, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 
@@ -64,7 +64,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
       <SC.Content>
         <List>
           {sidebarItems.map((item, i) => (
-            <ListItemButton
+            <SC.ListItemButton
               key={i}
               onClick={() => navigate(`${groupSlug}/${item.to}`)}
               selected={window.location.href.endsWith(item.to)}
@@ -73,7 +73,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
               <ListItemText>
                 <Typography variant="h6">{t(item.name)}</Typography>
               </ListItemText>
-            </ListItemButton>
+            </SC.ListItemButton>
           ))}
         </List>
       </SC.Content>

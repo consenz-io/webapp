@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Drawer as MuiDrawer } from '@mui/material';
+import { Drawer as MuiDrawer, ListItemButton as MuiListItemButton } from '@mui/material';
 
 export const Drawer = styled(MuiDrawer)`
   && {
@@ -22,4 +22,14 @@ export const LogoContainer = styled.div`
 
 export const Content = styled.div`
   flex: 1;
+`;
+
+export const ListItemButton = styled(MuiListItemButton)`
+  && {
+    .MuiListItemText-root,
+    .MuiListItemIcon-root {
+      color: ${(props) =>
+        props.selected ? props.theme.palette.text.primary : props.theme.palette.text.secondary};
+    }
+  }
 `;
