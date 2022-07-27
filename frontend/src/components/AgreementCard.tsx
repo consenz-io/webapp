@@ -50,14 +50,11 @@ const AgreementCard: FC<IAgreementCardProps> = ({
         <CardContent>
           <Stack>
             <Stack
-              flexDirection="row"
+              flexDirection="row-reverse"
               justifyContent="space-between"
               alignItems="center"
               paddingBottom={1}
             >
-              <Typography fontWeight="bold" variant="body1">
-                {title}
-              </Typography>
               <DropDownMenu
                 mainIcon={<MoreHorizIcon />}
                 name="agreement-menu"
@@ -69,15 +66,23 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                   },
                 ]}
               />
+              <Typography
+                fontWeight="bold"
+                variant="body1"
+                overflow="hidden"
+                textOverflow="ellipsis"
+                whiteSpace="nowrap"
+                maxWidth="calc(100% - 40px)"
+              >
+                {title}
+              </Typography>
             </Stack>
             <Typography variant="caption">
               {t(StringBank.AGREEMENT_PARTICIPANTS, { count: participants })}
             </Typography>
-            {rationale && (
-              <Typography variant="body2" marginY={1}>
-                {truncateAfterWords(rationale, 12)}
-              </Typography>
-            )}
+            <Typography variant="body2" marginY={1} height="4.3em">
+              {truncateAfterWords(rationale ?? ' ', 12)}
+            </Typography>
             <Typography variant="caption">
               {t(StringBank.AGREEMENT_UPDATED_AT, {
                 date: updatedAt.toLocaleString(navigator.language, {
