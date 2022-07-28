@@ -34,7 +34,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
     <Card>
       <Stack>
         <CardContent sx={{ backgroundColor: '#595F68', position: 'relative' }}>
-          <Box position="absolute" left="1rem">
+          <Box position="absolute" left="1rem" right="1rem">
             {category && (
               <Chip
                 sx={{ background: generateColorFromString(category || '', true) }}
