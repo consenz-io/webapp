@@ -10,16 +10,19 @@ const GroupContext = createContext<IGroupContext>({} as IGroupContext);
 
 const GroupProvider: FC = () => {
   const { user } = useContext(DataContext);
-  const { groupSlug } = useParams();
+  const { groupSlug, categoryId } = useParams();
 
   const currentGroup = user?.groups?.find((group) => group.slug === groupSlug);
 
-  const { data: activeAgreements } = useQuery<{ core_agreements: IAgreement[] }>(agreementsQuery, {
-    variables: { groupId: currentGroup?.id || -1, isArchived: false },
-  });
+  const { data: activeAgreements } = useQuery<{ core_agreements: IAgreement[] }>(
+    agreementsQuery(categoryId),
+    {
+      variables: { groupId: currentGroup?.id || -1, isArchived: false, categoryId },
+    }
+  );
 
   const { data: archivedAgreements } = useQuery<{ core_agreements: IAgreement[] }>(
-    agreementsQuery,
+    agreementsQuery(),
     {
       variables: { groupId: currentGroup?.id || -1, isArchived: true },
     }

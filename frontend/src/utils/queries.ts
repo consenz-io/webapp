@@ -1,8 +1,14 @@
 import { gql } from '@apollo/client';
 
-export const agreementsQuery = gql`
-  query agreements($groupId: Int!, $isArchived: Boolean!) {
-    core_agreements(where: { group_id: { _eq: $groupId }, is_archived: { _eq: $isArchived } }) {
+export const agreementsQuery = (categoryId?: string) => gql`
+  query agreements($groupId: Int!, $isArchived: Boolean!, $categoryId: Int) {
+    core_agreements(
+      where: {
+        group_id: { _eq: $groupId }
+        is_archived: { _eq: $isArchived }
+        ${categoryId ? 'category_id: { _eq: $categoryId }' : ''}
+      }
+    ) {
       id
       name
       rationale
