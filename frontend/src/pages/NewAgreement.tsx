@@ -120,10 +120,9 @@ const NewAgreement: FC = () => {
   const [
     addAgreement,
     { data: addAgreementData, loading: addAgreementLoading, error: addAgreementError },
-  ] = useMutation(ADD_AGREEMENT);
+  ] = useMutation(ADD_AGREEMENT, { refetchQueries: ['agreements'] });
   const isContinueEnabled =
     isNameEdited &&
-    categoryId &&
     isRationaleEdited &&
     !addAgreementLoading &&
     !addAgreementError &&

@@ -23,4 +23,5 @@ export const en: Record<StringBank, string> = {
   ADD_RATIONALE_PARAGRAPH: `Why is this agreement needed? What's the background behind its creation? What needs or problems is it meant to answer? ...`,
   CONTINUE: 'Continue',
   UNARCHIVE: 'Unarchive',
+  UNCATEGORIZED: 'Uncategorized',
 };

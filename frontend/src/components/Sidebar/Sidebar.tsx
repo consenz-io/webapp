@@ -78,6 +78,17 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
             </SC.ListItemButton>
           ))}
           <ListSubheader>{t(StringBank.CATEGORIES)}</ListSubheader>
+          <SC.ListItemButton
+            onClick={() => navigate(`/${groupSlug}/cat/0`)}
+            selected={window.location.href.endsWith('0')}
+          >
+            <ListItemIcon>
+              <CircleIcon sx={{ color: 'background.border' }} fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography variant="h6">{t(StringBank.UNCATEGORIZED)}</Typography>
+            </ListItemText>
+          </SC.ListItemButton>
           {categories?.map((category, i) => (
             <SC.ListItemButton
               key={i}
