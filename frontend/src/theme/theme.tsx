@@ -16,6 +16,9 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
     direction: isRTL ? 'rtl' : 'ltr',
     typography: {
       fontFamily: 'Lato, Assistant, sans-serif',
+      allVariants: {
+        textAlign: isRTL ? 'right' : 'left',
+      },
       h1: {
         fontSize: '2rem',
         fontWeight: 'bold',
@@ -67,7 +70,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         styleOverrides: {
           root: {
             minWidth: 'unset',
-            marginRight: '1rem',
+            marginInlineEnd: '1rem',
           },
         },
       },
