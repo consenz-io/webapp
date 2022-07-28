@@ -2,7 +2,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { createContext, FC, useContext } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { IGroupContext } from 'types';
-import { IAgreement, ICategory } from 'types/misc';
+import { IAgreement, ICategory } from 'types';
 import { agreementsQuery } from 'utils/queries';
 import { DataContext } from './data';
 
