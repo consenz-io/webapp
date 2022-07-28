@@ -32,4 +32,7 @@ export const ListItemButton = styled(MuiListItemButton)`
         props.selected ? props.theme.palette.text.primary : props.theme.palette.text.secondary};
     }
   }
+  &.Mui-selected {
+    background-color: ${(props) => props.theme.palette.background.default} !important;
+  }
 `;

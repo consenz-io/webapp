@@ -30,7 +30,6 @@ const AgreementCard: FC<IAgreementCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const { archiveAgreement } = useContext(GroupContext);
-  console.info(updatedAt);
   return (
     <Card>
       <Stack>

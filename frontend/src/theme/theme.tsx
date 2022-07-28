@@ -48,6 +48,13 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
           },
         },
       },
+      MuiListSubheader: {
+        styleOverrides: {
+          root: {
+            background: 'none',
+          },
+        },
+      },
       MuiListItemButton: {
         styleOverrides: {
           root: {
