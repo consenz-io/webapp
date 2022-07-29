@@ -15,8 +15,9 @@ insert_permissions:
         agreement:
           group:
             group_users:
-              user_id:
-                _eq: X-Hasura-User-Id
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
       columns:
         - agreement_id
         - id
@@ -38,22 +39,31 @@ select_permissions:
         agreement:
           group:
             group_users:
-              user_id:
-                _eq: X-Hasura-User-Id
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
 update_permissions:
   - role: authenticated
     permission:
       columns:
-        - agreement_id
-        - id
         - index
-        - topic_id
-        - created_at
         - updated_at
       filter:
         agreement:
           group:
             group_users:
-              user_id:
-                _eq: X-Hasura-User-Id
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
       check: null
+delete_permissions:
+  - role: authenticated
+    permission:
+      backend_only: false
+      filter:
+        agreement:
+          group:
+            group_users:
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
