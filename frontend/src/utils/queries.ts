@@ -9,14 +9,30 @@ export function agreementsQuery(categoryId?: string) {
   }
 
   return gql`
-  query agreements($groupId: Int!, $isArchived: Boolean!, $categoryId: Int) {
-    core_agreements(
-      where: {
-        group_id: { _eq: $groupId }
-        is_archived: { _eq: $isArchived }
-        ${categoryExpression}
+    query agreements($groupId: Int!, $isArchived: Boolean!, $categoryId: Int) {
+      core_agreements(
+        where: {
+          group_id: { _eq: $groupId }
+          is_archived: { _eq: $isArchived }
+          ${categoryExpression}
+        }
+      ) {
+        id
+        name
+        rationale
+        updated_at
+        category {
+          id
+          name
+        }
       }
-    ) {
+    }
+  `;
+}
+
+export const agreementDetailsQuery = gql`
+  query agreement($id: Int!) {
+    core_agreements(where: { id: { _eq: $id } }) {
       id
       name
       rationale
@@ -25,7 +41,31 @@ export function agreementsQuery(categoryId?: string) {
         id
         name
       }
+      topics(order_by: { index: asc }) {
+        id
+        index
+        name
+        sections(order_by: { index: asc }) {
+          id
+          index
+          content
+        }
+      }
     }
   }
 `;
-}
+
+// Mutation to insert new agreement record
+export const addAgreementMutation = gql`
+  mutation AddAgreement($category_id: Int!, $group_id: Int!, $name: String!, $rationale: String!) {
+    insert_core_agreements_one(
+      object: { category_id: $category_id, group_id: $group_id, name: $name, rationale: $rationale }
+    ) {
+      id
+      category_id
+      group_id
+      name
+      rationale
+    }
+  }
+`;

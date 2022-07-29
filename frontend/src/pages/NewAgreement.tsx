@@ -1,28 +1,14 @@
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
 import { useTheme } from '@mui/material/styles';
 import React, { FC } from 'react';
 import { useState, useEffect, useContext, useCallback, useRef, useLayoutEffect } from 'react';
+import { addAgreementMutation } from 'utils/queries';
 import { CategorySelect } from '../components';
 import { Button, Stack, Typography, InputBase } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { GroupContext } from 'contexts/group';
-
-// Mutation to insert new agreement record
-const ADD_AGREEMENT = gql`
-  mutation AddAgreement($category_id: Int!, $group_id: Int!, $name: String!, $rationale: String!) {
-    insert_core_agreements_one(
-      object: { category_id: $category_id, group_id: $group_id, name: $name, rationale: $rationale }
-    ) {
-      id
-      category_id
-      group_id
-      name
-      rationale
-    }
-  }
-`;
 
 const NewAgreement: FC = () => {
   const { i18n, t } = useTranslation();
@@ -120,7 +106,7 @@ const NewAgreement: FC = () => {
   const [
     addAgreement,
     { data: addAgreementData, loading: addAgreementLoading, error: addAgreementError },
-  ] = useMutation(ADD_AGREEMENT, { refetchQueries: ['agreements'] });
+  ] = useMutation(addAgreementMutation, { refetchQueries: ['agreements'] });
   const isContinueEnabled =
     isNameEdited &&
     isRationaleEdited &&
