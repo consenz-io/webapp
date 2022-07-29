@@ -20,20 +20,22 @@ insert_permissions:
                   _eq: X-Hasura-User-Id
       columns:
         - agreement_id
+        - content
+        - created_at
         - id
         - index
         - topic_id
-        - created_at
         - updated_at
 select_permissions:
   - role: authenticated
     permission:
       columns:
         - agreement_id
+        - content
+        - created_at
         - id
         - index
         - topic_id
-        - created_at
         - updated_at
       filter:
         agreement:
@@ -46,6 +48,7 @@ update_permissions:
   - role: authenticated
     permission:
       columns:
+        - content
         - index
         - updated_at
       filter:
