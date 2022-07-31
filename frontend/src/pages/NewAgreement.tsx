@@ -1,10 +1,14 @@
-import { useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
 import { useTheme } from '@mui/material/styles';
 import React, { FC } from 'react';
 import { useState, useEffect, useContext, useCallback, useRef, useLayoutEffect } from 'react';
-import { addAgreementMutation } from 'utils/queries';
+import {
+  agreementDetailsQuery,
+  addAgreementMutation,
+  updateAgreementMutation,
+} from 'utils/queries';
 import { CategorySelect } from '../components';
 import { Button, Stack, Typography, InputBase } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -15,6 +19,40 @@ const NewAgreement: FC = () => {
   const { id } = useContext(GroupContext);
   const theme = useTheme();
 
+  /**
+   * Saved agreement state (in case of browser refresh)
+   */
+  const sessionStorageKey = 'consenz-new-agreement-id';
+  const [agreementId, setAgreementId] = useState(
+    sessionStorage.getItem(sessionStorageKey) as unknown | null as number | null
+  );
+  const [savedData, setSavedData] = useState<{
+    id: number;
+    name: string;
+    category_id: number;
+    rationale: string;
+  } | null>(null);
+  const {
+    // loading: agreementQueryLoading,
+    error: agreementQueryError,
+    // data: agreementQueryData,
+  } = useQuery(agreementDetailsQuery, {
+    variables: { id: agreementId },
+    onCompleted: (data) => {
+      const record = data.core_agreements?.at(0);
+      if (!record || !record.name || !record.rationale) return;
+      setSavedData(record);
+      setAgreementName(record.name);
+      setIsNameEdited(true);
+      setCategoryId(record.category_id);
+      setRationale(record.rationale);
+      setIsRationaleEdited(true);
+      setTopicsAndSections(record.topics);
+    },
+    skip: agreementId === null || savedData !== null,
+  });
+  if (agreementQueryError) console.log(agreementQueryError);
+
   //@todo implement stepper: https://mui.com/material-ui/react-stepper/
 
   /**
@@ -22,8 +60,8 @@ const NewAgreement: FC = () => {
    */
   const [agreementName, setAgreementName] = useState<string>(
     t(StringBank.NEW_AGREEMENT_NAME_DEFAULT)
-  ); //@todo default to value in extant record if one exists
-  const [isNameEdited, setIsNameEdited] = useState(false); //@todo set true when name is loaded from extant record in Hasura
+  );
+  const [isNameEdited, setIsNameEdited] = useState(false);
   const handleAgreementNameChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
@@ -47,7 +85,7 @@ const NewAgreement: FC = () => {
   /**
    * Category
    */
-  const [categoryId, setCategoryId] = useState<number | null>(null); //@todo set default based on extant record in Hasura
+  const [categoryId, setCategoryId] = useState<number | null>(null);
   const groupId = id;
 
   /**
@@ -97,22 +135,87 @@ const NewAgreement: FC = () => {
   /**
    * Rationale
    */
-  const [rationale, setRationale] = useState(''); //@todo default to value in extant record if one exists
-  const [isRationaleEdited, setIsRationaleEdited] = useState(false); //@todo set true when name is loaded from extant record in Hasura
+  const [rationale, setRationale] = useState('');
+  const [isRationaleEdited, setIsRationaleEdited] = useState(false);
 
   /**
-   * "Continue" and insert new agreement
+   * Agreement insert
    */
   const [
     addAgreement,
     { data: addAgreementData, loading: addAgreementLoading, error: addAgreementError },
-  ] = useMutation(addAgreementMutation, { refetchQueries: ['agreements'] });
+  ] = useMutation(addAgreementMutation, {
+    refetchQueries: ['agreements'],
+    onCompleted: (data) => {
+      // When new agreement is saved and new record id comes back from hasura, update state and sessionStorage
+      if (data?.insert_core_agreements_one.id && agreementId === null) {
+        const newAgreementId = data.insert_core_agreements_one.id;
+        sessionStorage.setItem(sessionStorageKey, newAgreementId as unknown as string);
+        setAgreementId(newAgreementId);
+        setSavedData(data.insert_core_agreements_one);
+      }
+    },
+  });
+  if (addAgreementError) console.log(addAgreementError);
+
+  /**
+   * Agreement update
+   */
+  const [
+    updateAgreement,
+    {
+      // data: updateAgreementData,
+      // loading: updateAgreementLoading,
+      error: updateAgreementError,
+    },
+  ] = useMutation(updateAgreementMutation, {
+    refetchQueries: ['agreements'],
+    onCompleted: (data) => data && setSavedData(data.update_core_agreements_by_pk),
+  });
+  if (updateAgreementError) console.log(updateAgreementError);
+
+  const handleAgreementDetailsUpdate = useCallback(() => {
+    if (agreementId === null) return; // Only for step 2
+    if (!savedData || !agreementName || !categoryId || !rationale) return; // Need complete data.
+    if (
+      // Need a change to warrant saving.
+      agreementName !== savedData.name ||
+      categoryId !== savedData.category_id ||
+      rationale !== savedData.rationale
+    ) {
+      updateAgreement({
+        variables: {
+          id: agreementId,
+          category_id: categoryId,
+          name: agreementName,
+          rationale: rationale,
+        },
+      });
+    }
+  }, [agreementId, savedData, agreementName, categoryId, rationale, updateAgreement]);
+  useEffect(() => {
+    // In step 2, update hasura each time category changes, but only when name or rationale changes *and then* is blurred.
+    if (savedData && categoryId !== savedData.category_id) handleAgreementDetailsUpdate();
+  }, [categoryId, savedData, handleAgreementDetailsUpdate]);
+
+  /**
+   * Topics and Sections
+   */
+  const [topicsAndSections, setTopicsAndSections] = useState([]);
+  if (topicsAndSections) console.log(topicsAndSections);
+
+  /**
+   * "Continue" button
+   */
   const isContinueEnabled =
-    isNameEdited &&
-    isRationaleEdited &&
-    !addAgreementLoading &&
-    !addAgreementError &&
-    addAgreementData === undefined;
+    agreementId === null // Step 1
+      ? isNameEdited &&
+        isRationaleEdited &&
+        !addAgreementLoading &&
+        !addAgreementError &&
+        addAgreementData === undefined
+      : // Step 2
+        savedData === null; //@todo: replace with the actual topics+sections conditions
   const handleContinueClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     addAgreement({
@@ -125,9 +228,6 @@ const NewAgreement: FC = () => {
     });
     //@todo advance step
   };
-  if (addAgreementError) {
-    console.log(addAgreementError);
-  }
 
   return (
     <Stack
@@ -147,6 +247,7 @@ const NewAgreement: FC = () => {
               value={agreementName}
               color="primary"
               onChange={handleAgreementNameChange}
+              onBlur={handleAgreementDetailsUpdate}
               sx={{
                 paddingTop: '0.3em',
                 ...theme.typography.h2,
@@ -208,9 +309,11 @@ const NewAgreement: FC = () => {
           placeholder={t(StringBank.ADD_RATIONALE_PARAGRAPH)}
           color="primary"
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+            //@todo: should this be moved to onBlur for performance?
             setRationale(event.target.value);
             setIsRationaleEdited(true);
           }}
+          onBlur={handleAgreementDetailsUpdate}
           sx={{
             lineHeight: '1.45em',
             paddingTop: '0.2em',

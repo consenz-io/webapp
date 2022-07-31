@@ -37,6 +37,7 @@ export const agreementDetailsQuery = gql`
       name
       rationale
       updated_at
+      category_id
       category {
         id
         name
@@ -60,6 +61,22 @@ export const addAgreementMutation = gql`
   mutation AddAgreement($category_id: Int!, $group_id: Int!, $name: String!, $rationale: String!) {
     insert_core_agreements_one(
       object: { category_id: $category_id, group_id: $group_id, name: $name, rationale: $rationale }
+    ) {
+      id
+      category_id
+      group_id
+      name
+      rationale
+    }
+  }
+`;
+
+// Mutation to update agreement record
+export const updateAgreementMutation = gql`
+  mutation UpdateAgreement($id: Int!, $category_id: Int!, $name: String!, $rationale: String!) {
+    update_core_agreements_by_pk(
+      pk_columns: { id: $id }
+      _set: { category_id: $category_id, name: $name, rationale: $rationale }
     ) {
       id
       category_id
