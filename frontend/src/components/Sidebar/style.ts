@@ -33,6 +33,6 @@ export const ListItemButton = styled(MuiListItemButton)`
     }
   }
   &.Mui-selected {
-    background-color: ${(props) => props.theme.palette.background.default} !important;
+    background-color: ${(props) => props.theme.palette.background.active} !important;
   }
 `;

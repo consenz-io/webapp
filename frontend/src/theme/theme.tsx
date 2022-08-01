@@ -92,11 +92,11 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             fontWeight: 'bold',
             padding: '8px 16px',
             ':hover': {
-              background: '#686d73',
+              background: mode === ThemeModeType.LIGHT ? 'primary' : '#686d73',
             },
           },
           contained: {
-            background: '#3f4550',
+            background: mode === ThemeModeType.LIGHT ? 'primary' : '#3f4550',
           },
           startIcon: {
             marginInlineStart: '-4px',
@@ -117,7 +117,11 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             },
             background: {
               paper: '#fcfcfd',
-              default: '#ffffff',
+              default: '#F5F7FA',
+              sidebar: '#FCFCFD',
+              capital: '#4c67f6',
+              border: '#E3E3E3',
+              active: '#F8EFFF',
             },
             text: {
               primary: '#000000',

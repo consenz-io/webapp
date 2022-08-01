@@ -8,6 +8,8 @@ import { generateColorFromString, truncateAfterWords } from 'utils/functions';
 import DropDownMenu from './DropDownMenu';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { GroupContext } from 'contexts/group';
+import { ColorModeAndDirectionContext } from 'theme';
+import { ThemeModeType } from 'types';
 
 interface IAgreementCardProps {
   id: number;
@@ -29,15 +31,17 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   isArchived,
 }) => {
   const { t } = useTranslation();
+  const { mode } = useContext(ColorModeAndDirectionContext);
   const { archiveAgreement } = useContext(GroupContext);
+  const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : '#595F68';
   return (
     <Card>
       <Stack>
-        <CardContent sx={{ backgroundColor: '#595F68', position: 'relative' }}>
+        <CardContent sx={{ backgroundColor: cardBackgroundColor, position: 'relative' }}>
           <Box position="absolute" left="1rem" right="1rem">
             {category && (
               <Chip
-                sx={{ background: generateColorFromString(category || '', true) }}
+                sx={{ background: generateColorFromString(category || '', true), color: 'white' }}
                 label={category}
               />
             )}
