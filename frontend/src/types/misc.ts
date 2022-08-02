@@ -28,3 +28,47 @@ export type ICategorySelectProps = {
   onSelecting: () => void;
   onReady: () => void;
 };
+
+export type INewTopicsEditorProps = {
+  agreementId: number;
+  data: Array<{
+    id?: number;
+    index?: number;
+    name?: string;
+    agreement_id?: number;
+    sections?: Array<object>;
+  }>;
+};
+
+export type INewTopicProps = {
+  data: {
+    id?: number;
+    index?: number;
+    name?: string;
+    agreement_id?: number;
+    sections?: Array<{
+      id?: number;
+      agreement_id?: number;
+      topic_id?: number;
+      index?: number;
+      content?: string;
+    }>;
+  };
+  onInsert: (name: string) => void;
+  onChange: (topicId: number, name: string) => void;
+  onDelete: (topicId: number, index: number) => void;
+};
+
+export type INewSectionProps = {
+  data: {
+    id?: number;
+    agreement_id?: number;
+    topic_id?: number;
+    index?: number;
+    content?: string;
+  };
+  onInsert: (topicId: number, index: number, content: string) => void;
+  onChange: (sectionId: number, content: string) => void;
+  onDelete: (sectionId: number, index: number) => void;
+  onCreateNext: (topicId: number, index: number) => void;
+};

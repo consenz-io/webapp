@@ -34,6 +34,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
       h6: {
         fontSize: '0.875rem',
         fontWeight: 600,
+        color: '#96989D',
       },
       caption: {
         fontSize: '0.75rem',

@@ -3,6 +3,7 @@ import { StringBank } from './bank';
 export const he: Partial<Record<StringBank, string>> = {
   AGREEMENT_PARTICIPANTS: '{{count}} משתתפים',
   AGREEMENT_UPDATED_AT: 'עדכון אחרון: {{date}}',
+  BLANK_TO_DELETE: 'להשאיר ריק כדי למחוק',
   GROUP_AGREEMENTS: 'ההסכמים של {{group}}',
   WELCOME_HEADER: 'ברוכים הבאים לקונסנז!',
   WELCOME_PARAGRAPH: `אתן עוד לא חלק מקבוצה.
@@ -10,6 +11,9 @@ export const he: Partial<Record<StringBank, string>> = {
   
   ותהנו!`,
   NEW_AGREEMENT: 'הסכם חדש',
+  NEW_SECTION_INSERT: 'להכניס סעיף חדש...',
+  NEW_TOPIC_PROMPT: 'קטע חדש...',
+  NEW_TOPIC_PROMPT_FIRST: 'להכניס קטע חדש...',
   LOGOUT: 'יציאה',
   AGREEMENT_NAME_FIELD: 'כותרת ההסכם',
   NEW_AGREEMENT_NAME_DEFAULT: 'ההסכם החדש שלי',

@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
 import { useTheme } from '@mui/material/styles';
@@ -6,11 +6,12 @@ import React, { FC } from 'react';
 import { useState, useEffect, useContext, useCallback, useRef, useLayoutEffect } from 'react';
 import {
   agreementDetailsQuery,
+  agreementTopicsAndSectionsQuery,
   addAgreementMutation,
   updateAgreementMutation,
 } from 'utils/queries';
-import { CategorySelect } from '../components';
-import { Button, Stack, Typography, InputBase } from '@mui/material';
+import { CategorySelect, NewTopicsEditor } from '../components';
+import { Button, Stack, Typography, InputBase, Divider } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { GroupContext } from 'contexts/group';
 
@@ -47,7 +48,7 @@ const NewAgreement: FC = () => {
       setCategoryId(record.category_id);
       setRationale(record.rationale);
       setIsRationaleEdited(true);
-      setTopicsAndSections(record.topics);
+      setTopicsAndSections(record.topics as Array<object>);
     },
     skip: agreementId === null || savedData !== null,
   });
@@ -201,8 +202,18 @@ const NewAgreement: FC = () => {
   /**
    * Topics and Sections
    */
-  const [topicsAndSections, setTopicsAndSections] = useState([]);
-  if (topicsAndSections) console.log(topicsAndSections);
+  const [topicsAndSections, setTopicsAndSections] = useState<Array<object>>([]);
+  const [loadAgreementTopicsAndSections /*, { called, loading, data }*/] = useLazyQuery(
+    agreementTopicsAndSectionsQuery,
+    {
+      variables: { agreement_id: agreementId },
+      onCompleted: (data) => setTopicsAndSections(data.core_topics || []),
+      onError: (error) => console.log(error),
+    }
+  );
+  useEffect(() => {
+    if (agreementId !== null) loadAgreementTopicsAndSections();
+  }, [agreementId, loadAgreementTopicsAndSections]);
 
   /**
    * "Continue" button
@@ -232,7 +243,7 @@ const NewAgreement: FC = () => {
   return (
     <Stack
       justifyContent="center"
-      spacing={8}
+      spacing={4}
       paddingLeft="15%"
       paddingRight="15%"
       component="form"
@@ -323,6 +334,13 @@ const NewAgreement: FC = () => {
           autoComplete="off"
         />
       </Stack>
+      {/* Topics and Sections */}
+      {agreementId && savedData && (
+        <>
+          <Divider variant="middle" />
+          <NewTopicsEditor agreementId={agreementId} data={topicsAndSections} />
+        </>
+      )}
       {/* Continue button */}
       <Stack flexDirection="row-reverse" alignItems="center" justifyContent="flex-start">
         <Button
