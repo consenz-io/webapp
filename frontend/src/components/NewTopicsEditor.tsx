@@ -304,7 +304,9 @@ const NewSection: FC<INewSectionProps> = ({ data, onInsert, onChange, onDelete, 
       {data.id !== undefined && <Typography variant="h6">Section {sectionIndexPadded}</Typography>}
       <InputBase
         value={content}
-        placeholder={isSaved ? t(StringBank.BLANK_TO_DELETE) : t(StringBank.NEW_SECTION_INSERT)}
+        placeholder={
+          isSaved ? t(StringBank.BLANK_TO_DELETE) : `${t(StringBank.NEW_SECTION_INSERT)}...`
+        }
         onKeyDown={handleKeyDown}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
           setContent(event.target.value)

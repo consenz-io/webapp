@@ -12,7 +12,7 @@ export const en: Record<StringBank, string> = {
   GROUP_AGREEMENTS: "{{group}}'s Agreements",
   LOGOUT: 'Log Out',
   NEW_AGREEMENT: 'New Agreement',
-  NEW_SECTION_INSERT: 'Insert new section...',
+  NEW_SECTION_INSERT: 'Insert new section',
   NEW_TOPIC_PROMPT: 'New topic...',
   NEW_TOPIC_PROMPT_FIRST: 'Insert first topic...',
   WELCOME_HEADER: 'Welcome to consenz!',

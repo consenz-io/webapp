@@ -198,7 +198,7 @@ export const updateSectionMutation = gql`
 
 // Mutation to delete section record
 export const deleteSectionMutation = gql`
-  mutation DeleteTopic($id: Int!, $agreement_id: Int!, $index: Int!) {
+  mutation DeleteSection($id: Int!, $agreement_id: Int!, $index: Int!) {
     delete_core_sections_by_pk(id: $id) {
       id
       agreement_id

@@ -11,7 +11,7 @@ export const he: Partial<Record<StringBank, string>> = {
   
   ותהנו!`,
   NEW_AGREEMENT: 'הסכם חדש',
-  NEW_SECTION_INSERT: 'להכניס סעיף חדש...',
+  NEW_SECTION_INSERT: 'להכניס סעיף חדש',
   NEW_TOPIC_PROMPT: 'קטע חדש...',
   NEW_TOPIC_PROMPT_FIRST: 'להכניס קטע חדש...',
   LOGOUT: 'יציאה',
