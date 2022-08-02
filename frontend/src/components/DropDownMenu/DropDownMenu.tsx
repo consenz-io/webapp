@@ -28,16 +28,21 @@ const DropDownMenu: FC<IProps> = ({
   const open = Boolean(anchorEl);
 
   const handleClick = (e: MouseEvent<HTMLElement>) => {
-    setAnchorEl(e.currentTarget); //TODO fix anchorEl error on console
+    e.stopPropagation();
+    setAnchorEl(e.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>) => {
+    e.stopPropagation();
     setAnchorEl(null);
   };
 
-  const handleMenuItemOnClick = (menuItem: MenuItem) => {
+  const handleMenuItemOnClick = (
+    e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>,
+    menuItem: MenuItem
+  ) => {
     menuItem.action?.();
-    handleClose();
+    handleClose(e);
   };
   return (
     <>
@@ -71,7 +76,7 @@ const DropDownMenu: FC<IProps> = ({
       >
         {menuItems.map((menuItem, i) => {
           return (
-            <SC.DropDownMenuItem key={i} onClick={() => handleMenuItemOnClick(menuItem)}>
+            <SC.DropDownMenuItem key={i} onClick={(e) => handleMenuItemOnClick(e, menuItem)}>
               {menuItem.color && (
                 <CircleIcon
                   style={{ fill: menuItem.color, marginRight: '.5rem', marginLeft: '-.25rem' }}

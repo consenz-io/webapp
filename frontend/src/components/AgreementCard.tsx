@@ -10,6 +10,8 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { GroupContext } from 'contexts/group';
 import { ColorModeAndDirectionContext } from 'theme';
 import { ThemeModeType } from 'types';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 interface IAgreementCardProps {
   id: number;
@@ -20,6 +22,14 @@ interface IAgreementCardProps {
   participants: number;
   isArchived?: boolean;
 }
+
+const MainCard = styled(Card)`
+  cursor: pointer;
+  transition: all 0.2s linear;
+  &:hover {
+    box-shadow: 0px 0px 8px ${(props) => props.theme.palette.background.border};
+  }
+`;
 
 const AgreementCard: FC<IAgreementCardProps> = ({
   id,
@@ -32,10 +42,11 @@ const AgreementCard: FC<IAgreementCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const { mode } = useContext(ColorModeAndDirectionContext);
-  const { archiveAgreement } = useContext(GroupContext);
+  const { archiveAgreement, slug } = useContext(GroupContext);
+  const navigate = useNavigate();
   const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : '#595F68';
   return (
-    <Card>
+    <MainCard onClick={() => navigate(`/${slug}/agreement/${id}`)}>
       <Stack>
         <CardContent sx={{ backgroundColor: cardBackgroundColor, position: 'relative' }}>
           <Box position="absolute" left="1rem" right="1rem">
@@ -100,7 +111,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
           </Stack>
         </CardContent>
       </Stack>
-    </Card>
+    </MainCard>
   );
 };
 
