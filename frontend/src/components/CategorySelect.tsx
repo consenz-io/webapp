@@ -5,6 +5,7 @@ import { ICategorySelectProps } from 'types';
 import React, { useContext, useState, FC, useEffect } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import AddIcon from '@mui/icons-material/Add';
+import ModalEl from '../components/Modal/Modal';
 
 import {
   MenuItem,
@@ -81,6 +82,12 @@ const CategorySelect: FC<ICategorySelectProps> = ({
     backgroundColor: buttonColor,
     borderColor: buttonColor,
   });
+  const [openModalState, setOpenModalState] = useState(false);
+  const handleOpenModal = () => {
+    console.log('handleOpenModal11');
+    setOpenModalState(true);
+  };
+  const handleCloseModal = () => setOpenModalState(false);
 
   return categoryId && !isSelecting ? (
     <CategorySelectButton
@@ -130,12 +137,15 @@ const CategorySelect: FC<ICategorySelectProps> = ({
             );
           } else {
             return (
-              <MenuItem sx={{ fontSize: '0.85em', fontWeight: 600 }} key={i}>
-                <ListItemIcon sx={{ margin: 0, padding: 0, width: 'max-content' }}>
-                  <AddIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText sx={{ margin: 0, color: '#adb2b8' }}>{category.name}</ListItemText>
-              </MenuItem>
+              <div onClick={handleOpenModal}>
+                <MenuItem sx={{ fontSize: '0.85em', fontWeight: 600 }} key={i + Math.random()}>
+                  <ListItemIcon sx={{ margin: 0, padding: 0, width: 'max-content' }}>
+                    <AddIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText sx={{ margin: 0, color: '#adb2b8' }}>{category.name}</ListItemText>
+                </MenuItem>
+                <ModalEl open={openModalState} handleClose={handleCloseModal}></ModalEl>
+              </div>
             );
           }
         })}

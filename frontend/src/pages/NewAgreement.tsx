@@ -62,7 +62,6 @@ const NewAgreement: FC = () => {
    * Category
    */
   const [categoryId, setCategoryId] = useState<number | null>(null); //@todo set default based on extant record in Hasura
-  console.log('categoryId', categoryId);
   const groupId = id;
 
   /**

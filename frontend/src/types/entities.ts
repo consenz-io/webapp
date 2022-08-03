@@ -25,3 +25,8 @@ export interface IGroup {
   slug: string;
   color: string;
 }
+
+export interface ModalProps {
+  open: boolean;
+  handleClose: any;
+}
