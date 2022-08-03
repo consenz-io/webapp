@@ -131,10 +131,10 @@ const CategorySelect: FC<ICategorySelectProps> = ({
           } else {
             return (
               <MenuItem sx={{ fontSize: '0.85em', fontWeight: 600 }} key={i}>
-                <ListItemIcon sx={{ margin: 0, padding: 0 }}>
+                <ListItemIcon sx={{ margin: 0, padding: 0, width: 'max-content' }}>
                   <AddIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>{category.name}</ListItemText>
+                <ListItemText sx={{ margin: 0, color: '#adb2b8' }}>{category.name}</ListItemText>
               </MenuItem>
             );
           }
