@@ -5,7 +5,8 @@ import { ICategorySelectProps } from 'types';
 import React, { useContext, useState, FC, useEffect } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import AddIcon from '@mui/icons-material/Add';
-
+import { ModalElement } from './Modal/style';
+import ModalBox from './Modal/Modal';
 import {
   MenuItem,
   FormControl,
@@ -81,6 +82,9 @@ const CategorySelect: FC<ICategorySelectProps> = ({
     backgroundColor: buttonColor,
     borderColor: buttonColor,
   });
+  const [openModalState, setOpenModalState] = useState(false);
+  const handleOpenModal = () => setOpenModalState(true);
+  const handleCloseModal = () => setOpenModalState(false);
 
   return categoryId && !isSelecting ? (
     <CategorySelectButton
@@ -131,6 +135,7 @@ const CategorySelect: FC<ICategorySelectProps> = ({
           } else {
             return (
               <MenuItem
+                onClick={handleOpenModal}
                 sx={{
                   paddingRight: '5rem',
                   color: '#adb2b8',
@@ -143,6 +148,14 @@ const CategorySelect: FC<ICategorySelectProps> = ({
                   <AddIcon fontSize="small" />
                 </ListItemIcon>
                 {category.name}
+                <ModalElement
+                  open={openModalState}
+                  onClose={handleCloseModal}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <ModalBox></ModalBox>
+                </ModalElement>
               </MenuItem>
             );
           }
