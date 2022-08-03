@@ -21,7 +21,7 @@ const NewAgreement: FC = () => {
   const theme = useTheme();
 
   /**
-   * Saved agreement state (in case of browser refresh)
+   * Saved and restore agreement state in case of browser refresh
    */
   const sessionStorageKey = 'consenz-new-agreement-id';
   const [agreementId, setAgreementId] = useState(
@@ -33,11 +33,7 @@ const NewAgreement: FC = () => {
     category_id: number;
     rationale: string;
   } | null>(null);
-  const {
-    // loading: agreementQueryLoading,
-    error: agreementQueryError,
-    // data: agreementQueryData,
-  } = useQuery(agreementDetailsQuery, {
+  const { /* loading, data, */ error: agreementQueryError } = useQuery(agreementDetailsQuery, {
     variables: { id: agreementId },
     onCompleted: (data) => {
       const record = data.core_agreements?.at(0);
