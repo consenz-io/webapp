@@ -5,7 +5,6 @@ import { ICategorySelectProps } from 'types';
 import React, { useContext, useState, FC, useEffect } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import AddIcon from '@mui/icons-material/Add';
-import ModalEl from '../components/Modal/Modal';
 
 import {
   MenuItem,
@@ -13,7 +12,7 @@ import {
   InputLabel,
   Button,
   ListItemIcon,
-  ListItemText,
+  // ListItemText,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -32,8 +31,8 @@ const CategorySelect: FC<ICategorySelectProps> = ({
   const [isReady, setIsReady] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
 
-  const { categories } = useContext(GroupContext);
-
+  let { categories } = useContext(GroupContext);
+  categories = [...categories, { name: 'New Category', id: NaN }];
   useEffect(() => {
     // When category data is available and rendered, fire onReady.
     if (!isReady && categories) {
@@ -82,11 +81,6 @@ const CategorySelect: FC<ICategorySelectProps> = ({
     backgroundColor: buttonColor,
     borderColor: buttonColor,
   });
-  const [openModalState, setOpenModalState] = useState(false);
-  const handleOpenModal = () => {
-    setOpenModalState(true);
-  };
-  const handleCloseModal = () => setOpenModalState(false);
 
   return categoryId && !isSelecting ? (
     <CategorySelectButton
@@ -136,15 +130,20 @@ const CategorySelect: FC<ICategorySelectProps> = ({
             );
           } else {
             return (
-              <div onClick={handleOpenModal}>
-                <MenuItem sx={{ fontSize: '0.85em', fontWeight: 600 }} key={i}>
-                  <ListItemIcon sx={{ margin: 0, padding: 0, width: 'max-content' }}>
-                    <AddIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText sx={{ margin: 0, color: '#adb2b8' }}>{category.name}</ListItemText>
-                </MenuItem>
-                <ModalEl open={openModalState} handleClose={handleCloseModal}></ModalEl>
-              </div>
+              <MenuItem
+                sx={{
+                  paddingRight: '5rem',
+                  color: '#adb2b8',
+                  fontSize: '0.85em',
+                  fontWeight: 600,
+                }}
+                key={i}
+              >
+                <ListItemIcon sx={{ margin: 0 }}>
+                  <AddIcon fontSize="small" />
+                </ListItemIcon>
+                {category.name}
+              </MenuItem>
             );
           }
         })}
