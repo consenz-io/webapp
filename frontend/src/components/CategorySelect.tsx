@@ -84,7 +84,6 @@ const CategorySelect: FC<ICategorySelectProps> = ({
   });
   const [openModalState, setOpenModalState] = useState(false);
   const handleOpenModal = () => {
-    console.log('handleOpenModal11');
     setOpenModalState(true);
   };
   const handleCloseModal = () => setOpenModalState(false);
@@ -138,7 +137,7 @@ const CategorySelect: FC<ICategorySelectProps> = ({
           } else {
             return (
               <div onClick={handleOpenModal}>
-                <MenuItem sx={{ fontSize: '0.85em', fontWeight: 600 }} key={i + Math.random()}>
+                <MenuItem sx={{ fontSize: '0.85em', fontWeight: 600 }} key={i}>
                   <ListItemIcon sx={{ margin: 0, padding: 0, width: 'max-content' }}>
                     <AddIcon fontSize="small" />
                   </ListItemIcon>

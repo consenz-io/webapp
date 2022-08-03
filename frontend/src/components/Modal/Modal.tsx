@@ -4,10 +4,12 @@ import * as SC from './style';
 import { ModalProps } from '../../types/entities';
 
 function ModalEl(props: ModalProps) {
+  let openState = props.open;
   return (
     <SC.ModalElement
-      open={props.open}
+      open={openState}
       onClose={() => {
+        openState = false;
         props.handleClose(false);
       }}
       aria-labelledby="modal-modal-title"
