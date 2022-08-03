@@ -14,19 +14,21 @@ const GroupProvider: FC = () => {
 
   const currentGroup = user?.groups?.find((group) => group.slug === groupSlug);
 
-  const { data: activeAgreements } = useQuery<{ core_agreements: IAgreement[] }>(
-    agreementsQuery(categoryId),
-    {
-      variables: { groupId: currentGroup?.id || -1, isArchived: false, categoryId },
-    }
-  );
+  const { data: activeAgreements } = useQuery<{
+    core_agreements: IAgreement[];
+  }>(agreementsQuery(categoryId), {
+    variables: {
+      groupId: currentGroup?.id || -1,
+      isArchived: false,
+      categoryId,
+    },
+  });
 
-  const { data: archivedAgreements } = useQuery<{ core_agreements: IAgreement[] }>(
-    agreementsQuery(),
-    {
-      variables: { groupId: currentGroup?.id || -1, isArchived: true },
-    }
-  );
+  const { data: archivedAgreements } = useQuery<{
+    core_agreements: IAgreement[];
+  }>(agreementsQuery(), {
+    variables: { groupId: currentGroup?.id || -1, isArchived: true },
+  });
 
   const { data: categoriesData } = useQuery<{ core_categories: ICategory[] }>(
     gql`
@@ -67,9 +69,10 @@ const GroupProvider: FC = () => {
     id: currentGroup?.id || -1,
     activeAgreements: activeAgreements?.core_agreements || [],
     archivedAgreements: archivedAgreements?.core_agreements || [],
-    categories: categoriesData?.core_categories || [],
+    categories: categoriesData?.core_categories || [{ name: 'New Category', id: NaN }],
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
   };
+  state.categories = [...state.categories, { name: 'New Category', id: NaN }];
   return (
     <GroupContext.Provider value={state}>
       <Outlet />

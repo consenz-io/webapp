@@ -4,7 +4,16 @@ import { useTheme } from '@mui/material/styles';
 import { ICategorySelectProps } from 'types';
 import React, { useContext, useState, FC, useEffect } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { MenuItem, FormControl, InputLabel, Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+
+import {
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Button,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { generateColorFromString } from 'utils/functions';
@@ -112,11 +121,24 @@ const CategorySelect: FC<ICategorySelectProps> = ({
           '& .MuiSelect-icon': { color: '#f2f2f2' },
         }}
       >
-        {categories.map((category, i) => (
-          <MenuItem key={i} value={category.id} sx={{ fontSize: '0.85em', fontWeight: 600 }}>
-            {category.name}
-          </MenuItem>
-        ))}
+        {categories.map((category, i) => {
+          if (!Number.isNaN(category.id)) {
+            return (
+              <MenuItem key={i} value={category.id} sx={{ fontSize: '0.85em', fontWeight: 600 }}>
+                {category.name}
+              </MenuItem>
+            );
+          } else {
+            return (
+              <MenuItem sx={{ fontSize: '0.85em', fontWeight: 600 }} key={i}>
+                <ListItemIcon sx={{ margin: 0, padding: 0 }}>
+                  <AddIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{category.name}</ListItemText>
+              </MenuItem>
+            );
+          }
+        })}
       </Select>
     </FormControl>
   );
