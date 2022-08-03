@@ -69,7 +69,7 @@ const GroupProvider: FC = () => {
     id: currentGroup?.id || -1,
     activeAgreements: activeAgreements?.core_agreements || [],
     archivedAgreements: archivedAgreements?.core_agreements || [],
-    categories: categoriesData?.core_categories || [{ name: 'New Category', id: NaN }],
+    categories: categoriesData?.core_categories || [],
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
   };
   return (

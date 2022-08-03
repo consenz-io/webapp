@@ -31,8 +31,7 @@ const CategorySelect: FC<ICategorySelectProps> = ({
   const [isReady, setIsReady] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
 
-  let { categories } = useContext(GroupContext);
-  categories = [...categories, { name: 'New Category', id: NaN }];
+  const { categories } = useContext(GroupContext);
   useEffect(() => {
     // When category data is available and rendered, fire onReady.
     if (!isReady && categories) {
@@ -122,31 +121,26 @@ const CategorySelect: FC<ICategorySelectProps> = ({
         }}
       >
         {categories.map((category, i) => {
-          if (!Number.isNaN(category.id)) {
-            return (
-              <MenuItem key={i} value={category.id} sx={{ fontSize: '0.85em', fontWeight: 600 }}>
-                {category.name}
-              </MenuItem>
-            );
-          } else {
-            return (
-              <MenuItem
-                sx={{
-                  paddingRight: '5rem',
-                  color: '#adb2b8',
-                  fontSize: '0.85em',
-                  fontWeight: 600,
-                }}
-                key={i}
-              >
-                <ListItemIcon sx={{ margin: 0 }}>
-                  <AddIcon fontSize="small" />
-                </ListItemIcon>
-                {category.name}
-              </MenuItem>
-            );
-          }
+          return (
+            <MenuItem key={i} value={category.id} sx={{ fontSize: '0.85em', fontWeight: 600 }}>
+              {category.name}
+            </MenuItem>
+          );
         })}
+        <MenuItem
+          sx={{
+            paddingRight: '5rem',
+            color: '#adb2b8',
+            fontSize: '0.85em',
+            fontWeight: 600,
+          }}
+          key={NaN}
+        >
+          <ListItemIcon sx={{ margin: 0 }}>
+            <AddIcon fontSize="small" />
+          </ListItemIcon>
+          {t(StringBank.ADD_NEW_CATEGORY)}
+        </MenuItem>
       </Select>
     </FormControl>
   );
