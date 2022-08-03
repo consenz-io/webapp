@@ -72,7 +72,6 @@ const GroupProvider: FC = () => {
     categories: categoriesData?.core_categories || [{ name: 'New Category', id: NaN }],
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
   };
-  state.categories = [...state.categories, { name: 'New Category', id: NaN }];
   return (
     <GroupContext.Provider value={state}>
       <Outlet />

@@ -12,7 +12,7 @@ import {
   InputLabel,
   Button,
   ListItemIcon,
-  ListItemText,
+  // ListItemText,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -31,8 +31,8 @@ const CategorySelect: FC<ICategorySelectProps> = ({
   const [isReady, setIsReady] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
 
-  const { categories } = useContext(GroupContext);
-
+  let { categories } = useContext(GroupContext);
+  categories = [...categories, { name: 'New Category', id: NaN }];
   useEffect(() => {
     // When category data is available and rendered, fire onReady.
     if (!isReady && categories) {
@@ -130,11 +130,19 @@ const CategorySelect: FC<ICategorySelectProps> = ({
             );
           } else {
             return (
-              <MenuItem sx={{ fontSize: '0.85em', fontWeight: 600 }} key={i}>
-                <ListItemIcon sx={{ margin: 0, padding: 0, width: 'max-content' }}>
+              <MenuItem
+                sx={{
+                  paddingRight: '5rem',
+                  color: '#adb2b8',
+                  fontSize: '0.85em',
+                  fontWeight: 600,
+                }}
+                key={i}
+              >
+                <ListItemIcon sx={{ margin: 0 }}>
                   <AddIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText sx={{ margin: 0, color: '#adb2b8' }}>{category.name}</ListItemText>
+                {category.name}
               </MenuItem>
             );
           }
