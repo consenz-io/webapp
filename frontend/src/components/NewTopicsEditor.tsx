@@ -78,7 +78,7 @@ const NewTopicsEditor: FC<INewTopicsEditorProps> = ({ agreementId, data }) => {
    */
   const handleTopicInsert = (name: string) => {
     // Always insert new topic after any/all preceding. Use 1-base, not 0-base.
-    const indexWithinAgreement = data.length || 1;
+    const indexWithinAgreement = data.length + 1 || 1;
     addTopic({
       variables: { agreement_id: agreementId, index: indexWithinAgreement, name: name },
     });
@@ -180,11 +180,7 @@ const NewTopicsEditor: FC<INewTopicsEditorProps> = ({ agreementId, data }) => {
         </HashBulletListItem>
       ))}
       {/* Always prompt for a new topic at the end. */}
-      <HashBulletListItem
-        key={data.length + 1}
-        className={theme.direction}
-        style={theme.typography.h3}
-      >
+      <HashBulletListItem key={Date.now()} className={theme.direction} style={theme.typography.h3}>
         <NewTopic
           data={{ index: data.length + 1, sections: [] }}
           onInsert={handleTopicInsert}
