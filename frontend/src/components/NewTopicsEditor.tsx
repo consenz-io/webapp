@@ -4,8 +4,9 @@ import {
   updateTopicMutation,
   deleteTopicMutation,
   addSectionMutation,
-  updateSectionMutation,
   deleteSectionMutation,
+  addSuggestionMutation,
+  updateSuggestionMutation,
 } from 'utils/queries';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
@@ -42,36 +43,32 @@ const NewTopicsEditor: FC<INewTopicsEditorProps> = ({ agreementId, data }) => {
    * Mutations
    */
   const [addTopic, { /* data, loading, */ error: addTopicError }] = useMutation(addTopicMutation, {
-    refetchQueries: ['agreementTopicsAndSections'],
+    refetchQueries: ['agreementTopicsSectionsSuggestions'],
   });
   if (addTopicError) console.log(addTopicError);
-  const [updateTopic, { /* data, loading, */ error: updateTopicError }] = useMutation(
-    updateTopicMutation,
-    { refetchQueries: ['agreementTopicsAndSections'] }
-  );
+  const [updateTopic, { error: updateTopicError }] = useMutation(updateTopicMutation, {
+    refetchQueries: ['agreementTopicsSectionsSuggestions'],
+  });
   if (updateTopicError) console.log(updateTopicError);
-  const [deleteTopic, { /* data, loading, */ error: deleteTopicError }] = useMutation(
-    deleteTopicMutation,
-    {
-      refetchQueries: ['agreementTopicsAndSections'],
-    }
-  );
+  const [deleteTopic, { error: deleteTopicError }] = useMutation(deleteTopicMutation, {
+    refetchQueries: ['agreementTopicsSectionsSuggestions'],
+  });
   if (deleteTopicError) console.log(deleteTopicError);
-  const [addSection, { /* data, loading, */ error: addSectionError }] = useMutation(
-    addSectionMutation,
-    { refetchQueries: ['agreementTopicsAndSections'] }
-  );
+  const [addSection, { error: addSectionError }] = useMutation(addSectionMutation);
   if (addSectionError) console.log(addSectionError);
-  const [updateSection, { /* data, loading, */ error: updateSectionError }] = useMutation(
-    updateSectionMutation,
-    { refetchQueries: ['agreementTopicsAndSections'] }
-  );
-  if (updateSectionError) console.log(updateSectionError);
-  const [deleteSection, { /* data, loading, */ error: deleteSectionError }] = useMutation(
-    deleteSectionMutation,
-    { refetchQueries: ['agreementTopicsAndSections'] }
-  );
+  const [deleteSection, { error: deleteSectionError }] = useMutation(deleteSectionMutation, {
+    refetchQueries: ['agreementTopicsSectionsSuggestions'],
+  });
   if (deleteSectionError) console.log(deleteSectionError);
+  const [addSuggestion, { error: addSuggestionError }] = useMutation(addSuggestionMutation, {
+    refetchQueries: ['agreementTopicsSectionsSuggestions'],
+  });
+  if (addSuggestionError) console.log(addSuggestionError);
+  const [updateSuggestion, { error: updateSuggestionError }] = useMutation(
+    updateSuggestionMutation,
+    { refetchQueries: ['agreementTopicsSectionsSuggestions'] }
+  );
+  if (updateSuggestionError) console.log(updateSuggestionError);
 
   /**
    * Handlers
@@ -100,11 +97,14 @@ const NewTopicsEditor: FC<INewTopicsEditorProps> = ({ agreementId, data }) => {
         index: index,
         content: content,
       },
+    }).then((result) => {
+      const sectionId = result.data.insert_core_sections_one.id;
+      addSuggestion({ variables: { section_id: sectionId, content: content } });
     });
   };
-  const handleSectionChange = (sectionId: number, content: string) => {
+  const handleSectionChange = (suggestionId: number, content: string) => {
     // Update section content by primary key.
-    updateSection({ variables: { id: sectionId, content: content } });
+    updateSuggestion({ variables: { id: suggestionId, content: content } });
   };
   const handleSectionDelete = (sectionId: number, index: number) => {
     // Delete section by primary key, and provide "index" from prior data.
@@ -209,18 +209,17 @@ const NewTopic: FC<PropsWithChildren<INewTopicProps>> = ({
 
   // State
   const [name, setName] = useState(data.name || '');
-  const isFirst = data?.index === 0;
+  const isFirst = data.index === 0;
   const isSaved = data.id !== undefined;
-  const hasSectionContent =
-    data.sections && data.sections.length > 0 && data.sections[0].id !== undefined;
+  const hasSectionContent = data.sections?.[0]?.id !== undefined;
 
   // Handlers
   const handleBlur = () => {
     if (isSaved) {
       if (name.length > 0) {
-        onChange(data?.id as number, name);
+        onChange(data.id as number, name);
       } else if (!hasSectionContent) {
-        onDelete(data?.id as number, data?.index as number);
+        onDelete(data.id as number, data.index as number);
       }
     } else if (name.length > 0) {
       onInsert(name);
@@ -267,29 +266,28 @@ const NewSection: FC<INewSectionProps> = ({ data, onInsert, onChange, onDelete, 
   const theme = useTheme();
 
   // State
-  const [content, setContent] = useState(data.content || '');
+  const [content, setContent] = useState(data.suggestions?.[0]?.content || '');
   const [isFocused, setIsFocused] = useState(false);
   const sectionIndexPadded = String(data.index).padStart(2, '0');
-  // const isFirst = data?.index === 0;
   const isSaved = data.id !== undefined;
 
   // Handlers
   const handleBlur = () => {
     if (isSaved) {
       if (content.length == 0) {
-        onDelete(data?.id as number, data?.index as number);
-      } else if (content !== data?.content) {
-        onChange(data?.id as number, content);
+        onDelete(data.id as number, data.index as number);
+      } else if (content !== data.suggestions?.[0]?.content) {
+        onChange(data.suggestions?.[0]?.id as number, content);
       }
     } else if (content.length > 0) {
-      onInsert(data?.topic_id as number, data?.index as number, content);
+      onInsert(data.topic_id as number, data.index as number, content);
     }
     setIsFocused(false);
   };
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (event.ctrlKey && event.key === 'Enter') {
       if (content.length > 0) {
-        onCreateNext(data?.topic_id as number, (data?.index as number) + 1);
+        onCreateNext(data.topic_id as number, (data.index as number) + 1);
         event.currentTarget.blur();
       }
     }
@@ -319,7 +317,7 @@ const NewSection: FC<INewSectionProps> = ({ data, onInsert, onChange, onDelete, 
         <Typography
           variant="body2"
           sx={{ marginTop: '0.5em' }}
-          onClick={() => onCreateNext(data?.topic_id as number, data?.index as number)}
+          onClick={() => onCreateNext(data.topic_id as number, data.index as number)}
         >
           + {t(StringBank.NEW_SECTION_INSERT)} (Ctrl/Cmd+Enter)
         </Typography>

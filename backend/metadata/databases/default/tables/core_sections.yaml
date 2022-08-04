@@ -8,6 +8,14 @@ object_relationships:
   - name: topic
     using:
       foreign_key_constraint_on: topic_id
+array_relationships:
+  - name: suggestions
+    using:
+      foreign_key_constraint_on:
+        column: section_id
+        table:
+          schema: core
+          name: suggestions
 insert_permissions:
   - role: authenticated
     permission:
@@ -20,7 +28,6 @@ insert_permissions:
                   _eq: X-Hasura-User-Id
       columns:
         - agreement_id
-        - content
         - created_at
         - id
         - index
@@ -31,7 +38,6 @@ select_permissions:
     permission:
       columns:
         - agreement_id
-        - content
         - created_at
         - id
         - index
@@ -48,7 +54,6 @@ update_permissions:
   - role: authenticated
     permission:
       columns:
-        - content
         - index
         - updated_at
       filter:

@@ -65,10 +65,10 @@ export type INewSectionProps = {
     agreement_id?: number;
     topic_id?: number;
     index?: number;
-    content?: string;
+    suggestions?: [{ id?: number; content?: string }];
   };
   onInsert: (topicId: number, index: number, content: string) => void;
-  onChange: (sectionId: number, content: string) => void;
+  onChange: (suggestionId: number, content: string) => void;
   onDelete: (sectionId: number, index: number) => void;
   onCreateNext: (topicId: number, index: number) => void;
 };

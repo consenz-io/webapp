@@ -6,7 +6,7 @@ import React, { FC } from 'react';
 import { useState, useEffect, useContext, useCallback, useRef, useLayoutEffect } from 'react';
 import {
   agreementDetailsQuery,
-  agreementTopicsAndSectionsQuery,
+  agreementTopicsSectionsSuggestionsQuery,
   addAgreementMutation,
   updateAgreementMutation,
 } from 'utils/queries';
@@ -199,8 +199,8 @@ const NewAgreement: FC = () => {
    * Topics and Sections
    */
   const [topicsAndSections, setTopicsAndSections] = useState<Array<object>>([]);
-  const [loadAgreementTopicsAndSections /*, { called, loading, data }*/] = useLazyQuery(
-    agreementTopicsAndSectionsQuery,
+  const [loadAgreementTopicsSectionsSuggestions /*, { called, loading, data }*/] = useLazyQuery(
+    agreementTopicsSectionsSuggestionsQuery,
     {
       variables: { agreement_id: agreementId },
       onCompleted: (data) => setTopicsAndSections(data.core_topics || []),
@@ -208,8 +208,8 @@ const NewAgreement: FC = () => {
     }
   );
   useEffect(() => {
-    if (agreementId !== null) loadAgreementTopicsAndSections();
-  }, [agreementId, loadAgreementTopicsAndSections]);
+    if (agreementId !== null) loadAgreementTopicsSectionsSuggestions();
+  }, [agreementId, loadAgreementTopicsSectionsSuggestions]);
 
   /**
    * "Continue" button

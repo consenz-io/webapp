@@ -50,15 +50,19 @@ export const agreementDetailsQuery = gql`
           id
           topic_id
           index
-          content
+          suggestions(order_by: { created_at: asc }) {
+            id
+            section_id
+            content
+          }
         }
       }
     }
   }
 `;
 
-export const agreementTopicsAndSectionsQuery = gql`
-  query agreementTopicsAndSections($agreement_id: Int!) {
+export const agreementTopicsSectionsSuggestionsQuery = gql`
+  query agreementTopicsSectionsSuggestions($agreement_id: Int!) {
     core_topics(where: { agreement_id: { _eq: $agreement_id } }, order_by: { index: asc }) {
       id
       index
@@ -68,7 +72,11 @@ export const agreementTopicsAndSectionsQuery = gql`
         agreement_id
         topic_id
         index
-        content
+        suggestions(order_by: { created_at: asc }) {
+          id
+          section_id
+          content
+        }
       }
     }
   }
@@ -157,7 +165,7 @@ export const deleteTopicMutation = gql`
 // Mutation to insert new section record
 // Note: first we increment index on any later sections in the same agreement
 export const addSectionMutation = gql`
-  mutation AddSection($agreement_id: Int!, $topic_id: Int!, $index: Int!, $content: String!) {
+  mutation AddSection($agreement_id: Int!, $topic_id: Int!, $index: Int!) {
     update_core_sections(
       where: { index: { _gte: $index }, agreement_id: { _eq: $agreement_id } }
       _inc: { index: 1 }
@@ -171,27 +179,11 @@ export const addSectionMutation = gql`
       affected_rows
     }
     insert_core_sections_one(
-      object: { agreement_id: $agreement_id, topic_id: $topic_id, index: $index, content: $content }
+      object: { agreement_id: $agreement_id, topic_id: $topic_id, index: $index }
     ) {
       id
       agreement_id
       index
-      content
-    }
-  }
-`;
-
-// Mutation to update section record
-export const updateSectionMutation = gql`
-  mutation UpdateSection($id: Int!, $content: String!) {
-    update_core_sections_by_pk(pk_columns: { id: $id }, _set: { content: $content }) {
-      id
-      agreement_id
-      topic_id
-      index
-      content
-      created_at
-      updated_at
     }
   }
 `;
@@ -199,12 +191,21 @@ export const updateSectionMutation = gql`
 // Mutation to delete section record
 export const deleteSectionMutation = gql`
   mutation DeleteSection($id: Int!, $agreement_id: Int!, $index: Int!) {
+    delete_core_suggestions(where: { section_id: { _eq: $id } }) {
+      returning {
+        id
+        section_id
+        content
+        created_at
+        updated_at
+      }
+      affected_rows
+    }
     delete_core_sections_by_pk(id: $id) {
       id
       agreement_id
       topic_id
       index
-      content
       created_at
       updated_at
     }
@@ -218,6 +219,30 @@ export const deleteSectionMutation = gql`
         agreement_id
       }
       affected_rows
+    }
+  }
+`;
+
+// Mutation to insert new section record
+export const addSuggestionMutation = gql`
+  mutation AddSuggestion($section_id: Int!, $content: String!) {
+    insert_core_suggestions_one(object: { section_id: $section_id, content: $content }) {
+      id
+      section_id
+      content
+    }
+  }
+`;
+
+// Mutation to update suggestion record
+export const updateSuggestionMutation = gql`
+  mutation UpdateSuggestion($id: Int!, $content: String!) {
+    update_core_suggestions_by_pk(pk_columns: { id: $id }, _set: { content: $content }) {
+      id
+      section_id
+      content
+      created_at
+      updated_at
     }
   }
 `;

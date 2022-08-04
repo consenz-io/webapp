@@ -60,3 +60,15 @@ update_permissions:
                   user_id:
                     _eq: X-Hasura-User-Id
       check: null
+delete_permissions:
+  - role: authenticated
+    permission:
+      backend_only: false
+      filter:
+        section:
+          agreement:
+            group:
+              group_users:
+                user:
+                  user_id:
+                    _eq: X-Hasura-User-Id
