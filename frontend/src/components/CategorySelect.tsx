@@ -4,7 +4,16 @@ import { useTheme } from '@mui/material/styles';
 import { ICategorySelectProps } from 'types';
 import React, { useContext, useState, FC, useEffect } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { MenuItem, FormControl, InputLabel, Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+
+import {
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Button,
+  ListItemIcon,
+  // ListItemText,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { generateColorFromString } from 'utils/functions';
@@ -23,7 +32,6 @@ const CategorySelect: FC<ICategorySelectProps> = ({
   const [isSelecting, setIsSelecting] = useState(false);
 
   const { categories } = useContext(GroupContext);
-
   useEffect(() => {
     // When category data is available and rendered, fire onReady.
     if (!isReady && categories) {
@@ -117,6 +125,12 @@ const CategorySelect: FC<ICategorySelectProps> = ({
             {category.name}
           </MenuItem>
         ))}
+        <MenuItem>
+          <AddIcon fontSize="small" htmlColor="#adb2b8" />
+          <Typography variant="body2" color="#adb2b8" paddingX={1}>
+            {t(StringBank.ADD_NEW_CATEGORY)}
+          </Typography>
+        </MenuItem>
       </Select>
     </FormControl>
   );

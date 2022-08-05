@@ -14,19 +14,21 @@ const GroupProvider: FC = () => {
 
   const currentGroup = user?.groups?.find((group) => group.slug === groupSlug);
 
-  const { data: activeAgreements } = useQuery<{ core_agreements: IAgreement[] }>(
-    agreementsQuery(categoryId),
-    {
-      variables: { groupId: currentGroup?.id || -1, isArchived: false, categoryId },
-    }
-  );
+  const { data: activeAgreements } = useQuery<{
+    core_agreements: IAgreement[];
+  }>(agreementsQuery(categoryId), {
+    variables: {
+      groupId: currentGroup?.id || -1,
+      isArchived: false,
+      categoryId,
+    },
+  });
 
-  const { data: archivedAgreements } = useQuery<{ core_agreements: IAgreement[] }>(
-    agreementsQuery(),
-    {
-      variables: { groupId: currentGroup?.id || -1, isArchived: true },
-    }
-  );
+  const { data: archivedAgreements } = useQuery<{
+    core_agreements: IAgreement[];
+  }>(agreementsQuery(), {
+    variables: { groupId: currentGroup?.id || -1, isArchived: true },
+  });
 
   const { data: categoriesData } = useQuery<{ core_categories: ICategory[] }>(
     gql`
