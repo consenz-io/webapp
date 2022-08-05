@@ -120,26 +120,16 @@ const CategorySelect: FC<ICategorySelectProps> = ({
           '& .MuiSelect-icon': { color: '#f2f2f2' },
         }}
       >
-        {categories.map((category, i) => {
-          return (
-            <MenuItem key={i} value={category.id} sx={{ fontSize: '0.85em', fontWeight: 600 }}>
-              {category.name}
-            </MenuItem>
-          );
-        })}
-        <MenuItem
-          sx={{
-            paddingRight: '5rem',
-            color: '#adb2b8',
-            fontSize: '0.85em',
-            fontWeight: 600,
-          }}
-          key={NaN}
-        >
-          <ListItemIcon sx={{ margin: 0 }}>
-            <AddIcon fontSize="small" />
-          </ListItemIcon>
-          {t(StringBank.ADD_NEW_CATEGORY)}
+        {categories.map((category, i) => (
+          <MenuItem key={i} value={category.id} sx={{ fontSize: '0.85em', fontWeight: 600 }}>
+            {category.name}
+          </MenuItem>
+        ))}
+        <MenuItem>
+          <AddIcon fontSize="small" htmlColor="#adb2b8" />
+          <Typography variant="body2" color="#adb2b8" paddingX={1}>
+            {t(StringBank.ADD_NEW_CATEGORY)}
+          </Typography>
         </MenuItem>
       </Select>
     </FormControl>
