@@ -52,10 +52,10 @@
   "resolved" "https://registry.npmjs.org/has-flag/-/has-flag-3.0.0.tgz"
   "version" "3.0.0"
 
-"hasura-cli@^2.8.4":
-  "integrity" "sha512-3jhTEOOt6SxEDUx/efxZKJ3X4wgQfE3KVZKF4y2M/yaZpRoXTMN/Y9KbMSisDrtbU9+tBBtTEQwLPcVALhEjWw=="
-  "resolved" "https://registry.npmjs.org/hasura-cli/-/hasura-cli-2.8.4.tgz"
-  "version" "2.8.4"
+"hasura-cli@^2.9.0":
+  "integrity" "sha512-TWVnG2HS0Q/QrwHelUmwW3LlwQLjRZpssBNcA7vEmx8ZBz/DA4ZuwqQbi+EtRoW2dt783SbqJq5G2u80/91RZg=="
+  "resolved" "https://registry.npmjs.org/hasura-cli/-/hasura-cli-2.9.0.tgz"
+  "version" "2.9.0"
   dependencies:
     "axios" "^0.21.1"
     "chalk" "^2.4.2"
