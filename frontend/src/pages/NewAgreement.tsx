@@ -11,7 +11,7 @@ import { GroupContext } from 'contexts/group';
 import { addAgreement as addAgreementMutation } from 'utils/mutations';
 
 const NewAgreement: FC = () => {
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   const { id } = useContext(GroupContext);
   const theme = useTheme();
 
@@ -31,18 +31,6 @@ const NewAgreement: FC = () => {
     setIsNameEdited(true);
     setIsNameMeasuring(true); // Prepare to re-measure the Agreement Name field's content.
   };
-  const handleLanguageChanged = useCallback(() => {
-    // If name hasn't yet been edited, switch language of the default name.
-    if (!isNameEdited) {
-      setAgreementName(t(StringBank.NEW_AGREEMENT_NAME_DEFAULT));
-    }
-  }, [isNameEdited, t]);
-  useEffect(() => {
-    i18n.on('languageChanged', handleLanguageChanged);
-    return () => {
-      i18n.off('languageChanged', handleLanguageChanged);
-    };
-  }, [handleLanguageChanged, i18n]);
 
   /**
    * Category
