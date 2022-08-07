@@ -1,6 +1,6 @@
 table:
-  schema: core
   name: users_groups
+  schema: core
 object_relationships:
   - name: group
     using:

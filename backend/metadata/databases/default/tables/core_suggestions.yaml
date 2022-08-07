@@ -1,16 +1,16 @@
 table:
-  schema: core
   name: suggestions
+  schema: core
 object_relationships:
   - name: section
     using:
       manual_configuration:
-        remote_table:
-          schema: core
-          name: sections
-        insertion_order: null
         column_mapping:
           section_id: id
+        insertion_order: null
+        remote_table:
+          name: sections
+          schema: core
 insert_permissions:
   - role: authenticated
     permission:

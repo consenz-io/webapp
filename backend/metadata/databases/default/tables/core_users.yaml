@@ -1,14 +1,14 @@
 table:
-  schema: core
   name: users
+  schema: core
 array_relationships:
   - name: user_groups
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
-          schema: core
           name: users_groups
+          schema: core
 select_permissions:
   - role: authenticated
     permission:
