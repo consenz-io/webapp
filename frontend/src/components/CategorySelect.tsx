@@ -6,14 +6,7 @@ import React, { useContext, useState, FC, useEffect } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import AddIcon from '@mui/icons-material/Add';
 
-import {
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Button,
-  ListItemIcon,
-  // ListItemText,
-} from '@mui/material';
+import { MenuItem, FormControl, InputLabel, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { generateColorFromString } from 'utils/functions';
