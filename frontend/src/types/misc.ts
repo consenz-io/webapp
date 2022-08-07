@@ -25,6 +25,6 @@ export interface IOutletContext {
 export type ICategorySelectProps = {
   categoryId: number | null;
   onChange: (categoryId: number) => void;
-  onSelecting: () => void;
-  onReady: () => void;
+  onSelecting?: () => void;
+  onReady?: () => void;
 };

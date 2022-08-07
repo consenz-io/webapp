@@ -29,7 +29,7 @@ const CategorySelect: FC<ICategorySelectProps> = ({
     // When category data is available and rendered, fire onReady.
     if (!isReady && categories) {
       setIsReady(true);
-      onReady();
+      onReady?.();
     }
   }, [categories, onReady, isReady, setIsReady]);
 
@@ -48,7 +48,7 @@ const CategorySelect: FC<ICategorySelectProps> = ({
 
   const handleOnFocus = () => {
     if (!isSelecting) setIsSelecting(true);
-    onSelecting();
+    onSelecting?.();
   };
 
   //@todo click away closes select
@@ -79,7 +79,7 @@ const CategorySelect: FC<ICategorySelectProps> = ({
       size="small"
       onClick={() => {
         setIsSelecting(true);
-        onSelecting();
+        onSelecting?.();
       }}
     >
       {theme.direction === 'ltr' ? (
