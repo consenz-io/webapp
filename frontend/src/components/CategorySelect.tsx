@@ -7,14 +7,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import AddIcon from '@mui/icons-material/Add';
 import { ModalElement } from './Modal/style';
 import ModalBox from './Modal/Modal';
-import {
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Button,
-  ListItemIcon,
-  // ListItemText,
-} from '@mui/material';
+import { MenuItem, FormControl, InputLabel, Button, ListItemIcon } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { generateColorFromString } from 'utils/functions';
@@ -32,13 +25,12 @@ const CategorySelect: FC<ICategorySelectProps> = ({
   const [isReady, setIsReady] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
 
-  let { categories } = useContext(GroupContext);
-  categories = [...categories, { name: 'New Category', id: NaN }];
+  const { categories } = useContext(GroupContext);
   useEffect(() => {
     // When category data is available and rendered, fire onReady.
     if (!isReady && categories) {
       setIsReady(true);
-      onReady();
+      onReady?.();
     }
   }, [categories, onReady, isReady, setIsReady]);
 
@@ -57,7 +49,7 @@ const CategorySelect: FC<ICategorySelectProps> = ({
 
   const handleOnFocus = () => {
     if (!isSelecting) setIsSelecting(true);
-    onSelecting();
+    onSelecting?.();
   };
 
   //@todo click away closes select
@@ -91,7 +83,7 @@ const CategorySelect: FC<ICategorySelectProps> = ({
       size="small"
       onClick={() => {
         setIsSelecting(true);
-        onSelecting();
+        onSelecting?.();
       }}
     >
       {theme.direction === 'ltr' ? (
@@ -147,7 +139,7 @@ const CategorySelect: FC<ICategorySelectProps> = ({
                 <ListItemIcon sx={{ margin: 0 }}>
                   <AddIcon fontSize="small" />
                 </ListItemIcon>
-                {category.name}
+                {t(StringBank.ADD_NEW_CATEGORY)}
                 <ModalElement
                   open={openModalState}
                   onClose={handleCloseModal}

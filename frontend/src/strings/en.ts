@@ -20,8 +20,9 @@ export const en: Record<StringBank, string> = {
   NEW_AGREEMENT_NAME_DEFAULT: 'My New Agreement',
   CATEGORY_SELECT: 'Category',
   ADD_RATIONALE_HEADER: 'Add Rationale',
-  ADD_RATIONALE_PARAGRAPH: `Why is this agreement needed? What's the background behind its creation? What needs or problems is it meant to answer? ...`,
+  ADD_RATIONALE_PARAGRAPH: `Why is this agreement needed? What's the background behind its creation? What needs or problems is it meant to answer?`,
   CONTINUE: 'Continue',
   UNARCHIVE: 'Unarchive',
   UNCATEGORIZED: 'Uncategorized',
+  ADD_NEW_CATEGORY: 'New Category',
 };
