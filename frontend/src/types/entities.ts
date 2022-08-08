@@ -1,8 +1,3 @@
-export interface ICategory {
-  name: string;
-  id: number;
-}
-
 export interface IAgreement {
   id: number;
   name: string;
@@ -11,11 +6,15 @@ export interface IAgreement {
   rationale: string;
 }
 
-export interface IUser {
+export interface ICategory {
+  name: string;
   id: number;
-  email: string;
-  groups?: IGroup[];
-  displayName?: string;
+}
+
+export interface IChapter {
+  id: number;
+  name: string;
+  sections: ISection[];
 }
 
 export interface IGroup {
@@ -24,4 +23,16 @@ export interface IGroup {
   name: string;
   slug: string;
   color: string;
+}
+
+export interface ISection {
+  id: number;
+  content: string;
+}
+
+export interface IUser {
+  id: number;
+  email: string;
+  groups?: IGroup[];
+  displayName?: string;
 }
