@@ -18,7 +18,13 @@ const Home = () => {
   }, [navigateToAllAgreements, navigateToWelcome, user]);
 
   return (
-    <Stack style={{ height: '100vh' }} flexGrow={1} alignItems="center" justifyContent="center">
+    <Stack
+      style={{ height: '100vh' }}
+      flexGrow={1}
+      alignItems="center"
+      justifyContent="center"
+      data-testid="loader"
+    >
       <CircularProgress />
     </Stack>
   );
