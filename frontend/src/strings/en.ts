@@ -25,4 +25,5 @@ export const en: Record<StringBank, string> = {
   UNARCHIVE: 'Unarchive',
   UNCATEGORIZED: 'Uncategorized',
   ADD_NEW_CATEGORY: 'New Category',
+  MY_NEW_CATEGORY: 'My New Category',
 };

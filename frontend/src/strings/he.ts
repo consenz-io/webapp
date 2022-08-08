@@ -21,5 +21,6 @@ export const he: Partial<Record<StringBank, string>> = {
   UNARCHIVE: 'העברה מארכיון',
   ALL_AGREEMENTS: 'כל ההסכמים',
   GOTO_HOMEPAGE_TITLE: 'לעבור לדף הבית',
+  MY_NEW_CATEGORY: 'הקטגוריה החדשה שלי',
   ADD_NEW_CATEGORY: 'הוספת קטגוריה',
 };
