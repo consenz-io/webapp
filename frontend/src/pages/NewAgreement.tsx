@@ -9,6 +9,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { GroupContext } from 'contexts/group';
 import { addAgreement as addAgreementMutation } from 'utils/mutations';
 import styled from 'styled-components';
+import DialogEl from '../components/Dialog';
 
 const Span = styled.span`
   ${(props) => props.theme.typography.h2};
@@ -49,6 +50,15 @@ const NewAgreement: FC = () => {
     });
   };
 
+  const [openDialogState, setOpenDialogState] = useState(false);
+
+  const handleClickOpenDialog = () => {
+    setOpenDialogState(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialogState(false);
+  };
+
   return (
     <Container maxWidth="md">
       <Stack justifyContent="center" spacing={8} sx={{ marginTop: '1em' }}>
@@ -87,6 +97,14 @@ const NewAgreement: FC = () => {
           </Button>
         </Stack>
       </Stack>
+      <h1>Add new Category</h1>
+      <Button onClick={handleClickOpenDialog}>Add New Category</Button>
+      <DialogEl
+        openDialogState={openDialogState}
+        title="New Category"
+        content="My New Category"
+        closeFunction={handleCloseDialog}
+      ></DialogEl>
     </Container>
   );
 };

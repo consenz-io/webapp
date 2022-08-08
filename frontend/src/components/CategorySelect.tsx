@@ -5,13 +5,19 @@ import { ICategorySelectProps } from 'types';
 import React, { useContext, useState, FC, useEffect } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import AddIcon from '@mui/icons-material/Add';
-import { ModalElement } from './Modal/style';
-import ModalBox from './Modal/Modal';
 import { MenuItem, FormControl, InputLabel, Button, ListItemIcon } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { generateColorFromString } from 'utils/functions';
 import { GroupContext } from 'contexts/group';
+
+// import TextField from '@mui/material/TextField';
+// import Dialog from '@mui/material/Dialog';
+// import DialogActions from '@mui/material/DialogActions';
+// import DialogContent from '@mui/material/DialogContent';
+// import DialogTitle from '@mui/material/DialogTitle';
+
+// import DialogEl from './Dialog';
 
 const CategorySelect: FC<ICategorySelectProps> = ({
   categoryId,
@@ -24,8 +30,23 @@ const CategorySelect: FC<ICategorySelectProps> = ({
 
   const [isReady, setIsReady] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
+  // const [openDialogState, setOpenDialogState] = useState(false);
 
-  const { categories } = useContext(GroupContext);
+  // const handleClickOpenDialog = () => {
+  //   setOpenDialogState(true);
+  // };
+  // const handleCloseDialog = () => {
+  //   setOpenDialogState(false);
+  // };
+
+  // const handleOnFocusDialog = () => {
+  //   if (!openDialogState) {
+  //     setOpenDialogState(openDialogState);
+  //   }
+  // };
+
+  let { categories } = useContext(GroupContext);
+
   useEffect(() => {
     // When category data is available and rendered, fire onReady.
     if (!isReady && categories) {
@@ -48,7 +69,7 @@ const CategorySelect: FC<ICategorySelectProps> = ({
   };
 
   const handleOnFocus = () => {
-    if (!isSelecting) setIsSelecting(true);
+    if (!isSelecting) setIsSelecting(isSelecting);
     onSelecting?.();
   };
 
@@ -74,10 +95,8 @@ const CategorySelect: FC<ICategorySelectProps> = ({
     backgroundColor: buttonColor,
     borderColor: buttonColor,
   });
-  const [openModalState, setOpenModalState] = useState(false);
-  const handleOpenModal = () => setOpenModalState(true);
-  const handleCloseModal = () => setOpenModalState(false);
 
+  categories = [...categories, { name: 'New Category', id: NaN }];
   return categoryId && !isSelecting ? (
     <CategorySelectButton
       size="small"
@@ -127,7 +146,6 @@ const CategorySelect: FC<ICategorySelectProps> = ({
           } else {
             return (
               <MenuItem
-                onClick={handleOpenModal}
                 sx={{
                   paddingRight: '5rem',
                   color: '#adb2b8',
@@ -135,19 +153,55 @@ const CategorySelect: FC<ICategorySelectProps> = ({
                   fontWeight: 600,
                 }}
                 key={i}
+                // onClick={handleClickOpenDialog}
               >
                 <ListItemIcon sx={{ margin: 0 }}>
                   <AddIcon fontSize="small" />
                 </ListItemIcon>
                 {t(StringBank.ADD_NEW_CATEGORY)}
-                <ModalElement
-                  open={openModalState}
-                  onClose={handleCloseModal}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
+
+                {/* <DialogEl
+                  openDialogState={openDialogState}
+                  title="New Category"
+                  content="My New Category"
+                  closeFunction={handleCloseDialog}
+                ></DialogEl> */}
+                {/* <Dialog
+                  onFocus={handleOnFocusDialog}
+                  open={openDialogState}
+                  onClose={() => {
+                    handleCloseDialog();
+                  }}
                 >
-                  <ModalBox></ModalBox>
-                </ModalElement>
+                  <DialogTitle>New Category</DialogTitle>
+                  <DialogContent>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="My New Category"
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={() => {
+                        handleCloseDialog();
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        handleCloseDialog();
+                      }}
+                    >
+                      Subscribe
+                    </Button>
+                  </DialogActions>
+                </Dialog> */}
               </MenuItem>
             );
           }
