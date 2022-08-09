@@ -1,7 +1,7 @@
-import { DialogMainTitle, DialogElement, DialogInput, DialogButton, CloseButton } from './style';
+import { DialogMainTitle, DialogInput, DialogButton, CloseButton } from './style';
 import DialogActions from '@mui/material/DialogActions';
 // import DialogTitle from '@mui/material/DialogTitle';
-import { Button } from '@mui/material';
+import { Button, Dialog } from '@mui/material';
 import DialogProps from './types';
 import { StringBank } from 'strings';
 import { t } from 'i18next';
@@ -11,7 +11,7 @@ import './Dialog.css';
 
 export default function DialogEl(props: DialogProps) {
   return (
-    <DialogElement
+    <Dialog
       PaperProps={{
         sx: {
           width: '640px',
@@ -32,6 +32,6 @@ export default function DialogEl(props: DialogProps) {
         <Button onClick={props.closeFunction}>Cancel</Button>
         <DialogButton onClick={props.createFunction}>Create</DialogButton>
       </DialogActions>
-    </DialogElement>
+    </Dialog>
   );
 }

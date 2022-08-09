@@ -59,6 +59,11 @@ const NewAgreement: FC = () => {
     setOpenDialogState(false);
   };
 
+  const onCreateCategory = () => {
+    console.log('create new category');
+    setOpenDialogState(false);
+  };
+
   return (
     <Container maxWidth="md">
       <Stack justifyContent="center" spacing={8} sx={{ marginTop: '1em' }}>
@@ -104,6 +109,7 @@ const NewAgreement: FC = () => {
         title="New Category"
         content="My New Category"
         closeFunction={handleCloseDialog}
+        createFunction={onCreateCategory}
       ></DialogEl>
     </Container>
   );

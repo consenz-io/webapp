@@ -1,10 +1,5 @@
 import styled from 'styled-components';
-import { Dialog, TextField, Button, DialogTitle, IconButton, DialogActions } from '@mui/material';
-
-export const DialogElement = styled(Dialog)`
-  && {
-  }
-`;
+import { TextField, Button, DialogTitle, IconButton, DialogActions } from '@mui/material';
 
 export const DialogInput = styled(TextField)`
   && {
@@ -14,8 +9,7 @@ export const DialogInput = styled(TextField)`
     font-size: 16px;
     font-family: Lato;
     color: #adb2b8;
-    height: 42px;
-    width: 90%;
+    width: 88%;
     margin: auto;
   }
 `;
@@ -62,7 +56,7 @@ export const ActionsContainer = styled(DialogActions)`
   && {
     display: flex;
     justify-content: flex-end;
-    padding: 2rem;
+    padding: 1rem 2rem;
     margin: 1% 3%;
   }
 `;
