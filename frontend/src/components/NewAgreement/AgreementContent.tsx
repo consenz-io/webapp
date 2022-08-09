@@ -40,6 +40,21 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
     setChapters([...chapters]);
   }
 
+  function handleChapterKeyDown(
+    event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number
+  ) {
+    if (
+      event.key === 'Tab' &&
+      index !== chapters.length - 1 &&
+      chapters[index].sections.every((s) => !s.content) &&
+      !chapters[index].name
+    ) {
+      chapters.splice(index, 1);
+      setChapters([...chapters]);
+    }
+  }
+
   function handleSectionKeyDown(
     event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
     chapterIndex: number,
@@ -80,6 +95,7 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
             }
             onChange={(e) => handleChapterChange(i, e.target.value)}
             value={chapter.name}
+            onKeyDown={(e) => handleChapterKeyDown(e, i)}
           />
           {chapter.sections?.map((section, j) => (
             <Stack key={j}>
