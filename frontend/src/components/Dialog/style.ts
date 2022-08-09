@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Dialog, TextField, Button, DialogTitle, IconButton } from '@mui/material';
+import { Dialog, TextField, Button, DialogTitle, IconButton, DialogActions } from '@mui/material';
 
 export const DialogElement = styled(Dialog)`
   && {
@@ -10,12 +10,13 @@ export const DialogInput = styled(TextField)`
   && {
     border-radius: 4px;
     border: solid 1px #565d68;
-    /* background-color: rgba(0, 0, 0, 0.08); */
-    margin: 2rem;
+    background-color: rgba(0, 0, 0, 0.08);
     font-size: 16px;
     font-family: Lato;
     color: #adb2b8;
     height: 42px;
+    width: 90%;
+    margin: auto;
   }
 `;
 
@@ -54,5 +55,14 @@ export const CloseButton = styled(IconButton)`
   && {
     width: 50px;
     height: 50px;
+  }
+`;
+
+export const ActionsContainer = styled(DialogActions)`
+  && {
+    display: flex;
+    justify-content: flex-end;
+    padding: 2rem;
+    margin: 1% 3%;
   }
 `;
