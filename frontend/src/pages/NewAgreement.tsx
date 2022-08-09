@@ -9,19 +9,34 @@ import { addAgreement as addAgreementMutation } from 'utils/mutations';
 import { LocalChapter } from 'types';
 import { AgreementContent, NameAndRationale } from 'components/NewAgreement';
 
+function initChapters(): LocalChapter[] {
+  const existingChapters = localStorage.getItem('chapters');
+  if (existingChapters) {
+    return JSON.parse(existingChapters);
+  }
+  return [{ name: '', sections: [{ content: '' }] }];
+}
+
 const NewAgreement: FC = () => {
   const { t } = useTranslation();
   const { id: groupId } = useContext(GroupContext);
-  const [agreementName, setAgreementName] = useState<string>('');
-  const [step, setStep] = useState(1);
-  const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [chapters, setChapters] = useState<LocalChapter[]>([
-    {
-      name: '',
-      sections: [{ content: '' }],
-    },
-  ]);
-  const [rationale, setRationale] = useState('');
+  const [agreementName, setAgreementName] = useState<string>(
+    localStorage.getItem('agreementName') || ''
+  );
+  const [step, setStep] = useState(Number(localStorage.getItem('step')) || 0);
+  const [categoryId, setCategoryId] = useState<number | null>(
+    Number(localStorage.getItem('categoryId')) || null
+  );
+  const [chapters, setChapters] = useState<LocalChapter[]>(initChapters());
+  const [rationale, setRationale] = useState(localStorage.getItem('rationale') || '');
+
+  addEventListener('unload', () => {
+    localStorage.setItem('agreementName', agreementName);
+    localStorage.setItem('categoryId', String(categoryId));
+    localStorage.setItem('rationale', rationale);
+    localStorage.setItem('chapters', JSON.stringify(chapters));
+    localStorage.setItem('step', String(step));
+  });
 
   const [
     addAgreement,
