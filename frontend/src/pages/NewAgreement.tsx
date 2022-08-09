@@ -9,7 +9,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { GroupContext } from 'contexts/group';
 import { addAgreement as addAgreementMutation } from 'utils/mutations';
 import styled from 'styled-components';
-import { IChapter, ISection } from 'types';
+import { LocalChapter } from 'types';
 
 const Span = styled.span`
   ${(props) => props.theme.typography.h2};
@@ -21,9 +21,6 @@ const Span = styled.span`
   }
 `;
 
-type LocalChapter = Pick<IChapter, 'name'> & {
-  sections: Pick<ISection, 'content'>[];
-};
 const createNewChapter = (): LocalChapter => ({
   name: '',
   sections: [{ content: '' }],
@@ -44,13 +41,28 @@ const NewAgreement: FC = () => {
     addAgreement,
     { data: addAgreementData, loading: addAgreementLoading, error: addAgreementError },
   ] = useMutation(addAgreementMutation, { refetchQueries: ['agreements'] });
+
   const isContinueEnabled =
     agreementName &&
     rationale &&
     !addAgreementLoading &&
     !addAgreementError &&
     addAgreementData === undefined;
-  const handleContinueClick = () => {
+
+  const allNonEmptySections = chapters
+    .flatMap((chapter) => chapter.sections)
+    .filter((section) => section.content);
+
+  function handleChapterChange(index: number, value: string) {
+    const newChapters = [...chapters];
+    newChapters[index].name = value;
+    if (index === chapters.length - 1 && value) {
+      newChapters.push(createNewChapter());
+    }
+    setChapters(newChapters);
+  }
+
+  function handleContinueClick() {
     if (step === 3) {
       return addAgreement({
         variables: {
@@ -62,13 +74,41 @@ const NewAgreement: FC = () => {
       });
     }
     setStep(step + 1);
-  };
-  const handleChapterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== 'Enter') {
+  }
+
+  function handleSectionChange(chapterIndex: number, sectionIndex: number, value: string) {
+    chapters[chapterIndex].sections[sectionIndex].content = value;
+    if (sectionIndex === chapters[chapterIndex].sections.length - 1 && value) {
+      chapters[chapterIndex].sections.push({ content: '' });
+    }
+    setChapters([...chapters]);
+  }
+
+  function handleSectionKeyDown(
+    event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+    chapterIndex: number,
+    sectionIndex: number
+  ) {
+    const sectionsInChapter = chapters[chapterIndex].sections;
+    if (
+      sectionIndex !== sectionsInChapter.length - 1 &&
+      event.key === 'Tab' &&
+      !chapters[chapterIndex].sections[sectionIndex].content
+    ) {
+      sectionsInChapter.splice(sectionIndex, 1);
+      setChapters([...chapters]);
       return;
     }
-    setChapters([...chapters, createNewChapter()]);
-  };
+    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+      (
+        document.querySelector(
+          `[data-chapter-index="${chapterIndex}"][data-section-index="${
+            sectionsInChapter.length - 1
+          }"] textarea`
+        ) as HTMLTextAreaElement
+      )?.focus();
+    }
+  }
 
   return (
     <Container maxWidth="md">
@@ -105,23 +145,37 @@ const NewAgreement: FC = () => {
             {chapters.map((chapter, i) => (
               <Stack key={i}>
                 <InputBase
-                  sx={{ ...theme.typography.h3 }}
+                  sx={theme.typography.h3}
                   placeholder={t(StringBank.NEW_CHAPTER)}
-                  startAdornment={<Typography variant="h3">#&nbsp;</Typography>}
-                  onChange={(e) => (chapter.name = e.target.value) && setChapters([...chapters])}
+                  startAdornment={
+                    <Typography
+                      variant="h3"
+                      color={chapter.name ? 'text.primary' : 'text.secondary'}
+                    >
+                      #&nbsp;
+                    </Typography>
+                  }
+                  onChange={(e) => handleChapterChange(i, e.target.value)}
                   value={chapter.name}
-                  onKeyDown={handleChapterKeyDown}
                 />
                 {chapter.sections?.map((section, j) => (
-                  <InputBase
-                    key={j}
-                    placeholder={t(StringBank.INSERT_NEW_SECTION)}
-                    multiline
-                    onChange={(e) =>
-                      (section.content = e.target.value) && setChapters([...chapters])
-                    }
-                    value={section.content}
-                  />
+                  <Stack key={j}>
+                    {allNonEmptySections.indexOf(section) !== -1 && (
+                      <Typography variant="h6" fontWeight="normal" color="text.secondary">
+                        Section {allNonEmptySections.indexOf(section) + 1}
+                      </Typography>
+                    )}
+                    <InputBase
+                      placeholder={t(StringBank.INSERT_NEW_SECTION)}
+                      data-chapter-index={i}
+                      data-section-index={j}
+                      multiline
+                      rows={3}
+                      onChange={(e) => handleSectionChange(i, j, e.target.value)}
+                      onKeyDown={(e) => handleSectionKeyDown(e, i, j)}
+                      value={section.content}
+                    />
+                  </Stack>
                 ))}
               </Stack>
             ))}

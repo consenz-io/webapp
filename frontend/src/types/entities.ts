@@ -36,3 +36,7 @@ export interface IUser {
   groups?: IGroup[];
   displayName?: string;
 }
+
+export type LocalChapter = Pick<IChapter, 'name'> & {
+  sections: Pick<ISection, 'content'>[];
+};
