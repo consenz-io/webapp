@@ -18,13 +18,6 @@ export const DialogButton = styled(Button)`
   && {
     width: 79px;
     height: 40px;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 16px;
     border-radius: 8px;
     background-color: #8d54ea;
   }
@@ -57,6 +50,6 @@ export const ActionsContainer = styled(DialogActions)`
     display: flex;
     justify-content: flex-end;
     padding: 1rem 2rem;
-    margin: 1% 3%;
+    margin: 1%;
   }
 `;

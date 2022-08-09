@@ -1,5 +1,4 @@
-import { DialogMainTitle, DialogInput, DialogButton, CloseButton } from './style';
-import DialogActions from '@mui/material/DialogActions';
+import { DialogMainTitle, DialogInput, DialogButton, CloseButton, ActionsContainer } from './style';
 // import DialogTitle from '@mui/material/DialogTitle';
 import { Button, Dialog } from '@mui/material';
 import DialogProps from './types';
@@ -8,8 +7,10 @@ import { t } from 'i18next';
 // import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import './Dialog.css';
+import { useState } from 'react';
 
 export default function DialogEl(props: DialogProps) {
+  const [inputValue, setInputValue] = useState<string>('');
   return (
     <Dialog
       PaperProps={{
@@ -27,11 +28,22 @@ export default function DialogEl(props: DialogProps) {
           <CloseIcon />
         </CloseButton>
       </div>
-      <DialogInput placeholder={t(StringBank.MY_NEW_CATEGORY)} />
-      <DialogActions>
+      <DialogInput
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
+        placeholder={t(StringBank.MY_NEW_CATEGORY)}
+      />
+      <ActionsContainer>
         <Button onClick={props.closeFunction}>Cancel</Button>
-        <DialogButton onClick={props.createFunction}>Create</DialogButton>
-      </DialogActions>
+        <DialogButton
+          onClick={() => {
+            props.createFunction(inputValue);
+          }}
+        >
+          Create
+        </DialogButton>
+      </ActionsContainer>
     </Dialog>
   );
 }

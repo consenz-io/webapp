@@ -7,7 +7,7 @@ import { CategorySelect } from '../components';
 import { Button, Stack, Typography, InputBase, Container } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { GroupContext } from 'contexts/group';
-import { addAgreement as addAgreementMutation } from 'utils/mutations';
+import { addAgreement as addAgreementMutation, addCategoryMutation } from 'utils/mutations';
 import styled from 'styled-components';
 import DialogEl from '../components/Dialog';
 
@@ -51,6 +51,10 @@ const NewAgreement: FC = () => {
   };
 
   const [openDialogState, setOpenDialogState] = useState(false);
+  const [
+    createCategoryMutationFN,
+    { data: createCategoryData, loading: newCatLoading, error: newCatError },
+  ] = useMutation(addCategoryMutation);
 
   const handleClickOpenDialog = () => {
     setOpenDialogState(true);
@@ -59,8 +63,19 @@ const NewAgreement: FC = () => {
     setOpenDialogState(false);
   };
 
-  const onCreateCategory = () => {
+  const onCreateCategory = (name: string) => {
     console.log('create new category');
+    createCategoryMutationFN({ variables: { name, group_id: groupId } });
+    if (newCatLoading) {
+      console.log('loading');
+    }
+    if (createCategoryData) {
+      console.log('got data');
+      console.log('createCategoryData', createCategoryData);
+    }
+    if (newCatError) {
+      console.log('err in mutation create category', newCatError);
+    }
     setOpenDialogState(false);
   };
 
