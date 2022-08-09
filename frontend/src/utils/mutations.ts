@@ -15,7 +15,7 @@ export const addAgreement = gql`
 `;
 
 export const addCategoryMutation = gql`
-  mutation addCategory($name: String!, $group_id: Int!) {
+  mutation AddCategory($name: String!, $group_id: Int!) {
     insert_core_categories_one(object: { name: $name, group_id: $group_id }) {
       id
       name
