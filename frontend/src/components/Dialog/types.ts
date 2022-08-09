@@ -3,4 +3,5 @@ export default interface DialogProps {
   content: string;
   openDialogState: boolean;
   closeFunction: any;
+  createFunction: any;
 }

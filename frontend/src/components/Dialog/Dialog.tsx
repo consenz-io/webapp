@@ -30,7 +30,7 @@ export default function DialogEl(props: DialogProps) {
       <DialogInput placeholder={t(StringBank.MY_NEW_CATEGORY)} />
       <DialogActions>
         <Button onClick={props.closeFunction}>Cancel</Button>
-        <DialogButton onClick={props.closeFunction}>Create</DialogButton>
+        <DialogButton onClick={props.createFunction}>Create</DialogButton>
       </DialogActions>
     </DialogElement>
   );
