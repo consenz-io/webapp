@@ -12,7 +12,6 @@ export const he: Partial<Record<StringBank, string>> = {
   NEW_AGREEMENT: 'הסכם חדש',
   LOGOUT: 'יציאה',
   AGREEMENT_NAME_FIELD: 'כותרת ההסכם',
-  NEW_AGREEMENT_NAME_DEFAULT: 'ההסכם החדש שלי',
   CATEGORY_SELECT: 'קטגוריה',
   ADD_RATIONALE_HEADER: 'להוסיף היגיון',
   ADD_RATIONALE_PARAGRAPH: `למה זקוקים להסכם הזה? מה הרקע ליצירתו? מה אלה הצרכים והבעיות שהוא נועד להשיב? ...`,
@@ -21,4 +20,5 @@ export const he: Partial<Record<StringBank, string>> = {
   UNARCHIVE: 'העברה מארכיון',
   ALL_AGREEMENTS: 'כל ההסכמים',
   GOTO_HOMEPAGE_TITLE: 'לעבור לדף הבית',
+  ADD_NEW_CATEGORY: 'הוספת קטגוריה',
 };

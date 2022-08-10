@@ -1,14 +1,14 @@
 table:
-  schema: core
   name: categories
+  schema: core
 object_relationships:
   - name: agreements
     using:
       foreign_key_constraint_on:
         column: category_id
         table:
-          schema: core
           name: agreements
+          schema: core
   - name: group
     using:
       foreign_key_constraint_on: group_id

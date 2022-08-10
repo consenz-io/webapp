@@ -1,0 +1,62 @@
+table:
+  name: suggestions
+  schema: core
+object_relationships:
+  - name: section
+    using:
+      manual_configuration:
+        column_mapping:
+          section_id: id
+        insertion_order: null
+        remote_table:
+          name: sections
+          schema: core
+insert_permissions:
+  - role: authenticated
+    permission:
+      check:
+        section:
+          agreement:
+            group:
+              group_users:
+                user:
+                  user_id:
+                    _eq: X-Hasura-User-Id
+      columns:
+        - id
+        - created_at
+        - updated_at
+        - section_id
+        - content
+select_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - id
+        - section_id
+        - content
+        - created_at
+        - updated_at
+      filter:
+        section:
+          agreement:
+            group:
+              group_users:
+                user:
+                  user_id:
+                    _eq: X-Hasura-User-Id
+update_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - content
+        - updated_at
+      filter:
+        section:
+          agreement:
+            group:
+              group_users:
+                user:
+                  user_id:
+                    _eq: X-Hasura-User-Id
+      check: null

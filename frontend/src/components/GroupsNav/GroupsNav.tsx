@@ -65,8 +65,8 @@ const GroupsNav: FC<IFCProps> = ({ name, menuItems, endIcon }) => {
             <CircleIcon
               style={{
                 fill: generateColorFromString(menuItem.slug || ''),
-                marginRight: '.5rem',
-                marginLeft: '-.25rem',
+                marginInlineEnd: '.5rem',
+                marginInlineStart: '-.25rem',
               }}
             />
             {menuItem.name}

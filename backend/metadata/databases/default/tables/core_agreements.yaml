@@ -1,6 +1,6 @@
 table:
-  schema: core
   name: agreements
+  schema: core
 object_relationships:
   - name: category
     using:
@@ -18,8 +18,8 @@ insert_permissions:
               user_id:
                 _eq: X-Hasura-User-Id
       set:
-        updated_at: now()
         created_at: now()
+        updated_at: now()
       columns:
         - category_id
         - group_id

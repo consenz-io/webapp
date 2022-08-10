@@ -16,6 +16,9 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
     direction: isRTL ? 'rtl' : 'ltr',
     typography: {
       fontFamily: 'Lato, Assistant, sans-serif',
+      allVariants: {
+        textAlign: isRTL ? 'right' : 'left',
+      },
       h1: {
         fontSize: '2rem',
         fontWeight: 'bold',
@@ -48,6 +51,13 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
           },
         },
       },
+      MuiListSubheader: {
+        styleOverrides: {
+          root: {
+            background: 'none',
+          },
+        },
+      },
       MuiListItemButton: {
         styleOverrides: {
           root: {
@@ -60,7 +70,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         styleOverrides: {
           root: {
             minWidth: 'unset',
-            marginRight: '1rem',
+            marginInlineEnd: '1rem',
           },
         },
       },
@@ -82,11 +92,11 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             fontWeight: 'bold',
             padding: '8px 16px',
             ':hover': {
-              background: '#686d73',
+              background: mode === ThemeModeType.LIGHT ? 'primary' : '#686d73',
             },
           },
           contained: {
-            background: '#3f4550',
+            background: mode === ThemeModeType.LIGHT ? 'primary' : '#3f4550',
           },
           startIcon: {
             marginInlineStart: '-4px',
@@ -107,7 +117,11 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             },
             background: {
               paper: '#fcfcfd',
-              default: '#ffffff',
+              default: '#F5F7FA',
+              sidebar: '#FCFCFD',
+              capital: '#4c67f6',
+              border: '#E3E3E3',
+              active: '#F8EFFF',
             },
             text: {
               primary: '#000000',

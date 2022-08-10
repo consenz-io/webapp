@@ -26,9 +26,12 @@ const App: FC = () => {
           setIsRTL(false);
           i18n.changeLanguage('en');
         }
+      } else if (e.key === '~') {
+        setMode(mode === ThemeModeType.DARK ? ThemeModeType.LIGHT : ThemeModeType.DARK);
+        i18n.changeLanguage('en');
       }
     },
-    [i18n]
+    [i18n, mode]
   );
 
   useEffect(() => {

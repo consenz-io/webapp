@@ -3,7 +3,7 @@ import { FC, useState, useContext } from 'react';
 import { IFCProps } from './types';
 import { useResponsive } from 'hooks';
 import { Logo } from 'assets';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { DropDownMenu, GroupsNav } from 'components';
@@ -14,9 +14,12 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { ColorModeAndDirectionContext } from '../../theme';
 import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
-import { List, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { List, ListItemIcon, ListItemText, ListSubheader, Typography } from '@mui/material';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import { GroupContext } from 'contexts/group';
+import { generateColorFromString } from 'utils/functions';
+import CircleIcon from '@mui/icons-material/Circle';
 
 interface SidebarItem {
   name: string;
@@ -44,8 +47,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const navigate = useNavigate();
-  const { groupSlug } = useParams();
-
+  const { slug: groupSlug, categories } = useContext(GroupContext);
   const [userMenuItems] = useState<MenuItem[]>([
     {
       text: t(StringBank.LOGOUT),
@@ -66,12 +68,41 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           {sidebarItems.map((item, i) => (
             <SC.ListItemButton
               key={i}
-              onClick={() => navigate(`${groupSlug}/${item.to}`)}
+              onClick={() => navigate(`/${groupSlug}/${item.to}`)}
               selected={window.location.href.endsWith(item.to)}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText>
                 <Typography variant="h6">{t(item.name)}</Typography>
+              </ListItemText>
+            </SC.ListItemButton>
+          ))}
+          <ListSubheader>{t(StringBank.CATEGORIES)}</ListSubheader>
+          <SC.ListItemButton
+            onClick={() => navigate(`/${groupSlug}/cat/0`)}
+            selected={window.location.href.endsWith('0')}
+          >
+            <ListItemIcon>
+              <CircleIcon sx={{ color: 'background.border' }} fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography variant="h6">{t(StringBank.UNCATEGORIZED)}</Typography>
+            </ListItemText>
+          </SC.ListItemButton>
+          {categories?.map((category, i) => (
+            <SC.ListItemButton
+              key={i}
+              onClick={() => navigate(`/${groupSlug}/cat/${category.id}`)}
+              selected={window.location.href.endsWith(String(category.id))}
+            >
+              <ListItemIcon>
+                <CircleIcon
+                  htmlColor={generateColorFromString(category.name, true)}
+                  fontSize="small"
+                />
+              </ListItemIcon>
+              <ListItemText>
+                <Typography variant="h6">{category.name}</Typography>
               </ListItemText>
             </SC.ListItemButton>
           ))}

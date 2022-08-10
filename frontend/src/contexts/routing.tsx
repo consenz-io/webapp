@@ -30,10 +30,11 @@ const RoutesProvider: FC = () => {
     <BrowserRouter>
       <RoutingProvider>
         <Routes>
-          <Route element={<SidebarLayout />}>
-            <Route path={`${HOME_ROUTE}/:groupSlug`} element={<GroupProvider />}>
+          <Route path={`${HOME_ROUTE}/:groupSlug`} element={<GroupProvider />}>
+            <Route element={<SidebarLayout />}>
               <Route path="active-agreements" element={<AllAgreements />} />
               <Route path="archive" element={<AllAgreements isArchive />} />
+              <Route path="cat/:categoryId" element={<AllAgreements />} />
               <Route path="new-agreement" element={<NewAgreement />} />
             </Route>
           </Route>

@@ -8,6 +8,10 @@ import { generateColorFromString, truncateAfterWords } from 'utils/functions';
 import DropDownMenu from './DropDownMenu';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { GroupContext } from 'contexts/group';
+import { ColorModeAndDirectionContext } from 'theme';
+import { ThemeModeType } from 'types';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 interface IAgreementCardProps {
   id: number;
@@ -19,6 +23,14 @@ interface IAgreementCardProps {
   isArchived?: boolean;
 }
 
+const MainCard = styled(Card)`
+  cursor: pointer;
+  transition: all 0.2s linear;
+  &:hover {
+    box-shadow: 0px 0px 8px ${(props) => props.theme.palette.background.border};
+  }
+`;
+
 const AgreementCard: FC<IAgreementCardProps> = ({
   id,
   category,
@@ -29,16 +41,18 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   isArchived,
 }) => {
   const { t } = useTranslation();
-  const { archiveAgreement } = useContext(GroupContext);
-  console.info(updatedAt);
+  const { mode } = useContext(ColorModeAndDirectionContext);
+  const { archiveAgreement, slug } = useContext(GroupContext);
+  const navigate = useNavigate();
+  const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : '#595F68';
   return (
-    <Card>
+    <MainCard onClick={() => navigate(`/${slug}/agreement/${id}`)}>
       <Stack>
-        <CardContent sx={{ backgroundColor: '#595F68', position: 'relative' }}>
-          <Box position="absolute" left="1rem">
+        <CardContent sx={{ backgroundColor: cardBackgroundColor, position: 'relative' }}>
+          <Box position="absolute" left="1rem" right="1rem">
             {category && (
               <Chip
-                sx={{ background: generateColorFromString(category || '', true) }}
+                sx={{ background: generateColorFromString(category || '', true), color: 'white' }}
                 label={category}
               />
             )}
@@ -97,7 +111,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
           </Stack>
         </CardContent>
       </Stack>
-    </Card>
+    </MainCard>
   );
 };
 

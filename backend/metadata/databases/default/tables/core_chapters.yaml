@@ -1,13 +1,10 @@
 table:
-  name: sections
+  name: chapters
   schema: core
 object_relationships:
   - name: agreement
     using:
       foreign_key_constraint_on: agreement_id
-  - name: topic
-    using:
-      foreign_key_constraint_on: chapter_id
 insert_permissions:
   - role: authenticated
     permission:
@@ -18,42 +15,23 @@ insert_permissions:
               user_id:
                 _eq: X-Hasura-User-Id
       columns:
-        - agreement_id
         - id
-        - index
-        - chapter_id
         - created_at
         - updated_at
+        - name
+        - agreement_id
 select_permissions:
   - role: authenticated
     permission:
       columns:
-        - agreement_id
         - id
-        - index
-        - chapter_id
         - created_at
         - updated_at
+        - name
+        - agreement_id
       filter:
         agreement:
           group:
             group_users:
               user_id:
                 _eq: X-Hasura-User-Id
-update_permissions:
-  - role: authenticated
-    permission:
-      columns:
-        - agreement_id
-        - id
-        - index
-        - chapter_id
-        - created_at
-        - updated_at
-      filter:
-        agreement:
-          group:
-            group_users:
-              user_id:
-                _eq: X-Hasura-User-Id
-      check: null
