@@ -64,7 +64,6 @@ const NewAgreement: FC = () => {
   };
 
   const onCreateCategory = (name: string) => {
-    console.log('create new category');
     createCategoryMutationFN({ variables: { name, group_id: groupId } });
     if (newCatLoading) {
       console.log('loading');
