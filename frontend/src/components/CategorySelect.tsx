@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { useTheme } from '@mui/material/styles';
 import { ICategorySelectProps } from 'types';
-import React, { useContext, useState, FC, useEffect } from 'react';
+import { useContext, useState, FC, useEffect } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import AddIcon from '@mui/icons-material/Add';
 import { MenuItem, FormControl, InputLabel, Button, ListItemIcon } from '@mui/material';
@@ -160,12 +160,6 @@ const CategorySelect: FC<ICategorySelectProps> = ({
                 </ListItemIcon>
                 {t(StringBank.ADD_NEW_CATEGORY)}
 
-                {/* <DialogEl
-                  openDialogState={openDialogState}
-                  title="New Category"
-                  content="My New Category"
-                  closeFunction={handleCloseDialog}
-                ></DialogEl> */}
                 {/* <Dialog
                   onFocus={handleOnFocusDialog}
                   open={openDialogState}
