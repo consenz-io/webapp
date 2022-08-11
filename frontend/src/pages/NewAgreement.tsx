@@ -78,8 +78,8 @@ const NewAgreement: FC = () => {
     setOpenDialogState(false);
   };
 
-  const onCreateCategory = (name: string) => {
-    createCategoryMutationFN({ variables: { name, group_id: groupId } });
+  const onCreateCategory = (val: string) => {
+    createCategoryMutationFN({ variables: { name: val, group_id: groupId } });
     if (newCatLoading) {
       console.log('loading');
     }
@@ -119,6 +119,8 @@ const NewAgreement: FC = () => {
         content="My New Category"
         closeFunction={handleCloseDialog}
         createFunction={onCreateCategory}
+        closeBtnText="Close"
+        doneBtnText="Create"
       ></DialogEl>
     </Container>
   );

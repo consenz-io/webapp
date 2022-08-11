@@ -11,14 +11,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { generateColorFromString } from 'utils/functions';
 import { GroupContext } from 'contexts/group';
 
-// import TextField from '@mui/material/TextField';
-// import Dialog from '@mui/material/Dialog';
-// import DialogActions from '@mui/material/DialogActions';
-// import DialogContent from '@mui/material/DialogContent';
-// import DialogTitle from '@mui/material/DialogTitle';
-
-// import DialogEl from './Dialog';
-
 const CategorySelect: FC<ICategorySelectProps> = ({
   categoryId,
   onChange,
@@ -30,20 +22,6 @@ const CategorySelect: FC<ICategorySelectProps> = ({
 
   const [isReady, setIsReady] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
-  // const [openDialogState, setOpenDialogState] = useState(false);
-
-  // const handleClickOpenDialog = () => {
-  //   setOpenDialogState(true);
-  // };
-  // const handleCloseDialog = () => {
-  //   setOpenDialogState(false);
-  // };
-
-  // const handleOnFocusDialog = () => {
-  //   if (!openDialogState) {
-  //     setOpenDialogState(openDialogState);
-  //   }
-  // };
 
   let { categories } = useContext(GroupContext);
 
@@ -153,49 +131,11 @@ const CategorySelect: FC<ICategorySelectProps> = ({
                   fontWeight: 600,
                 }}
                 key={i}
-                // onClick={handleClickOpenDialog}
               >
                 <ListItemIcon sx={{ margin: 0 }}>
                   <AddIcon fontSize="small" />
                 </ListItemIcon>
                 {t(StringBank.ADD_NEW_CATEGORY)}
-
-                {/* <Dialog
-                  onFocus={handleOnFocusDialog}
-                  open={openDialogState}
-                  onClose={() => {
-                    handleCloseDialog();
-                  }}
-                >
-                  <DialogTitle>New Category</DialogTitle>
-                  <DialogContent>
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      id="name"
-                      label="My New Category"
-                      type="text"
-                      fullWidth
-                      variant="standard"
-                    />
-                  </DialogContent>
-                  <DialogActions>
-                    <Button
-                      onClick={() => {
-                        handleCloseDialog();
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        handleCloseDialog();
-                      }}
-                    >
-                      Subscribe
-                    </Button>
-                  </DialogActions>
-                </Dialog> */}
               </MenuItem>
             );
           }

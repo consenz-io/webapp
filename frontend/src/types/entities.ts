@@ -25,11 +25,6 @@ export interface IGroup {
   color: string;
 }
 
-export interface ModalProps {
-  open: boolean;
-  handleClose: any;
-}
-
 export interface ISection {
   id: number;
   content: string;
