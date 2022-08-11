@@ -35,13 +35,13 @@ export default function DialogEl(props: DialogProps) {
         placeholder={t(StringBank.MY_NEW_CATEGORY)}
       />
       <ActionsContainer>
-        <Button onClick={props.closeFunction}>Cancel</Button>
+        <Button onClick={props.closeFunction}>{props.closeBtnText}</Button>
         <DialogButton
           onClick={() => {
             props.createFunction(inputValue);
           }}
         >
-          Create
+          {props.doneBtnText}
         </DialogButton>
       </ActionsContainer>
     </Dialog>

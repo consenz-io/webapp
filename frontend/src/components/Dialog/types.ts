@@ -3,7 +3,7 @@ export default interface DialogProps {
   content: string;
   openDialogState: boolean;
   closeFunction: () => void;
-  createFunction: () => void;
+  createFunction: (val: string) => void;
   closeBtnText: string;
   doneBtnText: string;
 }
