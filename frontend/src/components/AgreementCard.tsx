@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { FC, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { generateColorFromString, truncateAfterWords } from 'utils/functions';
@@ -13,6 +13,7 @@ import { ColorModeAndDirectionContext } from 'theme';
 import { ThemeModeType } from 'types';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import DialogEl from '../components/Dialog';
 
 interface IAgreementCardProps {
   id: number;
@@ -46,6 +47,21 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   const { archiveAgreement, slug } = useContext(GroupContext);
   const navigate = useNavigate();
   const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : '#595F68';
+
+  // delete action
+  const [openDialogState, setOpenDialogState] = useState(false);
+  const handleClickOpenDialog = () => {
+    setOpenDialogState(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialogState(false);
+  };
+  const onDeleteAgreement = (name: string) => {
+    console.log('deleting agreement', name);
+
+    setOpenDialogState(false);
+  };
+
   return (
     <MainCard onClick={() => navigate(`/${slug}/agreement/${id}`)}>
       <Stack>
@@ -84,10 +100,18 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                     icon: <DeleteOutlineIcon sx={{ color: 'red' }} />,
                     action: () => {
                       console.log('del!');
+                      handleClickOpenDialog();
                     },
                   },
                 ]}
               />
+              <DialogEl
+                openDialogState={openDialogState}
+                title="Delete Agreement"
+                content="My New Category"
+                closeFunction={handleCloseDialog}
+                createFunction={onDeleteAgreement}
+              ></DialogEl>
               <Typography
                 fontWeight="bold"
                 variant="body1"
