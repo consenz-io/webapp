@@ -1,6 +1,6 @@
 import { DialogMainTitle, DialogInput, DialogButton, CloseButton, ActionsContainer } from './style';
 // import DialogTitle from '@mui/material/DialogTitle';
-import { Button, Dialog } from '@mui/material';
+import { Button, Dialog, DialogContentText } from '@mui/material';
 import DialogProps from './types';
 import { StringBank } from 'strings';
 import { t } from 'i18next';
@@ -15,7 +15,7 @@ export default function DialogEl(props: DialogProps) {
     <Dialog
       PaperProps={{
         sx: {
-          width: '640px',
+          width: '70%',
           height: '226px',
         },
       }}
@@ -28,6 +28,7 @@ export default function DialogEl(props: DialogProps) {
           <CloseIcon />
         </CloseButton>
       </div>
+      <DialogContentText>{props.content}</DialogContentText>
       <DialogInput
         onChange={(e) => {
           setInputValue(e.target.value);

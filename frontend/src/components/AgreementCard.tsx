@@ -58,7 +58,6 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   };
   const onDeleteAgreement = (name: string) => {
     console.log('deleting agreement', name);
-
     setOpenDialogState(false);
   };
 
@@ -105,13 +104,6 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                   },
                 ]}
               />
-              <DialogEl
-                openDialogState={openDialogState}
-                title="Delete Agreement"
-                content="My New Category"
-                closeFunction={handleCloseDialog}
-                createFunction={onDeleteAgreement}
-              ></DialogEl>
               <Typography
                 fontWeight="bold"
                 variant="body1"
@@ -123,6 +115,15 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                 {title}
               </Typography>
             </Stack>
+            <DialogEl
+              openDialogState={openDialogState}
+              title="Delete Agreement"
+              content="Please write the name of the agreement to delete it"
+              closeFunction={handleCloseDialog}
+              createFunction={onDeleteAgreement}
+              closeBtnText="Cancle"
+              doneBtnText="Delete"
+            ></DialogEl>
             <Typography variant="caption">
               {t(StringBank.AGREEMENT_PARTICIPANTS, { count: participants })}
             </Typography>
