@@ -31,6 +31,7 @@ const NewAgreement: FC = () => {
   );
   const [chapters, setChapters] = useState<LocalChapter[]>(initChapters());
   const [rationale, setRationale] = useState(localStorage.getItem('rationale') || '');
+  const [isAdminApprovalRequired, setIsAdminApprovalRequired] = useState(false);
 
   addEventListener('unload', () => {
     localStorage.setItem('agreementName', agreementName);
@@ -74,7 +75,7 @@ const NewAgreement: FC = () => {
 
   return (
     <Container maxWidth="md">
-      <Stack justifyContent="center" spacing={5} sx={{ marginTop: '1em' }}>
+      <Stack justifyContent="center" spacing={5} marginY={4}>
         {step < 3 && (
           <NameAndRationale
             name={agreementName}
@@ -86,11 +87,26 @@ const NewAgreement: FC = () => {
           />
         )}
         {step === 2 && <AgreementContent chapters={chapters} setChapters={setChapters} />}
-        {step === 3 && <AgreementRules />}
-        <Stack flexDirection="row-reverse" alignItems="center">
-          <Button variant="contained" onClick={handleContinueClick} disabled={!isContinueEnabled}>
+        {step === 3 && (
+          <AgreementRules
+            isAdminApprovalRequired={isAdminApprovalRequired}
+            setIsAdminApprovalRequired={setIsAdminApprovalRequired}
+          />
+        )}
+        <Stack flexDirection="row-reverse" alignItems="center" justifyContent="space-between">
+          <Button
+            variant="contained"
+            onClick={handleContinueClick}
+            disabled={!isContinueEnabled}
+            color={step === 3 ? 'primary' : 'secondary'}
+          >
             {t(StringBank.CONTINUE)}
           </Button>
+          {step == 3 && (
+            <Button variant="text" onClick={() => setStep(step - 1)}>
+              {t(StringBank.BACK)}
+            </Button>
+          )}
         </Stack>
       </Stack>
     </Container>
