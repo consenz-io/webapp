@@ -7,6 +7,7 @@ import { StringBank } from 'strings';
 import { generateColorFromString, truncateAfterWords } from 'utils/functions';
 import DropDownMenu from './DropDownMenu';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { GroupContext } from 'contexts/group';
 import { ColorModeAndDirectionContext } from 'theme';
 import { ThemeModeType } from 'types';
@@ -77,6 +78,13 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                     text: t(isArchived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
                     icon: <Inventory2OutlinedIcon />,
                     action: () => archiveAgreement(id, !isArchived),
+                  },
+                  {
+                    text: 'Delete',
+                    icon: <DeleteOutlineIcon sx={{ color: 'red' }} />,
+                    action: () => {
+                      console.log('del!');
+                    },
                   },
                 ]}
               />
