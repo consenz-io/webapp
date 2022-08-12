@@ -160,6 +160,9 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             secondary: {
               main: '#f50057',
             },
+            success: {
+              main: '#13bd76',
+            },
             background: {
               paper: '#fcfcfd',
               default: '#F5F7FA',
@@ -180,6 +183,9 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             secondary: {
               main: '#3f4550',
               dark: '#686d73',
+            },
+            success: {
+              main: '#13bd76',
             },
             background: {
               paper: '#3f4550',

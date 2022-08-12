@@ -7,8 +7,12 @@ import { Button, Stack, Container } from '@mui/material';
 import { GroupContext } from 'contexts/group';
 import { addAgreement as addAgreementMutation } from 'utils/mutations';
 import { LocalChapter } from 'types';
-import { AgreementContent, AgreementRules, NameAndRationale } from 'components/NewAgreement';
-import { useNavigate } from 'react-router-dom';
+import {
+  AgreementContent,
+  AgreementCreatedSuccessfully,
+  AgreementRules,
+  NameAndRationale,
+} from 'components/NewAgreement';
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -19,9 +23,8 @@ function initChapters(): LocalChapter[] {
 }
 
 const NewAgreement: FC = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
-  const { id: groupId, slug: groupSlug } = useContext(GroupContext);
+  const { id: groupId } = useContext(GroupContext);
   const [agreementName, setAgreementName] = useState<string>(
     localStorage.getItem('agreementName') || ''
   );
@@ -53,9 +56,9 @@ const NewAgreement: FC = () => {
     !addAgreementError &&
     addAgreementData === undefined;
 
-  function handleContinueClick() {
+  async function handleContinueClick() {
     if (step === 3) {
-      addAgreement({
+      await addAgreement({
         variables: {
           category_id: categoryId,
           group_id: groupId,
@@ -68,9 +71,12 @@ const NewAgreement: FC = () => {
       localStorage.removeItem('categoryId');
       localStorage.removeItem('chapters');
       localStorage.removeItem('step');
-      navigate(`/${groupSlug}/active-agreements`);
     }
     setStep(step + 1);
+  }
+
+  if (step === 4) {
+    return <AgreementCreatedSuccessfully />;
   }
 
   return (
@@ -100,7 +106,7 @@ const NewAgreement: FC = () => {
             disabled={!isContinueEnabled}
             color={step === 3 ? 'primary' : 'secondary'}
           >
-            {t(StringBank.CONTINUE)}
+            {step === 3 ? t(StringBank.PUBLISH_AGREEMENT) : t(StringBank.CONTINUE)}
           </Button>
           {step == 3 && (
             <Button variant="text" onClick={() => setStep(step - 1)}>
