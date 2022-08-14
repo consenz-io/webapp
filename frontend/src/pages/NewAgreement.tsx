@@ -143,7 +143,7 @@ const NewAgreement: FC = () => {
         createFunction={onCreateCategory}
         closeBtnText="Close"
         doneBtnText="Create"
-        placeHolderText={t(StringBank.NEW_AGREEMENT)}
+        placeHolderText={t(StringBank.ADD_NEW_CATEGORY)}
       ></DialogEl>
     </Container>
   );
