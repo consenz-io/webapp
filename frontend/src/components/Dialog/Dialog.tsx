@@ -1,6 +1,6 @@
-import { DialogMainTitle, DialogInput, DialogButton, CloseButton, ActionsContainer } from './style';
+import { DialogInput, ActionsContainer } from './style';
 // import DialogTitle from '@mui/material/DialogTitle';
-import { Button, Dialog } from '@mui/material';
+import { Button, Dialog, IconButton, Stack, Typography } from '@mui/material';
 import DialogProps from './types';
 import { StringBank } from 'strings';
 import { t } from 'i18next';
@@ -22,12 +22,13 @@ export default function DialogEl(props: DialogProps) {
       open={props.openDialogState}
       onClose={props.closeFunction}
     >
-      <div className="titleContainer">
-        <DialogMainTitle>{props.title}</DialogMainTitle>
-        <CloseButton onClick={props.closeFunction}>
+      <Stack gap="19rem" direction="row" alignItems="center" justifyContent="space-around">
+        <Typography variant="h3">{props.title}</Typography>
+        <IconButton onClick={props.closeFunction}>
           <CloseIcon />
-        </CloseButton>
-      </div>
+        </IconButton>
+      </Stack>
+      <Typography variant="body1">{props.content}</Typography>
       <DialogInput
         onChange={(e) => {
           setInputValue(e.target.value);
@@ -36,13 +37,14 @@ export default function DialogEl(props: DialogProps) {
       />
       <ActionsContainer>
         <Button onClick={props.closeFunction}>{props.closeBtnText}</Button>
-        <DialogButton
+        <Button
+          variant="contained"
           onClick={() => {
             props.createFunction(inputValue);
           }}
         >
           {props.doneBtnText}
-        </DialogButton>
+        </Button>
       </ActionsContainer>
     </Dialog>
   );

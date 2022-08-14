@@ -66,10 +66,9 @@ const NewAgreement: FC = () => {
   }
 
   const [openDialogState, setOpenDialogState] = useState(false);
-  const [
-    createCategoryMutationFN,
-    { data: createCategoryData, loading: newCatLoading, error: newCatError },
-  ] = useMutation(addCategoryMutation);
+  const [createCategoryMutationFN, { error: newCatError }] = useMutation(addCategoryMutation, {
+    refetchQueries: ['categories'],
+  });
 
   const handleClickOpenDialog = () => {
     setOpenDialogState(true);
@@ -80,13 +79,6 @@ const NewAgreement: FC = () => {
 
   const onCreateCategory = (val: string) => {
     createCategoryMutationFN({ variables: { name: val, group_id: groupId } });
-    if (newCatLoading) {
-      console.log('loading');
-    }
-    if (createCategoryData) {
-      console.log('got data');
-      console.log('createCategoryData', createCategoryData);
-    }
     if (newCatError) {
       console.log('err in mutation create category', newCatError);
     }
@@ -106,7 +98,12 @@ const NewAgreement: FC = () => {
         />
         {step === 2 && <AgreementContent chapters={chapters} setChapters={setChapters} />}
         <Stack flexDirection="row-reverse" alignItems="center">
-          <Button variant="contained" onClick={handleContinueClick} disabled={!isContinueEnabled}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleContinueClick}
+            disabled={!isContinueEnabled}
+          >
             {t(StringBank.CONTINUE)}
           </Button>
         </Stack>
@@ -116,7 +113,7 @@ const NewAgreement: FC = () => {
       <DialogEl
         openDialogState={openDialogState}
         title="New Category"
-        content="My New Category"
+        content=""
         closeFunction={handleCloseDialog}
         createFunction={onCreateCategory}
         closeBtnText="Close"

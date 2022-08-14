@@ -8,6 +8,12 @@ declare module '@mui/material/Chip' {
   }
 }
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    paper: Palette['primary'];
+  }
+}
+
 export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOptions = (
   mode,
   isRTL
@@ -94,9 +100,6 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             ':hover': {
               background: mode === ThemeModeType.LIGHT ? 'primary' : '#686d73',
             },
-          },
-          contained: {
-            background: mode === ThemeModeType.LIGHT ? 'primary' : '#3f4550',
           },
           startIcon: {
             marginInlineStart: '-4px',
