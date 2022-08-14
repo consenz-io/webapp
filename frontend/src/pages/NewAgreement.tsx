@@ -138,7 +138,7 @@ const NewAgreement: FC = () => {
       <DialogEl
         openDialogState={openDialogState}
         title="New Category"
-        content="My New Category"
+        content=""
         closeFunction={handleCloseDialog}
         createFunction={onCreateCategory}
         closeBtnText="Close"

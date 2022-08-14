@@ -20,6 +20,5 @@ export const he: Partial<Record<StringBank, string>> = {
   WELCOME_HEADER: 'ברוכים הבאים לקונסנז!',
   WELCOME_PARAGRAPH: `אתן עוד לא חלק מקבוצה.
   בקשו ממנהל הקבוצה שלכן הזמנה על מנת להשתתף
-  
   ותהנו!`,
 };

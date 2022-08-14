@@ -38,7 +38,6 @@ export const en: Record<StringBank, string> = {
   WELCOME_HEADER: 'Welcome to consenz!',
   WELCOME_PARAGRAPH: `You are not part of a Group yet,
   ask your Group Manager to invite you to join
-  
   and have fun!`,
   MY_NEW_CATEGORY: 'My New Category',
 };
