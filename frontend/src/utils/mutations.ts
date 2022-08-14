@@ -23,3 +23,11 @@ export const addCategoryMutation = gql`
     }
   }
 `;
+
+export const deleteAgreementMutation = gql`
+  mutation DeleteAgreement($agreementName: String!) {
+    delete_core_agreements(where: { name: { _eq: $agreementName } }) {
+      affected_rows
+    }
+  }
+`;

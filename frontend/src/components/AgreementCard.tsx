@@ -44,7 +44,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const { mode } = useContext(ColorModeAndDirectionContext);
-  const { archiveAgreement, slug } = useContext(GroupContext);
+  const { archiveAgreement, slug, deleteAgreement } = useContext(GroupContext);
   const navigate = useNavigate();
   const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : '#595F68';
 
@@ -58,6 +58,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   };
   const onDeleteAgreement = (name: string) => {
     console.log('deleting agreement', name);
+    deleteAgreement(name);
     setOpenDialogState(false);
   };
 
