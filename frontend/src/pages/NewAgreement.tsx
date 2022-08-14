@@ -7,7 +7,12 @@ import { Button, Stack, Container } from '@mui/material';
 import { GroupContext } from 'contexts/group';
 import { addAgreement as addAgreementMutation, addCategoryMutation } from 'utils/mutations';
 import { LocalChapter } from 'types';
-import { AgreementContent, NameAndRationale } from 'components/NewAgreement';
+import {
+  AgreementContent,
+  AgreementCreatedSuccessfully,
+  AgreementRules,
+  NameAndRationale,
+} from 'components/NewAgreement';
 import DialogEl from '../components/Dialog';
 
 function initChapters(): LocalChapter[] {
@@ -24,12 +29,13 @@ const NewAgreement: FC = () => {
   const [agreementName, setAgreementName] = useState<string>(
     localStorage.getItem('agreementName') || ''
   );
-  const [step, setStep] = useState(Number(localStorage.getItem('step')) || 0);
+  const [step, setStep] = useState(Number(localStorage.getItem('step')) || 1);
   const [categoryId, setCategoryId] = useState<number | null>(
     Number(localStorage.getItem('categoryId')) || null
   );
   const [chapters, setChapters] = useState<LocalChapter[]>(initChapters());
   const [rationale, setRationale] = useState(localStorage.getItem('rationale') || '');
+  const [isAdminApprovalRequired, setIsAdminApprovalRequired] = useState(false);
 
   addEventListener('unload', () => {
     localStorage.setItem('agreementName', agreementName);
@@ -51,9 +57,9 @@ const NewAgreement: FC = () => {
     !addAgreementError &&
     addAgreementData === undefined;
 
-  function handleContinueClick() {
+  async function handleContinueClick() {
     if (step === 3) {
-      return addAgreement({
+      await addAgreement({
         variables: {
           category_id: categoryId,
           group_id: groupId,
@@ -61,6 +67,11 @@ const NewAgreement: FC = () => {
           rationale: rationale,
         },
       });
+      localStorage.removeItem('agreementName');
+      localStorage.removeItem('rationale');
+      localStorage.removeItem('categoryId');
+      localStorage.removeItem('chapters');
+      localStorage.removeItem('step');
     }
     setStep(step + 1);
   }
@@ -85,27 +96,44 @@ const NewAgreement: FC = () => {
     setOpenDialogState(false);
   };
 
+  if (step === 4) {
+    return <AgreementCreatedSuccessfully />;
+  }
+
   return (
     <Container maxWidth="md">
-      <Stack justifyContent="center" spacing={5} sx={{ marginTop: '1em' }}>
-        <NameAndRationale
-          name={agreementName}
-          onNameChange={setAgreementName}
-          rationale={rationale}
-          onRationaleChange={setRationale}
-          categoryId={categoryId}
-          onCategoryChange={setCategoryId}
-        />
+      <Stack justifyContent="center" spacing={5} marginY={4}>
+        {step < 3 && (
+          <NameAndRationale
+            name={agreementName}
+            onNameChange={setAgreementName}
+            rationale={rationale}
+            onRationaleChange={setRationale}
+            categoryId={categoryId}
+            onCategoryChange={setCategoryId}
+          />
+        )}
         {step === 2 && <AgreementContent chapters={chapters} setChapters={setChapters} />}
-        <Stack flexDirection="row-reverse" alignItems="center">
+        {step === 3 && (
+          <AgreementRules
+            isAdminApprovalRequired={isAdminApprovalRequired}
+            setIsAdminApprovalRequired={setIsAdminApprovalRequired}
+          />
+        )}
+        <Stack flexDirection="row-reverse" alignItems="center" justifyContent="space-between">
           <Button
             variant="contained"
-            color="secondary"
             onClick={handleContinueClick}
             disabled={!isContinueEnabled}
+            color={step === 3 ? 'primary' : 'secondary'}
           >
-            {t(StringBank.CONTINUE)}
+            {step === 3 ? t(StringBank.PUBLISH_AGREEMENT) : t(StringBank.CONTINUE)}
           </Button>
+          {step == 3 && (
+            <Button variant="text" onClick={() => setStep(step - 1)}>
+              {t(StringBank.BACK)}
+            </Button>
+          )}
         </Stack>
       </Stack>
       <h1>Add new Category</h1>

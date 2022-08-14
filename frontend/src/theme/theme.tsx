@@ -37,9 +37,16 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         fontSize: '1.1rem',
         fontWeight: 600,
       },
+      h4: {
+        fontSize: '1rem',
+        fontWeight: 600,
+      },
       h6: {
         fontSize: '0.875rem',
         fontWeight: 600,
+      },
+      body2: {
+        fontSize: '0.875rem',
       },
       caption: {
         fontSize: '0.75rem',
@@ -47,6 +54,49 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
       },
     },
     components: {
+      MuiSwitch: {
+        styleOverrides: {
+          root: {
+            width: 28,
+            height: 16,
+            padding: 0,
+            display: 'flex',
+            '&:active': {
+              '& .MuiSwitch-thumb': {
+                width: 15,
+              },
+              '& .MuiSwitch-switchBase.Mui-checked': {
+                transform: 'translateX(9px)',
+              },
+            },
+            '& .MuiSwitch-switchBase': {
+              padding: 2,
+              '&.Mui-checked': {
+                transform: 'translateX(12px)',
+                color: '#fff',
+                '& + .MuiSwitch-track': {
+                  opacity: 1,
+                  backgroundColor: mode === ThemeModeType.DARK ? '#177ddc' : '#1890ff',
+                },
+              },
+            },
+            '& .MuiSwitch-thumb': {
+              boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
+              width: 12,
+              height: 12,
+              borderRadius: 6,
+              transition: 'width 200',
+            },
+            '& .MuiSwitch-track': {
+              borderRadius: 16 / 2,
+              opacity: 1,
+              backgroundColor:
+                mode === ThemeModeType.DARK ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.25)',
+              boxSizing: 'border-box',
+            },
+          },
+        },
+      },
       MuiCard: {
         defaultProps: {
           variant: 'outlined',
@@ -89,6 +139,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
       MuiButton: {
         defaultProps: {
           disableElevation: true,
+          color: 'secondary',
         },
         styleOverrides: {
           root: {
@@ -118,6 +169,9 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             secondary: {
               main: '#f50057',
             },
+            success: {
+              main: '#13bd76',
+            },
             background: {
               paper: '#fcfcfd',
               default: '#F5F7FA',
@@ -136,7 +190,11 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
               main: '#8d54ea',
             },
             secondary: {
-              main: '#f50057',
+              main: '#3f4550',
+              dark: '#686d73',
+            },
+            success: {
+              main: '#13bd76',
             },
             background: {
               paper: '#3f4550',
