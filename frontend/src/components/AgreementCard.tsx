@@ -57,95 +57,97 @@ const AgreementCard: FC<IAgreementCardProps> = ({
     setOpenDialogState(false);
   };
   const onDeleteAgreement = (name: string) => {
-    console.log('deleting agreement', name);
     deleteAgreement(name);
     setOpenDialogState(false);
   };
 
   return (
-    <MainCard onClick={() => navigate(`/${slug}/agreement/${id}`)}>
-      <Stack>
-        <CardContent sx={{ backgroundColor: cardBackgroundColor, position: 'relative' }}>
-          <Box position="absolute" left="1rem" right="1rem">
-            {category && (
-              <Chip
-                sx={{ background: generateColorFromString(category || '', true), color: 'white' }}
-                label={category}
-              />
-            )}
-          </Box>
-          <Stack flexDirection="row" justifyContent="center" paddingY={2}>
-            <DescriptionOutlinedIcon sx={{ fontSize: 52 }} color="disabled" />
-          </Stack>
-        </CardContent>
-        <CardContent>
-          <Stack>
-            <Stack
-              flexDirection="row-reverse"
-              justifyContent="space-between"
-              alignItems="center"
-              paddingBottom={1}
-            >
-              <DropDownMenu
-                mainIcon={<MoreHorizIcon />}
-                name="agreement-menu"
-                menuItems={[
-                  {
-                    text: t(isArchived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
-                    icon: <Inventory2OutlinedIcon />,
-                    action: () => archiveAgreement(id, !isArchived),
-                  },
-                  {
-                    text: 'Delete',
-                    icon: <DeleteOutlineIcon sx={{ color: 'red' }} />,
-                    action: () => {
-                      console.log('del!');
-                      handleClickOpenDialog();
-                    },
-                  },
-                ]}
-              />
-              <Typography
-                fontWeight="bold"
-                variant="body1"
-                overflow="hidden"
-                textOverflow="ellipsis"
-                whiteSpace="nowrap"
-                maxWidth="calc(100% - 40px)"
+    <>
+      <MainCard onClick={() => navigate(`/${slug}/agreement/${id}`)}>
+        <Stack>
+          <CardContent sx={{ backgroundColor: cardBackgroundColor, position: 'relative' }}>
+            <Box position="absolute" left="1rem" right="1rem">
+              {category && (
+                <Chip
+                  sx={{ background: generateColorFromString(category || '', true), color: 'white' }}
+                  label={category}
+                />
+              )}
+            </Box>
+            <Stack flexDirection="row" justifyContent="center" paddingY={2}>
+              <DescriptionOutlinedIcon sx={{ fontSize: 52 }} color="disabled" />
+            </Stack>
+          </CardContent>
+          <CardContent>
+            <Stack>
+              <Stack
+                flexDirection="row-reverse"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingBottom={1}
               >
-                {title}
+                <DropDownMenu
+                  mainIcon={<MoreHorizIcon />}
+                  name="agreement-menu"
+                  menuItems={[
+                    {
+                      text: t(isArchived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
+                      icon: <Inventory2OutlinedIcon />,
+                      action: () => archiveAgreement(id, !isArchived),
+                    },
+                    {
+                      text: 'Delete',
+                      icon: <DeleteOutlineIcon sx={{ color: 'red' }} />,
+                      action: () => {
+                        handleClickOpenDialog();
+                      },
+                    },
+                  ]}
+                />
+                <Typography
+                  fontWeight="bold"
+                  variant="body1"
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  whiteSpace="nowrap"
+                  maxWidth="calc(100% - 40px)"
+                >
+                  {title}
+                </Typography>
+              </Stack>
+
+              <Typography variant="caption">
+                {t(StringBank.AGREEMENT_PARTICIPANTS, { count: participants })}
+              </Typography>
+              <Typography variant="body2" marginY={1} height="4.3em">
+                {truncateAfterWords(rationale ?? ' ', 12)}
+              </Typography>
+              <Typography variant="caption">
+                {t(StringBank.AGREEMENT_UPDATED_AT, {
+                  date: updatedAt.toLocaleString(navigator.language, {
+                    month: 'numeric',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                  }),
+                })}
               </Typography>
             </Stack>
-            <DialogEl
-              openDialogState={openDialogState}
-              title="Delete Agreement"
-              content="Please write the name of the agreement to delete it"
-              closeFunction={handleCloseDialog}
-              createFunction={onDeleteAgreement}
-              closeBtnText="Cancle"
-              doneBtnText="Delete"
-            ></DialogEl>
-            <Typography variant="caption">
-              {t(StringBank.AGREEMENT_PARTICIPANTS, { count: participants })}
-            </Typography>
-            <Typography variant="body2" marginY={1} height="4.3em">
-              {truncateAfterWords(rationale ?? ' ', 12)}
-            </Typography>
-            <Typography variant="caption">
-              {t(StringBank.AGREEMENT_UPDATED_AT, {
-                date: updatedAt.toLocaleString(navigator.language, {
-                  month: 'numeric',
-                  day: 'numeric',
-                  year: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric',
-                }),
-              })}
-            </Typography>
-          </Stack>
-        </CardContent>
-      </Stack>
-    </MainCard>
+          </CardContent>
+        </Stack>
+      </MainCard>
+      <DialogEl
+        openDialogState={openDialogState}
+        title="Delete Agreement"
+        content="Please write the name of the agreement to delete it"
+        closeFunction={handleCloseDialog}
+        createFunction={onDeleteAgreement}
+        closeBtnText="Cancle"
+        doneBtnText="Delete"
+        placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
+      ></DialogEl>
+    </>
   );
 };
 

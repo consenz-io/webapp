@@ -6,4 +6,5 @@ export default interface DialogProps {
   createFunction: (val: string) => void;
   closeBtnText: string;
   doneBtnText: string;
+  placeHolderText: string;
 }

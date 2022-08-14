@@ -75,8 +75,7 @@ const GroupProvider: FC = () => {
     archivedAgreements: archivedAgreements?.core_agreements || [],
     categories: categoriesData?.core_categories || [],
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
-    deleteAgreement: (name) => {
-      console.log('name in del agr fn in group contx', name);
+    deleteAgreement: (name: string) => {
       deleteAgreementFn({ variables: { name } });
     },
   };
