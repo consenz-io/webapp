@@ -5,6 +5,7 @@ import DropDownMenu from './DropDownMenu';
 import GroupsNav from './GroupsNav';
 import AgreementCard from './AgreementCard';
 import CategorySelect from './CategorySelect';
+import Appbar from './Appbar';
 
 export {
   Sidebar,
@@ -14,4 +15,5 @@ export {
   GroupsNav,
   AgreementCard,
   CategorySelect,
+  Appbar,
 };

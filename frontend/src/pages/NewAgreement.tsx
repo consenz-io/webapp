@@ -13,6 +13,7 @@ import {
   AgreementRules,
   NameAndRationale,
 } from 'components/NewAgreement';
+import { Appbar } from 'components';
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -81,6 +82,12 @@ const NewAgreement: FC = () => {
 
   return (
     <Container maxWidth="md">
+      <Appbar
+        agreementName={agreementName}
+        closeFn={() => {
+          console.log('closing appbar');
+        }}
+      />
       <Stack justifyContent="center" spacing={5} marginY={4}>
         {step < 3 && (
           <NameAndRationale
