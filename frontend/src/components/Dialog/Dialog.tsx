@@ -1,4 +1,4 @@
-import { DialogInput, ActionsContainer, InputWrapper } from './style';
+import * as SC from './style';
 import { Button, Dialog, IconButton, Stack, Typography } from '@mui/material';
 import DialogProps from './types';
 import CloseIcon from '@mui/icons-material/Close';
@@ -61,15 +61,15 @@ export default function DialogEl(props: DialogProps) {
           {props.content}
         </Typography>
       </Stack>
-      <InputWrapper>
-        <DialogInput
+      <SC.InputWrapper>
+        <SC.DialogInput
           onChange={(e) => {
             setInputValue(e.target.value);
           }}
           placeholder={props.placeHolderText}
         />
-      </InputWrapper>
-      <ActionsContainer>
+      </SC.InputWrapper>
+      <SC.ActionsContainer>
         <Button onClick={props.cancleFunction}>{props.cancleBtnText}</Button>
         <Button
           color={donBtnColor}
@@ -80,7 +80,7 @@ export default function DialogEl(props: DialogProps) {
         >
           {props.finishBtnText}
         </Button>
-      </ActionsContainer>
+      </SC.ActionsContainer>
     </Dialog>
   );
 }
