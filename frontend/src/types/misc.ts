@@ -10,6 +10,7 @@ export type MenuItem = {
   color?: string;
   icon?: ReactNode;
   action?: () => void;
+  textColor?: string;
 };
 
 export type IFCProps = {

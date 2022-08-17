@@ -97,10 +97,11 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                     },
                     {
                       text: 'Delete',
-                      icon: <DeleteOutlineIcon sx={{ color: 'red' }} />,
+                      icon: <DeleteOutlineIcon sx={{ color: '#FC6D8F' }} />,
                       action: () => {
                         handleClickOpenDialog();
                       },
+                      textColor: '#FC6D8F',
                     },
                   ]}
                 />

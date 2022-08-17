@@ -76,7 +76,11 @@ const DropDownMenu: FC<IProps> = ({
       >
         {menuItems.map((menuItem, i) => {
           return (
-            <SC.DropDownMenuItem key={i} onClick={(e) => handleMenuItemOnClick(e, menuItem)}>
+            <SC.DropDownMenuItem
+              textColor={menuItem.textColor}
+              key={i}
+              onClick={(e) => handleMenuItemOnClick(e, menuItem)}
+            >
               {menuItem.color && (
                 <CircleIcon
                   style={{ fill: menuItem.color, marginRight: '.5rem', marginLeft: '-.25rem' }}

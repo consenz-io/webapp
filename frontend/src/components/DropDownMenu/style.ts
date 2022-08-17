@@ -2,6 +2,10 @@ import styled from 'styled-components';
 import { Menu, MenuItem } from '@mui/material';
 import { DropDownMenuButton as Button } from './parts';
 
+interface Props {
+  textColor?: string;
+}
+
 export const DropDownMenuButton = styled(Button)`
   && {
     display: flex;
@@ -68,12 +72,13 @@ export const DropDownMenu = styled(Menu)`
   }
 `;
 
-export const DropDownMenuItem = styled(MenuItem)`
+export const DropDownMenuItem = styled(MenuItem)<Props>`
   && {
     font-size: 0.875rem;
     border-radius: 4px;
     padding: 0.68rem 1rem;
     gap: 0.5rem;
+    color: ${(props) => props.textColor};
     &:hover {
       background-color: ${(props) => props.theme.palette.background.active};
     }
