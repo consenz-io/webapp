@@ -75,9 +75,7 @@ const GroupProvider: FC = () => {
     archivedAgreements: archivedAgreements?.core_agreements || [],
     categories: categoriesData?.core_categories || [],
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
-    deleteAgreement: (name: string) => {
-      deleteAgreementFn({ variables: { name } });
-    },
+    deleteAgreement: (agreementName: string) => deleteAgreementFn({ variables: { agreementName } }),
   };
   return (
     <GroupContext.Provider value={state}>
