@@ -76,7 +76,7 @@ const AgreementPage: FC = () => {
             <Typography variant="body1"> View Agreement</Typography>
           </Button>
         </Stack>
-        <Typography sx={{ paddingLeft: '3rem' }} variant="body2">
+        <Typography sx={{ paddingLeft: '3rem', fontSize: '16px' }} variant="body2">
           {localStorage.getItem('rationale') || 'rationale'}
         </Typography>
       </Stack>
