@@ -139,8 +139,8 @@ const NewAgreement: FC = () => {
         openDialogState={openDialogState}
         title="New Category"
         content=""
-        closeFunction={handleCloseDialog}
-        createFunction={onCreateCategory}
+        cancleFunction={handleCloseDialog}
+        finishFunction={onCreateCategory}
         closeBtnText="Close"
         doneBtnText="Create"
         placeHolderText={t(StringBank.ADD_NEW_CATEGORY)}

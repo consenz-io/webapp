@@ -18,7 +18,7 @@ export default function DialogEl(props: DialogProps) {
         },
       }}
       open={props.openDialogState}
-      onClose={props.closeFunction}
+      onClose={props.cancleFunction}
     >
       <Stack
         gap="19rem"
@@ -37,7 +37,7 @@ export default function DialogEl(props: DialogProps) {
         >
           {props.title}
         </Typography>
-        <IconButton onClick={props.closeFunction}>
+        <IconButton onClick={props.cancleFunction}>
           <CloseIcon />
         </IconButton>
       </Stack>
@@ -69,11 +69,11 @@ export default function DialogEl(props: DialogProps) {
         />
       </InputWrapper>
       <ActionsContainer>
-        <Button onClick={props.closeFunction}>{props.closeBtnText}</Button>
+        <Button onClick={props.cancleFunction}>{props.closeBtnText}</Button>
         <Button
           variant="contained"
           onClick={() => {
-            props.createFunction(inputValue);
+            props.finishFunction(inputValue);
           }}
         >
           {props.doneBtnText}
