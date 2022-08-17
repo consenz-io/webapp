@@ -4,6 +4,7 @@ import { FC, useContext } from 'react';
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useParams } from 'react-router-dom';
+import { generateColorFromString } from 'utils/functions';
 
 const AgreementPage: FC = () => {
   const { activeAgreements } = useContext(GroupContext);
@@ -11,7 +12,11 @@ const AgreementPage: FC = () => {
   const currentAgreement = activeAgreements.filter(
     (agreement) => agreement.id.toString() === agreementId
   )[0];
-  const currentCategory = currentAgreement?.category?.name;
+  const currentCategory: string = currentAgreement?.category?.name;
+  const categoryColor = currentCategory
+    ? generateColorFromString(currentCategory, true)
+    : 'primary';
+
   const handleClick = (e: any) => {
     e.preventDefault();
     console.log('clicked breadcrumb');
@@ -67,7 +72,11 @@ const AgreementPage: FC = () => {
               <Chip
                 label={currentCategory ? currentCategory : ''}
                 size="small"
-                sx={{ marginLeft: '1rem', backgroundColor: '#4c67f6', fontSize: '0.8rem' }}
+                style={{
+                  marginLeft: '1rem',
+                  backgroundColor: categoryColor,
+                  fontSize: '0.8rem',
+                }}
               />
             )}
           </Stack>
