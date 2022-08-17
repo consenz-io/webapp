@@ -28,7 +28,6 @@ export const DialogButton = styled(Button)`
     width: 79px;
     height: 40px;
     border-radius: 8px;
-    background-color: #8d54ea;
   }
 `;
 

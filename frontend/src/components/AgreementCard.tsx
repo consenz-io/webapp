@@ -144,9 +144,10 @@ const AgreementCard: FC<IAgreementCardProps> = ({
         content="Please write the name of the agreement to delete it"
         cancleFunction={handleCloseDialog}
         finishFunction={onDeleteAgreement}
-        closeBtnText="Cancle"
-        doneBtnText="Delete"
+        cancleBtnText="Cancle"
+        finishBtnText="Delete"
         placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
+        doneBtnVariant="delete"
       ></DialogEl>
     </>
   );

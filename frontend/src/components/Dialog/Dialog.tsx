@@ -2,11 +2,12 @@ import { DialogInput, ActionsContainer, InputWrapper } from './style';
 import { Button, Dialog, IconButton, Stack, Typography } from '@mui/material';
 import DialogProps from './types';
 import CloseIcon from '@mui/icons-material/Close';
-import './Dialog.css';
 import { useState } from 'react';
 
 export default function DialogEl(props: DialogProps) {
   const [inputValue, setInputValue] = useState<string>('');
+  const donBtnColor = props.doneBtnColor ? props.doneBtnColor : 'primary';
+  const doneBtnVariant = props.doneBtnVariant ? props.doneBtnVariant : 'contained';
   return (
     <Dialog
       PaperProps={{
@@ -69,14 +70,15 @@ export default function DialogEl(props: DialogProps) {
         />
       </InputWrapper>
       <ActionsContainer>
-        <Button onClick={props.cancleFunction}>{props.closeBtnText}</Button>
+        <Button onClick={props.cancleFunction}>{props.cancleBtnText}</Button>
         <Button
-          variant="contained"
+          color={donBtnColor}
+          variant={doneBtnVariant}
           onClick={() => {
             props.finishFunction(inputValue);
           }}
         >
-          {props.doneBtnText}
+          {props.finishBtnText}
         </Button>
       </ActionsContainer>
     </Dialog>

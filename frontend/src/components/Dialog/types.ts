@@ -4,7 +4,17 @@ export default interface DialogProps {
   openDialogState: boolean;
   cancleFunction: () => void;
   finishFunction: (val: string) => void;
-  closeBtnText: string;
-  doneBtnText: string;
+  cancleBtnText: string;
+  finishBtnText: string;
   placeHolderText: string;
+  doneBtnColor?:
+    | 'primary'
+    | 'inherit'
+    | 'secondary'
+    | 'success'
+    | 'error'
+    | 'info'
+    | 'warning'
+    | undefined;
+  doneBtnVariant?: 'text' | 'contained' | 'outlined' | 'delete' | undefined;
 }

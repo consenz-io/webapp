@@ -13,7 +13,7 @@ import {
   AgreementRules,
   NameAndRationale,
 } from 'components/NewAgreement';
-import DialogEl from '../components/Dialog';
+import DialogEl from 'components/Dialog';
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -141,8 +141,8 @@ const NewAgreement: FC = () => {
         content=""
         cancleFunction={handleCloseDialog}
         finishFunction={onCreateCategory}
-        closeBtnText="Close"
-        doneBtnText="Create"
+        cancleBtnText="Close"
+        finishBtnText="Create"
         placeHolderText={t(StringBank.ADD_NEW_CATEGORY)}
       ></DialogEl>
     </Container>
