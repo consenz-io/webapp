@@ -69,7 +69,7 @@ const NameAndRationale: FC<IProps> = ({
               })),
               {
                 text: t(StringBank.ADD_NEW_CATEGORY),
-                textColor: '#adb2b8', // TODO: fetch from theme
+                textColor: 'text.secondary', // TODO: fetch from theme
                 value: null,
                 action: () => console.log('add new category'),
                 icon: <AddIcon sx={{ color: 'text.secondary', marginLeft: '-0.25rem' }} />,

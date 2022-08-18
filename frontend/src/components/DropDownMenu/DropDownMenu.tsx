@@ -3,7 +3,7 @@ import { FC, useState, ReactNode, MouseEvent } from 'react';
 import { MenuItem } from 'types';
 import CircleIcon from '@mui/icons-material/Circle';
 import { capitalize } from 'utils/functions';
-import { IconButton } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 
 interface IProps {
   value?: number | null;
@@ -110,7 +110,9 @@ const DropDownMenu: FC<IProps> = ({
                 />
               )}
               {menuItem.icon}
-              <span style={{ color: menuItem.textColor }}> {menuItem.text}</span>
+              <Typography variant="body2" color={menuItem.textColor}>
+                {menuItem.text}
+              </Typography>
             </SC.DropDownMenuItem>
           );
         })}
