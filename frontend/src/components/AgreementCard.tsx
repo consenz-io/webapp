@@ -49,6 +49,8 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : '#595F68';
 
   // delete action
+  const baseDelDialogContent = `Please write the name of the agreement: ${title} - to delete it.`;
+  const [currentContent, setDelPopContent] = useState<string>(baseDelDialogContent);
   const [openDialogState, setOpenDialogState] = useState(false);
   const handleClickOpenDialog = () => {
     setOpenDialogState(true);
@@ -57,10 +59,18 @@ const AgreementCard: FC<IAgreementCardProps> = ({
     setOpenDialogState(false);
   };
   const onDeleteAgreement = (name: string) => {
-    deleteAgreement(name);
-    setOpenDialogState(false);
+    if (name !== title) {
+      setDelPopContent(
+        `${currentContent}\nThe inputed name: ${name} does not match the agreement name: ${title}`
+      );
+      setTimeout(() => {
+        setDelPopContent(baseDelDialogContent);
+      }, 4000);
+    } else {
+      deleteAgreement(name);
+      setOpenDialogState(false);
+    }
   };
-
   return (
     <>
       <MainCard onClick={() => navigate(`/${slug}/agreement/${id}`)}>
@@ -141,7 +151,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
       <DialogEl
         openDialogState={openDialogState}
         title="Delete Agreement"
-        content="Please write the name of the agreement to delete it"
+        content={currentContent}
         cancleFunction={handleCloseDialog}
         finishFunction={onDeleteAgreement}
         cancleBtnText="Cancle"
