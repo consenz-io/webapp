@@ -170,6 +170,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
               capital: '#4c67f6',
               border: '#E3E3E3',
               active: '#F8EFFF',
+              dropdown: '#292d36',
             },
             text: {
               primary: '#000000',
@@ -194,6 +195,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
               border: '#595f68',
               default: '#333842',
               capital: '#4c67f6',
+              dropdown: '#292d36',
             },
             text: {
               primary: '#ffffff',

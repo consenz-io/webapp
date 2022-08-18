@@ -14,8 +14,8 @@ export const en: Record<StringBank, string> = {
   ALL_AGREEMENTS: 'All Agreements',
   ARCHIVE: 'Archive',
   BACK: 'Back',
+  CATEGORY: 'Category',
   CATEGORIES: 'Categories',
-  CATEGORY_SELECT: 'Category',
   COMING_SOON: 'Coming Soon',
   CONTINUE: 'Continue',
   CREATE_FIRST_AGREEMENT: 'Create your first agreement',
@@ -40,4 +40,5 @@ export const en: Record<StringBank, string> = {
   ask your Group Manager to invite you to join
   
   and have fun!`,
+  NO_CATEGORY: 'No Category',
 };

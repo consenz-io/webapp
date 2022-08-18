@@ -3,7 +3,9 @@ import { FC, useContext } from 'react';
 import { StringBank } from 'strings';
 import styled from 'styled-components';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { CategorySelect } from '..';
+import AddIcon from '@mui/icons-material/Add';
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import { DropDownMenu } from 'components';
 import { GroupContext } from 'contexts/group';
 import { useTranslation } from 'react-i18next';
 
@@ -20,7 +22,7 @@ const Span = styled.span`
 interface IProps {
   categoryId: number | null;
   name: string;
-  onCategoryChange: (value: number) => void;
+  onCategoryChange: (value: number | null) => void;
   onNameChange: (value: string) => void;
   onRationaleChange: (value: string) => void;
   rationale: string;
@@ -34,7 +36,7 @@ const NameAndRationale: FC<IProps> = ({
   onRationaleChange,
   rationale,
 }) => {
-  const { id: groupId } = useContext(GroupContext);
+  const { id: groupId, categories } = useContext(GroupContext);
   const { t } = useTranslation();
 
   return (
@@ -50,9 +52,32 @@ const NameAndRationale: FC<IProps> = ({
         </Span>
         <EditOutlinedIcon htmlColor="#B9BBBE" />
         {!!groupId && (
-          <CategorySelect
-            categoryId={categoryId}
-            onChange={(newCategoryId) => onCategoryChange(newCategoryId)}
+          <DropDownMenu
+            isBorderHidden
+            value={categoryId}
+            name="user"
+            menuItems={[
+              {
+                text: t(StringBank.NO_CATEGORY),
+                value: null,
+                action: () => onCategoryChange(null),
+              },
+              ...categories.map((category) => ({
+                text: category.name,
+                value: category.id,
+                action: () => onCategoryChange(category.id),
+              })),
+              {
+                text: t(StringBank.ADD_NEW_CATEGORY),
+                textColor: '#adb2b8', // TODO: fetch from theme
+                value: null,
+                action: () => console.log('add new category'),
+                icon: <AddIcon sx={{ color: 'text.secondary', marginLeft: '-0.25rem' }} />,
+              },
+            ]}
+            buttonText={t(StringBank.CATEGORY)}
+            endIcon={<KeyboardArrowDown />}
+            styleVariant="secondary"
           />
         )}
       </Stack>
