@@ -37,6 +37,14 @@ const NewAgreement: FC = () => {
   const [isAdminApprovalRequired, setIsAdminApprovalRequired] = useState(false);
 
   addEventListener('unload', () => {
+    if (step > 2) {
+      localStorage.removeItem('agreementName');
+      localStorage.removeItem('rationale');
+      localStorage.removeItem('categoryId');
+      localStorage.removeItem('chapters');
+      localStorage.removeItem('step');
+      return;
+    }
     localStorage.setItem('agreementName', agreementName);
     localStorage.setItem('categoryId', String(categoryId));
     localStorage.setItem('rationale', rationale);
@@ -66,11 +74,6 @@ const NewAgreement: FC = () => {
           rationale: rationale,
         },
       });
-      localStorage.removeItem('agreementName');
-      localStorage.removeItem('rationale');
-      localStorage.removeItem('categoryId');
-      localStorage.removeItem('chapters');
-      localStorage.removeItem('step');
     }
     setStep(step + 1);
   }

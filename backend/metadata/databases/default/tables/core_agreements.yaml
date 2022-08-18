@@ -25,6 +25,15 @@ insert_permissions:
         - group_id
         - name
         - rationale
+  - role: moderator
+    permission:
+      check: {}
+      columns:
+        - category_id
+        - group_id
+        - is_archived
+        - name
+        - rationale
 select_permissions:
   - role: authenticated
     permission:
@@ -43,6 +52,18 @@ select_permissions:
             user:
               user_id:
                 _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      columns:
+        - is_archived
+        - category_id
+        - group_id
+        - id
+        - name
+        - rationale
+        - created_at
+        - updated_at
+      filter: {}
 update_permissions:
   - role: authenticated
     permission:
@@ -64,3 +85,18 @@ update_permissions:
             user:
               user_id:
                 _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      columns:
+        - category_id
+        - group_id
+        - is_archived
+        - name
+        - rationale
+      filter: {}
+      check: null
+delete_permissions:
+  - role: moderator
+    permission:
+      backend_only: false
+      filter: {}
