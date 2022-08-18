@@ -1,7 +1,7 @@
 import { Breadcrumbs, Button, Link, Stack, Typography, Chip } from '@mui/material';
 import { GroupContext } from 'contexts/group';
 import { FC, useContext } from 'react';
-import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
+import DocLogo from 'assets/icons/document@3x.png';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useParams } from 'react-router-dom';
 import { generateColorFromString } from 'utils/functions';
@@ -51,7 +51,7 @@ const AgreementPage: FC = () => {
                 alignItems: 'center',
               }}
             >
-              <SummarizeOutlinedIcon />
+              <img src={DocLogo} alt="docIcon" width="20rem" height="18px" />
               {localStorage.getItem('agreementName') || 'Agreement Name'}
             </Stack>
           </Link>
