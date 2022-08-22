@@ -1,8 +1,28 @@
 import * as SC from './style';
 import { Button, Dialog, Stack, Typography, IconButton } from '@mui/material';
 import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
-import DialogProps from './types';
 import { useState } from 'react';
+
+interface DialogProps {
+  title: string;
+  content: string;
+  openDialogState: boolean;
+  cancleFunction: () => void;
+  finishFunction: (val: string) => void;
+  cancleBtnText: string;
+  finishBtnText: string;
+  placeHolderText: string;
+  doneBtnColor?:
+    | 'primary'
+    | 'inherit'
+    | 'secondary'
+    | 'success'
+    | 'error'
+    | 'info'
+    | 'warning'
+    | undefined;
+  doneBtnVariant?: 'text' | 'contained' | 'outlined' | 'delete' | undefined;
+}
 
 export default function DialogEl(props: DialogProps) {
   const [inputValue, setInputValue] = useState<string>('');
@@ -40,7 +60,7 @@ export default function DialogEl(props: DialogProps) {
         >
           {props.title}
         </Typography>
-        <IconButton onClick={props.cancleFunction}>
+        <IconButton onClick={props.cancleFunction} sx={{ paddingRight: '0.2rem' }}>
           <Xbtn />
         </IconButton>
       </Stack>

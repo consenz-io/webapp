@@ -9,16 +9,16 @@ export const DialogInput = styled(TextField)`
     font-size: 16px;
     font-family: Lato;
     color: #adb2b8;
-    width: 88%;
     height: 42px;
-    margin-left: 6%;
+    width: 100%;
+    margin: 0;
   }
 `;
 
 export const InputWrapper = styled.div`
   && {
-    margin-bottom: 1rem;
-    padding: auto 2rem;
+    width: 100%;
+    padding: 0 2rem;
     .MuiOutlinedInput-root {
       height: 100%;
     }
