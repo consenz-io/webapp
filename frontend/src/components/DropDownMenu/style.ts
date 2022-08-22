@@ -3,10 +3,10 @@ import { Menu, MenuItem } from '@mui/material';
 import { DropDownMenuButton as Button } from './parts';
 
 interface Props {
-  textColor?: string;
+  styleVariant?: 'secondary';
 }
 
-export const DropDownMenuButton = styled(Button)`
+export const DropDownMenuButton = styled(Button)<Props>`
   && {
     display: flex;
     justify-content: space-between;
@@ -45,6 +45,20 @@ export const DropDownMenuButton = styled(Button)`
     }
 
     ${(props) =>
+      props.styleVariant === 'secondary' &&
+      `
+         font-weight: 600;
+         background-color: ${props.theme.palette.background.paper};
+         border-radius: 8px;
+         height: 40px;
+         
+         &:hover,
+         &[aria-expanded] {
+            background-color: ${props.theme.palette.background.paper};
+         }
+      `}
+
+    ${(props) =>
       props.isUser &&
       `
         .capital {
@@ -56,7 +70,7 @@ export const DropDownMenuButton = styled(Button)`
   }
 `;
 
-export const DropDownMenu = styled(Menu)`
+export const DropDownMenu = styled(Menu)<Props>`
   && {
     .MuiPaper-root {
       max-width: none;
@@ -65,9 +79,22 @@ export const DropDownMenu = styled(Menu)`
       background-color: ${(props) => props.theme.palette.background.sidebar};
       border-radius: 8px;
       margin-top: -5px;
+
+      ${(props) =>
+        props.styleVariant === 'secondary' &&
+        `
+          border: 0;
+          margin-top: 2px;
+      `}
     }
     ul {
       padding: 0.1875rem;
+      ${(props) =>
+        props.styleVariant === 'secondary' &&
+        `
+         background-color: ${props.theme.palette.background.dropdown};
+         box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.16);
+      `}
     }
   }
 `;
@@ -78,9 +105,18 @@ export const DropDownMenuItem = styled(MenuItem)<Props>`
     border-radius: 4px;
     padding: 0.68rem 1rem;
     gap: 0.5rem;
-    color: ${(props) => props.textColor};
-    &:hover {
+
+    &:hover,
+    &.Mui-selected {
       background-color: ${(props) => props.theme.palette.background.active};
+      ${(props) =>
+        props.styleVariant === 'secondary' &&
+        `
+         background-color: ${props.theme.palette.background.paper};
+         &:hover {
+              background-color: ${props.theme.palette.background.paper};
+         }
+      `}
     }
   }
 `;
