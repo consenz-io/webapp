@@ -1,7 +1,7 @@
 import { Breadcrumbs, Button, Link, Stack, Typography, Chip } from '@mui/material';
 import { GroupContext } from 'contexts/group';
 import { FC, useContext } from 'react';
-import DocLogo from 'assets/icons/document@3x.png';
+import DocLogo from 'assets/icons/document.svg';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useParams } from 'react-router-dom';
 import { generateColorFromString } from 'utils/functions';
