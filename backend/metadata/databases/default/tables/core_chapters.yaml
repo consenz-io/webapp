@@ -5,6 +5,14 @@ object_relationships:
   - name: agreement
     using:
       foreign_key_constraint_on: agreement_id
+array_relationships:
+  - name: sections
+    using:
+      foreign_key_constraint_on:
+        column: chapter_id
+        table:
+          name: sections
+          schema: core
 insert_permissions:
   - role: authenticated
     permission:

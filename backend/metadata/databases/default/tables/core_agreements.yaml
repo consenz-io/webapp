@@ -8,6 +8,21 @@ object_relationships:
   - name: group
     using:
       foreign_key_constraint_on: group_id
+array_relationships:
+  - name: chapters
+    using:
+      foreign_key_constraint_on:
+        column: agreement_id
+        table:
+          name: chapters
+          schema: core
+  - name: sections
+    using:
+      foreign_key_constraint_on:
+        column: agreement_id
+        table:
+          name: sections
+          schema: core
 insert_permissions:
   - role: authenticated
     permission:
