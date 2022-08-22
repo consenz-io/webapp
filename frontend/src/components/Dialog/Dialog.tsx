@@ -1,7 +1,7 @@
 import * as SC from './style';
-import { Button, Dialog, IconButton, Stack, Typography } from '@mui/material';
+import { Button, Dialog, Stack, Typography, IconButton } from '@mui/material';
+import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
 import DialogProps from './types';
-import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 
 export default function DialogEl(props: DialogProps) {
@@ -16,18 +16,20 @@ export default function DialogEl(props: DialogProps) {
           height: '256px',
           backgroundColor: '#3f4550',
           borderRadius: '8px',
+          backgroundImage: 'none',
         },
       }}
       open={props.openDialogState}
       onClose={props.cancleFunction}
     >
       <Stack
-        gap="19rem"
         direction="row"
         alignItems="center"
-        justifyContent="space-around"
+        justifyContent="space-between"
         textAlign="left"
         margin="auto"
+        width="100%"
+        padding="0 2rem"
       >
         <Typography
           sx={{
@@ -39,7 +41,7 @@ export default function DialogEl(props: DialogProps) {
           {props.title}
         </Typography>
         <IconButton onClick={props.cancleFunction}>
-          <CloseIcon />
+          <Xbtn />
         </IconButton>
       </Stack>
       <Stack
