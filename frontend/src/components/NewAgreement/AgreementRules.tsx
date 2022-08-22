@@ -33,9 +33,9 @@ const AgreementRules: FC<{
       </Stack>
       <Stack spacing={2}>
         <Stack spacing={1.5}>
-          <Typography variant="h3">{t(StringBank.AGREEMENT_PROCESS_RULES)}</Typography>
+          <Typography variant="h3">{t(StringBank.AGREEMENT_APPROVAL_RULES)}</Typography>
           <Typography variant="caption">
-            {t(StringBank.AGREEMENT_PROCESS_RULES_DESCRIPTION)}
+            {t(StringBank.AGREEMENT_APPROVAL_RULES_DESCRIPTION)}
           </Typography>
         </Stack>
         <AgreementRuleCard
