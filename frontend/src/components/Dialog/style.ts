@@ -18,6 +18,7 @@ export const DialogInput = styled(TextField)`
 export const InputWrapper = styled.div`
   && {
     margin-bottom: 1rem;
+    padding: auto 2rem;
     .MuiOutlinedInput-root {
       height: 100%;
     }
