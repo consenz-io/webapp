@@ -3,9 +3,10 @@ import { FC, useState, ReactNode, MouseEvent } from 'react';
 import { MenuItem } from 'types';
 import CircleIcon from '@mui/icons-material/Circle';
 import { capitalize } from 'utils/functions';
-import { IconButton } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 
 interface IProps {
+  value?: number | null;
   name: string;
   buttonText?: string;
   menuItems: MenuItem[];
@@ -13,6 +14,7 @@ interface IProps {
   btnCapital?: string;
   isBorderHidden?: boolean;
   mainIcon?: ReactNode;
+  styleVariant?: 'secondary';
 }
 
 const DropDownMenu: FC<IProps> = ({
@@ -23,6 +25,8 @@ const DropDownMenu: FC<IProps> = ({
   endIcon,
   btnCapital,
   isBorderHidden,
+  value,
+  styleVariant,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -44,6 +48,24 @@ const DropDownMenu: FC<IProps> = ({
     menuItem.action?.();
     handleClose(e);
   };
+
+  const getButtonText = () => {
+    if (value) {
+      return menuItems.find((item) => item.value === value)?.text;
+    }
+
+    if (btnCapital) {
+      return (
+        <>
+          <SC.BtnCapital className="capital">{btnCapital}</SC.BtnCapital>
+          {capitalize(buttonText)}
+        </>
+      );
+    }
+
+    return buttonText;
+  };
+
   return (
     <>
       {mainIcon ? (
@@ -58,10 +80,9 @@ const DropDownMenu: FC<IProps> = ({
           endIcon={endIcon}
           isUser={!!btnCapital}
           isBorderHidden={isBorderHidden}
+          styleVariant={styleVariant}
         >
-          {btnCapital && <SC.BtnCapital className="capital">{btnCapital}</SC.BtnCapital>}
-
-          {btnCapital ? capitalize(buttonText) : buttonText}
+          {getButtonText()}
         </SC.DropDownMenuButton>
       )}
 
@@ -73,17 +94,25 @@ const DropDownMenu: FC<IProps> = ({
           'aria-labelledby': `${name}-button`,
         }}
         anchorEl={anchorEl}
+        styleVariant={styleVariant}
       >
         {menuItems.map((menuItem, i) => {
           return (
-            <SC.DropDownMenuItem key={i} onClick={(e) => handleMenuItemOnClick(e, menuItem)}>
+            <SC.DropDownMenuItem
+              selected={menuItem.value === value}
+              key={i}
+              onClick={(e) => handleMenuItemOnClick(e, menuItem)}
+              styleVariant={styleVariant}
+            >
               {menuItem.color && (
                 <CircleIcon
                   style={{ fill: menuItem.color, marginRight: '.5rem', marginLeft: '-.25rem' }}
                 />
               )}
               {menuItem.icon}
-              {menuItem.text}
+              <Typography variant="body2" color={menuItem.textColor}>
+                {menuItem.text}
+              </Typography>
             </SC.DropDownMenuItem>
           );
         })}

@@ -16,12 +16,13 @@ insert_permissions:
     permission:
       check:
         section:
-          agreement:
-            group:
-              group_users:
-                user:
-                  user_id:
-                    _eq: X-Hasura-User-Id
+          chapter:
+            agreement:
+              group:
+                group_users:
+                  user:
+                    user_id:
+                      _eq: X-Hasura-User-Id
       columns:
         - id
         - created_at
@@ -39,12 +40,13 @@ select_permissions:
         - updated_at
       filter:
         section:
-          agreement:
-            group:
-              group_users:
-                user:
-                  user_id:
-                    _eq: X-Hasura-User-Id
+          chapter:
+            agreement:
+              group:
+                group_users:
+                  user:
+                    user_id:
+                      _eq: X-Hasura-User-Id
 update_permissions:
   - role: authenticated
     permission:
@@ -53,10 +55,11 @@ update_permissions:
         - updated_at
       filter:
         section:
-          agreement:
-            group:
-              group_users:
-                user:
-                  user_id:
-                    _eq: X-Hasura-User-Id
+          chapter:
+            agreement:
+              group:
+                group_users:
+                  user:
+                    user_id:
+                      _eq: X-Hasura-User-Id
       check: null

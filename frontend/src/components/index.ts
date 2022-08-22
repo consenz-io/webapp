@@ -4,14 +4,5 @@ import SidebarController from './SidebarController';
 import DropDownMenu from './DropDownMenu';
 import GroupsNav from './GroupsNav';
 import AgreementCard from './AgreementCard';
-import CategorySelect from './CategorySelect';
 
-export {
-  Sidebar,
-  SidebarLayout,
-  SidebarController,
-  DropDownMenu,
-  GroupsNav,
-  AgreementCard,
-  CategorySelect,
-};
+export { Sidebar, SidebarLayout, SidebarController, DropDownMenu, GroupsNav, AgreementCard };
