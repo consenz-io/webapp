@@ -64,19 +64,13 @@ export default function DialogEl(props: DialogProps) {
           <Xbtn />
         </IconButton>
       </Stack>
-      <Stack
-        textAlign="left"
-        direction="row"
-        alignItems="center"
-        justifyContent="flex-start"
-        paddingLeft="2.5rem"
-      >
+      <Stack direction="row" alignItems="center">
         <Typography
           sx={{
             fontFamily: 'Lato',
             fontSize: '14px',
             color: '#adb2b8',
-            paddingBottom: '0.8rem',
+            padding: '0 2rem 0.8rem 2rem',
           }}
           variant="body1"
         >
