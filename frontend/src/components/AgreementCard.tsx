@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
+import { Box, Card, CardContent, Chip, Stack, SvgIcon, Typography } from '@mui/material';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { FC, useContext, useState } from 'react';
@@ -7,13 +7,14 @@ import { StringBank } from 'strings';
 import { generateColorFromString, truncateAfterWords } from 'utils/functions';
 import DropDownMenu from './DropDownMenu';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+// import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { GroupContext } from 'contexts/group';
 import { ColorModeAndDirectionContext } from 'theme';
 import { ThemeModeType } from 'types';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import DialogEl from '../components/Dialog';
+import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
 
 interface IAgreementCardProps {
   id: number;
@@ -32,6 +33,20 @@ const MainCard = styled(Card)`
     box-shadow: 0px 0px 8px ${(props) => props.theme.palette.background.border};
   }
 `;
+
+const TrashIconWrapper = styled(SvgIcon)`
+  svg path {
+    fill: #fc6d8f;
+  }
+`;
+
+const TrashEL = () => {
+  return (
+    <TrashIconWrapper>
+      <TrashIcon />
+    </TrashIconWrapper>
+  );
+};
 
 const AgreementCard: FC<IAgreementCardProps> = ({
   id,
@@ -107,7 +122,8 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                     },
                     {
                       text: 'Delete',
-                      icon: <DeleteOutlineIcon sx={{ color: '#FC6D8F' }} />,
+                      icon: <TrashEL />,
+                      // icon: <DeleteOutlineIcon sx={{ color: '#FC6D8F' }} />,
                       action: () => {
                         handleClickOpenDialog();
                       },
