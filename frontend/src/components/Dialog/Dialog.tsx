@@ -7,9 +7,9 @@ interface DialogProps {
   title: string;
   content: string;
   openDialogState: boolean;
-  cancleFunction: () => void;
+  cancelFunction: () => void;
   finishFunction: (val: string) => void;
-  cancleBtnText: string;
+  cancelBtnText: string;
   finishBtnText: string;
   placeHolderText: string;
   doneBtnColor?:
@@ -40,7 +40,7 @@ export default function DialogEl(props: DialogProps) {
         },
       }}
       open={props.openDialogState}
-      onClose={props.cancleFunction}
+      onClose={props.cancelFunction}
     >
       <Stack
         direction="row"
@@ -60,7 +60,7 @@ export default function DialogEl(props: DialogProps) {
         >
           {props.title}
         </Typography>
-        <IconButton onClick={props.cancleFunction} sx={{ paddingRight: '0.2rem' }}>
+        <IconButton onClick={props.cancelFunction} sx={{ paddingRight: '0.2rem' }}>
           <Xbtn />
         </IconButton>
       </Stack>
@@ -86,7 +86,7 @@ export default function DialogEl(props: DialogProps) {
         />
       </SC.InputWrapper>
       <SC.ActionsContainer>
-        <Button onClick={props.cancleFunction}>{props.cancleBtnText}</Button>
+        <Button onClick={props.cancelFunction}>{props.cancelBtnText}</Button>
         <Button
           color={donBtnColor}
           variant={doneBtnVariant}
