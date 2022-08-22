@@ -7,7 +7,6 @@ export enum ThemeModeType {
 
 export type MenuItem = {
   text: string;
-  textColor?: string;
   value?: string | number | null;
   color?: string;
   icon?: ReactNode;
