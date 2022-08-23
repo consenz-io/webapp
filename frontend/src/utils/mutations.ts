@@ -6,7 +6,7 @@ export const addAgreement = gql`
     $groupId: Int!
     $name: String!
     $rationale: String!
-    $chapters: core_chapters_arr_rel_insert_input
+    $chapters: [core_chapters_insert_input!]!
   ) {
     insert_core_agreements_one(
       object: {
@@ -14,7 +14,7 @@ export const addAgreement = gql`
         group_id: $groupId
         name: $name
         rationale: $rationale
-        chapters: $chapters
+        chapters: { data: $chapters }
       }
     ) {
       id

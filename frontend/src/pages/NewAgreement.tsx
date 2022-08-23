@@ -37,19 +37,27 @@ const NewAgreement: FC = () => {
 
   addEventListener('unload', () => {
     if (step > 2) {
-      localStorage.removeItem('agreementName');
-      localStorage.removeItem('rationale');
-      localStorage.removeItem('categoryId');
-      localStorage.removeItem('chapters');
-      localStorage.removeItem('step');
+      clearAgreementLocally();
       return;
     }
+    saveAgreementLocally();
+  });
+
+  function clearAgreementLocally() {
+    localStorage.removeItem('agreementName');
+    localStorage.removeItem('rationale');
+    localStorage.removeItem('categoryId');
+    localStorage.removeItem('chapters');
+    localStorage.removeItem('step');
+  }
+
+  function saveAgreementLocally() {
     localStorage.setItem('agreementName', agreementName);
     localStorage.setItem('categoryId', String(categoryId));
     localStorage.setItem('rationale', rationale);
     localStorage.setItem('chapters', JSON.stringify(chapters));
     localStorage.setItem('step', String(step));
-  });
+  }
 
   const isContinueEnabled =
     agreementName &&
@@ -60,7 +68,8 @@ const NewAgreement: FC = () => {
 
   async function handleContinueClick() {
     if (step === 3) {
-      await addAgreement(categoryId, agreementName, rationale);
+      await addAgreement(categoryId, agreementName, rationale, chapters);
+      clearAgreementLocally();
     }
     setStep(step + 1);
   }

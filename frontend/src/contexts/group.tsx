@@ -77,8 +77,33 @@ const GroupProvider: FC = () => {
     archivedAgreements: archivedAgreements?.core_agreements || [],
     categories: categoriesData?.core_categories || [],
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
-    addAgreement: (categoryId, name, rationale) =>
-      addAgreement({ variables: { groupId: currentGroup?.id, name, rationale, categoryId } }),
+    addAgreement: (categoryId, name, rationale, chapters) => {
+      const allNonEmptySections = chapters
+        .flatMap((chapter) => chapter.sections)
+        .filter((section) => section.content);
+      return addAgreement({
+        variables: {
+          groupId: currentGroup?.id,
+          name,
+          rationale,
+          categoryId,
+          chapters: chapters
+            .filter((c) => c.name)
+            .map((c, i) => ({
+              index: i,
+              name: c.name,
+              sections: {
+                data: c.sections
+                  .filter((s) => s.content.trim())
+                  .map((s) => ({
+                    index: allNonEmptySections.indexOf(s) + 1,
+                    suggestions: { data: { content: s.content } },
+                  })),
+              },
+            })),
+        },
+      });
+    },
     addAgreementData,
     addAgreementLoading,
     addAgreementError,
