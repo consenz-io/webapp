@@ -5,6 +5,7 @@ import { IGroupContext } from 'types';
 import { IAgreement, ICategory } from 'types';
 import { agreementsQuery } from 'utils/queries';
 import { DataContext } from './data';
+import { addAgreement as addAgreementMutation } from 'utils/mutations';
 
 const GroupContext = createContext<IGroupContext>({} as IGroupContext);
 
@@ -42,6 +43,11 @@ const GroupProvider: FC = () => {
     { variables: { groupId: currentGroup?.id || -1 } }
   );
 
+  const [
+    addAgreement,
+    { data: addAgreementData, loading: addAgreementLoading, error: addAgreementError },
+  ] = useMutation(addAgreementMutation, { refetchQueries: ['agreements'] });
+
   const [archiveAgreement] = useMutation(
     gql`
       mutation archiveAgreement($id: Int!, $iArchived: Boolean!) {
@@ -71,6 +77,36 @@ const GroupProvider: FC = () => {
     archivedAgreements: archivedAgreements?.core_agreements || [],
     categories: categoriesData?.core_categories || [],
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
+    addAgreement: (categoryId, name, rationale, chapters) => {
+      const allNonEmptySections = chapters
+        .flatMap((chapter) => chapter.sections)
+        .filter((section) => section.content);
+      return addAgreement({
+        variables: {
+          groupId: currentGroup?.id,
+          name,
+          rationale,
+          categoryId,
+          chapters: chapters
+            .filter((c) => c.name)
+            .map((c, i) => ({
+              index: i,
+              name: c.name,
+              sections: {
+                data: c.sections
+                  .filter((s) => s.content.trim())
+                  .map((s) => ({
+                    index: allNonEmptySections.indexOf(s) + 1,
+                    suggestions: { data: { content: s.content } },
+                  })),
+              },
+            })),
+        },
+      });
+    },
+    addAgreementData,
+    addAgreementLoading,
+    addAgreementError,
   };
   return (
     <GroupContext.Provider value={state}>
