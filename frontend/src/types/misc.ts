@@ -30,3 +30,8 @@ export type ICategorySelectProps = {
   onSelecting?: () => void;
   onReady?: () => void;
 };
+
+export enum VariantType {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+}

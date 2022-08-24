@@ -10,7 +10,7 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 // import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { GroupContext } from 'contexts/group';
 import { ColorModeAndDirectionContext } from 'theme';
-import { ThemeModeType } from 'types';
+import { ThemeModeType, VariantType } from 'types';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import DialogEl from '../components/Dialog';
@@ -114,6 +114,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                 <DropDownMenu
                   mainIcon={<MoreHorizIcon />}
                   name="agreement-menu"
+                  styleVariant={VariantType.PRIMARY}
                   menuItems={[
                     {
                       text: t(isArchived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
@@ -123,7 +124,6 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                     {
                       text: 'Delete',
                       icon: <TrashEL />,
-                      // icon: <DeleteOutlineIcon sx={{ color: '#FC6D8F' }} />,
                       action: () => {
                         handleClickOpenDialog();
                       },
