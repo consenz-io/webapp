@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { TextField, Button, DialogTitle, IconButton, DialogActions, SvgIcon } from '@mui/material';
 
 export const XIconWrapper = styled(SvgIcon)`
+  && {
+    margin-right: -0.5rem;
+  }
   svg path {
     fill: #adb2b8;
   }
@@ -75,5 +78,6 @@ export const ActionButton = styled(Button)`
     font-weight: normal;
     width: 5rem;
     height: 2.5rem;
+    font-size: 1rem;
   }
 `;
