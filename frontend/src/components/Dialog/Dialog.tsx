@@ -92,7 +92,6 @@ export default function DialogEl(props: DialogProps) {
         <SC.ActionButton
           color={donBtnColor}
           variant={doneBtnVariant}
-          sx={{ fontSize: '1rem' }}
           onClick={() => {
             props.finishFunction(inputValue);
           }}
