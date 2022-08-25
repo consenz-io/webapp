@@ -10,7 +10,7 @@ export const he: Partial<Record<StringBank, string>> = {
   AGREEMENT_NAME_FIELD: 'כותרת ההסכם',
   ALL_AGREEMENTS: 'כל ההסכמים',
   ARCHIVE: 'ארכיון',
-  CATEGORY_SELECT: 'קטגוריה',
+  CATEGORY: 'קטגוריה',
   CONTINUE: 'להמשיך',
   GOTO_HOMEPAGE_TITLE: 'לעבור לדף הבית',
   LOGOUT: 'יציאה',
@@ -22,4 +22,5 @@ export const he: Partial<Record<StringBank, string>> = {
   בקשו ממנהל הקבוצה שלכן הזמנה על מנת להשתתף
   
   ותהנו!`,
+  NO_CATEGORY: 'לא נבחרה קטגוריה',
 };

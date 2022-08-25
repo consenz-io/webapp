@@ -7,6 +7,8 @@ export const en: Record<StringBank, string> = {
   AGREEMENT_NAME_FIELD: 'Agreement Name',
   AGREEMENT_PARTICIPANTS: '{{count}} participants',
   AGREEMENT_PROCESS_RULES: 'Agreement Process Rules',
+  AGREEMENT_APPROVAL_RULES: 'Agreement Approval Rules',
+  AGREEMENT_APPROVAL_RULES_DESCRIPTION: 'Set rules for changing agreement status to approved',
   AGREEMENT_PROCESS_RULES_DESCRIPTION:
     'Set rules for accepting changes to the agreement by adding and approving new sections and approving sections improvements suggestions',
   AGREEMENT_PUBLIHSED_SUCCESSFULLY: 'Your agreement has been succesfully published',
@@ -14,8 +16,8 @@ export const en: Record<StringBank, string> = {
   ALL_AGREEMENTS: 'All Agreements',
   ARCHIVE: 'Archive',
   BACK: 'Back',
+  CATEGORY: 'Category',
   CATEGORIES: 'Categories',
-  CATEGORY_SELECT: 'Category',
   COMING_SOON: 'Coming Soon',
   CONTINUE: 'Continue',
   CREATE_FIRST_AGREEMENT: 'Create your first agreement',
@@ -40,4 +42,5 @@ export const en: Record<StringBank, string> = {
   ask your Group Manager to invite you to join
   
   and have fun!`,
+  NO_CATEGORY: 'No Category',
 };

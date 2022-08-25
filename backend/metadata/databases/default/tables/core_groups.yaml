@@ -36,3 +36,11 @@ select_permissions:
           user:
             user_id:
               _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      columns:
+        - id
+        - name
+        - slug
+        - created_at
+      filter: {}
