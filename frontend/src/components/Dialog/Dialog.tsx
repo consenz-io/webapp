@@ -60,7 +60,7 @@ export default function DialogEl(props: DialogProps) {
         >
           {props.title}
         </Typography>
-        <IconButton onClick={props.cancelFunction}>
+        <IconButton onClick={props.cancelFunction} sx={{ marginRight: '-0.5rem' }}>
           <SC.XIconWrapper>
             <Xbtn />
           </SC.XIconWrapper>
