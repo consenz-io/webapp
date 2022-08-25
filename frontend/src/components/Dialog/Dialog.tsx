@@ -1,5 +1,5 @@
 import * as SC from './style';
-import { Button, Dialog, Stack, Typography, IconButton } from '@mui/material';
+import { Dialog, Stack, Typography, IconButton } from '@mui/material';
 import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
 import { useState } from 'react';
 
@@ -88,8 +88,8 @@ export default function DialogEl(props: DialogProps) {
         />
       </SC.InputWrapper>
       <SC.ActionsContainer>
-        <Button onClick={props.cancelFunction}>{props.cancelBtnText}</Button>
-        <Button
+        <SC.ActionButton onClick={props.cancelFunction}>{props.cancelBtnText}</SC.ActionButton>
+        <SC.ActionButton
           color={donBtnColor}
           variant={doneBtnVariant}
           sx={{ fontSize: '1rem' }}
@@ -98,7 +98,7 @@ export default function DialogEl(props: DialogProps) {
           }}
         >
           {props.finishBtnText}
-        </Button>
+        </SC.ActionButton>
       </SC.ActionsContainer>
     </Dialog>
   );

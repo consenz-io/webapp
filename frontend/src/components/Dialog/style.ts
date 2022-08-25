@@ -10,7 +10,6 @@ export const XIconWrapper = styled(SvgIcon)`
 export const DialogInput = styled(TextField)`
   && {
     border-radius: 4px;
-    border: solid 1px #565d68;
     background-color: rgba(0, 0, 0, 0.08);
     font-size: 16px;
     font-family: Lato;
@@ -68,5 +67,13 @@ export const ActionsContainer = styled(DialogActions)`
     gap: 1rem;
     padding: 0 2rem;
     margin-bottom: 2rem;
+  }
+`;
+
+export const ActionButton = styled(Button)`
+  && {
+    font-weight: normal;
+    width: 5rem;
+    height: 2.5rem;
   }
 `;
