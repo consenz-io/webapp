@@ -61,7 +61,9 @@ export default function DialogEl(props: DialogProps) {
           {props.title}
         </Typography>
         <IconButton onClick={props.cancelFunction} sx={{ paddingRight: '0.2rem' }}>
-          <Xbtn />
+          <SC.XIconWrapper>
+            <Xbtn />
+          </SC.XIconWrapper>
         </IconButton>
       </Stack>
       <Stack direction="row" alignItems="center">
@@ -70,7 +72,7 @@ export default function DialogEl(props: DialogProps) {
             fontFamily: 'Lato',
             fontSize: '14px',
             color: '#adb2b8',
-            padding: '0 2rem 0.8rem 2rem',
+            padding: '0 2rem 0.56rem 2rem',
           }}
           variant="body1"
         >
@@ -90,6 +92,7 @@ export default function DialogEl(props: DialogProps) {
         <Button
           color={donBtnColor}
           variant={doneBtnVariant}
+          sx={{ fontSize: '1rem' }}
           onClick={() => {
             props.finishFunction(inputValue);
           }}

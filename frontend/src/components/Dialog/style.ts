@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { TextField, Button, DialogTitle, IconButton, DialogActions } from '@mui/material';
+import { TextField, Button, DialogTitle, IconButton, DialogActions, SvgIcon } from '@mui/material';
+
+export const XIconWrapper = styled(SvgIcon)`
+  svg path {
+    fill: #adb2b8;
+  }
+`;
 
 export const DialogInput = styled(TextField)`
   && {
@@ -17,8 +23,8 @@ export const DialogInput = styled(TextField)`
 
 export const InputWrapper = styled.div`
   && {
-    width: 100%;
     padding: 0 2rem;
+    margin-bottom: 2rem;
     .MuiOutlinedInput-root {
       height: 100%;
     }
@@ -60,7 +66,7 @@ export const ActionsContainer = styled(DialogActions)`
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-    padding: 1rem 2rem;
-    margin: 1%;
+    padding: 0 2rem;
+    margin-bottom: 2rem;
   }
 `;

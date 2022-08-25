@@ -7,7 +7,6 @@ import { StringBank } from 'strings';
 import { generateColorFromString, truncateAfterWords } from 'utils/functions';
 import DropDownMenu from './DropDownMenu';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-// import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { GroupContext } from 'contexts/group';
 import { ColorModeAndDirectionContext } from 'theme';
 import { ThemeModeType, VariantType } from 'types';
@@ -63,7 +62,6 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   const navigate = useNavigate();
   const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : '#595F68';
 
-  // delete action
   const baseDelDialogContent = `Please write the name of the agreement: ${title} - to delete it.`;
   const [currentContent, setDelPopContent] = useState<string>(baseDelDialogContent);
   const [openDialogState, setOpenDialogState] = useState(false);
