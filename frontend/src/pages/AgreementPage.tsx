@@ -1,5 +1,6 @@
 import { Breadcrumbs, Button, Link, Stack, Typography, Chip } from '@mui/material';
 import { GroupContext } from 'contexts/group';
+import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext } from 'react';
 import DocLogo from 'assets/icons/document.svg';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
@@ -16,7 +17,8 @@ const AgreementPage: FC = () => {
   const categoryColor = currentCategory
     ? generateColorFromString(currentCategory, true)
     : 'primary';
-
+  const agreementContext = useContext(AgreementContext);
+  console.log('agreementContext', agreementContext);
   const handleClick = (e: any) => {
     e.preventDefault();
     console.log('clicked breadcrumb');
