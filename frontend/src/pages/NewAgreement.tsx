@@ -81,48 +81,50 @@ const NewAgreement: FC = () => {
   }
 
   return (
-    <Container maxWidth="md">
+    <>
       <Appbar
         agreementName={agreementName}
         closeFn={() => {
           console.log('closing appbar');
         }}
       />
-      <Stack justifyContent="center" spacing={5} marginY={4}>
-        {step < 3 && (
-          <NameAndRationale
-            name={agreementName}
-            onNameChange={setAgreementName}
-            rationale={rationale}
-            onRationaleChange={setRationale}
-            categoryId={categoryId}
-            onCategoryChange={setCategoryId}
-          />
-        )}
-        {step === 2 && <AgreementContent chapters={chapters} setChapters={setChapters} />}
-        {step === 3 && (
-          <AgreementRules
-            isAdminApprovalRequired={isAdminApprovalRequired}
-            setIsAdminApprovalRequired={setIsAdminApprovalRequired}
-          />
-        )}
-        <Stack flexDirection="row-reverse" alignItems="center" justifyContent="space-between">
-          <Button
-            variant="contained"
-            onClick={handleContinueClick}
-            disabled={!isContinueEnabled}
-            color={step === 3 ? 'primary' : 'secondary'}
-          >
-            {step === 3 ? t(StringBank.PUBLISH_AGREEMENT) : t(StringBank.CONTINUE)}
-          </Button>
-          {step == 3 && (
-            <Button variant="text" onClick={() => setStep(step - 1)}>
-              {t(StringBank.BACK)}
-            </Button>
+      <Container maxWidth="md">
+        <Stack justifyContent="center" spacing={5} marginY={4}>
+          {step < 3 && (
+            <NameAndRationale
+              name={agreementName}
+              onNameChange={setAgreementName}
+              rationale={rationale}
+              onRationaleChange={setRationale}
+              categoryId={categoryId}
+              onCategoryChange={setCategoryId}
+            />
           )}
+          {step === 2 && <AgreementContent chapters={chapters} setChapters={setChapters} />}
+          {step === 3 && (
+            <AgreementRules
+              isAdminApprovalRequired={isAdminApprovalRequired}
+              setIsAdminApprovalRequired={setIsAdminApprovalRequired}
+            />
+          )}
+          <Stack flexDirection="row-reverse" alignItems="center" justifyContent="space-between">
+            <Button
+              variant="contained"
+              onClick={handleContinueClick}
+              disabled={!isContinueEnabled}
+              color={step === 3 ? 'primary' : 'secondary'}
+            >
+              {step === 3 ? t(StringBank.PUBLISH_AGREEMENT) : t(StringBank.CONTINUE)}
+            </Button>
+            {step == 3 && (
+              <Button variant="text" onClick={() => setStep(step - 1)}>
+                {t(StringBank.BACK)}
+              </Button>
+            )}
+          </Stack>
         </Stack>
-      </Stack>
-    </Container>
+      </Container>
+    </>
   );
 };
 
