@@ -50,7 +50,6 @@ select_permissions:
   - role: moderator
     permission:
       columns:
-        - agreement_id
         - chapter_id
         - id
         - index
