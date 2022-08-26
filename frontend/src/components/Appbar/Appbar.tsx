@@ -12,8 +12,11 @@ const AppbarContainer = styled(Stack)`
   && {
     align-items: center;
     border-bottom: solid 1px #595f68;
-    margin: 0.35rem -1rem;
+    margin-top: -1rem;
+    margin-right: -1rem;
+    margin-left: -1rem;
     padding: 0 1rem;
+    height: 57px;
   }
 `;
 
@@ -37,15 +40,20 @@ const Appbar: FC<AppbarProps> = (props) => {
 
   return (
     <AppbarContainer direction="row" alignItems="center" justifyContent="space-between">
-      <Stack direction="row" gap="0.5rem" sx={{ paddingBottom: '1rem' }}>
+      <Stack direction="row" gap="0.5rem">
         <DocLogo />
         <Typography>{props.agreementName}</Typography>
       </Stack>
-      <Stack direction="row" sx={{ paddingBottom: '1rem' }}>
-        <Stepper nonLinear activeStep={activeStep}>
+      <Stack direction="row">
+        <Stepper nonLinear activeStep={activeStep} connector={<></>}>
           {steps.map((label, index) => (
             <Step key={label} completed={completed[index]} sx={{ padding: '0 1rem' }}>
-              <StepButton color="inherit" onClick={handleStep(index)}>
+              <StepButton
+                color="inherit"
+                onClick={handleStep(index)}
+                sx={{ padding: '0', margin: '0' }}
+                disableRipple
+              >
                 <StepLabel
                   sx={{
                     '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root': {
@@ -63,12 +71,7 @@ const Appbar: FC<AppbarProps> = (props) => {
           ))}
         </Stepper>
       </Stack>
-      <IconButton
-        sx={{
-          position: 'realtive',
-          bottom: '.5rem',
-        }}
-      >
+      <IconButton>
         <XIconWrapper onClick={props.closeFn}>
           <XLogo />
         </XIconWrapper>
