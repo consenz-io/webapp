@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import { IconButton, Stack } from '@mui/material';
 import styled from 'styled-components';
 
 export const Card = styled(Stack)`
@@ -12,6 +12,7 @@ export const Card = styled(Stack)`
     background-color: #3f4550;
     border-radius: 4px;
     margin-bottom: 10px;
+    margin-left: 2rem;
   }
 `;
 
@@ -50,4 +51,8 @@ export const iconNumberContainter = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const SectionButton = styled(IconButton)`
+  margin: auto 1rem;
 `;

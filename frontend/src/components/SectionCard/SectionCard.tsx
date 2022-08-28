@@ -1,7 +1,6 @@
 import { Slide, Typography } from '@mui/material';
 import { SectionProps } from './types';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { IconButton } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useState } from 'react';
 import * as SC from './styles';
@@ -35,18 +34,17 @@ const SectionCard = (props: SectionProps) => {
   return (
     <SC.Card>
       <SC.ButtonColumn direction="column" order="1" width="64px">
-        <IconButton
-          sx={{
-            paddingLeft: '1rem',
-          }}
-          onClick={backwardsSuggestion}
-          disabled={suggestionIndex === 0}
-        >
+        <SC.SectionButton onClick={backwardsSuggestion} disabled={suggestionIndex === 0}>
           <ArrowBackIosNewIcon />
-        </IconButton>
+        </SC.SectionButton>
       </SC.ButtonColumn>
       <SC.SectionDataColumn direction="column" order="2">
-        <SC.SectionDataRow direction="row">
+        <SC.SectionDataRow
+          direction="row"
+          sx={{
+            paddingTop: '27.5px',
+          }}
+        >
           <Typography
             sx={{
               fontWeight: '700',
@@ -65,12 +63,18 @@ const SectionCard = (props: SectionProps) => {
             Version {suggestionIndex + 1} of {props.suggestions.length}
           </Typography>
         </SC.SectionDataRow>
-        <SC.SectionDataRow direction="row">
+        <SC.SectionDataRow
+          direction="row"
+          sx={{
+            padding: 0,
+          }}
+        >
           <Typography
             sx={{
               fontWeight: '400',
               color: 'white',
-              paddingTop: '19.5px',
+              paddingTop: '1rem',
+              paddingButtom: '1rem',
             }}
           >
             <Slide direction="right">
@@ -100,15 +104,12 @@ const SectionCard = (props: SectionProps) => {
         </SC.SectionButtonsRow>
       </SC.SectionDataColumn>
       <SC.ButtonColumn direction="column" order="3">
-        <IconButton
-          sx={{
-            paddingRight: '1rem',
-          }}
+        <SC.SectionButton
           disabled={suggestionIndex === props.suggestions.length - 1}
           onClick={forwardSuggestion}
         >
           <ArrowForwardIosIcon />
-        </IconButton>
+        </SC.SectionButton>
       </SC.ButtonColumn>
     </SC.Card>
   );
