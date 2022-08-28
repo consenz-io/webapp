@@ -27,13 +27,15 @@ const AgreementPage: FC = () => {
   // mock suggestions
   const suggestions1: Suggestion[] = [
     {
-      content: ' suggestion 1 sug1',
+      content:
+        'sec1 sug1 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porta diam cum quisque mi gravida egestas. Feugiat rhoncus, ullamcorper eget massa mi nunc. Auctor sed consequat malesuada cras diam elit. Elementum pellentesque euismod proin dolor. Nibh mi urna eget vitae lorem.',
       comments: ['comment1 sug1', 'comment2 sug1'],
       dislikes: 12,
       likes: 54,
     },
     {
-      content: ' suggestion 2 sug1',
+      content:
+        'sec1 sug2 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porta diam cum quisque mi gravida egestas. Feugiat rhoncus, ullamcorper eget massa mi nunc. Auctor sed consequat malesuada cras diam elit. Elementum pellentesque euismod proin dolor. Nibh mi urna eget vitae lorem.',
       comments: ['comment3 sug1', 'comment4 sug1'],
       dislikes: 55,
       likes: 32,
@@ -42,13 +44,15 @@ const AgreementPage: FC = () => {
 
   const suggestions2: Suggestion[] = [
     {
-      content: ' suggestion 1 sug2',
+      content:
+        'sec2 sug1 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porta diam cum quisque mi gravida egestas. Feugiat rhoncus, ullamcorper eget massa mi nunc. Auctor sed consequat malesuada cras diam elit. Elementum pellentesque euismod proin dolor. Nibh mi urna eget vitae lorem.',
       comments: ['comment1 sug2', 'comment2 sug2'],
       dislikes: 2,
       likes: 44,
     },
     {
-      content: ' suggestion 2 sug2',
+      content:
+        'sec2 sug2 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porta diam cum quisque mi gravida egestas. Feugiat rhoncus, ullamcorper eget massa mi nunc. Auctor sed consequat malesuada cras diam elit. Elementum pellentesque euismod proin dolor. Nibh mi urna eget vitae lorem.',
       comments: ['comment3 sug2', 'comment4 sug2'],
       dislikes: 11,
       likes: 12,

@@ -5,26 +5,49 @@ export const Card = styled(Stack)`
   && {
     width: 795px;
     height: 208px;
-    flex-grow: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    gap: 4px;
-    padding: 0;
     background-color: #3f4550;
     border-radius: 4px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
 `;
 
 export const SectionDataRow = styled(Stack)`
   && {
-    padding: 1.71rem 4rem;
+    gap: 10px;
+    width: 100%;
   }
 `;
 
-export const SectionColumn = styled(Stack)`
-  flex-direction: 'column';
-  width: '3.5rem';
+export const SectionButtonsRow = styled(Stack)`
+  && {
+    height: 3.5rem;
+    width: 100%;
+    gap: 23px;
+  }
+`;
+
+export const SectionDataColumn = styled(Stack)`
+  && {
+    height: 100%;
+    width: 42rem;
+    justify-content: center;
+    padding: 1rem 1.5rem;
+  }
+`;
+export const ButtonColumn = styled(Stack)`
+  && {
+    width: 4rem;
+    justify-content: center;
+    height: 3.5rem;
+  }
+`;
+
+export const iconNumberContainter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

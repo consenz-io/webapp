@@ -1,10 +1,13 @@
-import { Typography } from '@mui/material';
+import { Slide, Typography } from '@mui/material';
 import { SectionProps } from './types';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { IconButton } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useState } from 'react';
 import * as SC from './styles';
+import { ReactComponent as LikeIcon } from 'assets/icons/like-outlined.svg';
+import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
+import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
 
 const SectionCard = (props: SectionProps) => {
   const [content, setContent] = useState<string>(props.suggestions[0].content);
@@ -31,26 +34,24 @@ const SectionCard = (props: SectionProps) => {
 
   return (
     <SC.Card>
-      <SC.SectionColumn direction="column" order="1">
+      <SC.ButtonColumn direction="column" order="1" width="64px">
         <IconButton
           sx={{
-            position: 'relative',
-            left: '0',
+            paddingLeft: '1rem',
           }}
           onClick={backwardsSuggestion}
           disabled={suggestionIndex === 0}
         >
           <ArrowBackIosNewIcon />
         </IconButton>
-      </SC.SectionColumn>
-      <SC.SectionColumn direction="column" order="2">
+      </SC.ButtonColumn>
+      <SC.SectionDataColumn direction="column" order="2">
         <SC.SectionDataRow direction="row">
           <Typography
             sx={{
               fontWeight: '700',
               fontSize: '14px',
               color: '#E0E0E0',
-              padding: '0 10px',
             }}
           >
             Section {props.sectionIndex}
@@ -69,21 +70,46 @@ const SectionCard = (props: SectionProps) => {
             sx={{
               fontWeight: '400',
               color: 'white',
+              paddingTop: '19.5px',
             }}
           >
-            {content}
+            <Slide direction="right">
+              <>{content}</>
+            </Slide>
           </Typography>
         </SC.SectionDataRow>
-        <SC.SectionDataRow direction="row">buttons</SC.SectionDataRow>
-      </SC.SectionColumn>
-      <SC.SectionColumn direction="column" order="3">
+        <SC.SectionButtonsRow direction="row">
+          <SC.iconNumberContainter>
+            <LikeIcon />
+            <Typography paddingLeft="4px" paddingRight="4px" color="#24ebd3">
+              {props.suggestions[suggestionIndex].likes}
+            </Typography>
+          </SC.iconNumberContainter>
+          <SC.iconNumberContainter>
+            <DislikeIcon />
+            <Typography paddingLeft="4px" paddingRight="4px">
+              {props.suggestions[suggestionIndex].dislikes}
+            </Typography>
+          </SC.iconNumberContainter>
+          <SC.iconNumberContainter>
+            <CommentIcon />
+            <Typography paddingLeft="4px" paddingRight="4px">
+              {props.suggestions[suggestionIndex].comments.length}
+            </Typography>
+          </SC.iconNumberContainter>
+        </SC.SectionButtonsRow>
+      </SC.SectionDataColumn>
+      <SC.ButtonColumn direction="column" order="3">
         <IconButton
+          sx={{
+            paddingRight: '1rem',
+          }}
           disabled={suggestionIndex === props.suggestions.length - 1}
           onClick={forwardSuggestion}
         >
           <ArrowForwardIosIcon />
         </IconButton>
-      </SC.SectionColumn>
+      </SC.ButtonColumn>
     </SC.Card>
   );
 };
