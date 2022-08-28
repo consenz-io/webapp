@@ -5,6 +5,8 @@ import DocLogo from 'assets/icons/document.svg';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useParams } from 'react-router-dom';
 import { generateColorFromString } from 'utils/functions';
+import { SectionCard } from 'components/SectionCard';
+import { SectionProps, Suggestion } from 'components/SectionCard/types';
 
 const AgreementPage: FC = () => {
   const { activeAgreements } = useContext(GroupContext);
@@ -21,6 +23,50 @@ const AgreementPage: FC = () => {
     e.preventDefault();
     console.log('clicked breadcrumb');
   };
+
+  // mock suggestions
+  const suggestions1: Suggestion[] = [
+    {
+      content: ' suggestion 1 sug1',
+      comments: ['comment1 sug1', 'comment2 sug1'],
+      dislikes: 12,
+      likes: 54,
+    },
+    {
+      content: ' suggestion 2 sug1',
+      comments: ['comment3 sug1', 'comment4 sug1'],
+      dislikes: 55,
+      likes: 32,
+    },
+  ];
+
+  const suggestions2: Suggestion[] = [
+    {
+      content: ' suggestion 1 sug2',
+      comments: ['comment1 sug2', 'comment2 sug2'],
+      dislikes: 2,
+      likes: 44,
+    },
+    {
+      content: ' suggestion 2 sug2',
+      comments: ['comment3 sug2', 'comment4 sug2'],
+      dislikes: 11,
+      likes: 12,
+    },
+  ];
+
+  // mock sections
+  const sections: SectionProps[] = [
+    {
+      suggestions: suggestions1,
+      sectionIndex: 1,
+    },
+    {
+      suggestions: suggestions2,
+      sectionIndex: 2,
+    },
+  ];
+
   return (
     <Stack direction="column">
       <Stack
@@ -88,6 +134,17 @@ const AgreementPage: FC = () => {
         <Typography sx={{ paddingLeft: '3rem', fontSize: '16px' }} variant="body2">
           {localStorage.getItem('rationale') || 'rationale'}
         </Typography>
+      </Stack>
+      <Stack direction="column">
+        {sections.map((section, index) => {
+          return (
+            <SectionCard
+              suggestions={section.suggestions}
+              sectionIndex={section.sectionIndex}
+              key={index}
+            ></SectionCard>
+          );
+        })}
       </Stack>
     </Stack>
   );
