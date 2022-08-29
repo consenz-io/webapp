@@ -29,3 +29,30 @@ export function agreementsQuery(categoryId?: string) {
   }
 `;
 }
+
+export function getAgreementByIdQuery() {
+  return gql`
+    query getAgreement($agreementId: Int!) {
+      core_agreements(where: { id: { _eq: $agreementId } }) {
+        id
+        name
+        category {
+          name
+        }
+        rationale
+        chapters {
+          agreement_id
+          sections {
+            suggestions {
+              content
+            }
+          }
+        }
+        group {
+          name
+          slug
+        }
+      }
+    }
+  `;
+}
