@@ -25,7 +25,7 @@ const AuthProvider = ({ children }: IFCProps) => {
         setUserRole(idClaims.role || userRole || '');
       }
     });
-  }, [getAccessTokenSilently, loginWithRedirect, getIdTokenClaims]);
+  }, [getAccessTokenSilently, loginWithRedirect, getIdTokenClaims, userRole]);
 
   function logout(): void {
     setJwt(undefined);
