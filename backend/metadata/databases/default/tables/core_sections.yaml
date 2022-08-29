@@ -21,8 +21,9 @@ insert_permissions:
           agreement:
             group:
               group_users:
-                user_id:
-                  _eq: X-Hasura-User-Id
+                user:
+                  user_id:
+                    _eq: X-Hasura-User-Id
       columns:
         - chapter_id
         - created_at
@@ -43,8 +44,18 @@ select_permissions:
           agreement:
             group:
               group_users:
-                user_id:
-                  _eq: X-Hasura-User-Id
+                user:
+                  user_id:
+                    _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      columns:
+        - chapter_id
+        - id
+        - index
+        - created_at
+        - updated_at
+      filter: {}
 update_permissions:
   - role: authenticated
     permission:
@@ -59,6 +70,7 @@ update_permissions:
           agreement:
             group:
               group_users:
-                user_id:
-                  _eq: X-Hasura-User-Id
+                user:
+                  user_id:
+                    _eq: X-Hasura-User-Id
       check: null

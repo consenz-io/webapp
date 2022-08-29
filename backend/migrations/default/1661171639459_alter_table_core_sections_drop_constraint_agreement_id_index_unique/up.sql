@@ -1,1 +1,1 @@
-alter table "core"."sections" drop constraint "agreement_id_index_unique";
+alter table "core"."sections" drop constraint if exists "agreement_id_index_unique";

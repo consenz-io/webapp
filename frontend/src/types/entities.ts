@@ -27,6 +27,11 @@ export interface IGroup {
 
 export interface ISection {
   id: number;
+  suggestions: ISuggestion[];
+}
+
+export interface ISuggestion {
+  id: number;
   content: string;
 }
 
@@ -37,6 +42,7 @@ export interface IUser {
   displayName?: string;
 }
 
-export type LocalChapter = Pick<IChapter, 'name'> & {
-  sections: Pick<ISection, 'content'>[];
+export type LocalChapter = {
+  name: string;
+  sections: { content: string }[];
 };

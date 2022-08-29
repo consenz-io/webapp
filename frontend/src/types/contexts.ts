@@ -1,4 +1,4 @@
-import { IAgreement, ICategory, IUser } from './entities';
+import { IAgreement, ICategory, IUser, LocalChapter } from './entities';
 
 export interface IAuthContext {
   jwt?: string;
@@ -23,4 +23,13 @@ export interface IGroupContext {
   categories: ICategory[];
   archiveAgreement: (id: number, iArchived: boolean) => void;
   deleteAgreement: (name: string) => void;
+  addAgreement: (
+    categoryId: number | null,
+    name: string,
+    rationale: string,
+    chapters: LocalChapter[]
+  ) => void;
+  addAgreementData: unknown;
+  addAgreementError: unknown;
+  addAgreementLoading: boolean;
 }

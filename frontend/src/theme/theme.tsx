@@ -147,6 +147,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
       MuiButton: {
         defaultProps: {
           disableElevation: true,
+          color: 'secondary',
         },
         variants: [
           {

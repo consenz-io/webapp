@@ -7,6 +7,8 @@ export const en: Record<StringBank, string> = {
   AGREEMENT_NAME_FIELD: 'Agreement Name',
   AGREEMENT_PARTICIPANTS: '{{count}} participants',
   AGREEMENT_PROCESS_RULES: 'Agreement Process Rules',
+  AGREEMENT_APPROVAL_RULES: 'Agreement Approval Rules',
+  AGREEMENT_APPROVAL_RULES_DESCRIPTION: 'Set rules for changing agreement status to approved',
   AGREEMENT_PROCESS_RULES_DESCRIPTION:
     'Set rules for accepting changes to the agreement by adding and approving new sections and approving sections improvements suggestions',
   AGREEMENT_PUBLIHSED_SUCCESSFULLY: 'Your agreement has been succesfully published',

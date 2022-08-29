@@ -1,9 +1,21 @@
 import { gql } from '@apollo/client';
 
 export const addAgreement = gql`
-  mutation AddAgreement($category_id: Int!, $group_id: Int!, $name: String!, $rationale: String!) {
+  mutation AddAgreement(
+    $categoryId: Int
+    $groupId: Int!
+    $name: String!
+    $rationale: String!
+    $chapters: [core_chapters_insert_input!]!
+  ) {
     insert_core_agreements_one(
-      object: { category_id: $category_id, group_id: $group_id, name: $name, rationale: $rationale }
+      object: {
+        category_id: $categoryId
+        group_id: $groupId
+        name: $name
+        rationale: $rationale
+        chapters: { data: $chapters }
+      }
     ) {
       id
       category_id

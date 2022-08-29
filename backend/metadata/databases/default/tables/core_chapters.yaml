@@ -20,14 +20,13 @@ insert_permissions:
         agreement:
           group:
             group_users:
-              user_id:
-                _eq: X-Hasura-User-Id
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
       columns:
-        - id
-        - created_at
-        - updated_at
-        - name
         - agreement_id
+        - index
+        - name
 select_permissions:
   - role: authenticated
     permission:
@@ -41,5 +40,15 @@ select_permissions:
         agreement:
           group:
             group_users:
-              user_id:
-                _eq: X-Hasura-User-Id
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      columns:
+        - agreement_id
+        - id
+        - name
+        - created_at
+        - updated_at
+      filter: {}

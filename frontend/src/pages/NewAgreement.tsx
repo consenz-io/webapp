@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { useState, useContext } from 'react';
 import { Button, Stack, Container } from '@mui/material';
 import { GroupContext } from 'contexts/group';
-import { addAgreement as addAgreementMutation, addCategoryMutation } from 'utils/mutations';
+import { addCategoryMutation } from 'utils/mutations';
 import { LocalChapter } from 'types';
 import {
   AgreementContent,
@@ -25,7 +25,13 @@ function initChapters(): LocalChapter[] {
 
 const NewAgreement: FC = () => {
   const { t } = useTranslation();
-  const { id: groupId } = useContext(GroupContext);
+  const {
+    addAgreementData,
+    addAgreement,
+    addAgreementError,
+    addAgreementLoading,
+    id: groupId,
+  } = useContext(GroupContext);
   const [agreementName, setAgreementName] = useState<string>(
     localStorage.getItem('agreementName') || ''
   );
@@ -41,24 +47,27 @@ const NewAgreement: FC = () => {
 
   addEventListener('unload', () => {
     if (step > 2) {
-      localStorage.removeItem('agreementName');
-      localStorage.removeItem('rationale');
-      localStorage.removeItem('categoryId');
-      localStorage.removeItem('chapters');
-      localStorage.removeItem('step');
+      clearAgreementLocally();
       return;
     }
+    saveAgreementLocally();
+  });
+
+  function clearAgreementLocally() {
+    localStorage.removeItem('agreementName');
+    localStorage.removeItem('rationale');
+    localStorage.removeItem('categoryId');
+    localStorage.removeItem('chapters');
+    localStorage.removeItem('step');
+  }
+
+  function saveAgreementLocally() {
     localStorage.setItem('agreementName', agreementName);
     localStorage.setItem('categoryId', String(categoryId));
     localStorage.setItem('rationale', rationale);
     localStorage.setItem('chapters', JSON.stringify(chapters));
     localStorage.setItem('step', String(step));
-  });
-
-  const [
-    addAgreement,
-    { data: addAgreementData, loading: addAgreementLoading, error: addAgreementError },
-  ] = useMutation(addAgreementMutation, { refetchQueries: ['agreements'] });
+  }
 
   const isContinueEnabled =
     agreementName &&
@@ -69,14 +78,8 @@ const NewAgreement: FC = () => {
 
   async function handleContinueClick() {
     if (step === 3) {
-      await addAgreement({
-        variables: {
-          category_id: categoryId,
-          group_id: groupId,
-          name: agreementName,
-          rationale: rationale,
-        },
-      });
+      await addAgreement(categoryId, agreementName, rationale, chapters);
+      clearAgreementLocally();
     }
     setStep(step + 1);
   }

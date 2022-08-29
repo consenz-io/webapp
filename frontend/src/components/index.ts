@@ -5,6 +5,7 @@ import DropDownMenu from './DropDownMenu';
 import GroupsNav from './GroupsNav';
 import AgreementCard from './AgreementCard';
 import Dialog from './Dialog';
+import ContentEditor from './ContentEditor';
 
 export {
   Sidebar,
@@ -13,5 +14,6 @@ export {
   DropDownMenu,
   GroupsNav,
   AgreementCard,
+  ContentEditor,
   Dialog,
 };
