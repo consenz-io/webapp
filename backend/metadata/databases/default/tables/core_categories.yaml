@@ -12,6 +12,18 @@ object_relationships:
   - name: group
     using:
       foreign_key_constraint_on: group_id
+insert_permissions:
+  - role: authenticated
+    permission:
+      check:
+        group:
+          group_users:
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
+      columns:
+        - group_id
+        - name
 select_permissions:
   - role: authenticated
     permission:
@@ -27,3 +39,12 @@ select_permissions:
             user:
               user_id:
                 _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      columns:
+        - group_id
+        - id
+        - name
+        - created_at
+        - updated_at
+      filter: {}

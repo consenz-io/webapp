@@ -8,6 +8,7 @@ import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import { DropDownMenu } from 'components';
 import { GroupContext } from 'contexts/group';
 import { useTranslation } from 'react-i18next';
+import { VariantType } from 'types';
 
 const Span = styled.span`
   ${(props) => props.theme.typography.h2};
@@ -77,7 +78,7 @@ const NameAndRationale: FC<IProps> = ({
             ]}
             buttonText={t(StringBank.CATEGORY)}
             endIcon={<KeyboardArrowDown />}
-            styleVariant="secondary"
+            styleVariant={VariantType.SECONDARY}
           />
         )}
       </Stack>

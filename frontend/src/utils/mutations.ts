@@ -25,3 +25,21 @@ export const addAgreement = gql`
     }
   }
 `;
+
+export const addCategoryMutation = gql`
+  mutation AddCategory($name: String!, $group_id: Int!) {
+    insert_core_categories_one(object: { name: $name, group_id: $group_id }) {
+      id
+      name
+      group_id
+    }
+  }
+`;
+
+export const deleteAgreementMutation = gql`
+  mutation DeleteAgreement($id: Int!) {
+    delete_core_agreements(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;
