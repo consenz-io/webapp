@@ -26,14 +26,12 @@ export const SectionDataRow = styled(Stack)`
 export const SectionTitleRow = styled(SectionDataRow)`
   && {
     height: 3rem;
-    background-color: red;
     padding-top: 27.5px;
   }
 `;
 export const SectionContentRow = styled(SectionDataRow)`
   && {
     height: 6rem;
-    background-color: blue;
     overflow: auto;
   }
 `;
@@ -43,7 +41,6 @@ export const SectionButtonsRow = styled(Stack)`
     height: 3.5rem;
     width: 100%;
     gap: 23px;
-    background-color: green;
   }
 `;
 
@@ -58,6 +55,7 @@ export const ButtonColumn = styled(Stack)`
   && {
     width: 4rem;
     justify-content: center;
+    align-items: center;
     height: 3.5rem;
   }
 `;
@@ -69,5 +67,5 @@ export const iconNumberContainter = styled.div`
 `;
 
 export const SectionButton = styled(IconButton)`
-  margin: auto 1rem;
+  width: min-content;
 `;
