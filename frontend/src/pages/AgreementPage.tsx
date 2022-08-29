@@ -28,15 +28,17 @@ const AgreementPage: FC = () => {
   const suggestions1: Suggestion[] = [
     {
       content:
-        'sec1 sug1 Lorem ipsum dolor sit amet,. Elementum pellentesque euismod proin dolor. Nibh mi urna eget vitae lorem.',
+        'sec1 sug1 Lorem ipsum dolor sit amet,. Elemea egetna eget vitae lorem.lor. Nibh mi urna eget vitae lorem.',
       comments: ['comment1 sug1', 'comment2 sug1'],
       dislikes: 12,
+      isSelected: true,
       likes: 54,
     },
     {
       content:
         'sec1 sug2 Lorem ipsum dolor sit amet,. Elementum pellentesque euismod proin dolor. Nibh mi urna eget vitae lorem.',
       comments: ['comment3 sug1', 'comment4 sug1'],
+      isSelected: false,
       dislikes: 55,
       likes: 32,
     },
@@ -49,12 +51,14 @@ const AgreementPage: FC = () => {
       comments: ['comment1 sug2', 'comment2 sug2'],
       dislikes: 2,
       likes: 44,
+      isSelected: false,
     },
     {
       content:
         'sec2 sug2 Lorem ipsum dolor sit amet,. Elementum pellentesque euismod proin dolor. Nibh mi urna eget vitae lorem.',
       comments: ['comment3 sug2', 'comment4 sug2'],
       dislikes: 11,
+      isSelected: false,
       likes: 12,
     },
   ];

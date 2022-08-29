@@ -23,11 +23,27 @@ export const SectionDataRow = styled(Stack)`
   }
 `;
 
+export const SectionTitleRow = styled(SectionDataRow)`
+  && {
+    height: 3rem;
+    background-color: red;
+    padding-top: 27.5px;
+  }
+`;
+export const SectionContentRow = styled(SectionDataRow)`
+  && {
+    height: 6rem;
+    background-color: blue;
+    overflow: auto;
+  }
+`;
+
 export const SectionButtonsRow = styled(Stack)`
   && {
     height: 3.5rem;
     width: 100%;
     gap: 23px;
+    background-color: green;
   }
 `;
 
@@ -36,7 +52,6 @@ export const SectionDataColumn = styled(Stack)`
     height: 100%;
     width: 42rem;
     justify-content: center;
-    padding: 1rem 1.5rem;
   }
 `;
 export const ButtonColumn = styled(Stack)`

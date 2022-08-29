@@ -1,4 +1,4 @@
-import { Slide, Typography } from '@mui/material';
+import { IconButton, Slide, Typography } from '@mui/material';
 import { SectionProps } from './types';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -7,6 +7,7 @@ import * as SC from './styles';
 import { ReactComponent as LikeIcon } from 'assets/icons/like-outlined.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const SectionCard = (props: SectionProps) => {
   const [content, setContent] = useState<string>(props.suggestions[0].content);
@@ -31,6 +32,17 @@ const SectionCard = (props: SectionProps) => {
     }
   };
 
+  const CheckedIconRender = (props: { isSelected: boolean }) => {
+    if (props.isSelected) {
+      return (
+        <span>
+          <CheckCircleOutlineIcon sx={{ color: '#24ebd3' }} />
+        </span>
+      );
+    }
+    return <span></span>;
+  };
+
   return (
     <SC.Card>
       <SC.ButtonColumn direction="column" order="1" width="64px">
@@ -39,12 +51,7 @@ const SectionCard = (props: SectionProps) => {
         </SC.SectionButton>
       </SC.ButtonColumn>
       <SC.SectionDataColumn direction="column" order="2">
-        <SC.SectionDataRow
-          direction="row"
-          sx={{
-            paddingTop: '27.5px',
-          }}
-        >
+        <SC.SectionTitleRow direction="row">
           <Typography
             sx={{
               fontWeight: '700',
@@ -62,8 +69,9 @@ const SectionCard = (props: SectionProps) => {
           >
             Version {suggestionIndex + 1} of {props.suggestions.length}
           </Typography>
-        </SC.SectionDataRow>
-        <SC.SectionDataRow
+          <CheckedIconRender isSelected={props.suggestions[suggestionIndex].isSelected} />
+        </SC.SectionTitleRow>
+        <SC.SectionContentRow
           direction="row"
           sx={{
             padding: 0,
@@ -81,22 +89,28 @@ const SectionCard = (props: SectionProps) => {
               <>{content}</>
             </Slide>
           </Typography>
-        </SC.SectionDataRow>
+        </SC.SectionContentRow>
         <SC.SectionButtonsRow direction="row">
           <SC.iconNumberContainter>
-            <LikeIcon />
+            <IconButton>
+              <LikeIcon />
+            </IconButton>
             <Typography paddingLeft="4px" paddingRight="4px" color="#24ebd3">
               {props.suggestions[suggestionIndex].likes}
             </Typography>
           </SC.iconNumberContainter>
           <SC.iconNumberContainter>
-            <DislikeIcon />
+            <IconButton>
+              <DislikeIcon />
+            </IconButton>
             <Typography paddingLeft="4px" paddingRight="4px">
               {props.suggestions[suggestionIndex].dislikes}
             </Typography>
           </SC.iconNumberContainter>
           <SC.iconNumberContainter>
-            <CommentIcon />
+            <IconButton>
+              <CommentIcon />
+            </IconButton>
             <Typography paddingLeft="4px" paddingRight="4px">
               {props.suggestions[suggestionIndex].comments.length}
             </Typography>

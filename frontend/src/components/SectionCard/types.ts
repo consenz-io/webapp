@@ -8,4 +8,5 @@ export interface Suggestion {
   likes: number;
   dislikes: number;
   comments: string[];
+  isSelected: boolean;
 }
