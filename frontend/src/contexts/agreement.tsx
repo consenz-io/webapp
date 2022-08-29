@@ -18,7 +18,7 @@ const AgreementProvider: FC = () => {
   const agreement = data?.core_agreements[0];
   const state: IAgreementContext = {
     agreementId: agreement?.id || NaN,
-    categoryName: agreement?.category.name || '',
+    categoryName: agreement?.category?.name || '',
     rationale: agreement?.rationale || '',
     agreementTitle: agreement?.name || '',
     agreement: agreement || {},

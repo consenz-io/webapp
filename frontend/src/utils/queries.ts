@@ -35,6 +35,7 @@ export function getAgreementByIdQuery() {
     query getAgreement($agreementId: Int!) {
       core_agreements(where: { id: { _eq: $agreementId } }) {
         id
+        name
         category {
           name
         }
