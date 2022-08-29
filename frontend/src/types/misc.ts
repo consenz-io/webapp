@@ -7,11 +7,11 @@ export enum ThemeModeType {
 
 export type MenuItem = {
   text: string;
-  textColor?: string;
   value?: string | number | null;
   color?: string;
   icon?: ReactNode;
   action?: () => void;
+  textColor?: string;
 };
 
 export type IFCProps = {
@@ -30,3 +30,8 @@ export type ICategorySelectProps = {
   onSelecting?: () => void;
   onReady?: () => void;
 };
+
+export enum VariantType {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+}

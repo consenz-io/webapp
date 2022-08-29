@@ -43,4 +43,5 @@ export const en: Record<StringBank, string> = {
   
   and have fun!`,
   NO_CATEGORY: 'No Category',
+  MY_NEW_CATEGORY: 'My New Category',
 };
