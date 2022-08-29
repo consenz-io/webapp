@@ -37,8 +37,8 @@ export const addCategoryMutation = gql`
 `;
 
 export const deleteAgreementMutation = gql`
-  mutation DeleteAgreement($agreementName: String!) {
-    delete_core_agreements(where: { name: { _eq: $agreementName } }) {
+  mutation DeleteAgreement($id: Int!) {
+    delete_core_agreements(where: { id: { _eq: $id } }) {
       affected_rows
     }
   }

@@ -81,7 +81,7 @@ const GroupProvider: FC = () => {
     archivedAgreements: archivedAgreements?.core_agreements || [],
     categories: categoriesData?.core_categories || [],
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
-    deleteAgreement: (agreementName: string) => deleteAgreementFn({ variables: { agreementName } }),
+    deleteAgreement: (id: number) => deleteAgreementFn({ variables: { id } }),
     addAgreement: (categoryId, name, rationale, chapters) => {
       const allNonEmptySections = chapters
         .flatMap((chapter) => chapter.sections)

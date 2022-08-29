@@ -80,7 +80,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
         setDelPopContent(baseDelDialogContent);
       }, 4000);
     } else {
-      deleteAgreement(name);
+      deleteAgreement(id);
       setOpenDialogState(false);
     }
   };
