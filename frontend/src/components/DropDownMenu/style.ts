@@ -1,9 +1,12 @@
+// noinspection SpellCheckingInspection
+
 import styled from 'styled-components';
 import { Menu, MenuItem } from '@mui/material';
 import { DropDownMenuButton as Button } from './parts';
+import { VariantType } from 'types';
 
 interface Props {
-  styleVariant?: 'secondary';
+  stylevariant?: VariantType;
 }
 
 export const DropDownMenuButton = styled(Button)<Props>`
@@ -45,7 +48,7 @@ export const DropDownMenuButton = styled(Button)<Props>`
     }
 
     ${(props) =>
-      props.styleVariant === 'secondary' &&
+      props.stylevariant === VariantType.SECONDARY &&
       `
          font-weight: 600;
          background-color: ${props.theme.palette.background.paper};
@@ -81,20 +84,27 @@ export const DropDownMenu = styled(Menu)<Props>`
       margin-top: -5px;
 
       ${(props) =>
-        props.styleVariant === 'secondary' &&
+        props.stylevariant === VariantType.SECONDARY &&
         `
           border: 0;
           margin-top: 2px;
       `}
-    }
-    ul {
-      padding: 0.1875rem;
-      ${(props) =>
-        props.styleVariant === 'secondary' &&
-        `
+
+      ul {
+        padding: 0.1875rem;
+        ${(props) =>
+          props.stylevariant === VariantType.PRIMARY &&
+          `
+         background-color: ${props.theme.palette.background.border};
+      `}
+
+        ${(props) =>
+          props.stylevariant === VariantType.SECONDARY &&
+          `
          background-color: ${props.theme.palette.background.dropdown};
          box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.16);
       `}
+      }
     }
   }
 `;
@@ -109,8 +119,18 @@ export const DropDownMenuItem = styled(MenuItem)<Props>`
     &:hover,
     &.Mui-selected {
       background-color: ${(props) => props.theme.palette.background.active};
+
       ${(props) =>
-        props.styleVariant === 'secondary' &&
+        props.stylevariant === VariantType.PRIMARY &&
+        `
+            background-color: ${props.theme.palette.background.border};
+            &:hover {
+              background-color: ${props.theme.palette.background.paper};
+            }
+      `}
+
+      ${(props) =>
+        props.stylevariant === VariantType.SECONDARY &&
         `
          background-color: ${props.theme.palette.background.paper};
          &:hover {

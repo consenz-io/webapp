@@ -3,6 +3,7 @@ import { createContext, FC, useContext } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { IGroupContext } from 'types';
 import { IAgreement, ICategory } from 'types';
+import { deleteAgreementMutation } from 'utils/mutations';
 import { agreementsQuery } from 'utils/queries';
 import { DataContext } from './data';
 import { addAgreement as addAgreementMutation } from 'utils/mutations';
@@ -42,6 +43,9 @@ const GroupProvider: FC = () => {
     `,
     { variables: { groupId: currentGroup?.id || -1 } }
   );
+  const [deleteAgreementFn] = useMutation(deleteAgreementMutation, {
+    refetchQueries: ['agreements'],
+  });
 
   const [
     addAgreement,
@@ -77,6 +81,7 @@ const GroupProvider: FC = () => {
     archivedAgreements: archivedAgreements?.core_agreements || [],
     categories: categoriesData?.core_categories || [],
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
+    deleteAgreement: (id: number) => deleteAgreementFn({ variables: { id } }),
     addAgreement: (categoryId, name, rationale, chapters) => {
       const allNonEmptySections = chapters
         .flatMap((chapter) => chapter.sections)

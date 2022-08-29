@@ -104,6 +104,15 @@ update_permissions:
       filter: {}
       check: null
 delete_permissions:
+  - role: authenticated
+    permission:
+      backend_only: false
+      filter:
+        group:
+          group_users:
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
   - role: moderator
     permission:
       backend_only: false
