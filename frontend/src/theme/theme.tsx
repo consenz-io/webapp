@@ -1,10 +1,24 @@
 import { ThemeModeType } from 'types/misc';
 import { createContext } from 'react';
 import { ThemeOptions } from '@mui/material';
+import '@mui/material/styles/createPalette';
 
 declare module '@mui/material/Chip' {
   interface ChipPropsVariantOverrides {
     category: true;
+  }
+}
+
+declare module '@mui/material/styles/createPalette' {
+  interface Palette {
+    paper: Palette['primary'];
+    delete: Palette['primary'];
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsVariantOverrides {
+    delete: true;
   }
 }
 
@@ -135,6 +149,21 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
           disableElevation: true,
           color: 'secondary',
         },
+        variants: [
+          {
+            props: { variant: 'delete' },
+            style: {
+              color: 'white',
+              backgroundColor: '#f0597c',
+            },
+          },
+          {
+            props: { variant: 'delete', color: 'secondary' },
+            style: {
+              backgroundColor: '#f0597c',
+            },
+          },
+        ],
         styleOverrides: {
           root: {
             borderRadius: 8,
@@ -142,6 +171,9 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             textTransform: 'capitalize',
             fontWeight: 'bold',
             padding: '8px 16px',
+            ':hover': {
+              background: mode === ThemeModeType.LIGHT ? 'primary' : '#686d73',
+            },
           },
           startIcon: {
             marginInlineStart: '-4px',
@@ -200,6 +232,9 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             text: {
               primary: '#ffffff',
               secondary: '#ADB2B8',
+            },
+            neutral: {
+              main: '#f0597c',
             },
           }),
     },

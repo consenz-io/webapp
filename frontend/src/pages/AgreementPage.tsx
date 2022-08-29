@@ -1,24 +1,18 @@
 import { Breadcrumbs, Button, Link, Stack, Typography, Chip } from '@mui/material';
-import { GroupContext } from 'contexts/group';
+import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext } from 'react';
 import DocLogo from 'assets/icons/document.svg';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import { useParams } from 'react-router-dom';
 import { generateColorFromString } from 'utils/functions';
 import { SectionCard } from 'components/SectionCard';
 import { SectionProps, Suggestion } from 'components/SectionCard/types';
 
 const AgreementPage: FC = () => {
-  const { activeAgreements } = useContext(GroupContext);
-  const { agreementId } = useParams();
-  const currentAgreement = activeAgreements.filter(
-    (agreement) => agreement.id.toString() === agreementId
-  )[0];
-  const currentCategory: string = currentAgreement?.category?.name;
+  const agreementContext = useContext(AgreementContext);
+  const currentCategory: string = agreementContext.categoryName;
   const categoryColor = currentCategory
     ? generateColorFromString(currentCategory, true)
     : 'primary';
-
   const handleClick = (e: any) => {
     e.preventDefault();
     console.log('clicked breadcrumb');
@@ -106,7 +100,7 @@ const AgreementPage: FC = () => {
               }}
             >
               <img src={DocLogo} alt="docIcon" width="20rem" height="18px" />
-              {localStorage.getItem('agreementName') || 'Agreement Name'}
+              {agreementContext.agreementTitle || 'Agreement Name'}
             </Stack>
           </Link>
         </Breadcrumbs>
@@ -120,7 +114,7 @@ const AgreementPage: FC = () => {
         >
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography sx={{ fontSize: '36px' }} variant="h1">
-              {localStorage.getItem('agreementName') || 'Agreement Name'}
+              {agreementContext.agreementTitle || 'Agreement Name'}
             </Typography>
             {currentCategory && (
               <Chip
@@ -140,7 +134,7 @@ const AgreementPage: FC = () => {
           </Button>
         </Stack>
         <Typography sx={{ paddingLeft: '3rem', fontSize: '16px' }} variant="body2">
-          {localStorage.getItem('rationale') || 'rationale'}
+          {agreementContext.rationale || 'rationale'}
         </Typography>
       </Stack>
       <Stack direction="column">

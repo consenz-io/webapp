@@ -22,6 +22,7 @@ export interface IGroupContext {
   archivedAgreements: IAgreement[];
   categories: ICategory[];
   archiveAgreement: (id: number, iArchived: boolean) => void;
+  deleteAgreement: (id: number) => void;
   addAgreement: (
     categoryId: number | null,
     name: string,
@@ -31,4 +32,12 @@ export interface IGroupContext {
   addAgreementData: unknown;
   addAgreementError: unknown;
   addAgreementLoading: boolean;
+}
+
+export interface IAgreementContext {
+  agreementId: number;
+  agreement: object | string;
+  rationale: string;
+  agreementTitle: string;
+  categoryName: string;
 }

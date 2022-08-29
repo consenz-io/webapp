@@ -1,9 +1,11 @@
+import { useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
 import { FC } from 'react';
 import { useState, useContext } from 'react';
 import { Button, Stack, Container } from '@mui/material';
 import { GroupContext } from 'contexts/group';
+import { addCategoryMutation } from 'utils/mutations';
 import { LocalChapter } from 'types';
 import {
   AgreementContent,
@@ -11,6 +13,7 @@ import {
   AgreementRules,
   NameAndRationale,
 } from 'components/NewAgreement';
+import DialogEl from 'components/Dialog';
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -22,11 +25,18 @@ function initChapters(): LocalChapter[] {
 
 const NewAgreement: FC = () => {
   const { t } = useTranslation();
-  const { addAgreementData, addAgreement, addAgreementError, addAgreementLoading } =
-    useContext(GroupContext);
+  const {
+    addAgreementData,
+    addAgreement,
+    addAgreementError,
+    addAgreementLoading,
+    id: groupId,
+  } = useContext(GroupContext);
   const [agreementName, setAgreementName] = useState<string>(
     localStorage.getItem('agreementName') || ''
   );
+  const [openDialogState, setOpenDialogState] = useState(false);
+  const [createCategoryMutationFN, { error: newCatError }] = useMutation(addCategoryMutation);
   const [step, setStep] = useState(Number(localStorage.getItem('step')) || 1);
   const [categoryId, setCategoryId] = useState<number | null>(
     Number(localStorage.getItem('categoryId')) || null
@@ -78,6 +88,21 @@ const NewAgreement: FC = () => {
     return <AgreementCreatedSuccessfully />;
   }
 
+  const handleClickOpenDialog = () => {
+    setOpenDialogState(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialogState(false);
+  };
+
+  const onCreateCategory = (val: string) => {
+    createCategoryMutationFN({ variables: { name: val, group_id: groupId } });
+    if (newCatError) {
+      console.log('err in mutation create category', newCatError);
+    }
+    setOpenDialogState(false);
+  };
+
   return (
     <Container maxWidth="md">
       <Stack justifyContent="center" spacing={5} marginY={4}>
@@ -114,6 +139,18 @@ const NewAgreement: FC = () => {
           )}
         </Stack>
       </Stack>
+      <h1>Add new Category</h1>
+      <Button onClick={handleClickOpenDialog}>Add New Category</Button>
+      <DialogEl
+        openDialogState={openDialogState}
+        title="New Category"
+        content=""
+        cancelFunction={handleCloseDialog}
+        finishFunction={onCreateCategory}
+        cancelBtnText="Close"
+        finishBtnText="Create"
+        placeHolderText={t(StringBank.ADD_NEW_CATEGORY)}
+      ></DialogEl>
     </Container>
   );
 };
