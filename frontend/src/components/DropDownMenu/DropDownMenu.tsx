@@ -4,6 +4,7 @@ import { MenuItem } from 'types';
 import CircleIcon from '@mui/icons-material/Circle';
 import { capitalize } from 'utils/functions';
 import { IconButton, Typography } from '@mui/material';
+import { VariantType } from 'types';
 
 interface IProps {
   value?: number | null;
@@ -14,7 +15,7 @@ interface IProps {
   btnCapital?: string;
   isBorderHidden?: boolean;
   mainIcon?: ReactNode;
-  styleVariant?: 'secondary';
+  styleVariant?: VariantType;
 }
 
 const DropDownMenu: FC<IProps> = ({
@@ -80,7 +81,7 @@ const DropDownMenu: FC<IProps> = ({
           endIcon={endIcon}
           isUser={!!btnCapital}
           isBorderHidden={isBorderHidden}
-          styleVariant={styleVariant}
+          stylevariant={styleVariant}
         >
           {getButtonText()}
         </SC.DropDownMenuButton>
@@ -94,7 +95,7 @@ const DropDownMenu: FC<IProps> = ({
           'aria-labelledby': `${name}-button`,
         }}
         anchorEl={anchorEl}
-        styleVariant={styleVariant}
+        stylevariant={styleVariant}
       >
         {menuItems.map((menuItem, i) => {
           return (
@@ -102,7 +103,7 @@ const DropDownMenu: FC<IProps> = ({
               selected={menuItem.value === value}
               key={i}
               onClick={(e) => handleMenuItemOnClick(e, menuItem)}
-              styleVariant={styleVariant}
+              stylevariant={styleVariant}
             >
               {menuItem.color && (
                 <CircleIcon
