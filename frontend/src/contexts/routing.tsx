@@ -1,13 +1,21 @@
-import { createContext, FC } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { IFCProps, IRoutingContext } from 'types';
-import { AgreementPage, Home, Page404, AllAgreements, NewAgreement, Welcome } from 'pages';
-import { SidebarLayout } from 'components';
-import { GroupProvider } from './group';
-import { AgreementProvider } from './agreement';
+import { createContext, FC } from "react";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { IFCProps, IRoutingContext } from "types";
+import {
+  AgreementPage,
+  Home,
+  Page404,
+  AllAgreements,
+  NewAgreement,
+  Welcome,
+  CategoryPage,
+} from "pages";
+import { SidebarLayout } from "components";
+import { GroupProvider } from "./group";
+import { AgreementProvider } from "./agreement";
 
-const HOME_ROUTE = '/';
-const WELCOME_ROUTE = '/welcome';
+const HOME_ROUTE = "/";
+const WELCOME_ROUTE = "/welcome";
 
 const RoutingContext = createContext<IRoutingContext>({
   navigateToAllAgreements: () => ({}),
@@ -23,7 +31,11 @@ const RoutingProvider: FC<IFCProps> = ({ children }) => {
       navigate(`/${groupSlug}/active-agreements`),
   };
 
-  return <RoutingContext.Provider value={routingState}>{children}</RoutingContext.Provider>;
+  return (
+    <RoutingContext.Provider value={routingState}>
+      {children}
+    </RoutingContext.Provider>
+  );
 };
 
 const RoutesProvider: FC = () => {
@@ -35,7 +47,7 @@ const RoutesProvider: FC = () => {
             <Route element={<SidebarLayout />}>
               <Route path="active-agreements" element={<AllAgreements />} />
               <Route path="archive" element={<AllAgreements isArchive />} />
-              <Route path="cat/:categoryId" element={<AllAgreements />} />
+              <Route path="cat/:categoryId" element={<CategoryPage />} />
               <Route path="new-agreement" element={<NewAgreement />} />
               <Route path="agreement" element={<AgreementProvider />}>
                 <Route path=":agreementId" element={<AgreementPage />} />

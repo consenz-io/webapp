@@ -1,5 +1,10 @@
-export type { IOutletContext, IFCProps, MenuItem, ICategorySelectProps } from './misc';
-export { ThemeModeType, VariantType } from './misc';
+export type {
+  IOutletContext,
+  IFCProps,
+  MenuItem,
+  ICategorySelectProps,
+} from "./misc";
+export { ThemeModeType, VariantType } from "./misc";
 export type {
   IAgreement,
   ICategory,
@@ -8,11 +13,11 @@ export type {
   IChapter,
   ISection,
   LocalChapter,
-} from './entities';
+} from "./entities";
 export type {
   IAuthContext,
   IRoutingContext,
   IDataContext,
   IGroupContext,
   IAgreementContext,
-} from './contexts';
+} from "./contexts";

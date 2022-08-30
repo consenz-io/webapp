@@ -1,10 +1,10 @@
-import * as SC from './style';
-import React, { FC, useContext, useEffect, useState } from 'react';
-import { IFCProps } from './types';
-import { useNavigate, useParams } from 'react-router-dom';
-import { DataContext } from 'contexts/data';
-import CircleIcon from '@mui/icons-material/Circle';
-import { generateColorFromString } from 'utils/functions';
+import * as SC from "./style";
+import React, { FC, useContext, useEffect, useState } from "react";
+import { IFCProps } from "./types";
+import { useNavigate, useParams } from "react-router-dom";
+import { DataContext } from "contexts/data";
+import CircleIcon from "@mui/icons-material/Circle";
+import { generateColorFromString } from "utils/functions";
 
 const GroupsNav: FC<IFCProps> = ({ name, menuItems, endIcon }) => {
   const { user } = useContext(DataContext);
@@ -12,13 +12,17 @@ const GroupsNav: FC<IFCProps> = ({ name, menuItems, endIcon }) => {
   const { groupSlug } = useParams();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const [currentGroupName, setCurrentGroupName] = useState<string>('');
+  const [currentGroupName, setCurrentGroupName] = useState<string>("");
 
   const handleClickListItem = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget); //TODO fix anchorEl error on console
   };
 
-  const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, index: number, slug: string) => {
+  const handleMenuItemClick = (
+    e: React.MouseEvent<HTMLElement>,
+    index: number,
+    slug: string
+  ) => {
     setAnchorEl(null);
     navigate(`/${slug}/active-agreements`);
   };
@@ -40,7 +44,7 @@ const GroupsNav: FC<IFCProps> = ({ name, menuItems, endIcon }) => {
         onClick={handleClickListItem}
         aria-haspopup="listbox"
         aria-controls={`${name}-menu`}
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={open ? "true" : undefined}
         endIcon={endIcon}
       >
         {currentGroupName}
@@ -52,21 +56,23 @@ const GroupsNav: FC<IFCProps> = ({ name, menuItems, endIcon }) => {
         open={open}
         onClose={() => setAnchorEl(null)}
         MenuListProps={{
-          'aria-labelledby': `${name}-button`,
-          role: 'listbox',
+          "aria-labelledby": `${name}-button`,
+          role: "listbox",
         }}
       >
         {menuItems?.map((menuItem, index) => (
           <SC.DropDownMenuItem
             key={menuItem.slug}
             selected={menuItem.slug === groupSlug}
-            onClick={(event) => handleMenuItemClick(event, index, menuItem.slug || '')}
+            onClick={(event) =>
+              handleMenuItemClick(event, index, menuItem.slug || "")
+            }
           >
             <CircleIcon
               style={{
-                fill: generateColorFromString(menuItem.slug || ''),
-                marginInlineEnd: '.5rem',
-                marginInlineStart: '-.25rem',
+                fill: generateColorFromString(menuItem.slug || ""),
+                marginInlineEnd: ".5rem",
+                marginInlineStart: "-.25rem",
               }}
             />
             {menuItem.name}

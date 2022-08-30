@@ -1,4 +1,4 @@
-import { JSONContent } from '@tiptap/react';
+import { JSONContent } from "@tiptap/react";
 
 export interface IAgreement {
   id: number;

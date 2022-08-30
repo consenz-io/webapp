@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 export enum ThemeModeType {
-  DARK = 'dark',
-  LIGHT = 'light',
+  DARK = "dark",
+  LIGHT = "light",
 }
 
 export type MenuItem = {
@@ -32,6 +32,6 @@ export type ICategorySelectProps = {
 };
 
 export enum VariantType {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
+  PRIMARY = "primary",
+  SECONDARY = "secondary",
 }

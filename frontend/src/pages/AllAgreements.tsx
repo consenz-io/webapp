@@ -1,12 +1,12 @@
-import AddIcon from '@mui/icons-material/Add';
-import img from '../assets/Group_120.png';
-import { useTranslation } from 'react-i18next';
-import { StringBank } from '../strings';
-import { useNavigate } from 'react-router-dom';
-import { FC, useContext } from 'react';
-import { Box, Button, Stack, Typography } from '@mui/material';
-import { AgreementCard } from 'components';
-import { GroupContext } from 'contexts/group';
+import AddIcon from "@mui/icons-material/Add";
+import img from "../assets/Group_120.png";
+import { useTranslation } from "react-i18next";
+import { StringBank } from "../strings";
+import { useNavigate } from "react-router-dom";
+import { FC, useContext } from "react";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { AgreementCard } from "components";
+import { GroupContext } from "contexts/group";
 
 interface IProps {
   isArchive?: boolean;
@@ -16,23 +16,26 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { activeAgreements, archivedAgreements, name, slug } = useContext(GroupContext);
+  const { activeAgreements, archivedAgreements, name, slug } =
+    useContext(GroupContext);
 
   const agreements = isArchive ? archivedAgreements : activeAgreements;
 
-  const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
+  const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = "") => {
     navigate(`/${slug}/new-agreement`);
   };
 
   return (
     <Stack
-      justifyContent={agreements?.length ? 'start' : 'space-between'}
+      justifyContent={agreements?.length ? "start" : "space-between"}
       height="100%"
       padding={{ sm: 2 }}
       spacing={2}
     >
       <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
-        <Typography variant="h2">{t(StringBank.GROUP_AGREEMENTS, { group: name })}</Typography>
+        <Typography variant="h2">
+          {t(StringBank.GROUP_AGREEMENTS, { group: name })}
+        </Typography>
         <Button
           variant="contained"
           startIcon={<AddIcon />}
@@ -42,11 +45,14 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
         </Button>
       </Stack>
       {agreements.length ? (
-        <Stack flexDirection={{ xs: 'column', sm: 'row' }} flexWrap={{ sx: 'nowrap', sm: 'wrap' }}>
+        <Stack
+          flexDirection={{ xs: "column", sm: "row" }}
+          flexWrap={{ sx: "nowrap", sm: "wrap" }}
+        >
           {agreements.map((agreement) => (
             <Box
               key={agreement.id}
-              flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }}
+              flexBasis={{ xs: "25%", sm: "33%", lg: "25%", xl: "20%" }}
               padding={1}
               minWidth="0"
             >

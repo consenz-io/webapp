@@ -1,11 +1,11 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-import { Stack, Typography } from '@mui/material';
-import { DropDownMenu } from 'components';
-import { AuthContext } from 'contexts';
-import { FC, useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import { StringBank } from 'strings';
+import { useAuth0 } from "@auth0/auth0-react";
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
+import { Stack, Typography } from "@mui/material";
+import { DropDownMenu } from "components";
+import { AuthContext } from "contexts";
+import { FC, useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { StringBank } from "strings";
 
 export const Welcome: FC = () => {
   const { t } = useTranslation();
@@ -14,7 +14,12 @@ export const Welcome: FC = () => {
 
   return (
     <Stack>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" padding={4}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        padding={4}
+      >
         <a href="/">
           <img src="/logo.svg" alt="logo" />
         </a>
@@ -22,7 +27,7 @@ export const Welcome: FC = () => {
           isBorderHidden
           name="user"
           menuItems={[{ text: t(StringBank.LOGOUT), action: logout }]}
-          buttonText={user?.given_name || user?.nickname || ''}
+          buttonText={user?.given_name || user?.nickname || ""}
           btnCapital={user?.nickname?.charAt(0)}
           endIcon={<KeyboardArrowDown />}
         />

@@ -4,18 +4,20 @@ import {
   gql,
   InMemoryCache,
   NormalizedCacheObject,
-} from '@apollo/client';
-import { useAuth0 } from '@auth0/auth0-react';
-import { createContext, useContext, useEffect, useState } from 'react';
-import { IDataContext, IFCProps, IUser, IGroup } from 'types';
-import { apiUrl } from 'utils/constants';
-import { AuthContext } from './auth';
+} from "@apollo/client";
+import { useAuth0 } from "@auth0/auth0-react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { IDataContext, IFCProps, IUser, IGroup } from "types";
+import { apiUrl } from "utils/constants";
+import { AuthContext } from "./auth";
 
 const DataContext = createContext<IDataContext>({});
 
 const DataProvider = ({ children }: IFCProps) => {
   const [user, setUser] = useState<IUser>();
-  const [apolloClient, setApolloClient] = useState<ApolloClient<NormalizedCacheObject>>(
+  const [apolloClient, setApolloClient] = useState<
+    ApolloClient<NormalizedCacheObject>
+  >(
     new ApolloClient({
       uri: apiUrl,
       cache: new InMemoryCache(),
@@ -69,12 +71,20 @@ const DataProvider = ({ children }: IFCProps) => {
           setUser({
             id: user.id,
             email: user.email,
-            groups: user.user_groups.map(({ group }: { group: IGroup }) => group),
+            groups: user.user_groups.map(
+              ({ group }: { group: IGroup }) => group
+            ),
             displayName: userAuth0?.given_name || userAuth0?.nickname,
           });
         });
     }
-  }, [apolloClient, jwt, userAuth0?.email, userAuth0?.given_name, userAuth0?.nickname]);
+  }, [
+    apolloClient,
+    jwt,
+    userAuth0?.email,
+    userAuth0?.given_name,
+    userAuth0?.nickname,
+  ]);
   const state: IDataContext = {
     user,
   };

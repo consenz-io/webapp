@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button as MuiButton, ButtonProps } from '@mui/material';
-import { FC } from 'react';
-import { VariantType } from 'types';
+import { Button as MuiButton, ButtonProps } from "@mui/material";
+import { FC } from "react";
+import { VariantType } from "types";
 
 interface IButtonProps extends ButtonProps {
   isUser: boolean;

@@ -1,13 +1,13 @@
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { createContext, FC, useContext } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
-import { IGroupContext } from 'types';
-import { IAgreement, ICategory } from 'types';
-import { deleteAgreementMutation } from 'utils/mutations';
-import { agreementsQuery } from 'utils/queries';
-import { DataContext } from './data';
-import { addAgreement as addAgreementMutation } from 'utils/mutations';
-import { isJsonContentEmpty } from 'utils/functions';
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { createContext, FC, useContext } from "react";
+import { Outlet, useParams } from "react-router-dom";
+import { IGroupContext } from "types";
+import { IAgreement, ICategory } from "types";
+import { deleteAgreementMutation } from "utils/mutations";
+import { agreementsQuery } from "utils/queries";
+import { DataContext } from "./data";
+import { addAgreement as addAgreementMutation } from "utils/mutations";
+import { isJsonContentEmpty } from "utils/functions";
 
 const GroupContext = createContext<IGroupContext>({} as IGroupContext);
 
@@ -45,18 +45,25 @@ const GroupProvider: FC = () => {
     { variables: { groupId: currentGroup?.id || -1 } }
   );
   const [deleteAgreementFn] = useMutation(deleteAgreementMutation, {
-    refetchQueries: ['agreements'],
+    refetchQueries: ["agreements"],
   });
 
   const [
     addAgreement,
-    { data: addAgreementData, loading: addAgreementLoading, error: addAgreementError },
-  ] = useMutation(addAgreementMutation, { refetchQueries: ['agreements'] });
+    {
+      data: addAgreementData,
+      loading: addAgreementLoading,
+      error: addAgreementError,
+    },
+  ] = useMutation(addAgreementMutation, { refetchQueries: ["agreements"] });
 
   const [archiveAgreement] = useMutation(
     gql`
       mutation archiveAgreement($id: Int!, $iArchived: Boolean!) {
-        update_core_agreements(where: { id: { _eq: $id } }, _set: { is_archived: $iArchived }) {
+        update_core_agreements(
+          where: { id: { _eq: $id } }
+          _set: { is_archived: $iArchived }
+        ) {
           returning {
             id
             is_archived
@@ -70,18 +77,19 @@ const GroupProvider: FC = () => {
           id: cache.identify(update_core_agreements.returning[0]),
         });
       },
-      refetchQueries: ['agreements'],
+      refetchQueries: ["agreements"],
     }
   );
 
   const state: IGroupContext = {
-    slug: currentGroup?.slug || '',
-    name: currentGroup?.name || '',
+    slug: currentGroup?.slug || "",
+    name: currentGroup?.name || "",
     id: currentGroup?.id || -1,
     activeAgreements: activeAgreements?.core_agreements || [],
     archivedAgreements: archivedAgreements?.core_agreements || [],
     categories: categoriesData?.core_categories || [],
-    archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
+    archiveAgreement: (id, iArchived) =>
+      archiveAgreement({ variables: { id, iArchived } }),
     deleteAgreement: (id: number) => deleteAgreementFn({ variables: { id } }),
     addAgreement: (categoryId, name, rationale, chapters) => {
       const allNonEmptySections = chapters

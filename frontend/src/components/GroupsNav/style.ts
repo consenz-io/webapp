@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { MenuItem, Button as MuiButton, Menu } from '@mui/material';
+import styled from "styled-components";
+import { MenuItem, Button as MuiButton, Menu } from "@mui/material";
 
 export const DropDownMenuButton = styled(MuiButton)`
   && {
@@ -15,8 +15,10 @@ export const DropDownMenuButton = styled(MuiButton)`
     text-transform: none;
 
     .MuiButton-endIcon {
-      margin-left: ${(props) => (props.theme.direction === 'rtl' ? '-4px' : '8px')};
-      margin-right: ${(props) => (props.theme.direction === 'rtl' ? '8px' : '-4px')};
+      margin-left: ${(props) =>
+        props.theme.direction === "rtl" ? "-4px" : "8px"};
+      margin-right: ${(props) =>
+        props.theme.direction === "rtl" ? "8px" : "-4px"};
       svg {
         font-size: 1.5rem;
       }

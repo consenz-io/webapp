@@ -1,10 +1,19 @@
-import { useEditor, EditorContent, BubbleMenu, JSONContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Link from '@tiptap/extension-link';
-import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { FormatBold, FormatItalic, FormatUnderlined } from '@mui/icons-material';
-import Placeholder from '@tiptap/extension-placeholder';
-import Underline from '@tiptap/extension-underline';
+import {
+  useEditor,
+  EditorContent,
+  BubbleMenu,
+  JSONContent,
+} from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Link from "@tiptap/extension-link";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import {
+  FormatBold,
+  FormatItalic,
+  FormatUnderlined,
+} from "@mui/icons-material";
+import Placeholder from "@tiptap/extension-placeholder";
+import Underline from "@tiptap/extension-underline";
 
 interface IProps {
   initialContent?: JSONContent;
@@ -32,7 +41,7 @@ function ContentEditor({
     content: initialContent,
     editable: !readonly,
   });
-  editor?.on('update', ({ editor }) => {
+  editor?.on("update", ({ editor }) => {
     onChange?.(editor.getJSON());
   });
 
@@ -41,27 +50,30 @@ function ContentEditor({
       {editor && (
         <BubbleMenu editor={editor}>
           <ToggleButtonGroup
-            sx={{ bgcolor: (theme) => theme.palette.background.default, padding: 0.5 }}
+            sx={{
+              bgcolor: (theme) => theme.palette.background.default,
+              padding: 0.5,
+            }}
             size="small"
           >
             <ToggleButton
               value="bold"
               onClick={() => editor.chain().focus().toggleBold().run()}
-              selected={editor.isActive('bold')}
+              selected={editor.isActive("bold")}
             >
               <FormatBold />
             </ToggleButton>
             <ToggleButton
               value="italic"
               onClick={() => editor.chain().focus().toggleItalic().run()}
-              selected={editor.isActive('italic')}
+              selected={editor.isActive("italic")}
             >
               <FormatItalic />
             </ToggleButton>
             <ToggleButton
               value="underline"
               onClick={() => editor.chain().focus().toggleUnderline().run()}
-              selected={editor.isActive('underline')}
+              selected={editor.isActive("underline")}
             >
               <FormatUnderlined />
             </ToggleButton>

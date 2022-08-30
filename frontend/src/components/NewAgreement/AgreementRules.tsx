@@ -1,8 +1,8 @@
-import { Stack, Typography } from '@mui/material';
-import { FC } from 'react';
-import { useTranslation } from 'react-i18next';
-import { StringBank } from 'strings';
-import AgreementRuleCard from './AgreementRuleCard';
+import { Stack, Typography } from "@mui/material";
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { StringBank } from "strings";
+import AgreementRuleCard from "./AgreementRuleCard";
 
 const AgreementRules: FC<{
   isAdminApprovalRequired: boolean;
@@ -13,7 +13,9 @@ const AgreementRules: FC<{
     <Stack spacing={5}>
       <Stack spacing={2}>
         <Stack spacing={1.5}>
-          <Typography variant="h3">{t(StringBank.AGREEMENT_PROCESS_RULES)}</Typography>
+          <Typography variant="h3">
+            {t(StringBank.AGREEMENT_PROCESS_RULES)}
+          </Typography>
           <Typography variant="caption">
             {t(StringBank.AGREEMENT_PROCESS_RULES_DESCRIPTION)}
           </Typography>
@@ -33,7 +35,9 @@ const AgreementRules: FC<{
       </Stack>
       <Stack spacing={2}>
         <Stack spacing={1.5}>
-          <Typography variant="h3">{t(StringBank.AGREEMENT_APPROVAL_RULES)}</Typography>
+          <Typography variant="h3">
+            {t(StringBank.AGREEMENT_APPROVAL_RULES)}
+          </Typography>
           <Typography variant="caption">
             {t(StringBank.AGREEMENT_APPROVAL_RULES_DESCRIPTION)}
           </Typography>

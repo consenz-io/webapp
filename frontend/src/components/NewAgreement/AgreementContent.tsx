@@ -1,11 +1,11 @@
-import { Divider, InputBase, Stack, Typography, useTheme } from '@mui/material';
-import { JSONContent } from '@tiptap/react';
-import { ContentEditor } from 'components';
-import { FC } from 'react';
-import { useTranslation } from 'react-i18next';
-import { StringBank } from 'strings';
-import { LocalChapter } from 'types';
-import { isJsonContentEmpty } from 'utils/functions';
+import { Divider, InputBase, Stack, Typography, useTheme } from "@mui/material";
+import { JSONContent } from "@tiptap/react";
+import { ContentEditor } from "components";
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { StringBank } from "strings";
+import { LocalChapter } from "types";
+import { isJsonContentEmpty } from "utils/functions";
 
 interface IProps {
   chapters: LocalChapter[];
@@ -14,7 +14,7 @@ interface IProps {
 
 function createNewChapter(): LocalChapter {
   return {
-    name: '',
+    name: "",
     sections: [{}],
   };
 }
@@ -35,9 +35,16 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
     }
     setChapters(newChapters);
   }
-  function handleSectionChange(chapterIndex: number, sectionIndex: number, value: JSONContent) {
+  function handleSectionChange(
+    chapterIndex: number,
+    sectionIndex: number,
+    value: JSONContent
+  ) {
     chapters[chapterIndex].sections[sectionIndex].content = value;
-    if (sectionIndex === chapters[chapterIndex].sections.length - 1 && !isJsonContentEmpty(value)) {
+    if (
+      sectionIndex === chapters[chapterIndex].sections.length - 1 &&
+      !isJsonContentEmpty(value)
+    ) {
       chapters[chapterIndex].sections.push({});
     }
     setChapters([...chapters]);
@@ -48,7 +55,7 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
     index: number
   ) {
     if (
-      event.key === 'Tab' &&
+      event.key === "Tab" &&
       index !== chapters.length - 1 &&
       chapters[index].sections.every((s) => isJsonContentEmpty(s.content)) &&
       !chapters[index].name
@@ -66,14 +73,14 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
     const sectionsInChapter = chapters[chapterIndex].sections;
     if (
       sectionIndex !== sectionsInChapter.length - 1 &&
-      event.key === 'Tab' &&
+      event.key === "Tab" &&
       isJsonContentEmpty(sectionsInChapter[sectionIndex].content)
     ) {
       sectionsInChapter.splice(sectionIndex, 1);
       setChapters([...chapters]);
       return;
     }
-    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
       (
         document.querySelector(
           `[data-chapter-index="${chapterIndex}"][data-section-index="${
@@ -92,7 +99,10 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
             sx={theme.typography.h3}
             placeholder={t(StringBank.NEW_CHAPTER)}
             startAdornment={
-              <Typography variant="h3" color={chapter.name ? 'text.primary' : 'text.secondary'}>
+              <Typography
+                variant="h3"
+                color={chapter.name ? "text.primary" : "text.secondary"}
+              >
                 #&nbsp;
               </Typography>
             }
@@ -103,7 +113,11 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
           {chapter.sections?.map((section, j) => (
             <Stack key={j}>
               {allNonEmptySections.indexOf(section) !== -1 && (
-                <Typography variant="h6" fontWeight="normal" color="text.secondary">
+                <Typography
+                  variant="h6"
+                  fontWeight="normal"
+                  color="text.secondary"
+                >
                   Section {allNonEmptySections.indexOf(section) + 1}
                 </Typography>
               )}

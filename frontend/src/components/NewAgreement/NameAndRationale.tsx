@@ -1,17 +1,17 @@
-import { InputBase, Stack, Typography } from '@mui/material';
-import { useContext, useState } from 'react';
-import { StringBank } from 'strings';
-import styled from 'styled-components';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import AddIcon from '@mui/icons-material/Add';
-import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-import { DropDownMenu } from 'components';
-import { GroupContext } from 'contexts/group';
-import { useTranslation } from 'react-i18next';
-import { VariantType } from 'types';
-import Dialog from 'components/Dialog';
-import { useMutation } from '@apollo/client';
-import { addCategoryMutation } from 'utils/mutations';
+import { InputBase, Stack, Typography } from "@mui/material";
+import { useContext, useState } from "react";
+import { StringBank } from "strings";
+import styled from "styled-components";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import AddIcon from "@mui/icons-material/Add";
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
+import { DropDownMenu } from "components";
+import { GroupContext } from "contexts/group";
+import { useTranslation } from "react-i18next";
+import { VariantType } from "types";
+import Dialog from "components/Dialog";
+import { useMutation } from "@apollo/client";
+import { addCategoryMutation } from "utils/mutations";
 
 const Span = styled.span`
   ${(props) => props.theme.typography.h2};
@@ -43,18 +43,23 @@ function NameAndRationale({
   const [openDialogState, setOpenDialogState] = useState(false);
   const { id: groupId, categories } = useContext(GroupContext);
   const { t } = useTranslation();
-  const [createCategoryMutationFN, { error: newCatError }] = useMutation(addCategoryMutation, {
-    refetchQueries: ['categories'],
-  });
+  const [createCategoryMutationFN, { error: newCatError }] = useMutation(
+    addCategoryMutation,
+    {
+      refetchQueries: ["categories"],
+    }
+  );
 
   const handleCloseDialog = () => {
     setOpenDialogState(false);
   };
 
   async function onCreateCategory(val: string) {
-    const cat = await createCategoryMutationFN({ variables: { name: val, group_id: groupId } });
+    const cat = await createCategoryMutationFN({
+      variables: { name: val, group_id: groupId },
+    });
     if (newCatError) {
-      console.error('err in mutation create category', newCatError);
+      console.error("err in mutation create category", newCatError);
     }
     onCategoryChange(cat.data.insert_core_categories_one.id);
     setOpenDialogState(false);
@@ -64,7 +69,7 @@ function NameAndRationale({
     <>
       <Stack direction="row" spacing={2} alignItems="center">
         <Span
-          onBlur={(e) => onNameChange(e.target.textContent || '')}
+          onBlur={(e) => onNameChange(e.target.textContent || "")}
           contentEditable
           suppressContentEditableWarning
           placeholder={t(StringBank.AGREEMENT_NAME_FIELD)}
@@ -90,10 +95,14 @@ function NameAndRationale({
               })),
               {
                 text: t(StringBank.ADD_NEW_CATEGORY),
-                textColor: 'text.secondary',
+                textColor: "text.secondary",
                 value: null,
                 action: () => setOpenDialogState(true),
-                icon: <AddIcon sx={{ color: 'text.secondary', marginLeft: '-0.25rem' }} />,
+                icon: (
+                  <AddIcon
+                    sx={{ color: "text.secondary", marginLeft: "-0.25rem" }}
+                  />
+                ),
               },
             ]}
             buttonText={t(StringBank.CATEGORY)}
@@ -103,7 +112,9 @@ function NameAndRationale({
         )}
       </Stack>
       <Stack spacing={1}>
-        <Typography variant="h3">{t(StringBank.ADD_RATIONALE_HEADER)}</Typography>
+        <Typography variant="h3">
+          {t(StringBank.ADD_RATIONALE_HEADER)}
+        </Typography>
         <InputBase
           value={rationale}
           placeholder={t(StringBank.ADD_RATIONALE_PARAGRAPH)}
