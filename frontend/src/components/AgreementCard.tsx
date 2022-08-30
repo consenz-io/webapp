@@ -76,7 +76,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   const onDeleteAgreement = (name: string) => {
     if (name !== title) {
       setDelPopContent(
-        `${currentContent}\nThe inputed name: ${name} does not match the agreement name: ${title}`
+        `${currentContent}\nThe inputed name: ${name}does not match the agreement name: ${title}`
       );
       setTimeout(() => {
         setDelPopContent(baseDelDialogContent);
