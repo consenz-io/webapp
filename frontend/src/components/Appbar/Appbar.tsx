@@ -42,7 +42,9 @@ const Appbar: FC<AppbarProps> = (props) => {
     <AppbarContainer direction="row" alignItems="center" justifyContent="space-between">
       <Stack direction="row" gap="0.5rem">
         <DocLogo />
-        <Typography>{props.agreementName}</Typography>
+        <Typography fontSize="0.875rem" lineHeight="1.57" paddingTop="2px">
+          {props.agreementName}
+        </Typography>
       </Stack>
       <Stack direction="row">
         <Stepper nonLinear activeStep={activeStep} connector={<></>}>

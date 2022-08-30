@@ -77,7 +77,7 @@ const NewAgreement: FC = () => {
   return (
     <>
       <Appbar
-        agreementName={agreementName}
+        agreementName={agreementName || 'My New Agreement'}
         closeFn={() => {
           console.log('closing appbar');
         }}
