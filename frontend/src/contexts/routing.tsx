@@ -4,6 +4,7 @@ import { IFCProps, IRoutingContext } from 'types';
 import { AgreementPage, Home, Page404, AllAgreements, NewAgreement, Welcome } from 'pages';
 import { SidebarLayout } from 'components';
 import { GroupProvider } from './group';
+import { AgreementProvider } from './agreement';
 
 const HOME_ROUTE = '/';
 const WELCOME_ROUTE = '/welcome';
@@ -36,7 +37,9 @@ const RoutesProvider: FC = () => {
               <Route path="archive" element={<AllAgreements isArchive />} />
               <Route path="cat/:categoryId" element={<AllAgreements />} />
               <Route path="new-agreement" element={<NewAgreement />} />
-              <Route path="/:groupSlug/agreement/:agreementId" element={<AgreementPage />} />
+              <Route path="agreement" element={<AgreementProvider />}>
+                <Route path=":agreementId" element={<AgreementPage />} />
+              </Route>
             </Route>
           </Route>
           <Route path={HOME_ROUTE} element={<Home />} />

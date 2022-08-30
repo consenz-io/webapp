@@ -1,5 +1,5 @@
 import { InputBase, Stack, Typography } from '@mui/material';
-import { FC, useContext } from 'react';
+import { useContext, useState } from 'react';
 import { StringBank } from 'strings';
 import styled from 'styled-components';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -9,6 +9,9 @@ import { DropDownMenu } from 'components';
 import { GroupContext } from 'contexts/group';
 import { useTranslation } from 'react-i18next';
 import { VariantType } from 'types';
+import Dialog from 'components/Dialog';
+import { useMutation } from '@apollo/client';
+import { addCategoryMutation } from 'utils/mutations';
 
 const Span = styled.span`
   ${(props) => props.theme.typography.h2};
@@ -29,16 +32,33 @@ interface IProps {
   rationale: string;
 }
 
-const NameAndRationale: FC<IProps> = ({
+function NameAndRationale({
   categoryId,
   name,
   onCategoryChange,
   onNameChange,
   onRationaleChange,
   rationale,
-}) => {
+}: IProps): JSX.Element {
+  const [openDialogState, setOpenDialogState] = useState(false);
   const { id: groupId, categories } = useContext(GroupContext);
   const { t } = useTranslation();
+  const [createCategoryMutationFN, { error: newCatError }] = useMutation(addCategoryMutation, {
+    refetchQueries: ['categories'],
+  });
+
+  const handleCloseDialog = () => {
+    setOpenDialogState(false);
+  };
+
+  async function onCreateCategory(val: string) {
+    const cat = await createCategoryMutationFN({ variables: { name: val, group_id: groupId } });
+    if (newCatError) {
+      console.error('err in mutation create category', newCatError);
+    }
+    onCategoryChange(cat.data.insert_core_categories_one.id);
+    setOpenDialogState(false);
+  }
 
   return (
     <>
@@ -70,9 +90,9 @@ const NameAndRationale: FC<IProps> = ({
               })),
               {
                 text: t(StringBank.ADD_NEW_CATEGORY),
-                textColor: 'text.secondary', // TODO: fetch from theme
+                textColor: 'text.secondary',
                 value: null,
-                action: () => console.log('add new category'),
+                action: () => setOpenDialogState(true),
                 icon: <AddIcon sx={{ color: 'text.secondary', marginLeft: '-0.25rem' }} />,
               },
             ]}
@@ -91,8 +111,18 @@ const NameAndRationale: FC<IProps> = ({
           multiline
         />
       </Stack>
+      <Dialog
+        openDialogState={openDialogState}
+        title="New Category"
+        content=""
+        cancelFunction={handleCloseDialog}
+        finishFunction={onCreateCategory}
+        cancelBtnText="Close"
+        finishBtnText="Create"
+        placeHolderText={t(StringBank.ADD_NEW_CATEGORY)}
+      />
     </>
   );
-};
+}
 
 export default NameAndRationale;

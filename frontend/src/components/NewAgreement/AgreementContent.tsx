@@ -1,8 +1,11 @@
 import { Divider, InputBase, Stack, Typography, useTheme } from '@mui/material';
+import { JSONContent } from '@tiptap/react';
+import { ContentEditor } from 'components';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { LocalChapter } from 'types';
+import { isJsonContentEmpty } from 'utils/functions';
 
 interface IProps {
   chapters: LocalChapter[];
@@ -12,7 +15,7 @@ interface IProps {
 function createNewChapter(): LocalChapter {
   return {
     name: '',
-    sections: [{ content: '' }],
+    sections: [{}],
   };
 }
 
@@ -22,7 +25,7 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
 
   const allNonEmptySections = chapters
     .flatMap((chapter) => chapter.sections)
-    .filter((section) => section.content);
+    .filter((section) => !isJsonContentEmpty(section.content));
 
   function handleChapterChange(index: number, value: string) {
     const newChapters = [...chapters];
@@ -32,10 +35,10 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
     }
     setChapters(newChapters);
   }
-  function handleSectionChange(chapterIndex: number, sectionIndex: number, value: string) {
+  function handleSectionChange(chapterIndex: number, sectionIndex: number, value: JSONContent) {
     chapters[chapterIndex].sections[sectionIndex].content = value;
-    if (sectionIndex === chapters[chapterIndex].sections.length - 1 && value) {
-      chapters[chapterIndex].sections.push({ content: '' });
+    if (sectionIndex === chapters[chapterIndex].sections.length - 1 && !isJsonContentEmpty(value)) {
+      chapters[chapterIndex].sections.push({});
     }
     setChapters([...chapters]);
   }
@@ -47,7 +50,7 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
     if (
       event.key === 'Tab' &&
       index !== chapters.length - 1 &&
-      chapters[index].sections.every((s) => !s.content) &&
+      chapters[index].sections.every((s) => isJsonContentEmpty(s.content)) &&
       !chapters[index].name
     ) {
       chapters.splice(index, 1);
@@ -56,7 +59,7 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
   }
 
   function handleSectionKeyDown(
-    event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: React.KeyboardEvent,
     chapterIndex: number,
     sectionIndex: number
   ) {
@@ -64,7 +67,7 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
     if (
       sectionIndex !== sectionsInChapter.length - 1 &&
       event.key === 'Tab' &&
-      !chapters[chapterIndex].sections[sectionIndex].content
+      isJsonContentEmpty(sectionsInChapter[sectionIndex].content)
     ) {
       sectionsInChapter.splice(sectionIndex, 1);
       setChapters([...chapters]);
@@ -75,7 +78,7 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
         document.querySelector(
           `[data-chapter-index="${chapterIndex}"][data-section-index="${
             sectionsInChapter.length - 1
-          }"] textarea`
+          }"] [contentEditable]`
         ) as HTMLTextAreaElement
       )?.focus();
     }
@@ -104,14 +107,13 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
                   Section {allNonEmptySections.indexOf(section) + 1}
                 </Typography>
               )}
-              <InputBase
+              <ContentEditor
                 placeholder={t(StringBank.INSERT_NEW_SECTION)}
+                initialContent={section.content}
                 data-chapter-index={i}
                 data-section-index={j}
-                multiline
-                onChange={(e) => handleSectionChange(i, j, e.target.value)}
-                onKeyDown={(e) => handleSectionKeyDown(e, i, j)}
-                value={section.content}
+                onChange={(value) => handleSectionChange(i, j, value)}
+                onKeyDown={(event) => handleSectionKeyDown(event, i, j)}
               />
             </Stack>
           ))}
