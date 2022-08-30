@@ -11,6 +11,7 @@ interface IProps {
   placeholder?: string;
   onKeyDown?: (event: React.KeyboardEvent) => void;
   onChange?: (value: JSONContent) => void;
+  readonly?: boolean;
 }
 
 function ContentEditor({
@@ -18,6 +19,7 @@ function ContentEditor({
   onKeyDown,
   onChange,
   initialContent,
+  readonly,
   ...dataAttributes
 }: IProps): JSX.Element {
   const editor = useEditor({
@@ -28,6 +30,7 @@ function ContentEditor({
       Underline,
     ],
     content: initialContent,
+    editable: !readonly,
   });
   editor?.on('update', ({ editor }) => {
     onChange?.(editor.getJSON());
