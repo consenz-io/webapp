@@ -9,4 +9,10 @@ export type {
   ISection,
   LocalChapter,
 } from './entities';
-export type { IAuthContext, IRoutingContext, IDataContext, IGroupContext } from './contexts';
+export type {
+  IAuthContext,
+  IRoutingContext,
+  IDataContext,
+  IGroupContext,
+  IAgreementContext,
+} from './contexts';

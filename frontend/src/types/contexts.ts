@@ -34,3 +34,11 @@ export interface IGroupContext {
   addAgreementError: unknown;
   addAgreementLoading: boolean;
 }
+
+export interface IAgreementContext {
+  agreementId: number;
+  agreement: object | string;
+  rationale: string;
+  agreementTitle: string;
+  categoryName: string;
+}
