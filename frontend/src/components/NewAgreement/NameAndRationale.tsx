@@ -1,5 +1,5 @@
 import { InputBase, Stack, Typography } from '@mui/material';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { StringBank } from 'strings';
 import styled from 'styled-components';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -12,6 +12,7 @@ import { VariantType } from 'types';
 import Dialog from 'components/Dialog';
 import { useMutation } from '@apollo/client';
 import { addCategoryMutation } from 'utils/mutations';
+import { generateColorFromString } from 'utils/functions';
 
 const Span = styled.span`
   ${(props) => props.theme.typography.h2};
@@ -41,6 +42,8 @@ function NameAndRationale({
   rationale,
 }: IProps): JSX.Element {
   const [openDialogState, setOpenDialogState] = useState(false);
+  const [selectedCategory, setSelectedCat] = useState<string>('');
+  const [currentCatColor, setcurrentCatColor] = useState<string>('');
   const { id: groupId, categories } = useContext(GroupContext);
   const { t } = useTranslation();
   const [createCategoryMutationFN, { error: newCatError }] = useMutation(addCategoryMutation, {
@@ -60,6 +63,14 @@ function NameAndRationale({
     setOpenDialogState(false);
   }
 
+  function updateCatColor() {
+    setcurrentCatColor(generateColorFromString(selectedCategory, true));
+  }
+
+  useEffect(() => {
+    updateCatColor();
+  }, [selectedCategory]);
+
   return (
     <>
       <Stack direction="row" spacing={2} alignItems="center">
@@ -77,6 +88,7 @@ function NameAndRationale({
             isBorderHidden
             value={categoryId}
             name="user"
+            bgColor={currentCatColor}
             menuItems={[
               {
                 text: t(StringBank.NO_CATEGORY),
@@ -86,7 +98,10 @@ function NameAndRationale({
               ...categories.map((category) => ({
                 text: category.name,
                 value: category.id,
-                action: () => onCategoryChange(category.id),
+                action: () => {
+                  setSelectedCat(category.name);
+                  onCategoryChange(category.id);
+                },
               })),
               {
                 text: t(StringBank.ADD_NEW_CATEGORY),
