@@ -1,4 +1,4 @@
-import { createContext, FC } from "react";
+import { createContext, FC, useContext } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { IFCProps, IRoutingContext } from "types";
 import {
@@ -9,11 +9,11 @@ import {
   NewAgreement,
   Welcome,
   CategoryPage,
+  EmptyArchivePage,
 } from "pages";
 import { SidebarLayout } from "components";
-import { GroupProvider } from "./group";
+import { GroupContext, GroupProvider } from "./group";
 import { AgreementProvider } from "./agreement";
-
 const HOME_ROUTE = "/";
 const WELCOME_ROUTE = "/welcome";
 
@@ -39,6 +39,7 @@ const RoutingProvider: FC<IFCProps> = ({ children }) => {
 };
 
 const RoutesProvider: FC = () => {
+  const { archivedAgreements } = useContext(GroupContext);
   return (
     <BrowserRouter>
       <RoutingProvider>
@@ -46,7 +47,16 @@ const RoutesProvider: FC = () => {
           <Route path={`${HOME_ROUTE}/:groupSlug`} element={<GroupProvider />}>
             <Route element={<SidebarLayout />}>
               <Route path="active-agreements" element={<AllAgreements />} />
-              <Route path="archive" element={<AllAgreements isArchive />} />
+              <Route
+                path="archive"
+                element={
+                  archivedAgreements ? (
+                    <AllAgreements isArchive />
+                  ) : (
+                    <EmptyArchivePage />
+                  )
+                }
+              />
               <Route path="cat/:categoryId" element={<CategoryPage />} />
               <Route path="new-agreement" element={<NewAgreement />} />
               <Route path="agreement" element={<AgreementProvider />}>
