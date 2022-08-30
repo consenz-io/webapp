@@ -7,6 +7,7 @@ import { deleteAgreementMutation } from 'utils/mutations';
 import { agreementsQuery } from 'utils/queries';
 import { DataContext } from './data';
 import { addAgreement as addAgreementMutation } from 'utils/mutations';
+import { isJsonContentEmpty } from 'utils/functions';
 
 const GroupContext = createContext<IGroupContext>({} as IGroupContext);
 
@@ -99,7 +100,7 @@ const GroupProvider: FC = () => {
               name: c.name,
               sections: {
                 data: c.sections
-                  .filter((s) => s.content.trim())
+                  .filter((s) => !isJsonContentEmpty(s.content))
                   .map((s) => ({
                     index: allNonEmptySections.indexOf(s) + 1,
                     suggestions: { data: { content: s.content } },

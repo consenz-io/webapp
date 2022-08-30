@@ -17,13 +17,12 @@ function initChapters(): LocalChapter[] {
   if (existingChapters) {
     return JSON.parse(existingChapters);
   }
-  return [{ name: '', sections: [{ content: '' }] }];
+  return [{ name: '', sections: [{}] }];
 }
 
 const NewAgreement: FC = () => {
   const { t } = useTranslation();
-  const { addAgreementData, addAgreement, addAgreementError, addAgreementLoading } =
-    useContext(GroupContext);
+  const { addAgreement, addAgreementError, addAgreementLoading } = useContext(GroupContext);
   const [agreementName, setAgreementName] = useState<string>(
     localStorage.getItem('agreementName') || ''
   );
@@ -60,11 +59,7 @@ const NewAgreement: FC = () => {
   }
 
   const isContinueEnabled =
-    agreementName &&
-    rationale &&
-    !addAgreementLoading &&
-    !addAgreementError &&
-    addAgreementData === undefined;
+    agreementName && rationale && !addAgreementLoading && !addAgreementError;
 
   async function handleContinueClick() {
     if (step === 3) {
