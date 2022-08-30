@@ -163,6 +163,14 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
               backgroundColor: '#f0597c',
             },
           },
+          {
+            props: { variant: 'text' },
+            style: {
+              ':hover': {
+                background: mode === ThemeModeType.LIGHT ? 'primary' : '#686d73',
+              },
+            },
+          },
         ],
         styleOverrides: {
           root: {
@@ -171,9 +179,6 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             textTransform: 'capitalize',
             fontWeight: 'bold',
             padding: '8px 16px',
-            ':hover': {
-              background: mode === ThemeModeType.LIGHT ? 'primary' : '#686d73',
-            },
           },
           startIcon: {
             marginInlineStart: '-4px',
@@ -232,9 +237,6 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             text: {
               primary: '#ffffff',
               secondary: '#ADB2B8',
-            },
-            neutral: {
-              main: '#f0597c',
             },
           }),
     },
