@@ -1,3 +1,5 @@
+import { JSONContent } from '@tiptap/react';
+
 export interface IAgreement {
   id: number;
   name: string;
@@ -32,7 +34,7 @@ export interface ISection {
 
 export interface ISuggestion {
   id: number;
-  content: string;
+  content: JSONContent;
 }
 
 export interface IUser {
@@ -44,5 +46,5 @@ export interface IUser {
 
 export type LocalChapter = {
   name: string;
-  sections: { content: string }[];
+  sections: { content?: JSONContent }[];
 };

@@ -1,3 +1,5 @@
+import { JSONContent } from '@tiptap/react';
+
 export function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -15,4 +17,8 @@ export function truncateAfterWords(str: string, numWords: number): string {
     return str;
   }
   return `${words.slice(0, numWords).join(' ')}...`;
+}
+
+export function isJsonContentEmpty(json?: JSONContent): boolean {
+  return !json?.content?.[0].content;
 }
