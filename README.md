@@ -58,9 +58,8 @@ A section status can be "In a Vote" or "Approved" Or "Denied".
 "Approved" Section are part of the Agreement Draft.
 "Denied" Section in not in the Agreement neither in the Draft, but archived.
 - __Section Suggestion__: A Section that is "in a vote" status.<br>
-A Chapter may have multiple edit Suggestions.
-- __Section Improvement Suggestion__: A Suggestion that stands to replace a Section.<br>
-A Section may have multiple edit Suggestions.
+- __Section Improvement Suggestion__: A Suggestion that stands to replace a Section Version.<br>
+A Section Version may have multiple Improvement Suggestion.
 - __Approved Section__: A Section Version that is in "approved" status. A Section may have one Approved Version.
 - __Section Comment__: A note that represent an opinion of a user regarding a Section.<br>
 A Section may have multiple Comments.
