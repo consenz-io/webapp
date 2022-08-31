@@ -25,6 +25,7 @@ insert_permissions:
                   _eq: X-Hasura-User-Id
       columns:
         - agreement_id
+        - index
         - name
 select_permissions:
   - role: authenticated
