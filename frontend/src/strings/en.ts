@@ -25,12 +25,17 @@ export const en: Record<StringBank, string> = {
   GROUP_AGREEMENTS: "{{group}}'s Agreements",
   INSERT_NEW_SECTION: '+ Insert new section (Ctrl/Cmd+Enter)',
   LOGOUT: 'Log Out',
+  MY_NEW_CATEGORY: 'My New Category',
   NEW_AGREEMENT: 'New Agreement',
   NEW_CHAPTER: 'New Chapter',
+  NO_CATEGORY: 'No Category',
   PUBLISH_AGREEMENT: 'Publish Agreement',
-  REQUIRE_ADMIN_APPROVAL: 'Require Admin Approval',
+  RATIONALE: 'Rationale',
   REQUIRE_ADMIN_APPROVAL_DESCRIPTION: 'An admin must approve any changes to the draft',
+  REQUIRE_ADMIN_APPROVAL: 'Require Admin Approval',
   RETURN_TO_ALL_AGREEMENTS: 'Return to all agreements',
+  RULES: 'Rules',
+  SECTIONS: 'Sections',
   SHARE_AGREEMENT: 'Share This Agreement',
   TIME_LIMITED_DESCRIPTION: 'For how long the aggremment suggestion will stand for a vote?',
   TIME_LIMITED: 'Time Limited',
@@ -42,6 +47,4 @@ export const en: Record<StringBank, string> = {
   ask your Group Manager to invite you to join
   
   and have fun!`,
-  NO_CATEGORY: 'No Category',
-  MY_NEW_CATEGORY: 'My New Category',
 };
