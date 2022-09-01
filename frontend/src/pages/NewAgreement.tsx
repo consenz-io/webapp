@@ -12,6 +12,7 @@ import {
   NameAndRationale,
 } from 'components/NewAgreement';
 import { Appbar } from 'components';
+import { useNavigate } from 'react-router-dom';
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -34,6 +35,7 @@ const NewAgreement: FC = () => {
   const [chapters, setChapters] = useState<LocalChapter[]>(initChapters());
   const [rationale, setRationale] = useState(localStorage.getItem('rationale') || '');
   const [isAdminApprovalRequired, setIsAdminApprovalRequired] = useState(false);
+  const navigate = useNavigate();
 
   addEventListener('unload', () => {
     if (step > 2) {
@@ -78,9 +80,9 @@ const NewAgreement: FC = () => {
     <>
       <Appbar
         agreementName={agreementName || 'My New Agreement'}
-        closeFn={() => {
-          console.log('closing appbar');
-        }}
+        steps={[t(StringBank.RATIONALE), t(StringBank.SECTIONS), t(StringBank.RULES)]}
+        activeStep={step}
+        closeFn={() => navigate(-1)}
       />
       <Container maxWidth="md">
         <Stack justifyContent="center" spacing={5} marginY={4}>
