@@ -8,7 +8,7 @@ export interface SectionProps {
 export interface Suggestion {
   content: string;
   index: number;
-  type: string;
+  type?: string;
 }
 
 export interface fetchedAgreement extends IAgreement {

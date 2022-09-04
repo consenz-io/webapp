@@ -5,11 +5,13 @@ import DocLogo from 'assets/icons/document.svg';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { generateColorFromString } from 'utils/functions';
 import { SectionCard } from 'components/SectionCard';
+import { IAgreement, IChapter, ISection } from 'types';
 
 const AgreementPage: FC = () => {
   const agreementContext = useContext(AgreementContext);
   const currentCategory = agreementContext.categoryName;
-  const agreement: any = agreementContext.agreement;
+  console.log('agreementContext.agreement', agreementContext.agreement);
+  const agreement: IAgreement | undefined = agreementContext.agreement;
   const agreemetChaptersData = generateChaptersData();
   const categoryColor = currentCategory
     ? generateColorFromString(currentCategory, true)
@@ -21,12 +23,13 @@ const AgreementPage: FC = () => {
 
   // orgenzie real data to: chapter -> sections: suggestions
   function generateChaptersData() {
-    const chaptersData: any = {};
-    if (agreement.chapters && agreement.chapters.length > 0) {
-      agreement.chapters.forEach((chapter: any) => {
+    const chaptersData: { [key: string]: { [key: string]: { content: string; index: number }[] } } =
+      {};
+    if (agreement && agreement.chapters && agreement.chapters.length > 0) {
+      agreement.chapters.forEach((chapter: IChapter) => {
         chaptersData[chapter.name] = {};
         if (chapter.sections && chapter.sections.length > 0) {
-          chapter.sections.forEach((section: any, j: number) => {
+          chapter.sections.forEach((section: ISection, j: number) => {
             const sectionName = `section ${j + 1}`;
             chaptersData[chapter.name][sectionName] = [];
             if (section.suggestions && section.suggestions.length > 0) {
@@ -44,7 +47,7 @@ const AgreementPage: FC = () => {
     return chaptersData;
   }
 
-  function calcChapterSuggestions(chapter: { [key: string]: { [key: string]: any[] } }) {
+  function calcChapterSuggestions(chapter: any) {
     let suggestionsNum = 0;
     Object.keys(chapter).forEach((sectionName: string) => {
       const section: object = chapter[sectionName];
