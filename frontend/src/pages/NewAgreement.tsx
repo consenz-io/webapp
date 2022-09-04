@@ -73,7 +73,7 @@ const NewAgreement: FC = () => {
   }
 
   if (step === 4) {
-    return <AgreementCreatedSuccessfully />;
+    return <AgreementCreatedSuccessfully agreementName={agreementName || 'My New Agreement'} />;
   }
 
   return (
