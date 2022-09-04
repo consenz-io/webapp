@@ -37,7 +37,7 @@ export interface IGroupContext {
 
 export interface IAgreementContext {
   agreementId: number;
-  agreement: object | string;
+  agreement: object;
   rationale: string;
   agreementTitle: string;
   categoryName: string;
