@@ -6,6 +6,7 @@ import GroupsNav from './GroupsNav';
 import AgreementCard from './AgreementCard';
 import Dialog from './Dialog';
 import ContentEditor from './ContentEditor';
+import Appbar from './Appbar';
 
 export {
   Sidebar,
@@ -16,4 +17,5 @@ export {
   AgreementCard,
   ContentEditor,
   Dialog,
+  Appbar,
 };
