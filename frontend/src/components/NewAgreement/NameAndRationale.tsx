@@ -33,6 +33,15 @@ interface IProps {
   rationale: string;
 }
 
+interface CategoryObj {
+  name: string;
+  color: string;
+}
+
+interface CategoryMap {
+  [key: string | number]: CategoryObj;
+}
+
 function NameAndRationale({
   categoryId,
   name,
@@ -42,9 +51,11 @@ function NameAndRationale({
   rationale,
 }: IProps): JSX.Element {
   const [openDialogState, setOpenDialogState] = useState(false);
-  const [selectedCategory, setSelectedCat] = useState<string>('');
-  const [currentCatColor, setcurrentCatColor] = useState<string>('');
   const { id: groupId, categories } = useContext(GroupContext);
+  const [categoryIdNameMap, setcategoryIdNameMap] = useState<CategoryMap>({});
+  const [currentCatColor, setcurrentCatColor] = useState<string>(
+    categoryIdNameMap[categoryId!]?.color || ''
+  );
   const { t } = useTranslation();
   const [createCategoryMutationFN, { error: newCatError }] = useMutation(addCategoryMutation, {
     refetchQueries: ['categories'],
@@ -54,6 +65,31 @@ function NameAndRationale({
     setOpenDialogState(false);
   };
 
+  function mapCategoryIdToName() {
+    const newIdNameMap: CategoryMap = { ...categoryIdNameMap };
+    categories.forEach((catObj: any) => {
+      newIdNameMap[catObj.id] = {
+        name: catObj.name,
+        color: generateColorFromString(catObj.name, true),
+      };
+    });
+    setcategoryIdNameMap(newIdNameMap);
+  }
+
+  function setCategoryColor() {
+    if (categoryId && categoryIdNameMap[categoryId]) {
+      setcurrentCatColor(categoryIdNameMap[categoryId].color);
+    }
+  }
+
+  useEffect(() => {
+    mapCategoryIdToName();
+  }, [categories]);
+
+  useEffect(() => {
+    setCategoryColor();
+  }, [categoryId]);
+
   async function onCreateCategory(val: string) {
     const cat = await createCategoryMutationFN({ variables: { name: val, group_id: groupId } });
     if (newCatError) {
@@ -62,14 +98,6 @@ function NameAndRationale({
     onCategoryChange(cat.data.insert_core_categories_one.id);
     setOpenDialogState(false);
   }
-
-  function updateCatColor() {
-    setcurrentCatColor(generateColorFromString(selectedCategory, true));
-  }
-
-  useEffect(() => {
-    updateCatColor();
-  }, [selectedCategory]);
 
   return (
     <>
@@ -99,8 +127,8 @@ function NameAndRationale({
                 text: category.name,
                 value: category.id,
                 action: () => {
-                  setSelectedCat(category.name);
                   onCategoryChange(category.id);
+                  setCategoryColor();
                 },
               })),
               {
