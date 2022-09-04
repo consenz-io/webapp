@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { StringBank } from "../strings";
 import { useNavigate } from "react-router-dom";
 import { FC, useContext } from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
-import { AgreementCard } from "components";
+import { Button, Stack, Typography } from "@mui/material";
+import { AgreementCarousel } from "components";
 import { GroupContext } from "contexts/group";
 
 interface IProps {
@@ -49,23 +49,8 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
           flexDirection={{ xs: "column", sm: "row" }}
           flexWrap={{ sx: "nowrap", sm: "wrap" }}
         >
-          {agreements.map((agreement) => (
-            <Box
-              key={agreement.id}
-              flexBasis={{ xs: "25%", sm: "33%", lg: "25%", xl: "20%" }}
-              padding={1}
-              minWidth="0"
-            >
-              <AgreementCard
-                id={agreement.id}
-                participants={14}
-                category={agreement.category?.name}
-                title={agreement.name}
-                updatedAt={new Date(agreement.updated_at)}
-                rationale={agreement.rationale}
-                isArchived={isArchive}
-              />
-            </Box>
+          {agreements.map((agreement, i) => (
+            <AgreementCarousel {...agreement} key={i} />
           ))}
         </Stack>
       ) : (
