@@ -1,4 +1,4 @@
-import { IconButton, Slide, Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import { SectionProps } from './types';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -59,7 +59,7 @@ const SectionCard = (props: SectionProps) => {
               color: '#E0E0E0',
             }}
           >
-            Section {props.sectionIndex}
+            Section {props.sectionIndex + 1}
           </Typography>
           <Typography
             sx={{
@@ -69,7 +69,7 @@ const SectionCard = (props: SectionProps) => {
           >
             Version {suggestionIndex + 1} of {props.suggestions.length}
           </Typography>
-          <CheckedIconRender isSelected={props.suggestions[suggestionIndex].isSelected} />
+          <CheckedIconRender isSelected={true} />
         </SC.SectionTitleRow>
         <SC.SectionContentRow
           direction="row"
@@ -85,9 +85,7 @@ const SectionCard = (props: SectionProps) => {
               paddingButtom: '1rem',
             }}
           >
-            <Slide direction="right">
-              <>{content}</>
-            </Slide>
+            {content}
           </Typography>
         </SC.SectionContentRow>
         <SC.SectionButtonsRow direction="row">
@@ -96,7 +94,7 @@ const SectionCard = (props: SectionProps) => {
               <LikeIcon />
             </IconButton>
             <Typography paddingLeft="4px" paddingRight="4px" color="#24ebd3">
-              {props.suggestions[suggestionIndex].likes}
+              {12}
             </Typography>
           </SC.iconNumberContainter>
           <SC.iconNumberContainter>
@@ -104,7 +102,7 @@ const SectionCard = (props: SectionProps) => {
               <DislikeIcon />
             </IconButton>
             <Typography paddingLeft="4px" paddingRight="4px">
-              {props.suggestions[suggestionIndex].dislikes}
+              {13}
             </Typography>
           </SC.iconNumberContainter>
           <SC.iconNumberContainter>
@@ -112,7 +110,7 @@ const SectionCard = (props: SectionProps) => {
               <CommentIcon />
             </IconButton>
             <Typography paddingLeft="4px" paddingRight="4px">
-              {props.suggestions[suggestionIndex].comments.length}
+              {5}
             </Typography>
           </SC.iconNumberContainter>
         </SC.SectionButtonsRow>

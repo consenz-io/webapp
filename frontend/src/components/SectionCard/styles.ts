@@ -56,7 +56,8 @@ export const ButtonColumn = styled(Stack)`
     width: 4rem;
     justify-content: center;
     align-items: center;
-    height: 3.5rem;
+    height: 100%;
+    padding: 0 1.5rem;
   }
 `;
 

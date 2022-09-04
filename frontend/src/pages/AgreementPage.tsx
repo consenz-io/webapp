@@ -4,14 +4,13 @@ import { FC, useContext } from 'react';
 import DocLogo from 'assets/icons/document.svg';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { generateColorFromString } from 'utils/functions';
-// import { SectionCard } from 'components/SectionCard';
+import { SectionCard } from 'components/SectionCard';
 
 const AgreementPage: FC = () => {
   const agreementContext = useContext(AgreementContext);
   const currentCategory = agreementContext.categoryName;
   const agreement: any = agreementContext.agreement;
   const agreemetChaptersData = generateChaptersData();
-  console.log('agreemetChaptersData', agreemetChaptersData);
   const categoryColor = currentCategory
     ? generateColorFromString(currentCategory, true)
     : 'primary';
@@ -24,18 +23,18 @@ const AgreementPage: FC = () => {
   function generateChaptersData() {
     const chaptersData: any = {};
     if (agreement.chapters && agreement.chapters.length > 0) {
-      agreement.chapters.forEach((chapter: any, i: number) => {
-        chaptersData[`chapter ${i}`] = {};
+      agreement.chapters.forEach((chapter: any) => {
+        chaptersData[chapter.name] = {};
         if (chapter.sections && chapter.sections.length > 0) {
           chapter.sections.forEach((section: any, j: number) => {
-            chaptersData[`chapter ${i}`][`section ${j}`] = {};
+            const sectionName = `section ${j + 1}`;
+            chaptersData[chapter.name][sectionName] = [];
             if (section.suggestions && section.suggestions.length > 0) {
-              section.suggestions.forEach((suggestion: any, k: number) => {
-                chaptersData[`chapter ${i}`][`section ${j}`][`suggetstion ${k}`] = [];
-                const suggestionData = suggestion.content.content;
-                chaptersData[`chapter ${i}`][`section ${j}`][`suggetstion ${k}`].push(
-                  suggestionData
-                );
+              section.suggestions.forEach((suggestionObj: any, k: number) => {
+                const content: any = suggestionObj.content.content[0].content[0].text;
+                const suggestion: any = { content };
+                suggestion.index = k + 1;
+                chaptersData[chapter.name][sectionName].push(suggestion);
               });
             }
           });
@@ -45,56 +44,14 @@ const AgreementPage: FC = () => {
     return chaptersData;
   }
 
-  // // mock suggestions
-  // const suggestions1: Suggestion[] = [
-  //   {
-  //     content:
-  //       'sec1 sug1 Lorem ipsum dolor sit amet,. Elemea egetna eget vitae lorem.lor. Nibh mi urna eget vitae lorem.',
-  //     comments: ['comment1 sug1', 'comment2 sug1'],
-  //     dislikes: 12,
-  //     isSelected: true,
-  //     likes: 54,
-  //   },
-  //   {
-  //     content:
-  //       'sec1 sug2 Lorem ipsum dolor sit amet,. Elementum pellentesque euismod proin dolor. Nibh mi urna eget vitae lorem.',
-  //     comments: ['comment3 sug1', 'comment4 sug1'],
-  //     isSelected: false,
-  //     dislikes: 55,
-  //     likes: 32,
-  //   },
-  // ];
-
-  // const suggestions2: Suggestion[] = [
-  //   {
-  //     content:
-  //       'sec2 sug1 Lorem ipsum dolor sit amet,. Elementum pellentesque euismod proin dolor. Nibh mi urna eget vitae lorem.',
-  //     comments: ['comment1 sug2', 'comment2 sug2'],
-  //     dislikes: 2,
-  //     likes: 44,
-  //     isSelected: false,
-  //   },
-  //   {
-  //     content:
-  //       'sec2 sug2 Lorem ipsum dolor sit amet,. Elementum pellentesque euismod proin dolor. Nibh mi urna eget vitae lorem.',
-  //     comments: ['comment3 sug2', 'comment4 sug2'],
-  //     dislikes: 11,
-  //     isSelected: false,
-  //     likes: 12,
-  //   },
-  // ];
-
-  // // mock sections
-  // const sections: SectionProps[] = [
-  //   {
-  //     suggestions: suggestions1,
-  //     sectionIndex: 1,
-  //   },
-  //   {
-  //     suggestions: suggestions2,
-  //     sectionIndex: 2,
-  //   },
-  // ];
+  function calcChapterSuggestions(chapter: { [key: string]: { [key: string]: any[] } }) {
+    let suggestionsNum = 0;
+    Object.keys(chapter).forEach((sectionName: string) => {
+      const section: object = chapter[sectionName];
+      suggestionsNum += Object.keys(section).length;
+    });
+    return suggestionsNum;
+  }
 
   return (
     <Stack direction="column">
@@ -165,15 +122,33 @@ const AgreementPage: FC = () => {
         </Typography>
       </Stack>
       <Stack direction="column">
-        {/* {sections.map((section, index) => {
+        {Object.keys(agreemetChaptersData).map((chapterName, i) => {
+          const chapter = agreemetChaptersData[chapterName];
           return (
-            <SectionCard
-              suggestions={section.suggestions}
-              sectionIndex={section.sectionIndex}
-              key={index}
-            ></SectionCard>
+            <Stack direction="column" key={i}>
+              <Stack
+                direction="row"
+                sx={{ marginLeft: '2rem', alignItems: 'center', height: '72px' }}
+              >
+                <Typography padding="0 0.75rem" fontWeight="500" fontSize="18px">
+                  # {chapterName}
+                </Typography>
+                <Typography fontSize="14px" fontWeight="noraml" color="#adb2b8" padding="0 0.75rem">
+                  {Object.keys(chapter).length} sections
+                </Typography>
+                <Typography fontSize="14px" fontWeight="noraml" color="#adb2b8" padding="0 0.75rem">
+                  {calcChapterSuggestions(chapter)} suggestions
+                </Typography>
+              </Stack>
+              <Stack direction="column">
+                {Object.keys(chapter).map((sectionName: string, j: number) => {
+                  const section = chapter[sectionName];
+                  return <SectionCard suggestions={section} key={j} sectionIndex={j}></SectionCard>;
+                })}
+              </Stack>
+            </Stack>
           );
-        })} */}
+        })}
       </Stack>
     </Stack>
   );

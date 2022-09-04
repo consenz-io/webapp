@@ -7,10 +7,8 @@ export interface SectionProps {
 
 export interface Suggestion {
   content: string;
-  likes: number;
-  dislikes: number;
-  comments: string[];
-  isSelected: boolean;
+  index: number;
+  type: string;
 }
 
 export interface fetchedAgreement extends IAgreement {
