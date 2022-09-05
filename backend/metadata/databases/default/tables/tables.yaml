@@ -6,3 +6,4 @@
 - "!include core_suggestions.yaml"
 - "!include core_users.yaml"
 - "!include core_users_groups.yaml"
+- "!include core_votes.yaml"
