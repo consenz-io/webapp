@@ -11,53 +11,66 @@ import img from "../assets/Group_120.png";
 import { AgreementCarousel } from "components";
 import { useTranslation } from "react-i18next";
 import EmptyCategoryPage from "./EmptyCategoryPage";
+import { GroupContext } from "contexts/group";
 
 const AllCategories = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { categoryId } = useParams();
+  let { categoryId } = useParams();
   const { user } = useContext(DataContext);
-  console.log("user", user);
+  const { slug } = useContext(GroupContext);
+  if (categoryId) {
+    categoryId = categoryId.substring(0, categoryId.length - 1);
+  }
+  const currentGroup = user?.groups?.find((group) => group.slug === slug);
+  const vars = {
+    groupId: currentGroup?.id || -1,
+    isArchived: false,
+    categoryId,
+  };
+  const { data: categoryAgreements } = useQuery<{
+    core_agreements: IAgreement[];
+  }>(agreementsQuery(categoryId), {
+    variables: vars,
+  });
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = "") => {
     navigate(`/${slug}/new-agreement`);
   };
-  const { data: activeAgreements } = useQuery<{
-    core_agreements: IAgreement[];
-  }>(agreementsQuery(categoryId), {
-    variables: {
-      groupId: 1,
-      isArchived: false,
-      categoryId,
-    },
-  });
-  console.log("activeAgreements", activeAgreements);
-  const agreements = activeAgreements?.core_agreements;
-  if (agreements && agreements?.length > 0) {
+
+  const agreements = categoryAgreements;
+  const categoryName =
+    agreements?.core_agreements[0]?.category?.name || "category";
+  console.log("agreements", agreements);
+  if (agreements && agreements?.core_agreements.length > 0) {
     return (
       <Stack
-        justifyContent={agreements?.length ? "start" : "space-between"}
+        justifyContent={
+          agreements?.core_agreements.length ? "start" : "space-between"
+        }
         height="100%"
         padding={{ sm: 2 }}
         spacing={2}
       >
         <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
           <Typography variant="h2">
-            {t(StringBank.GROUP_AGREEMENTS, { group: name })}
+            {t(StringBank.CATEGORY_AGREMENTS, {
+              category: categoryName.toUpperCase(),
+            })}
           </Typography>
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            onClick={(event) => handleMenuItemClick(event, "slug")}
+            onClick={(event) => handleMenuItemClick(event, slug)}
           >
             {t(StringBank.NEW_AGREEMENT)}
           </Button>
         </Stack>
-        {agreements.length ? (
+        {agreements?.core_agreements.length ? (
           <Stack
             flexDirection={{ xs: "column", sm: "row" }}
             flexWrap={{ sx: "nowrap", sm: "wrap" }}
           >
-            {agreements.map((agreement, i) => (
+            {agreements?.core_agreements.map((agreement, i) => (
               <AgreementCarousel {...agreement} key={i} />
             ))}
           </Stack>
@@ -72,7 +85,7 @@ const AllCategories = () => {
             <Button
               variant="contained"
               startIcon={<AddIcon />}
-              onClick={(event) => handleMenuItemClick(event, "slug")}
+              onClick={(event) => handleMenuItemClick(event, slug)}
             >
               {t(StringBank.NEW_AGREEMENT)}
             </Button>

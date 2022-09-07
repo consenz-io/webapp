@@ -25,6 +25,7 @@ export const en: Record<StringBank, string> = {
   CREATE_FIRST_AGREEMENT: "Create your first agreement",
   GOTO_HOMEPAGE_TITLE: "Go to consenz homepage",
   GROUP_AGREEMENTS: "{{group}}'s Agreements",
+  CATEGORY_AGREMENTS: "{{category}} category Agreements",
   INSERT_NEW_SECTION: "+ Insert new section (Ctrl/Cmd+Enter)",
   LOGOUT: "Log Out",
   NEW_AGREEMENT: "New Agreement",
