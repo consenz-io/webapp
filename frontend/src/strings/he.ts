@@ -4,7 +4,7 @@ export const he: Partial<Record<StringBank, string>> = {
   AGREEMENT_PARTICIPANTS: "{{count}} משתתפים",
   AGREEMENT_UPDATED_AT: "עדכון אחרון: {{date}}",
   GROUP_AGREEMENTS: "ההסכמים של {{group}}",
-  CATEGORY_AGREMENTS: "ההסכמים של הקטגוריה {{category}}",
+  CATEGORY_AGREMENTS: "ההסכמים האקטיביים של הקטגוריה {{category}}",
   ADD_NEW_CATEGORY: "הוספת קטגוריה",
   ADD_RATIONALE_HEADER: "להוסיף היגיון",
   ADD_RATIONALE_PARAGRAPH: `למה זקוקים להסכם הזה? מה הרקע ליצירתו? מה אלה הצרכים והבעיות שהוא נועד להשיב? ...`,
