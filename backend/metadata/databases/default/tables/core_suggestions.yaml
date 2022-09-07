@@ -11,6 +11,19 @@ object_relationships:
         remote_table:
           name: sections
           schema: core
+computed_fields:
+  - name: downvotes
+    definition:
+      function:
+        name: suggestion_count_votes_down
+        schema: core
+    comment: ""
+  - name: upvotes
+    definition:
+      function:
+        name: suggestion_count_votes_up
+        schema: core
+    comment: ""
 insert_permissions:
   - role: authenticated
     permission:
