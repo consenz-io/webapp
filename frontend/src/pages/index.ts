@@ -4,8 +4,11 @@ import AllAgreements from "./AllAgreements";
 import NewAgreement from "./NewAgreement";
 import { Welcome } from "./Welcome";
 import AgreementPage from "./AgreementPage";
-import CategoryPage from "./CategoryPage";
-import EmptyArchivePage from "./EmptyArchive";
+import CategoryPage from "./EmptyCategoryPage";
+import EmptyArchivePage from "./EmptyArchivePage";
+import AllArchievedAgreements from "./AllArchievedAgreements";
+import AllCategories from "./AllCategories";
+
 export {
   AgreementPage,
   EmptyArchivePage,
@@ -15,4 +18,6 @@ export {
   AllAgreements,
   NewAgreement,
   Welcome,
+  AllArchievedAgreements,
+  AllCategories,
 };
