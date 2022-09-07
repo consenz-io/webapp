@@ -1,5 +1,5 @@
 import { InputBase, Stack, Typography } from '@mui/material';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { StringBank } from 'strings';
 import styled from 'styled-components';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -12,6 +12,7 @@ import { VariantType } from 'types';
 import Dialog from 'components/Dialog';
 import { useMutation } from '@apollo/client';
 import { addCategoryMutation } from 'utils/mutations';
+import { generateColorFromString } from 'utils/functions';
 
 const Span = styled.span`
   ${(props) => props.theme.typography.h2};
@@ -32,6 +33,15 @@ interface IProps {
   rationale: string;
 }
 
+interface CategoryObj {
+  name: string;
+  color: string;
+}
+
+interface CategoryMap {
+  [key: string | number]: CategoryObj;
+}
+
 function NameAndRationale({
   categoryId,
   name,
@@ -42,6 +52,8 @@ function NameAndRationale({
 }: IProps): JSX.Element {
   const [openDialogState, setOpenDialogState] = useState(false);
   const { id: groupId, categories } = useContext(GroupContext);
+  const [categoryIdNameMap, setcategoryIdNameMap] = useState<CategoryMap>({});
+
   const { t } = useTranslation();
   const [createCategoryMutationFN, { error: newCatError }] = useMutation(addCategoryMutation, {
     refetchQueries: ['categories'],
@@ -50,6 +62,21 @@ function NameAndRationale({
   const handleCloseDialog = () => {
     setOpenDialogState(false);
   };
+
+  function mapCategoryIdToName() {
+    const newIdNameMap: CategoryMap = { ...categoryIdNameMap };
+    categories.forEach((catObj: any) => {
+      newIdNameMap[catObj.id] = {
+        name: catObj.name,
+        color: generateColorFromString(catObj.name, true),
+      };
+    });
+    setcategoryIdNameMap(newIdNameMap);
+  }
+
+  useEffect(() => {
+    mapCategoryIdToName();
+  }, [categories]);
 
   async function onCreateCategory(val: string) {
     const cat = await createCategoryMutationFN({ variables: { name: val, group_id: groupId } });
@@ -77,6 +104,7 @@ function NameAndRationale({
             isBorderHidden
             value={categoryId}
             name="user"
+            bgColor={categoryId ? categoryIdNameMap[categoryId]?.color : ''}
             menuItems={[
               {
                 text: t(StringBank.NO_CATEGORY),
