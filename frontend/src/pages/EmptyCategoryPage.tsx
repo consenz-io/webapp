@@ -37,7 +37,7 @@ const NewAgreementButton = styled(Button)`
   }
 `;
 
-const CategoryPage = () => {
+const EmptyCategoryPage = () => {
   const state: State = useLocation().state as State;
   const { t } = useTranslation();
 
@@ -91,4 +91,4 @@ const CategoryPage = () => {
   );
 };
 
-export default CategoryPage;
+export default EmptyCategoryPage;
