@@ -53,9 +53,7 @@ function NameAndRationale({
   const [openDialogState, setOpenDialogState] = useState(false);
   const { id: groupId, categories } = useContext(GroupContext);
   const [categoryIdNameMap, setcategoryIdNameMap] = useState<CategoryMap>({});
-  const [currentCatColor, setcurrentCatColor] = useState<string>(
-    categoryIdNameMap[categoryId!]?.color || ''
-  );
+
   const { t } = useTranslation();
   const [createCategoryMutationFN, { error: newCatError }] = useMutation(addCategoryMutation, {
     refetchQueries: ['categories'],
@@ -76,19 +74,9 @@ function NameAndRationale({
     setcategoryIdNameMap(newIdNameMap);
   }
 
-  function setCategoryColor() {
-    if (categoryId && categoryIdNameMap[categoryId]) {
-      setcurrentCatColor(categoryIdNameMap[categoryId].color);
-    }
-  }
-
   useEffect(() => {
     mapCategoryIdToName();
   }, [categories]);
-
-  useEffect(() => {
-    setCategoryColor();
-  }, [categoryId]);
 
   async function onCreateCategory(val: string) {
     const cat = await createCategoryMutationFN({ variables: { name: val, group_id: groupId } });
@@ -116,7 +104,7 @@ function NameAndRationale({
             isBorderHidden
             value={categoryId}
             name="user"
-            bgColor={currentCatColor}
+            bgColor={categoryId ? categoryIdNameMap[categoryId]?.color : ''}
             menuItems={[
               {
                 text: t(StringBank.NO_CATEGORY),
@@ -126,10 +114,7 @@ function NameAndRationale({
               ...categories.map((category) => ({
                 text: category.name,
                 value: category.id,
-                action: () => {
-                  onCategoryChange(category.id);
-                  setCategoryColor();
-                },
+                action: () => onCategoryChange(category.id),
               })),
               {
                 text: t(StringBank.ADD_NEW_CATEGORY),
