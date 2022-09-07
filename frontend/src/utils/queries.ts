@@ -21,6 +21,7 @@ export function agreementsQuery(categoryId?: string) {
       name
       rationale
       updated_at
+      is_archived
       category {
         id
         name

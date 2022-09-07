@@ -8,7 +8,7 @@ const AgreementCarousel: FC<IAgreement> = ({
   category,
   updated_at,
   rationale,
-  isArchived,
+  is_archived,
   name,
 }) => {
   return (
@@ -25,7 +25,7 @@ const AgreementCarousel: FC<IAgreement> = ({
         title={name}
         updatedAt={new Date(updated_at)}
         rationale={rationale}
-        isArchived={isArchived}
+        is_archived={is_archived}
       />
     </Box>
   );

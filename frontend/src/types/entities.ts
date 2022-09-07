@@ -6,7 +6,7 @@ export interface IAgreement {
   category: ICategory;
   updated_at: string;
   rationale: string;
-  isArchived?: boolean;
+  is_archived?: boolean;
 }
 
 export interface ICategory {

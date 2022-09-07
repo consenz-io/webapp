@@ -16,7 +16,6 @@ const AllArchievedAgreements = () => {
     navigate(`/${slug}/new-agreement`);
   };
   const { archivedAgreements, name, slug } = useContext(GroupContext);
-  console.log("archivedAgreements?.length", archivedAgreements?.length);
   if (archivedAgreements?.length > 0) {
     return (
       <Stack

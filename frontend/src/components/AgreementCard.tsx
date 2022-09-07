@@ -30,7 +30,7 @@ interface IAgreementCardProps {
   title: string;
   updatedAt: Date;
   participants: number;
-  isArchived?: boolean;
+  is_archived?: boolean;
 }
 
 const MainCard = styled(Card)`
@@ -62,7 +62,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   title,
   updatedAt,
   participants,
-  isArchived,
+  is_archived,
 }) => {
   const { t } = useTranslation();
   const { mode } = useContext(ColorModeAndDirectionContext);
@@ -131,10 +131,10 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                   menuItems={[
                     {
                       text: t(
-                        isArchived ? StringBank.UNARCHIVE : StringBank.ARCHIVE
+                        is_archived ? StringBank.UNARCHIVE : StringBank.ARCHIVE
                       ),
                       icon: <Inventory2OutlinedIcon />,
-                      action: () => archiveAgreement(id, !isArchived),
+                      action: () => archiveAgreement(id, !is_archived),
                     },
                     {
                       text: "Delete",
