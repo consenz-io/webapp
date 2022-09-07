@@ -28,6 +28,7 @@ const NewAgreement: FC = () => {
   const [agreementName, setAgreementName] = useState<string>(
     localStorage.getItem('agreementName') || ''
   );
+  const [createdAgreementId, setAgreementId] = useState<string>('');
   const [step, setStep] = useState(Number(localStorage.getItem('step')) || 1);
   const [categoryId, setCategoryId] = useState<number | null>(
     Number(localStorage.getItem('categoryId')) || null
@@ -61,19 +62,25 @@ const NewAgreement: FC = () => {
     localStorage.setItem('step', String(step));
   }
 
+  function setNewAgreementId(data: any) {
+    const agreementId = data.data.insert_core_agreements_one.id.toString();
+    setAgreementId(agreementId);
+  }
+
   const isContinueEnabled =
     agreementName && rationale && !addAgreementLoading && !addAgreementError;
 
   async function handleContinueClick() {
     if (step === 3) {
-      await addAgreement(categoryId, agreementName, rationale, chapters);
+      const agreementData = await addAgreement(categoryId, agreementName, rationale, chapters);
+      setNewAgreementId(agreementData);
       clearAgreementLocally();
     }
     setStep(step + 1);
   }
 
   if (step === 4) {
-    return <AgreementCreatedSuccessfully agreementName={agreementName || 'My New Agreement'} />;
+    return <AgreementCreatedSuccessfully agreementId={createdAgreementId} />;
   }
 
   return (

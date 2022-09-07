@@ -71,11 +71,11 @@ const AgreementTextSpan = styled.span`
   }
 `;
 
-const AgreementCreatedSuccessfully: FC<{ agreementName: string }> = ({ agreementName }) => {
+const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId }) => {
   const { t } = useTranslation();
   const { slug: groupSlug } = useContext(GroupContext);
   const navigate = useNavigate();
-  const AgreementText = `consenz.io/${groupSlug}/${agreementName}`;
+  const AgreementText = `${window.location.origin}/${groupSlug}/agreement/${agreementId}`;
   return (
     <Container maxWidth="xs" sx={{ height: '100%' }}>
       <Stack alignItems="center" justifyContent="center" paddingX={6} spacing={2} height="100%">
@@ -95,7 +95,7 @@ const AgreementCreatedSuccessfully: FC<{ agreementName: string }> = ({ agreement
         >
           {t(StringBank.RETURN_TO_ALL_AGREEMENTS)}
         </Button>
-        <Divider flexItem sx={{ paddingY: 1 }} />
+        <Divider flexItem sx={{ paddingY: '0 2rem', margin: '0' }} />
         <Typography>{t(StringBank.SHARE_AGREEMENT)}</Typography>
         <CopyAgreementContainer
           direction="row"
