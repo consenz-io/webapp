@@ -40,11 +40,17 @@ export function getAgreementByIdQuery() {
           name
         }
         rationale
-        chapters {
+        chapters(order_by: { index: asc }) {
           agreement_id
-          sections {
-            suggestions {
+          name
+          index
+          sections(order_by: { index: asc }) {
+            index
+            suggestions(order_by: { created_at: asc }) {
+              id
               content
+              upvotes
+              downvotes
             }
           }
         }
