@@ -1,4 +1,4 @@
-import { IAgreement, ICategory, IUser, LocalChapter } from "./entities";
+import { IAgreement, ICategory, IUser, LocalChapter } from './entities';
 
 export interface IAuthContext {
   jwt?: string;

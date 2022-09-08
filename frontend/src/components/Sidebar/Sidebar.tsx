@@ -1,31 +1,25 @@
-import * as SC from "./style";
-import { FC, useState, useContext } from "react";
-import { IFCProps } from "./types";
-import { useResponsive } from "hooks";
-import { Logo } from "assets";
-import { Link, useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { StringBank } from "strings";
-import { DropDownMenu, GroupsNav } from "components";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { DataContext } from "../../contexts/data";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import { ColorModeAndDirectionContext } from "../../theme";
-import { MenuItem } from "types";
-import { AuthContext } from "contexts";
-import {
-  List,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-  Typography,
-} from "@mui/material";
-import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
-import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
-import { GroupContext } from "contexts/group";
-import { generateColorFromString } from "utils/functions";
-import CircleIcon from "@mui/icons-material/Circle";
+import * as SC from './style';
+import { FC, useState, useContext } from 'react';
+import { IFCProps } from './types';
+import { useResponsive } from 'hooks';
+import { Logo } from 'assets';
+import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { StringBank } from 'strings';
+import { DropDownMenu, GroupsNav } from 'components';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { DataContext } from '../../contexts/data';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import { ColorModeAndDirectionContext } from '../../theme';
+import { MenuItem } from 'types';
+import { AuthContext } from 'contexts';
+import { List, ListItemIcon, ListItemText, ListSubheader, Typography } from '@mui/material';
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import { GroupContext } from 'contexts/group';
+import { generateColorFromString } from 'utils/functions';
+import CircleIcon from '@mui/icons-material/Circle';
 
 interface SidebarItem {
   name: string;
@@ -36,12 +30,12 @@ interface SidebarItem {
 const sidebarItems: SidebarItem[] = [
   {
     name: StringBank.ALL_AGREEMENTS,
-    to: "active-agreements",
+    to: 'active-agreements',
     icon: <ContentCopyOutlinedIcon />,
   },
   {
     name: StringBank.ARCHIVE,
-    to: "archive",
+    to: 'archive',
     icon: <Inventory2OutlinedIcon />,
   },
 ];
@@ -68,11 +62,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           <Logo />
         </Link>
       </SC.LogoContainer>
-      <GroupsNav
-        name="group"
-        menuItems={user?.groups}
-        endIcon={<KeyboardArrowDownIcon />}
-      />
+      <GroupsNav name="group" menuItems={user?.groups} endIcon={<KeyboardArrowDownIcon />} />
       <SC.Content>
         <List>
           {sidebarItems.map((item, i) => (
@@ -90,18 +80,13 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           <ListSubheader>{t(StringBank.CATEGORIES)}</ListSubheader>
           <SC.ListItemButton
             onClick={() => navigate(`/${groupSlug}/cat/0`)}
-            selected={window.location.href.endsWith("0")}
+            selected={window.location.href.endsWith('0')}
           >
             <ListItemIcon>
-              <CircleIcon
-                sx={{ color: "background.border" }}
-                fontSize="small"
-              />
+              <CircleIcon sx={{ color: 'background.border' }} fontSize="small" />
             </ListItemIcon>
             <ListItemText>
-              <Typography variant="h6">
-                {t(StringBank.UNCATEGORIZED)}
-              </Typography>
+              <Typography variant="h6">{t(StringBank.UNCATEGORIZED)}</Typography>
             </ListItemText>
           </SC.ListItemButton>
           {categories?.map((category, i) => (
@@ -133,7 +118,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
       <DropDownMenu
         name="user"
         menuItems={userMenuItems}
-        buttonText={user?.displayName || ""}
+        buttonText={user?.displayName || ''}
         btnCapital={user?.displayName?.charAt(0)}
         endIcon={isRTL ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
       />

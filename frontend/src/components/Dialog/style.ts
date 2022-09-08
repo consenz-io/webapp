@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { TextField, DialogActions, SvgIcon } from "@mui/material";
+import styled from 'styled-components';
+import { TextField, DialogActions, SvgIcon } from '@mui/material';
 
 export const XIconWrapper = styled(SvgIcon)`
   svg path {

@@ -1,28 +1,20 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  Chip,
-  Stack,
-  SvgIcon,
-  Typography,
-} from "@mui/material";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { FC, useContext, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { StringBank } from "strings";
-import { generateColorFromString, truncateAfterWords } from "utils/functions";
-import DropDownMenu from "./DropDownMenu";
-import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
-import { GroupContext } from "contexts/group";
-import { ColorModeAndDirectionContext } from "theme";
-import { MenuItem, ThemeModeType, VariantType } from "types";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import DialogEl from "../components/Dialog";
-import { ReactComponent as TrashIcon } from "assets/icons/trash-2.svg";
-import { AuthContext } from "contexts";
+import { Box, Card, CardContent, Chip, Stack, SvgIcon, Typography } from '@mui/material';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { FC, useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { StringBank } from 'strings';
+import { generateColorFromString, truncateAfterWords } from 'utils/functions';
+import DropDownMenu from './DropDownMenu';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import { GroupContext } from 'contexts/group';
+import { ColorModeAndDirectionContext } from 'theme';
+import { MenuItem, ThemeModeType, VariantType } from 'types';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import DialogEl from '../components/Dialog';
+import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
+import { AuthContext } from 'contexts';
 
 interface IAgreementCardProps {
   id: number;
@@ -59,7 +51,7 @@ const TrashEL = () => {
 const AgreementCard: FC<IAgreementCardProps> = ({
   id,
   category,
-  rationale = "",
+  rationale = '',
   title,
   updatedAt,
   participants,
@@ -70,12 +62,10 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   const { role } = useContext(AuthContext);
   const { archiveAgreement, slug, deleteAgreement } = useContext(GroupContext);
   const navigate = useNavigate();
-  const cardBackgroundColor =
-    mode === ThemeModeType.LIGHT ? "#E3E3E3" : "#595F68";
+  const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : '#595F68';
 
   const baseDelDialogContent = `Please write the name of the agreement: ${title} - to delete it.`;
-  const [currentContent, setDelPopContent] =
-    useState<string>(baseDelDialogContent);
+  const [currentContent, setDelPopContent] = useState<string>(baseDelDialogContent);
   const [openDialogState, setOpenDialogState] = useState(false);
   const handleClickOpenDialog = () => {
     setOpenDialogState(true);
@@ -105,14 +95,14 @@ const AgreementCard: FC<IAgreementCardProps> = ({
         action: () => archiveAgreement(id, !is_archived),
       },
     ];
-    if (role && role === "moderator") {
+    if (role && role === 'moderator') {
       menuItems.push({
-        text: "Delete",
+        text: 'Delete',
         icon: <TrashEL />,
         action: () => {
           handleClickOpenDialog();
         },
-        textColor: "#FC6D8F",
+        textColor: '#FC6D8F',
       });
     }
     return menuItems;
@@ -122,15 +112,13 @@ const AgreementCard: FC<IAgreementCardProps> = ({
     <>
       <MainCard onClick={() => navigate(`/${slug}/agreement/${id}`)}>
         <Stack>
-          <CardContent
-            sx={{ backgroundColor: cardBackgroundColor, position: "relative" }}
-          >
+          <CardContent sx={{ backgroundColor: cardBackgroundColor, position: 'relative' }}>
             <Box position="absolute" left="1rem" right="1rem">
               {category && (
                 <Chip
                   sx={{
-                    background: generateColorFromString(category || "", true),
-                    color: "white",
+                    background: generateColorFromString(category || '', true),
+                    color: 'white',
                   }}
                   label={category}
                 />
@@ -170,16 +158,16 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                 {t(StringBank.AGREEMENT_PARTICIPANTS, { count: participants })}
               </Typography>
               <Typography variant="body2" marginY={1} height="4.3em">
-                {truncateAfterWords(rationale ?? " ", 12)}
+                {truncateAfterWords(rationale ?? ' ', 12)}
               </Typography>
               <Typography variant="caption">
                 {t(StringBank.AGREEMENT_UPDATED_AT, {
                   date: updatedAt.toLocaleString(navigator.language, {
-                    month: "numeric",
-                    day: "numeric",
-                    year: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
+                    month: 'numeric',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
                   }),
                 })}
               </Typography>

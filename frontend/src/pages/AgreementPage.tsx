@@ -1,71 +1,52 @@
-import {
-  Breadcrumbs,
-  Button,
-  Link,
-  Stack,
-  Typography,
-  Chip,
-} from "@mui/material";
-import { AgreementContext } from "contexts/agreement";
-import { FC, useContext } from "react";
-import DocLogo from "assets/icons/document.svg";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { generateColorFromString } from "utils/functions";
+import { Breadcrumbs, Button, Link, Stack, Typography, Chip } from '@mui/material';
+import { AgreementContext } from 'contexts/agreement';
+import { FC, useContext } from 'react';
+import DocLogo from 'assets/icons/document.svg';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import { generateColorFromString } from 'utils/functions';
 
 const AgreementPage: FC = () => {
   const agreementContext = useContext(AgreementContext);
   const currentCategory: string = agreementContext.categoryName;
   const categoryColor = currentCategory
     ? generateColorFromString(currentCategory, true)
-    : "primary";
+    : 'primary';
   const handleClick = (e: any) => {
     e.preventDefault();
-    console.log("clicked breadcrumb");
+    console.log('clicked breadcrumb');
   };
   return (
     <Stack direction="column">
       <Stack
         direction="row"
         sx={{
-          borderBottom: " 1px solid #3f4550",
-          paddingBottom: "1.5rem",
+          borderBottom: ' 1px solid #3f4550',
+          paddingBottom: '1.5rem',
         }}
       >
         <Breadcrumbs separator="›" aria-label="breadcrumb">
-          <Link
-            underline="hover"
-            key="1"
-            color="inherit"
-            href="/"
-            onClick={handleClick}
-          >
+          <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
             <Typography
               sx={{
-                fontSize: "14px",
-                fontWeight: "500",
-                paddingRight: "0.5rem",
+                fontSize: '14px',
+                fontWeight: '500',
+                paddingRight: '0.5rem',
               }}
             >
-              {currentCategory || "categoryName"}
+              {currentCategory || 'categoryName'}
             </Typography>
           </Link>
-          <Link
-            underline="hover"
-            key="1"
-            color="inherit"
-            href="/"
-            onClick={handleClick}
-          >
+          <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
             <Stack
               direction="row"
               gap="5px"
               sx={{
-                fontSize: "14px",
-                alignItems: "center",
+                fontSize: '14px',
+                alignItems: 'center',
               }}
             >
               <img src={DocLogo} alt="docIcon" width="20rem" height="18px" />
-              {agreementContext.agreementTitle || "Agreement Name"}
+              {agreementContext.agreementTitle || 'Agreement Name'}
             </Stack>
           </Link>
         </Breadcrumbs>
@@ -75,24 +56,20 @@ const AgreementPage: FC = () => {
           direction="row"
           alignItems="center"
           justifyContent="space-between"
-          sx={{ margin: "2rem" }}
+          sx={{ margin: '2rem' }}
         >
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography sx={{ fontSize: "36px" }} variant="h1">
-              {agreementContext.agreementTitle || "Agreement Name"}
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Typography sx={{ fontSize: '36px' }} variant="h1">
+              {agreementContext.agreementTitle || 'Agreement Name'}
             </Typography>
             {currentCategory && (
               <Chip
-                label={currentCategory ? currentCategory : ""}
+                label={currentCategory ? currentCategory : ''}
                 size="small"
                 style={{
-                  marginLeft: "1rem",
+                  marginLeft: '1rem',
                   backgroundColor: categoryColor,
-                  fontSize: "0.8rem",
+                  fontSize: '0.8rem',
                 }}
               />
             )}
@@ -102,11 +79,8 @@ const AgreementPage: FC = () => {
             <Typography variant="body1"> View Agreement</Typography>
           </Button>
         </Stack>
-        <Typography
-          sx={{ paddingLeft: "3rem", fontSize: "16px" }}
-          variant="body2"
-        >
-          {agreementContext.rationale || "rationale"}
+        <Typography sx={{ paddingLeft: '3rem', fontSize: '16px' }} variant="body2">
+          {agreementContext.rationale || 'rationale'}
         </Typography>
       </Stack>
     </Stack>

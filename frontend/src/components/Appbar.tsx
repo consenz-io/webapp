@@ -1,17 +1,11 @@
-import { FC } from "react";
-import {
-  IconButton,
-  Stack,
-  StepLabel,
-  SvgIcon,
-  Typography,
-} from "@mui/material";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepButton from "@mui/material/StepButton";
-import { ReactComponent as DocLogo } from "assets/icons/document.svg";
-import { ReactComponent as XLogo } from "assets/icons/x-circle.svg";
-import styled from "styled-components";
+import { FC } from 'react';
+import { IconButton, Stack, StepLabel, SvgIcon, Typography } from '@mui/material';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepButton from '@mui/material/StepButton';
+import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
+import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
+import styled from 'styled-components';
 
 export interface AppbarProps {
   steps: string[];
@@ -40,11 +34,7 @@ const XIconWrapper = styled(SvgIcon)`
 
 const Appbar: FC<AppbarProps> = (props) => {
   return (
-    <AppbarContainer
-      direction="row"
-      alignItems="center"
-      justifyContent="space-between"
-    >
+    <AppbarContainer direction="row" alignItems="center" justifyContent="space-between">
       <Stack direction="row" gap="0.5rem">
         <DocLogo />
         <Typography fontSize="0.875rem" lineHeight="1.57" paddingTop="2px">
@@ -59,18 +49,17 @@ const Appbar: FC<AppbarProps> = (props) => {
               key={i}
               color="inherit"
               completed={props.activeStep > i + 1}
-              sx={{ padding: "0 1rem" }}
+              sx={{ padding: '0 1rem' }}
             >
-              <StepButton sx={{ padding: "0", margin: "0" }} disableRipple>
+              <StepButton sx={{ padding: '0', margin: '0' }} disableRipple>
                 <StepLabel
                   sx={{
-                    "& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root": {
-                      color: "#595f68",
+                    '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root': {
+                      color: '#595f68',
                     },
-                    "& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root.Mui-active":
-                      {
-                        color: "#8d54ea",
-                      },
+                    '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root.Mui-active': {
+                      color: '#8d54ea',
+                    },
                   }}
                 >
                   {step}

@@ -1,9 +1,9 @@
 // noinspection SpellCheckingInspection
 
-import styled from "styled-components";
-import { Menu, MenuItem } from "@mui/material";
-import { DropDownMenuButton as Button } from "./parts";
-import { VariantType } from "types";
+import styled from 'styled-components';
+import { Menu, MenuItem } from '@mui/material';
+import { DropDownMenuButton as Button } from './parts';
+import { VariantType } from 'types';
 
 interface Props {
   stylevariant?: VariantType;
@@ -24,21 +24,19 @@ export const DropDownMenuButton = styled(Button)<Props>`
       border-top: 1px solid;
     `}
     border-color: ${(props) => props.theme.palette.background.border};
-    border-radius: ${(props) => (props.isBorderHidden ? "4px" : "0")};
+    border-radius: ${(props) => (props.isBorderHidden ? '4px' : '0')};
     text-transform: none;
 
     ${(props) =>
       props.isUser &&
       `
-        padding-left: ${props.theme.direction === "rtl" ? "auto" : "3rem"};
-        padding-right: ${props.theme.direction === "rtl" ? "3rem" : "auto"};
+        padding-left: ${props.theme.direction === 'rtl' ? 'auto' : '3rem'};
+        padding-right: ${props.theme.direction === 'rtl' ? '3rem' : 'auto'};
     `}
 
     .MuiButton-endIcon {
-      margin-left: ${(props) =>
-        props.theme.direction === "rtl" ? "-4px" : "8px"};
-      margin-right: ${(props) =>
-        props.theme.direction === "rtl" ? "8px" : "-4px"};
+      margin-left: ${(props) => (props.theme.direction === 'rtl' ? '-4px' : '8px')};
+      margin-right: ${(props) => (props.theme.direction === 'rtl' ? '8px' : '-4px')};
 
       svg {
         font-size: 1.5rem;
@@ -54,9 +52,7 @@ export const DropDownMenuButton = styled(Button)<Props>`
       props.stylevariant === VariantType.SECONDARY &&
       `
          font-weight: 600;
-         background-color: ${
-           props.bgColor || props.theme.palette.background.paper
-         };
+         background-color: ${props.bgColor || props.theme.palette.background.paper};
          border-radius: 8px;
          height: 40px;
          
@@ -71,8 +67,8 @@ export const DropDownMenuButton = styled(Button)<Props>`
       `
         .capital {
           position: absolute;
-          left: ${props.theme.direction === "rtl" ? "auto" : "1rem"};
-          right: ${props.theme.direction === "rtl" ? "1rem" : "auto"};
+          left: ${props.theme.direction === 'rtl' ? 'auto' : '1rem'};
+          right: ${props.theme.direction === 'rtl' ? '1rem' : 'auto'};
         }
     `}
   }
@@ -152,7 +148,7 @@ export const BtnCapital = styled.span`
   font-weight: 500;
   z-index: 1;
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 2rem;
     height: 2rem;

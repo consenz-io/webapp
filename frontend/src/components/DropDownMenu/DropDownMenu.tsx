@@ -1,10 +1,10 @@
-import * as SC from "./style";
-import { FC, useState, ReactNode, MouseEvent } from "react";
-import { MenuItem } from "types";
-import CircleIcon from "@mui/icons-material/Circle";
-import { capitalize } from "utils/functions";
-import { IconButton, Typography } from "@mui/material";
-import { VariantType } from "types";
+import * as SC from './style';
+import { FC, useState, ReactNode, MouseEvent } from 'react';
+import { MenuItem } from 'types';
+import CircleIcon from '@mui/icons-material/Circle';
+import { capitalize } from 'utils/functions';
+import { IconButton, Typography } from '@mui/material';
+import { VariantType } from 'types';
 
 interface IProps {
   value?: number | null;
@@ -21,7 +21,7 @@ interface IProps {
 
 const DropDownMenu: FC<IProps> = ({
   name,
-  buttonText = "",
+  buttonText = '',
   mainIcon,
   menuItems,
   endIcon,
@@ -78,7 +78,7 @@ const DropDownMenu: FC<IProps> = ({
           id={`${name}-button`}
           aria-controls={open ? `${name}-menu` : undefined}
           aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
+          aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
           endIcon={endIcon}
           isUser={!!btnCapital}
@@ -95,7 +95,7 @@ const DropDownMenu: FC<IProps> = ({
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          "aria-labelledby": `${name}-button`,
+          'aria-labelledby': `${name}-button`,
         }}
         anchorEl={anchorEl}
         stylevariant={styleVariant}
@@ -112,8 +112,8 @@ const DropDownMenu: FC<IProps> = ({
                 <CircleIcon
                   style={{
                     fill: menuItem.color,
-                    marginRight: ".5rem",
-                    marginLeft: "-.25rem",
+                    marginRight: '.5rem',
+                    marginLeft: '-.25rem',
                   }}
                 />
               )}

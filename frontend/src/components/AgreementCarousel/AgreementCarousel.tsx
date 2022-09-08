@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
-import AgreementCard from "components/AgreementCard";
-import { FC } from "react";
-import { IAgreement } from "types";
+import { Box } from '@mui/material';
+import AgreementCard from 'components/AgreementCard';
+import { FC } from 'react';
+import { IAgreement } from 'types';
 
 const AgreementCarousel: FC<IAgreement> = ({
   id,
@@ -14,7 +14,7 @@ const AgreementCarousel: FC<IAgreement> = ({
   return (
     <Box
       key={id}
-      flexBasis={{ xs: "25%", sm: "33%", lg: "25%", xl: "20%" }}
+      flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }}
       padding={1}
       minWidth="0"
     >

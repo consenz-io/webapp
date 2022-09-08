@@ -1,9 +1,9 @@
-import { Stack, Typography, Button } from "@mui/material";
-import { useLocation } from "react-router-dom";
-import styled from "styled-components";
-import AddIcon from "@mui/icons-material/Add";
-import { StringBank } from "../strings";
-import { useTranslation } from "react-i18next";
+import { Stack, Typography, Button } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import AddIcon from '@mui/icons-material/Add';
+import { StringBank } from '../strings';
+import { useTranslation } from 'react-i18next';
 
 interface State {
   catName: string;
@@ -58,14 +58,9 @@ const EmptyCategoryPage = () => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        sx={{ height: "80vh", width: "100%" }}
+        sx={{ height: '80vh', width: '100%' }}
       >
-        <Stack
-          direction="row"
-          width="100%"
-          justifyContent="center"
-          alignItems="center"
-        >
+        <Stack direction="row" width="100%" justifyContent="center" alignItems="center">
           <Typography fontSize="1.125rem" fontWeight="600">
             There are no <Span color={catColor}>{catName}</Span> agreements
           </Typography>

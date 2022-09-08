@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography } from '@mui/material';
 
 const EmptyArchivePage = () => {
   return (
@@ -17,14 +17,9 @@ const EmptyArchivePage = () => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        sx={{ height: "80vh", width: "100%" }}
+        sx={{ height: '80vh', width: '100%' }}
       >
-        <Stack
-          direction="row"
-          width="100%"
-          justifyContent="center"
-          alignItems="center"
-        >
+        <Stack direction="row" width="100%" justifyContent="center" alignItems="center">
           <Typography fontSize="1.125rem" fontWeight="600" textAlign="center">
             And this is where i&apos;ll put my <br /> archived agreements
           </Typography>

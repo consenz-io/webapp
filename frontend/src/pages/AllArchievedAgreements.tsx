@@ -1,33 +1,31 @@
-import AddIcon from "@mui/icons-material/Add";
-import img from "../assets/Group_120.png";
-import { useTranslation } from "react-i18next";
-import { StringBank } from "../strings";
-import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { Button, Stack, Typography } from "@mui/material";
-import { AgreementCarousel } from "components";
-import { GroupContext } from "contexts/group";
-import EmptyArchivePage from "./EmptyArchivePage";
+import AddIcon from '@mui/icons-material/Add';
+import img from '../assets/Group_120.png';
+import { useTranslation } from 'react-i18next';
+import { StringBank } from '../strings';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { Button, Stack, Typography } from '@mui/material';
+import { AgreementCarousel } from 'components';
+import { GroupContext } from 'contexts/group';
+import EmptyArchivePage from './EmptyArchivePage';
 
 const AllArchievedAgreements = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = "") => {
+  const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
     navigate(`/${slug}/new-agreement`);
   };
   const { archivedAgreements, name, slug } = useContext(GroupContext);
   if (archivedAgreements?.length > 0) {
     return (
       <Stack
-        justifyContent={archivedAgreements?.length ? "start" : "space-between"}
+        justifyContent={archivedAgreements?.length ? 'start' : 'space-between'}
         height="100%"
         padding={{ sm: 2 }}
         spacing={2}
       >
         <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
-          <Typography variant="h2">
-            {t(StringBank.GROUP_AGREEMENTS, { group: name })}
-          </Typography>
+          <Typography variant="h2">{t(StringBank.GROUP_AGREEMENTS, { group: name })}</Typography>
           <Button
             variant="contained"
             startIcon={<AddIcon />}
@@ -38,8 +36,8 @@ const AllArchievedAgreements = () => {
         </Stack>
         {archivedAgreements.length ? (
           <Stack
-            flexDirection={{ xs: "column", sm: "row" }}
-            flexWrap={{ sx: "nowrap", sm: "wrap" }}
+            flexDirection={{ xs: 'column', sm: 'row' }}
+            flexWrap={{ sx: 'nowrap', sm: 'wrap' }}
           >
             {archivedAgreements.map((archivedAgreement, i) => (
               <AgreementCarousel {...archivedAgreement} key={i} />

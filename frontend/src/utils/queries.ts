@@ -1,11 +1,11 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export function agreementsQuery(categoryId?: string) {
-  let categoryExpression = "";
+  let categoryExpression = '';
   if (categoryId) {
     categoryExpression = Number(categoryId)
-      ? "category_id: { _eq: $categoryId }"
-      : "category_id: { _is_null: true }";
+      ? 'category_id: { _eq: $categoryId }'
+      : 'category_id: { _is_null: true }';
   }
 
   return gql`

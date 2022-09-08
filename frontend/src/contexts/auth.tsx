@@ -1,12 +1,12 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { createContext, useEffect, useState } from "react";
-import { IAuthContext, IFCProps } from "types";
+import { useAuth0 } from '@auth0/auth0-react';
+import { createContext, useEffect, useState } from 'react';
+import { IAuthContext, IFCProps } from 'types';
 
 const AuthContext = createContext<IAuthContext>({ logout: () => ({}) });
 
 const AuthProvider = ({ children }: IFCProps) => {
   const [jwt, setJwt] = useState<string>();
-  const [userRole, setUserRole] = useState<string>("");
+  const [userRole, setUserRole] = useState<string>('');
   const {
     getAccessTokenSilently,
     logout: logoutAuth0,
@@ -22,7 +22,7 @@ const AuthProvider = ({ children }: IFCProps) => {
       .catch(() => loginWithRedirect());
     getIdTokenClaims().then((idClaims) => {
       if (idClaims) {
-        setUserRole(idClaims.role || userRole || "");
+        setUserRole(idClaims.role || userRole || '');
       }
     });
   }, [getAccessTokenSilently, loginWithRedirect, getIdTokenClaims, userRole]);
@@ -37,11 +37,7 @@ const AuthProvider = ({ children }: IFCProps) => {
     logout,
     role: userRole,
   };
-  return (
-    <AuthContext.Provider value={authContextState}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={authContextState}>{children}</AuthContext.Provider>;
 };
 
 export { AuthProvider, AuthContext };
