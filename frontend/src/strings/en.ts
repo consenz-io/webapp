@@ -31,10 +31,13 @@ export const en: Record<StringBank, string> = {
   NEW_AGREEMENT: "New Agreement",
   NEW_CHAPTER: "New Chapter",
   PUBLISH_AGREEMENT: "Publish Agreement",
+  RATIONALE: "Rationale",
   REQUIRE_ADMIN_APPROVAL: "Require Admin Approval",
   REQUIRE_ADMIN_APPROVAL_DESCRIPTION:
     "An admin must approve any changes to the draft",
   RETURN_TO_ALL_AGREEMENTS: "Return to all agreements",
+  RULES: "Rules",
+  SECTIONS: "Sections",
   SHARE_AGREEMENT: "Share This Agreement",
   TIME_LIMITED_DESCRIPTION:
     "For how long the aggremment suggestion will stand for a vote?",

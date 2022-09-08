@@ -40,7 +40,6 @@ const AllCategories = () => {
   const agreements = categoryAgreements;
   const categoryName =
     agreements?.core_agreements[0]?.category?.name || "category";
-  console.log("agreements", agreements);
   if (agreements && agreements?.core_agreements.length > 0) {
     return (
       <Stack

@@ -76,13 +76,7 @@ const EmptyCategoryPage = () => {
           </Typography>
         </Stack>
         <Stack direction="row" padding="1rem 0">
-          <NewAgreementButton
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={() => {
-              console.log("click");
-            }}
-          >
+          <NewAgreementButton variant="contained" startIcon={<AddIcon />}>
             {t(StringBank.NEW_AGREEMENT)}
           </NewAgreementButton>
         </Stack>
