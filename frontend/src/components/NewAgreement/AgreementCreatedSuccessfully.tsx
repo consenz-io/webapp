@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  IconButton,
-  Stack,
-  SvgIcon,
-  Typography,
-} from '@mui/material';
+import { Button, Container, Divider, IconButton, Stack, SvgIcon, Typography } from '@mui/material';
 import { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
@@ -38,39 +29,6 @@ const CopyEL: FC<{ text: string }> = ({ text }) => {
   );
 };
 
-const CopyAgreementContainer = styled(Stack)`
-  && {
-    width: 298px;
-    height: 42px;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 16px;
-    border-radius: 4px;
-    border: solid 1px #565d68;
-    background-color: rgba(0, 0, 0, 0.08);
-  }
-`;
-
-// const AgreementTextSpan = styled.span`
-//   && {
-//     width: 209px;
-//     white-space: nowrap;
-//     text-overflow: ellipsis;
-//     overflow: hidden;
-//     font-size: 14px;
-//     font-weight: normal;
-//     font-stretch: normal;
-//     font-style: normal;
-//     line-height: 1.71;
-//     letter-spacing: normal;
-//     text-align: left;
-//     color: #adb2b8;
-//   }
-// `;
-
 const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId }) => {
   const { t } = useTranslation();
   const { slug: groupSlug } = useContext(GroupContext);
@@ -83,7 +41,6 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
         <Typography variant="h2" textAlign="center">
           {t(StringBank.AGREEMENT_PUBLISHED_SUCCESSFULLY)}
         </Typography>
-        <Box />
         <Button variant="contained" size="large" sx={{ backgroundColor: '#8d54ea' }} fullWidth>
           {t(StringBank.VIEW_AGREEMENT)}
         </Button>
@@ -91,19 +48,27 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
           variant="contained"
           size="large"
           fullWidth
+          sx={{
+            marginBottom: '0.5rem !important',
+          }}
           onClick={() => navigate(`/${groupSlug}/active-agreements`)}
         >
           {t(StringBank.RETURN_TO_ALL_AGREEMENTS)}
         </Button>
-        <Divider flexItem sx={{ paddingY: '0 2rem', margin: '0' }} />
+        <Divider flexItem sx={{ marginTop: '2rem' }} />
         <Typography>{t(StringBank.SHARE_AGREEMENT)}</Typography>
-        <CopyAgreementContainer
+        <Stack
           direction="row"
           spacing={2}
           alignItems="center"
           justifyContent="center"
+          bgcolor="rgba(0,0,0,0.08)"
+          borderRadius="4px"
+          border="solid 1px #565d68"
+          padding="0 1rem"
         >
           <Typography
+            whiteSpace="nowrap"
             textOverflow="ellipsis"
             overflow="hidden"
             fontSize="0.87rem"
@@ -114,7 +79,7 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
             {AgreementText}
           </Typography>
           <CopyEL text={AgreementText} />
-        </CopyAgreementContainer>
+        </Stack>
       </Stack>
     </Container>
   );
