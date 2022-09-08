@@ -7,6 +7,7 @@ import AgreementCard from "./AgreementCard";
 import Dialog from "./Dialog";
 import ContentEditor from "./ContentEditor";
 import AgreementCarousel from "./AgreementCarousel";
+import Appbar from "./Appbar";
 
 export {
   Sidebar,
@@ -18,4 +19,5 @@ export {
   ContentEditor,
   Dialog,
   AgreementCarousel,
+  Appbar,
 };

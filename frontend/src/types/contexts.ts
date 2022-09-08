@@ -3,6 +3,7 @@ import { IAgreement, ICategory, IUser, LocalChapter } from "./entities";
 export interface IAuthContext {
   jwt?: string;
   logout: () => void;
+  role?: string;
 }
 
 export interface IDataContext {

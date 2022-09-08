@@ -17,11 +17,12 @@ import DropDownMenu from "./DropDownMenu";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import { GroupContext } from "contexts/group";
 import { ColorModeAndDirectionContext } from "theme";
-import { ThemeModeType, VariantType } from "types";
+import { MenuItem, ThemeModeType, VariantType } from "types";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import DialogEl from "../components/Dialog";
 import { ReactComponent as TrashIcon } from "assets/icons/trash-2.svg";
+import { AuthContext } from "contexts";
 
 interface IAgreementCardProps {
   id: number;
@@ -66,6 +67,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const { mode } = useContext(ColorModeAndDirectionContext);
+  const { role } = useContext(AuthContext);
   const { archiveAgreement, slug, deleteAgreement } = useContext(GroupContext);
   const navigate = useNavigate();
   const cardBackgroundColor =
@@ -84,7 +86,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   const onDeleteAgreement = (name: string) => {
     if (name !== title) {
       setDelPopContent(
-        `${currentContent}\nThe inputed name: ${name} does not match the agreement name: ${title}`
+        `${currentContent}\nThe inputed name: ${name}does not match the agreement name: ${title}`
       );
       setTimeout(() => {
         setDelPopContent(baseDelDialogContent);
@@ -94,6 +96,28 @@ const AgreementCard: FC<IAgreementCardProps> = ({
       setOpenDialogState(false);
     }
   };
+
+  function getMenuItems() {
+    const menuItems: MenuItem[] = [
+      {
+        text: t(is_archived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
+        icon: <Inventory2OutlinedIcon />,
+        action: () => archiveAgreement(id, !is_archived),
+      },
+    ];
+    if (role && role === "moderator") {
+      menuItems.push({
+        text: "Delete",
+        icon: <TrashEL />,
+        action: () => {
+          handleClickOpenDialog();
+        },
+        textColor: "#FC6D8F",
+      });
+    }
+    return menuItems;
+  }
+
   return (
     <>
       <MainCard onClick={() => navigate(`/${slug}/agreement/${id}`)}>
@@ -128,23 +152,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                   mainIcon={<MoreHorizIcon />}
                   name="agreement-menu"
                   styleVariant={VariantType.PRIMARY}
-                  menuItems={[
-                    {
-                      text: t(
-                        is_archived ? StringBank.UNARCHIVE : StringBank.ARCHIVE
-                      ),
-                      icon: <Inventory2OutlinedIcon />,
-                      action: () => archiveAgreement(id, !is_archived),
-                    },
-                    {
-                      text: "Delete",
-                      icon: <TrashEL />,
-                      action: () => {
-                        handleClickOpenDialog();
-                      },
-                      textColor: "#FC6D8F",
-                    },
-                  ]}
+                  menuItems={getMenuItems()}
                 />
                 <Typography
                   fontWeight="bold"

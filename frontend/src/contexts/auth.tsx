@@ -6,10 +6,12 @@ const AuthContext = createContext<IAuthContext>({ logout: () => ({}) });
 
 const AuthProvider = ({ children }: IFCProps) => {
   const [jwt, setJwt] = useState<string>();
+  const [userRole, setUserRole] = useState<string>("");
   const {
     getAccessTokenSilently,
     logout: logoutAuth0,
     loginWithRedirect,
+    getIdTokenClaims,
   } = useAuth0();
 
   useEffect(() => {
@@ -18,7 +20,12 @@ const AuthProvider = ({ children }: IFCProps) => {
         setJwt(token);
       })
       .catch(() => loginWithRedirect());
-  }, [getAccessTokenSilently, loginWithRedirect]);
+    getIdTokenClaims().then((idClaims) => {
+      if (idClaims) {
+        setUserRole(idClaims.role || userRole || "");
+      }
+    });
+  }, [getAccessTokenSilently, loginWithRedirect, getIdTokenClaims, userRole]);
 
   function logout(): void {
     setJwt(undefined);
@@ -28,6 +35,7 @@ const AuthProvider = ({ children }: IFCProps) => {
   const authContextState: IAuthContext = {
     jwt,
     logout,
+    role: userRole,
   };
   return (
     <AuthContext.Provider value={authContextState}>
