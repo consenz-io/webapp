@@ -51,6 +51,9 @@ select_permissions:
         - content
         - created_at
         - updated_at
+      computed_fields:
+        - downvotes
+        - upvotes
       filter:
         section:
           chapter:
