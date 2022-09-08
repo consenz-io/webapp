@@ -62,18 +62,13 @@ const NewAgreement: FC = () => {
     localStorage.setItem('step', String(step));
   }
 
-  function setNewAgreementId(data: any) {
-    const agreementId = data.data.insert_core_agreements_one.id.toString();
-    setAgreementId(agreementId);
-  }
-
   const isContinueEnabled =
     agreementName && rationale && !addAgreementLoading && !addAgreementError;
 
   async function handleContinueClick() {
     if (step === 3) {
       const agreementData = await addAgreement(categoryId, agreementName, rationale, chapters);
-      setNewAgreementId(agreementData);
+      setAgreementId(agreementData.data.insert_core_agreements_one.name);
       clearAgreementLocally();
     }
     setStep(step + 1);

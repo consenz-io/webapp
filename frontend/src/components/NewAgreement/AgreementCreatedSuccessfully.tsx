@@ -54,22 +54,22 @@ const CopyAgreementContainer = styled(Stack)`
   }
 `;
 
-const AgreementTextSpan = styled.span`
-  && {
-    width: 209px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.71;
-    letter-spacing: normal;
-    text-align: left;
-    color: #adb2b8;
-  }
-`;
+// const AgreementTextSpan = styled.span`
+//   && {
+//     width: 209px;
+//     white-space: nowrap;
+//     text-overflow: ellipsis;
+//     overflow: hidden;
+//     font-size: 14px;
+//     font-weight: normal;
+//     font-stretch: normal;
+//     font-style: normal;
+//     line-height: 1.71;
+//     letter-spacing: normal;
+//     text-align: left;
+//     color: #adb2b8;
+//   }
+// `;
 
 const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId }) => {
   const { t } = useTranslation();
@@ -103,7 +103,16 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
           alignItems="center"
           justifyContent="center"
         >
-          <AgreementTextSpan>{AgreementText}</AgreementTextSpan>
+          <Typography
+            textOverflow="ellipsis"
+            overflow="hidden"
+            fontSize="0.87rem"
+            fontWeight="normal"
+            color="#adb2b8"
+            width="13rem"
+          >
+            {AgreementText}
+          </Typography>
           <CopyEL text={AgreementText} />
         </CopyAgreementContainer>
       </Stack>
