@@ -1,4 +1,4 @@
-import { IconButton, Typography } from '@mui/material';
+import { Card, IconButton, Stack, Typography } from '@mui/material';
 import { SectionProps } from './types';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -44,86 +44,88 @@ const SectionCard = (props: SectionProps) => {
   };
 
   return (
-    <SC.Card>
-      <SC.ButtonColumn direction="column" order="1" width="64px">
-        <SC.SectionButton onClick={backwardsSuggestion} disabled={suggestionIndex === 0}>
-          <ArrowBackIosNewIcon />
-        </SC.SectionButton>
-      </SC.ButtonColumn>
-      <SC.SectionDataColumn direction="column" order="2">
-        <SC.SectionTitleRow direction="row">
-          <Typography
+    <Card variant="elevation" elevation={0}>
+      <Stack direction="row" justifyContent="space-around" alignItems="center">
+        <SC.ButtonColumn direction="column" order="1" width="64px">
+          <SC.SectionButton onClick={backwardsSuggestion} disabled={suggestionIndex === 0}>
+            <ArrowBackIosNewIcon />
+          </SC.SectionButton>
+        </SC.ButtonColumn>
+        <SC.SectionDataColumn direction="column" order="2">
+          <SC.SectionTitleRow direction="row">
+            <Typography
+              sx={{
+                fontWeight: '700',
+                fontSize: '14px',
+                color: '#E0E0E0',
+              }}
+            >
+              Section {props.sectionIndex + 1}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: '14px',
+                color: '#adb2b8',
+              }}
+            >
+              Version {suggestionIndex + 1} of {props.suggestions.length}
+            </Typography>
+            <CheckedIconRender isSelected={true} />
+          </SC.SectionTitleRow>
+          <SC.SectionContentRow
+            direction="row"
             sx={{
-              fontWeight: '700',
-              fontSize: '14px',
-              color: '#E0E0E0',
+              padding: 0,
             }}
           >
-            Section {props.sectionIndex + 1}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: '14px',
-              color: '#adb2b8',
-            }}
+            <Typography
+              sx={{
+                fontWeight: '400',
+                color: 'white',
+                paddingTop: '1rem',
+                paddingButtom: '1rem',
+              }}
+            >
+              {content}
+            </Typography>
+          </SC.SectionContentRow>
+          <SC.SectionButtonsRow direction="row">
+            <SC.iconNumberContainter>
+              <IconButton>
+                <LikeIcon />
+              </IconButton>
+              <Typography paddingLeft="4px" paddingRight="4px" color="#24ebd3">
+                {12}
+              </Typography>
+            </SC.iconNumberContainter>
+            <SC.iconNumberContainter>
+              <IconButton>
+                <DislikeIcon />
+              </IconButton>
+              <Typography paddingLeft="4px" paddingRight="4px">
+                {13}
+              </Typography>
+            </SC.iconNumberContainter>
+            <SC.iconNumberContainter>
+              <IconButton>
+                <CommentIcon />
+              </IconButton>
+              <Typography paddingLeft="4px" paddingRight="4px">
+                {5}
+              </Typography>
+            </SC.iconNumberContainter>
+          </SC.SectionButtonsRow>
+        </SC.SectionDataColumn>
+        <SC.ButtonColumn direction="column" order="3">
+          <SC.SectionButton
+            disabled={suggestionIndex === props.suggestions.length - 1}
+            onClick={forwardSuggestion}
           >
-            Version {suggestionIndex + 1} of {props.suggestions.length}
-          </Typography>
-          <CheckedIconRender isSelected={true} />
-        </SC.SectionTitleRow>
-        <SC.SectionContentRow
-          direction="row"
-          sx={{
-            padding: 0,
-          }}
-        >
-          <Typography
-            sx={{
-              fontWeight: '400',
-              color: 'white',
-              paddingTop: '1rem',
-              paddingButtom: '1rem',
-            }}
-          >
-            {content}
-          </Typography>
-        </SC.SectionContentRow>
-        <SC.SectionButtonsRow direction="row">
-          <SC.iconNumberContainter>
-            <IconButton>
-              <LikeIcon />
-            </IconButton>
-            <Typography paddingLeft="4px" paddingRight="4px" color="#24ebd3">
-              {12}
-            </Typography>
-          </SC.iconNumberContainter>
-          <SC.iconNumberContainter>
-            <IconButton>
-              <DislikeIcon />
-            </IconButton>
-            <Typography paddingLeft="4px" paddingRight="4px">
-              {13}
-            </Typography>
-          </SC.iconNumberContainter>
-          <SC.iconNumberContainter>
-            <IconButton>
-              <CommentIcon />
-            </IconButton>
-            <Typography paddingLeft="4px" paddingRight="4px">
-              {5}
-            </Typography>
-          </SC.iconNumberContainter>
-        </SC.SectionButtonsRow>
-      </SC.SectionDataColumn>
-      <SC.ButtonColumn direction="column" order="3">
-        <SC.SectionButton
-          disabled={suggestionIndex === props.suggestions.length - 1}
-          onClick={forwardSuggestion}
-        >
-          <ArrowForwardIosIcon />
-        </SC.SectionButton>
-      </SC.ButtonColumn>
-    </SC.Card>
+            <ArrowForwardIosIcon />
+          </SC.SectionButton>
+        </SC.ButtonColumn>
+      </Stack>
+    </Card>
   );
 };
 

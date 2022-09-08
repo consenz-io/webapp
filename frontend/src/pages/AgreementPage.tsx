@@ -143,7 +143,7 @@ const AgreementPage: FC = () => {
                   {calcChapterSuggestions(chapter)} suggestions
                 </Typography>
               </Stack>
-              <Stack direction="column">
+              <Stack direction="column" rowGap="2rem">
                 {Object.keys(chapter).map((sectionName: string, j: number) => {
                   const section = chapter[sectionName];
                   return <SectionCard suggestions={section} key={j} sectionIndex={j}></SectionCard>;
