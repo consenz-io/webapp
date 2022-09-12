@@ -17,7 +17,7 @@ const CopyIconWrapper = styled(SvgIcon)`
 const CopyEL: FC<{ text: string }> = ({ text }) => {
   return (
     <IconButton
-      sx={{ marginLeft: '2rem', marginRight: '1rem' }}
+      sx={{ marginStart: '2rem', marginEnd: '1rem' }}
       onClick={() => {
         navigator.clipboard.writeText(text);
       }}
@@ -36,26 +36,29 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
   const AgreementText = `${window.location.origin}/${groupSlug}/agreement/${agreementId}`;
   return (
     <Container maxWidth="xs" sx={{ height: '100%' }}>
-      <Stack alignItems="center" justifyContent="center" paddingX={6} spacing={2} height="100%">
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        paddingX={6}
+        spacing="1.5rem"
+        height="100%"
+      >
         <img width="165px" height="180px" src={handLogo}></img>
         <Typography variant="h2" textAlign="center">
           {t(StringBank.AGREEMENT_PUBLISHED_SUCCESSFULLY)}
         </Typography>
-        <Button variant="contained" size="large" sx={{ backgroundColor: '#8d54ea' }} fullWidth>
+        <Button variant="contained" size="large" color="primary" fullWidth>
           {t(StringBank.VIEW_AGREEMENT)}
         </Button>
         <Button
           variant="contained"
           size="large"
           fullWidth
-          sx={{
-            marginBottom: '0.5rem !important',
-          }}
           onClick={() => navigate(`/${groupSlug}/active-agreements`)}
         >
           {t(StringBank.RETURN_TO_ALL_AGREEMENTS)}
         </Button>
-        <Divider flexItem sx={{ marginTop: '2rem' }} />
+        <Divider flexItem />
         <Typography>{t(StringBank.SHARE_AGREEMENT)}</Typography>
         <Stack
           direction="row"
@@ -68,13 +71,12 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
           padding="0 1rem"
         >
           <Typography
+            variant="body2"
             whiteSpace="nowrap"
             textOverflow="ellipsis"
             overflow="hidden"
-            fontSize="0.87rem"
-            fontWeight="normal"
-            color="#adb2b8"
             width="13rem"
+            color="text.secondary"
           >
             {AgreementText}
           </Typography>
