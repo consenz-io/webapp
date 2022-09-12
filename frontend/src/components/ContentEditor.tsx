@@ -1,9 +1,10 @@
 import { useEditor, EditorContent, BubbleMenu, JSONContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
-import ListItem from '@tiptap/extension-list-item';
-import BulletList from '@tiptap/extension-bullet-list';
-import OrderedList from '@tiptap/extension-ordered-list';
+import Table from '@tiptap/extension-table';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TableRow from '@tiptap/extension-table-row';
 import { Divider, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import {
   FormatAlignCenter,
@@ -14,6 +15,8 @@ import {
   FormatUnderlined,
   FormatListBulleted,
   FormatListNumbered,
+  TableChart,
+  InsertLink,
 } from '@mui/icons-material';
 import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
@@ -42,9 +45,10 @@ function ContentEditor({
       Placeholder.configure({ placeholder }),
       Underline,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      ListItem,
-      BulletList,
-      OrderedList,
+      Table.configure({ resizable: true }),
+      TableRow,
+      TableHeader,
+      TableCell,
     ],
     content: initialContent,
     editable: !readonly,
@@ -131,6 +135,35 @@ function ContentEditor({
               selected={editor.isActive('orderedList')}
             >
               <FormatListNumbered color="secondary" />
+            </ToggleButton>
+            <Divider orientation="vertical" flexItem />
+            <ToggleButton
+              value="hyperlink"
+              onClick={() =>
+                editor
+                  .chain()
+                  .focus()
+                  .toggleLink({
+                    href: editor.state.doc.cut(
+                      editor.view.state.selection.from,
+                      editor.view.state.selection.to
+                    ).textContent,
+                  })
+                  .run()
+              }
+              color="secondary"
+              sx={{ borderRadius: 1 }}
+              selected={editor.isActive('link')}
+            >
+              <InsertLink color="secondary" />
+            </ToggleButton>
+            <ToggleButton
+              value="table"
+              onClick={() => editor.chain().focus().insertTable({ rows: 1, cols: 2 }).run()}
+              color="secondary"
+              sx={{ borderRadius: 1 }}
+            >
+              <TableChart color="secondary" />
             </ToggleButton>
           </ToggleButtonGroup>
         </BubbleMenu>
