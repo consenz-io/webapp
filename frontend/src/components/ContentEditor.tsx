@@ -1,6 +1,9 @@
 import { useEditor, EditorContent, BubbleMenu, JSONContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
+import ListItem from '@tiptap/extension-list-item';
+import BulletList from '@tiptap/extension-bullet-list';
+import OrderedList from '@tiptap/extension-ordered-list';
 import { Divider, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import {
   FormatAlignCenter,
@@ -9,6 +12,8 @@ import {
   FormatBold,
   FormatItalic,
   FormatUnderlined,
+  FormatListBulleted,
+  FormatListNumbered,
 } from '@mui/icons-material';
 import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
@@ -37,6 +42,9 @@ function ContentEditor({
       Placeholder.configure({ placeholder }),
       Underline,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
+      ListItem,
+      BulletList,
+      OrderedList,
     ],
     content: initialContent,
     editable: !readonly,
@@ -104,6 +112,25 @@ function ContentEditor({
               selected={editor.isActive({ textAlign: 'right' })}
             >
               <FormatAlignRight color="secondary" />
+            </ToggleButton>
+            <Divider orientation="vertical" flexItem />
+            <ToggleButton
+              value="bulleted"
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+              color="secondary"
+              sx={{ borderRadius: 1 }}
+              selected={editor.isActive('bulletList')}
+            >
+              <FormatListBulleted color="secondary" />
+            </ToggleButton>
+            <ToggleButton
+              value="numbered"
+              onClick={() => editor.chain().focus().toggleOrderedList().run()}
+              color="secondary"
+              sx={{ borderRadius: 1 }}
+              selected={editor.isActive('orderedList')}
+            >
+              <FormatListNumbered color="secondary" />
             </ToggleButton>
           </ToggleButtonGroup>
         </BubbleMenu>
