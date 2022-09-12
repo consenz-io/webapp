@@ -11,6 +11,7 @@ import {
   AgreementRules,
   NameAndRationale,
 } from 'components/NewAgreement';
+import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { Appbar } from 'components';
 import { useNavigate } from 'react-router-dom';
 
@@ -76,13 +77,22 @@ const NewAgreement: FC = () => {
     return <AgreementCreatedSuccessfully />;
   }
 
+  const steps = [t(StringBank.RATIONALE), t(StringBank.SECTIONS), t(StringBank.RULES)];
+  const stepsProps = { steps, activeStep: step };
+
+  const breadcrumsProps = [
+    {
+      name: agreementName || 'My New Agreement',
+      icon: DocLogo,
+    },
+  ];
+
   return (
     <>
       <Appbar
-        agreementName={agreementName || 'My New Agreement'}
-        steps={[t(StringBank.RATIONALE), t(StringBank.SECTIONS), t(StringBank.RULES)]}
-        activeStep={step}
+        stepsSection={stepsProps}
         closeFn={() => navigate(-1)}
+        breadcrumsSection={breadcrumsProps}
       />
       <Container maxWidth="md">
         <Stack justifyContent="center" spacing={5} marginY={4}>

@@ -1,17 +1,42 @@
 import { FC } from 'react';
-import { IconButton, Stack, StepLabel, SvgIcon, Typography } from '@mui/material';
+import { IconButton, Link, Stack, StepLabel, SvgIcon, Typography } from '@mui/material';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
-import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
 import styled from 'styled-components';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-export interface AppbarProps {
+interface ActionProps {
+  icon: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & {
+      title?: string | undefined;
+    }
+  >;
+  onClickFn: () => void;
+}
+
+interface BreadcrumsProps {
+  name: string;
+  icon?: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & {
+      title?: string | undefined;
+    }
+  >;
+  link?: string;
+}
+
+interface StepsProps {
   steps: string[];
   activeStep: number;
-  agreementName: string;
+  onStepChange?: () => void;
+}
+
+interface AppbarProps {
+  stepsSection: StepsProps;
   closeFn: () => void;
+  actionsSection?: ActionProps[];
+  breadcrumsSection?: BreadcrumsProps[];
 }
 
 const AppbarContainer = styled(Stack)`
@@ -32,33 +57,49 @@ const XIconWrapper = styled(SvgIcon)`
   }
 `;
 
+function renderBreadcrums(breadcrumsProps: BreadcrumsProps, index: number) {
+  const Icon = breadcrumsProps.icon;
+  return (
+    <Stack direction="row" gap="0.5rem" justifyContent="center" alignItems="center" key={index}>
+      {index > 0 && <KeyboardArrowRightIcon />}
+      {Icon && <Icon />}
+      <Typography fontSize="0.875rem" lineHeight="1.57" paddingTop="2px">
+        {breadcrumsProps.link ? (
+          <Link href={breadcrumsProps.link}>{breadcrumsProps.name}</Link>
+        ) : (
+          breadcrumsProps.name
+        )}
+      </Typography>
+    </Stack>
+  );
+}
+
 const Appbar: FC<AppbarProps> = (props) => {
   return (
     <AppbarContainer direction="row" alignItems="center" justifyContent="space-between">
-      <Stack direction="row" gap="0.5rem">
-        <DocLogo />
-        <Typography fontSize="0.875rem" lineHeight="1.57" paddingTop="2px">
-          {props.agreementName}
-        </Typography>
+      <Stack direction="row" gap="0.5rem" justifyContent="center" alignItems="center">
+        {props.breadcrumsSection &&
+          props.breadcrumsSection.length > 0 &&
+          props.breadcrumsSection.map((breadcrumsObj, i) => renderBreadcrums(breadcrumsObj, i))}
       </Stack>
       <Stack direction="row">
-        <Stepper nonLinear activeStep={props.activeStep - 1}>
-          {props.steps.map((step, i) => (
+        <Stepper nonLinear activeStep={props.stepsSection.activeStep - 1}>
+          {props.stepsSection.steps.map((step, i) => (
             <Step
               disabled
               key={i}
               color="inherit"
-              completed={props.activeStep > i + 1}
+              completed={props.stepsSection.activeStep > i + 1}
               sx={{ padding: '0 1rem' }}
             >
               <StepButton sx={{ padding: '0', margin: '0' }} disableRipple>
                 <StepLabel
                   sx={{
                     '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root': {
-                      color: '#595f68',
+                      color: 'background.border',
                     },
                     '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root.Mui-active': {
-                      color: '#8d54ea',
+                      color: 'primary.main',
                     },
                   }}
                 >
