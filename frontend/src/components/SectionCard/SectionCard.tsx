@@ -73,17 +73,17 @@ const SectionCard = (props: ISection) => {
         >
           <Stack direction="row" gap="0.6rem">
             <Typography
+              variant="body2"
               sx={{
                 fontWeight: '700',
-                fontSize: '0.875rem',
                 color: '#E0E0E0',
               }}
             >
               Section {props.id + 1}
             </Typography>
             <Typography
+              variant="body2"
               sx={{
-                fontSize: '0.875rem',
                 color: 'text.secondary',
               }}
             >
