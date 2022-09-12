@@ -6,11 +6,12 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { generateColorFromString } from 'utils/functions';
 import { SectionCard } from 'components/SectionCard';
 import { IAgreement, IChapter, ISection } from 'types';
+import { JSONContent } from '@tiptap/react';
+import { ISuggestion } from 'types/entities';
 
 const AgreementPage: FC = () => {
   const agreementContext = useContext(AgreementContext);
   const currentCategory = agreementContext.categoryName;
-  console.log('agreementContext.agreement', agreementContext.agreement);
   const agreement: IAgreement | undefined = agreementContext.agreement;
   const agreemetChaptersData = generateChaptersData();
   const categoryColor = currentCategory
@@ -23,8 +24,9 @@ const AgreementPage: FC = () => {
 
   // orgenzie real data to: chapter -> sections: suggestions
   function generateChaptersData() {
-    const chaptersData: { [key: string]: { [key: string]: { content: string; index: number }[] } } =
-      {};
+    const chaptersData: {
+      [key: string]: { [key: string]: ISuggestion[] };
+    } = {};
     if (agreement && agreement.chapters && agreement.chapters.length > 0) {
       agreement.chapters.forEach((chapter: IChapter) => {
         chaptersData[chapter.name] = {};
@@ -34,9 +36,11 @@ const AgreementPage: FC = () => {
             chaptersData[chapter.name][sectionName] = [];
             if (section.suggestions && section.suggestions.length > 0) {
               section.suggestions.forEach((suggestionObj: any, k: number) => {
-                const content: any = suggestionObj.content.content[0].content[0].text;
-                const suggestion: any = { content };
-                suggestion.index = k + 1;
+                const content: JSONContent = suggestionObj.content;
+                const suggestion: ISuggestion = {
+                  content,
+                  id: k + 1,
+                };
                 chaptersData[chapter.name][sectionName].push(suggestion);
               });
             }
@@ -146,7 +150,7 @@ const AgreementPage: FC = () => {
               <Stack direction="column" rowGap="2rem">
                 {Object.keys(chapter).map((sectionName: string, j: number) => {
                   const section = chapter[sectionName];
-                  return <SectionCard suggestions={section} key={j} sectionIndex={j}></SectionCard>;
+                  return <SectionCard suggestions={section} key={j} id={j}></SectionCard>;
                 })}
               </Stack>
             </Stack>

@@ -1,5 +1,4 @@
 import { Card, IconButton, Stack, Typography } from '@mui/material';
-import { SectionProps } from './types';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useState } from 'react';
@@ -8,14 +7,14 @@ import { ReactComponent as LikeIcon } from 'assets/icons/like-outlined.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ContentEditor from 'components/ContentEditor';
+import { ISection, ISuggestion } from 'types/entities';
 
-const SectionCard = (props: SectionProps) => {
-  const [content, setContent] = useState<string>(props.suggestions[0].content);
+const SectionCard = (props: ISection) => {
   const [suggestionIndex, setSuggestionIndex] = useState<number>(0);
 
   const updateContent = (newSuggestionIndex: number) => {
     setSuggestionIndex(newSuggestionIndex);
-    setContent(props.suggestions[newSuggestionIndex].content);
   };
 
   const forwardSuggestion = () => {
@@ -60,7 +59,7 @@ const SectionCard = (props: SectionProps) => {
                 color: '#E0E0E0',
               }}
             >
-              Section {props.sectionIndex + 1}
+              Section {props.id + 1}
             </Typography>
             <Typography
               sx={{
@@ -86,7 +85,11 @@ const SectionCard = (props: SectionProps) => {
                 paddingButtom: '1rem',
               }}
             >
-              {content}
+              {props.suggestions.map((suggestion: ISuggestion) => {
+                if (suggestion.content) {
+                  return <ContentEditor initialContent={suggestion.content} readonly={true} />;
+                }
+              })}
             </Typography>
           </SC.SectionContentRow>
           <SC.SectionButtonsRow direction="row">
