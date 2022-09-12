@@ -2,7 +2,6 @@ import { Card, IconButton, Stack, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useState } from 'react';
-import * as SC from './styles';
 import { ReactComponent as LikeIcon } from 'assets/icons/like-outlined.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
@@ -45,17 +44,38 @@ const SectionCard = (props: ISection) => {
   return (
     <Card variant="elevation" elevation={0}>
       <Stack direction="row" justifyContent="space-around" alignItems="center">
-        <SC.ButtonColumn direction="column" order="1" width="64px">
-          <SC.SectionButton onClick={backwardsSuggestion} disabled={suggestionIndex === 0}>
+        <Stack
+          flexGrow="1"
+          id="rightArrowCol"
+          justifyContent="center"
+          alignItems="center"
+          padding="0 1.5rem"
+          direction="column"
+          order="1"
+        >
+          <IconButton
+            sx={{
+              width: 'min-contnet',
+            }}
+            onClick={backwardsSuggestion}
+            disabled={suggestionIndex === 0}
+          >
             <ArrowBackIosNewIcon />
-          </SC.SectionButton>
-        </SC.ButtonColumn>
-        <SC.SectionDataColumn direction="column" order="2">
-          <SC.SectionTitleRow direction="row">
+          </IconButton>
+        </Stack>
+        <Stack
+          flexGrow="10"
+          id="contentCol"
+          justifyContent="center"
+          direction="column"
+          order="2"
+          paddingTop="2rem"
+        >
+          <Stack direction="row" gap="0.6rem">
             <Typography
               sx={{
                 fontWeight: '700',
-                fontSize: '14px',
+                fontSize: '0.875rem',
                 color: '#E0E0E0',
               }}
             >
@@ -63,15 +83,15 @@ const SectionCard = (props: ISection) => {
             </Typography>
             <Typography
               sx={{
-                fontSize: '14px',
-                color: '#adb2b8',
+                fontSize: '0.875rem',
+                color: 'text.secondary',
               }}
             >
               Version {suggestionIndex + 1} of {props.suggestions.length}
             </Typography>
             <CheckedIconRender isSelected={true} />
-          </SC.SectionTitleRow>
-          <SC.SectionContentRow
+          </Stack>
+          <Stack
             direction="row"
             sx={{
               padding: 0,
@@ -80,9 +100,6 @@ const SectionCard = (props: ISection) => {
             <Typography
               sx={{
                 fontWeight: '400',
-                color: 'white',
-                paddingTop: '1rem',
-                paddingButtom: '1rem',
               }}
             >
               {props.suggestions.map((suggestion: ISuggestion) => {
@@ -91,42 +108,53 @@ const SectionCard = (props: ISection) => {
                 }
               })}
             </Typography>
-          </SC.SectionContentRow>
-          <SC.SectionButtonsRow direction="row">
-            <SC.iconNumberContainter>
+          </Stack>
+          <Stack height="3.5rem" gap="1.5rem" direction="row">
+            <Stack direction="row" justifyContent="center" alignItems="center">
               <IconButton>
                 <LikeIcon />
               </IconButton>
-              <Typography paddingLeft="4px" paddingRight="4px" color="#24ebd3">
+              <Typography paddingLeft="0.25rem" paddingRight="0.25rem" color="#24ebd3">
                 {12}
               </Typography>
-            </SC.iconNumberContainter>
-            <SC.iconNumberContainter>
+            </Stack>
+            <Stack direction="row" justifyContent="center" alignItems="center">
               <IconButton>
                 <DislikeIcon />
               </IconButton>
-              <Typography paddingLeft="4px" paddingRight="4px">
+              <Typography paddingLeft="0.25rem" paddingRight="0.25rem">
                 {13}
               </Typography>
-            </SC.iconNumberContainter>
-            <SC.iconNumberContainter>
+            </Stack>
+            <Stack direction="row" justifyContent="center" alignItems="center">
               <IconButton>
                 <CommentIcon />
               </IconButton>
-              <Typography paddingLeft="4px" paddingRight="4px">
+              <Typography paddingLeft="0.25rem" paddingRight="0.25rem">
                 {5}
               </Typography>
-            </SC.iconNumberContainter>
-          </SC.SectionButtonsRow>
-        </SC.SectionDataColumn>
-        <SC.ButtonColumn direction="column" order="3">
-          <SC.SectionButton
+            </Stack>
+          </Stack>
+        </Stack>
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          padding="0 1.5rem"
+          flexGrow="1"
+          id="leftArrowCol"
+          direction="column"
+          order="3"
+        >
+          <IconButton
+            sx={{
+              width: 'min-contnet',
+            }}
             disabled={suggestionIndex === props.suggestions.length - 1}
             onClick={forwardSuggestion}
           >
             <ArrowForwardIosIcon />
-          </SC.SectionButton>
-        </SC.ButtonColumn>
+          </IconButton>
+        </Stack>
       </Stack>
     </Card>
   );
