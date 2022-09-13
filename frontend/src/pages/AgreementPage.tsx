@@ -8,8 +8,11 @@ import { SectionCard } from 'components/SectionCard';
 import { IAgreement, IChapter, ISection } from 'types';
 import { JSONContent } from '@tiptap/react';
 import { ISuggestion } from 'types/entities';
+import { StringBank } from 'strings';
+import { useTranslation } from 'react-i18next';
 
 const AgreementPage: FC = () => {
+  const { t } = useTranslation();
   const agreementContext = useContext(AgreementContext);
   const currentCategory = agreementContext.categoryName;
   const agreement: IAgreement | undefined = agreementContext.agreement;
@@ -21,7 +24,6 @@ const AgreementPage: FC = () => {
     e.preventDefault();
     console.log('clicked breadcrumb');
   };
-
   // orgenzie real data to: chapter -> sections: suggestions
   function generateChaptersData() {
     const chaptersData: {
@@ -104,7 +106,7 @@ const AgreementPage: FC = () => {
           sx={{ margin: '2rem' }}
         >
           <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography sx={{ fontSize: '2.25rem' }} variant="h1">
+            <Typography variant="h1">
               {agreementContext.agreementTitle || 'Agreement Name'}
             </Typography>
             {currentCategory && (
@@ -114,7 +116,7 @@ const AgreementPage: FC = () => {
                 style={{
                   marginLeft: '1rem',
                   backgroundColor: categoryColor,
-                  fontSize: '0.8rem',
+                  fontSize: '1rem',
                 }}
               />
             )}
@@ -124,7 +126,7 @@ const AgreementPage: FC = () => {
             <Typography variant="body1"> View Agreement</Typography>
           </Button>
         </Stack>
-        <Typography sx={{ paddingLeft: '3rem', fontSize: '1rem' }} variant="body2">
+        <Typography sx={{ paddingLeft: '4rem' }} variant="body2">
           {agreementContext.rationale || 'rationale'}
         </Typography>
       </Stack>
@@ -133,18 +135,22 @@ const AgreementPage: FC = () => {
           const chapter = agreemetChaptersData[chapterName];
           return (
             <Stack direction="column" key={i}>
-              <Stack direction="row" alignItems="center" height="4.5rem" columnGap="1.5rem">
-                <Typography fontWeight="500" fontSize="1.1rem">
-                  # {chapterName}
+              <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
+                <Typography variant="h3">
+                  {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName })}
                 </Typography>
-                <Typography fontSize="0.87rem" fontWeight="noraml" color="text.secondary">
-                  {Object.keys(chapter).length} sections
+                <Typography variant="body2" color="text.secondary">
+                  {t(StringBank.SECTION_CARD_TITLE_SECTIONS, {
+                    sectionNum: Object.keys(chapter).length,
+                  })}
                 </Typography>
-                <Typography fontSize="0.87rem" fontWeight="noraml" color="text.secondary">
-                  {calcChapterSuggestions(chapter)} suggestions
+                <Typography variant="body2" color="text.secondary">
+                  {t(StringBank.SECTION_CARD_TITLE_SUGGESTIONS, {
+                    suggestionsNum: calcChapterSuggestions(chapter),
+                  })}
                 </Typography>
               </Stack>
-              <Stack direction="column" rowGap="2rem" width="70%">
+              <Stack direction="column" rowGap="2rem" maxWidth="md">
                 {Object.keys(chapter).map((sectionName: string, j: number) => {
                   const section = chapter[sectionName];
                   return <SectionCard suggestions={section} key={j} id={j}></SectionCard>;

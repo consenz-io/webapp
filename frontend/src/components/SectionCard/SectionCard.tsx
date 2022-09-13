@@ -1,15 +1,20 @@
 import { Card, IconButton, Stack, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { ReactComponent as LikeIcon } from 'assets/icons/like-outlined.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ContentEditor from 'components/ContentEditor';
 import { ISection, ISuggestion } from 'types/entities';
+import { ColorModeAndDirectionContext } from 'theme';
+import { StringBank } from 'strings';
+import { useTranslation } from 'react-i18next';
 
 const SectionCard = (props: ISection) => {
+  const { t } = useTranslation();
+  const { isRTL } = useContext(ColorModeAndDirectionContext);
   const [suggestionIndex, setSuggestionIndex] = useState<number>(0);
 
   const updateContent = (newSuggestionIndex: number) => {
@@ -49,7 +54,7 @@ const SectionCard = (props: ISection) => {
           id="rightArrowCol"
           justifyContent="center"
           alignItems="center"
-          padding="0 1.5rem"
+          padding="0 2rem"
           direction="column"
           order="1"
         >
@@ -60,7 +65,7 @@ const SectionCard = (props: ISection) => {
             onClick={backwardsSuggestion}
             disabled={suggestionIndex === 0}
           >
-            <ArrowBackIosNewIcon />
+            {isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
           </IconButton>
         </Stack>
         <Stack
@@ -71,7 +76,7 @@ const SectionCard = (props: ISection) => {
           order="2"
           paddingTop="2rem"
         >
-          <Stack direction="row" gap="0.6rem">
+          <Stack direction="row" gap="1rem">
             <Typography
               variant="body2"
               sx={{
@@ -79,29 +84,18 @@ const SectionCard = (props: ISection) => {
                 color: '#E0E0E0',
               }}
             >
-              Section {props.id + 1}
+              {t(StringBank.SECTION_CARD_CONTENT_SECTION_NAME, { sectionNum: props.id + 1 })}
             </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                color: 'text.secondary',
-              }}
-            >
-              Version {suggestionIndex + 1} of {props.suggestions.length}
+            <Typography variant="body2" color="text.secondary">
+              {t(StringBank.SECTION_CARD_CONTENT_VERSIONS, {
+                versionNum: suggestionIndex + 1,
+                totalVersionsNum: props.suggestions.length,
+              })}
             </Typography>
             <CheckedIconRender isSelected={true} />
           </Stack>
-          <Stack
-            direction="row"
-            sx={{
-              padding: 0,
-            }}
-          >
-            <Typography
-              sx={{
-                fontWeight: '400',
-              }}
-            >
+          <Stack direction="row">
+            <Typography>
               {props.suggestions.map((suggestion: ISuggestion) => {
                 if (suggestion.content) {
                   return <ContentEditor initialContent={suggestion.content} readonly={true} />;
@@ -109,12 +103,12 @@ const SectionCard = (props: ISection) => {
               })}
             </Typography>
           </Stack>
-          <Stack height="3.5rem" gap="1.5rem" direction="row">
+          <Stack gap="1rem" direction="row">
             <Stack direction="row" justifyContent="center" alignItems="center">
               <IconButton>
                 <LikeIcon />
               </IconButton>
-              <Typography paddingLeft="0.25rem" paddingRight="0.25rem" color="#24ebd3">
+              <Typography paddingLeft="4px" paddingRight="4px" color="#24ebd3">
                 {12}
               </Typography>
             </Stack>
@@ -122,7 +116,7 @@ const SectionCard = (props: ISection) => {
               <IconButton>
                 <DislikeIcon />
               </IconButton>
-              <Typography paddingLeft="0.25rem" paddingRight="0.25rem">
+              <Typography paddingLeft="4px" paddingRight="4px">
                 {13}
               </Typography>
             </Stack>
@@ -130,7 +124,7 @@ const SectionCard = (props: ISection) => {
               <IconButton>
                 <CommentIcon />
               </IconButton>
-              <Typography paddingLeft="0.25rem" paddingRight="0.25rem">
+              <Typography paddingLeft="4px" paddingRight="4px">
                 {5}
               </Typography>
             </Stack>
@@ -139,7 +133,7 @@ const SectionCard = (props: ISection) => {
         <Stack
           justifyContent="center"
           alignItems="center"
-          padding="0 1.5rem"
+          padding="0 1rem"
           flexGrow="1"
           id="leftArrowCol"
           direction="column"
@@ -152,7 +146,7 @@ const SectionCard = (props: ISection) => {
             disabled={suggestionIndex === props.suggestions.length - 1}
             onClick={forwardSuggestion}
           >
-            <ArrowForwardIosIcon />
+            {isRTL ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
           </IconButton>
         </Stack>
       </Stack>
