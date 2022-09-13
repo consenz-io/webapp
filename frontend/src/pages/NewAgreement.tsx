@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
 import { FC } from 'react';
 import { useState, useContext } from 'react';
-import { Button, Stack, Container } from '@mui/material';
+import { Button, Stack, Container, SvgIcon } from '@mui/material';
 import { GroupContext } from 'contexts/group';
 import { LocalChapter } from 'types';
 import {
@@ -14,6 +14,8 @@ import {
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { Appbar } from 'components';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
+import styled from 'styled-components';
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -86,13 +88,28 @@ const NewAgreement: FC = () => {
       icon: DocLogo,
     },
   ];
+  const XIconWrapper = styled(SvgIcon)`
+    svg path {
+      fill: #adb2b8;
+    }
+  `;
+  const actionsProps = [
+    {
+      icon: (
+        <XIconWrapper>
+          <XLogo />
+        </XIconWrapper>
+      ),
+      onClickFn: () => navigate(-1),
+    },
+  ];
 
   return (
     <>
       <Appbar
-        stepsSection={stepsProps}
-        closeFn={() => navigate(-1)}
+        stepperSection={stepsProps}
         breadcrumsSection={breadcrumsProps}
+        actionsSection={actionsProps}
       />
       <Container maxWidth="md">
         <Stack justifyContent="center" spacing={5} marginY={4}>

@@ -3,16 +3,11 @@ import { IconButton, Link, Stack, StepLabel, SvgIcon, Typography } from '@mui/ma
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
-import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
 import styled from 'styled-components';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 interface ActionProps {
-  icon: React.FunctionComponent<
-    React.SVGProps<SVGSVGElement> & {
-      title?: string | undefined;
-    }
-  >;
+  icon: JSX.Element;
   onClickFn: () => void;
 }
 
@@ -33,8 +28,7 @@ interface StepsProps {
 }
 
 interface AppbarProps {
-  stepsSection: StepsProps;
-  closeFn: () => void;
+  stepperSection?: StepsProps;
   actionsSection?: ActionProps[];
   breadcrumsSection?: BreadcrumsProps[];
 }
@@ -43,17 +37,11 @@ const AppbarContainer = styled(Stack)`
   && {
     align-items: center;
     border-bottom: solid 1px #595f68;
-    margin-top: -1rem;
+    margin-top: -0.5rem;
     margin-right: -1rem;
     margin-left: -1rem;
     padding: 0 1rem;
     height: 57px;
-  }
-`;
-
-const XIconWrapper = styled(SvgIcon)`
-  svg path {
-    fill: #adb2b8;
   }
 `;
 
@@ -77,44 +65,60 @@ function renderBreadcrums(breadcrumsProps: BreadcrumsProps, index: number) {
 const Appbar: FC<AppbarProps> = (props) => {
   return (
     <AppbarContainer direction="row" alignItems="center" justifyContent="space-between">
-      <Stack direction="row" gap="0.5rem" justifyContent="center" alignItems="center">
+      <Stack
+        id="breadcrums"
+        direction="row"
+        gap="0.5rem"
+        justifyContent="flex-start"
+        alignItems="center"
+        flexGrow={1}
+      >
         {props.breadcrumsSection &&
           props.breadcrumsSection.length > 0 &&
           props.breadcrumsSection.map((breadcrumsObj, i) => renderBreadcrums(breadcrumsObj, i))}
       </Stack>
-      <Stack direction="row">
-        <Stepper nonLinear activeStep={props.stepsSection.activeStep - 1}>
-          {props.stepsSection.steps.map((step, i) => (
-            <Step
-              disabled
-              key={i}
-              color="inherit"
-              completed={props.stepsSection.activeStep > i + 1}
-              sx={{ padding: '0 1rem' }}
-            >
-              <StepButton sx={{ padding: '0', margin: '0' }} disableRipple>
-                <StepLabel
-                  sx={{
-                    '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root': {
-                      color: 'background.border',
-                    },
-                    '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root.Mui-active': {
-                      color: 'primary.main',
-                    },
-                  }}
-                >
-                  {step}
-                </StepLabel>
-              </StepButton>
-            </Step>
-          ))}
-        </Stepper>
+      <Stack id="stepper" flexGrow={1} direction="row">
+        {props.stepperSection && props.stepperSection.activeStep && (
+          <Stepper nonLinear activeStep={props.stepperSection.activeStep - 1}>
+            {props.stepperSection.steps.map((step, i) => (
+              <Step
+                disabled
+                key={i}
+                color="inherit"
+                completed={props.stepperSection && props.stepperSection.activeStep > i + 1}
+                sx={{ padding: '0 1rem' }}
+              >
+                <StepButton sx={{ padding: '0', margin: '0' }} disableRipple>
+                  <StepLabel
+                    sx={{
+                      '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root': {
+                        color: 'background.border',
+                      },
+                      '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root.Mui-active': {
+                        color: 'primary.main',
+                      },
+                    }}
+                  >
+                    {step}
+                  </StepLabel>
+                </StepButton>
+              </Step>
+            ))}
+          </Stepper>
+        )}
       </Stack>
-      <IconButton>
-        <XIconWrapper onClick={props.closeFn}>
-          <XLogo />
-        </XIconWrapper>
-      </IconButton>
+      {props.actionsSection && props.actionsSection.length > 0 && (
+        <Stack id="actions" direction="row" flexGrow={1} justifyContent="flex-end">
+          {props.actionsSection.map((actionObj, j) => {
+            const Icon = actionObj.icon;
+            return (
+              <IconButton key={j} onClick={actionObj.onClickFn}>
+                <SvgIcon>{Icon}</SvgIcon>
+              </IconButton>
+            );
+          })}
+        </Stack>
+      )}
     </AppbarContainer>
   );
 };
