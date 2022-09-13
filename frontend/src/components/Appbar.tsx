@@ -51,7 +51,7 @@ function renderBreadcrums(breadcrumsProps: BreadcrumsProps, index: number) {
     <Stack direction="row" gap="0.5rem" justifyContent="center" alignItems="center" key={index}>
       {index > 0 && <KeyboardArrowRightIcon />}
       {Icon && <Icon />}
-      <Typography fontSize="0.875rem" lineHeight="1.57" paddingTop="2px">
+      <Typography variant="body2" lineHeight="1.57" paddingTop="0.12rem">
         {breadcrumsProps.link ? (
           <Link href={breadcrumsProps.link}>{breadcrumsProps.name}</Link>
         ) : (
