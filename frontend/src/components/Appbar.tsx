@@ -1,17 +1,24 @@
 import { FC } from 'react';
-import { IconButton, Link, Stack, StepLabel, SvgIcon, Typography } from '@mui/material';
+import {
+  Breadcrumbs,
+  IconButton,
+  Link,
+  Stack,
+  StepLabel,
+  SvgIcon,
+  Typography,
+} from '@mui/material';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import styled from 'styled-components';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-interface ActionProps {
+export interface ActionProps {
   icon: JSX.Element;
   onClickFn: () => void;
 }
 
-interface BreadcrumsProps {
+export interface BreadcrumsProps {
   name: string;
   icon?: React.FunctionComponent<
     React.SVGProps<SVGSVGElement> & {
@@ -21,7 +28,7 @@ interface BreadcrumsProps {
   link?: string;
 }
 
-interface StepsProps {
+export interface StepsProps {
   steps: string[];
   activeStep: number;
   onStepChange?: () => void;
@@ -45,19 +52,35 @@ const AppbarContainer = styled(Stack)`
   }
 `;
 
-function renderBreadcrums(breadcrumsProps: BreadcrumsProps, index: number) {
-  const Icon = breadcrumsProps.icon;
+function renderBreadcrums(breadcrumsProps: BreadcrumsProps[]) {
   return (
-    <Stack direction="row" gap="0.5rem" justifyContent="center" alignItems="center" key={index}>
-      {index > 0 && <KeyboardArrowRightIcon />}
-      {Icon && <Icon />}
-      <Typography variant="body2" lineHeight="1.57" paddingTop="0.12rem">
-        {breadcrumsProps.link ? (
-          <Link href={breadcrumsProps.link}>{breadcrumsProps.name}</Link>
-        ) : (
-          breadcrumsProps.name
-        )}
-      </Typography>
+    <Stack direction="row" justifyContent="center" alignItems="center">
+      <Breadcrumbs separator="›" aria-label="breadcrumb">
+        {breadcrumsProps.map((braedcrumObj, i) => {
+          const Icon = braedcrumObj.icon;
+          return (
+            <Link
+              key={i}
+              underline="hover"
+              alignItems="center"
+              justifyContent="center"
+              href={braedcrumObj.link}
+            >
+              <Typography
+                variant="body2"
+                lineHeight="2.58"
+                padding="0.12rem"
+                color={i === breadcrumsProps.length - 1 ? 'white' : 'GrayText'}
+              >
+                <Stack direction="row" justifyContent="center" alignItems="center" gap="0.5rem">
+                  {Icon && <Icon />}
+                  {braedcrumObj.name}
+                </Stack>
+              </Typography>
+            </Link>
+          );
+        })}
+      </Breadcrumbs>
     </Stack>
   );
 }
@@ -75,7 +98,7 @@ const Appbar: FC<AppbarProps> = (props) => {
       >
         {props.breadcrumsSection &&
           props.breadcrumsSection.length > 0 &&
-          props.breadcrumsSection.map((breadcrumsObj, i) => renderBreadcrums(breadcrumsObj, i))}
+          renderBreadcrums(props.breadcrumsSection)}
       </Stack>
       <Stack id="stepper" flexGrow={1} direction="row">
         {props.stepperSection && props.stepperSection.activeStep && (

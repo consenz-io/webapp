@@ -1,56 +1,37 @@
-import { Breadcrumbs, Button, Link, Stack, Typography, Chip } from '@mui/material';
+import { Button, Stack, Typography, Chip } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext } from 'react';
-import DocLogo from 'assets/icons/document.svg';
+import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { generateColorFromString } from 'utils/functions';
+import { Appbar } from 'components';
+import { BreadcrumsProps } from 'components/Appbar';
+import { GroupContext } from 'contexts/group';
 
 const AgreementPage: FC = () => {
+  const { categories } = useContext(GroupContext);
   const agreementContext = useContext(AgreementContext);
   const currentCategory: string = agreementContext.categoryName;
   const categoryColor = currentCategory
     ? generateColorFromString(currentCategory, true)
     : 'primary';
-  const handleClick = (e: any) => {
-    e.preventDefault();
-    console.log('clicked breadcrumb');
-  };
+  const breadcrumsProps: BreadcrumsProps[] = [
+    {
+      name: currentCategory || 'categoryName',
+      link:
+        categories
+          .filter((categoryObj) => categoryObj.name === currentCategory)[0]
+          ?.id.toString() || '',
+    },
+    {
+      name: agreementContext.agreementTitle || 'Agreement Name',
+      link: agreementContext.agreementId.toString(),
+      icon: DocLogo,
+    },
+  ];
   return (
     <Stack direction="column">
-      <Stack
-        direction="row"
-        sx={{
-          borderBottom: ' 1px solid #3f4550',
-          paddingBottom: '1.5rem',
-        }}
-      >
-        <Breadcrumbs separator="›" aria-label="breadcrumb">
-          <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
-            <Typography
-              sx={{
-                fontSize: '14px',
-                fontWeight: '500',
-                paddingRight: '0.5rem',
-              }}
-            >
-              {currentCategory || 'categoryName'}
-            </Typography>
-          </Link>
-          <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
-            <Stack
-              direction="row"
-              gap="5px"
-              sx={{
-                fontSize: '14px',
-                alignItems: 'center',
-              }}
-            >
-              <img src={DocLogo} alt="docIcon" width="20rem" height="18px" />
-              {agreementContext.agreementTitle || 'Agreement Name'}
-            </Stack>
-          </Link>
-        </Breadcrumbs>
-      </Stack>
+      <Appbar breadcrumsSection={breadcrumsProps}></Appbar>
       <Stack direction="column">
         <Stack
           direction="row"

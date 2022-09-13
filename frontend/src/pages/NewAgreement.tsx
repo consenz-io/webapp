@@ -17,6 +17,12 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
 import styled from 'styled-components';
 
+const XIconWrapper = styled(SvgIcon)`
+  svg path {
+    fill: #adb2b8;
+  }
+`;
+
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
   if (existingChapters) {
@@ -88,11 +94,6 @@ const NewAgreement: FC = () => {
       icon: DocLogo,
     },
   ];
-  const XIconWrapper = styled(SvgIcon)`
-    svg path {
-      fill: #adb2b8;
-    }
-  `;
   const actionsProps = [
     {
       icon: (
