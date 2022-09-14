@@ -15,7 +15,7 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 
 interface IProps {
-  initialContent?: JSONContent;
+  initialContent?: JSONContent | string;
   placeholder?: string;
   onKeyDown?: (event: React.KeyboardEvent) => void;
   onChange?: (value: JSONContent) => void;
