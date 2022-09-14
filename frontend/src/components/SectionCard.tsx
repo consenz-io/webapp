@@ -1,16 +1,22 @@
 import { Card, IconButton, Stack, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useContext, useState } from 'react';
+import { useContext, useState, useMemo } from 'react';
 import { ReactComponent as LikeIcon } from 'assets/icons/like-outlined.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ContentEditor from 'components/ContentEditor';
 import { ISection } from 'types/entities';
 import { ColorModeAndDirectionContext } from 'theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
+import { generateHTML } from '@tiptap/html';
+import { JSONContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Link from '@tiptap/extension-link';
+import Placeholder from '@tiptap/extension-placeholder';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
 
 const SectionCard = (props: ISection) => {
   const { t } = useTranslation();
@@ -36,6 +42,16 @@ const SectionCard = (props: ISection) => {
   };
 
   const currentSuggestion = props.suggestions[suggestionIndex];
+  const currentSuggestionHTML = useMemo(() => {
+    return generateHTML(currentSuggestion.content as JSONContent, [
+      StarterKit,
+      Link,
+      Placeholder,
+      Underline,
+      TextAlign,
+    ]);
+  }, [currentSuggestion]);
+  //@todo: XSS filter user-provided HTML?
 
   return (
     <Card variant="elevation" elevation={0}>
@@ -87,11 +103,7 @@ const SectionCard = (props: ISection) => {
           </Stack>
           <Stack direction="row">
             <Typography>
-              <ContentEditor
-                key={currentSuggestion.id}
-                initialContent={currentSuggestion.content}
-                readonly={true}
-              />
+              <div dangerouslySetInnerHTML={{ __html: currentSuggestionHTML }} />
             </Typography>
           </Stack>
           <Stack gap="1rem" direction="row">
