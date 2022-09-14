@@ -4,7 +4,7 @@ import { FC, useContext } from 'react';
 import DocLogo from 'assets/icons/document.svg';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { generateColorFromString } from 'utils/functions';
-import { SectionCard } from 'components/SectionCard';
+import SectionCard from 'components/SectionCard';
 import { IAgreement, IChapter, ISection } from 'types';
 import { JSONContent } from '@tiptap/react';
 import { ISuggestion } from 'types/entities';
