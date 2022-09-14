@@ -74,8 +74,8 @@ const AgreementPage: FC = () => {
         <Breadcrumbs separator="›" aria-label="breadcrumb">
           <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
             <Typography
+              variant="body2"
               sx={{
-                fontSize: '0.87rem',
                 fontWeight: '500',
                 paddingRight: '0.5rem',
               }}
@@ -85,8 +85,8 @@ const AgreementPage: FC = () => {
           </Link>
           <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
             <Stack
+              spacing={1}
               direction="row"
-              gap="0.3rem"
               sx={{
                 fontSize: '0.87rem',
                 alignItems: 'center',

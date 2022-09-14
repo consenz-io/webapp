@@ -35,17 +35,6 @@ const SectionCard = (props: ISection) => {
     }
   };
 
-  const CheckedIconRender = (props: { isSelected: boolean }) => {
-    if (props.isSelected) {
-      return (
-        <span>
-          <CheckCircleOutlineIcon sx={{ color: '#24ebd3' }} />
-        </span>
-      );
-    }
-    return <span></span>;
-  };
-
   return (
     <Card variant="elevation" elevation={0}>
       <Stack direction="row" justifyContent="space-around" alignItems="center">
@@ -92,7 +81,7 @@ const SectionCard = (props: ISection) => {
                 totalVersionsNum: props.suggestions.length,
               })}
             </Typography>
-            <CheckedIconRender isSelected={true} />
+            <CheckCircleOutlineIcon htmlColor="#24ebd3" />
           </Stack>
           <Stack direction="row">
             <Typography>
