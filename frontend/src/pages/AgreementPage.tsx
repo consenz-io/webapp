@@ -78,7 +78,7 @@ const AgreementPage: FC = () => {
             <Stack direction="column" key={i}>
               <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
                 <Typography variant="h3">
-                  {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter })}
+                  {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {t(StringBank.SECTION_CARD_TITLE_SECTIONS, {
