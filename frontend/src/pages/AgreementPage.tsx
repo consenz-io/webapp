@@ -82,7 +82,7 @@ const AgreementPage: FC = () => {
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {t(StringBank.SECTION_CARD_TITLE_SECTIONS, {
-                    sectionNum: Object.keys(chapter).length,
+                    sectionNum: chapter.sections.length,
                   })}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
