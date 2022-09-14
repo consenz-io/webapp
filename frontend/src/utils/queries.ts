@@ -42,6 +42,7 @@ export function getAgreementByIdQuery() {
         rationale
         chapters {
           agreement_id
+          name
           sections {
             suggestions {
               content

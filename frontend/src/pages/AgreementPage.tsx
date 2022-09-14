@@ -7,30 +7,40 @@ import { generateColorFromString } from 'utils/functions';
 import { Appbar } from 'components';
 import { BreadcrumsProps } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
+import SectionCard from 'components/SectionCard';
+import { IChapter, ISection } from 'types';
+import { StringBank } from 'strings';
+import { useTranslation } from 'react-i18next';
 
 const AgreementPage: FC = () => {
+  const { t } = useTranslation();
   const { categories } = useContext(GroupContext);
-  const agreementContext = useContext(AgreementContext);
-  const currentCategory: string = agreementContext.categoryName;
-  const categoryColor = currentCategory
-    ? generateColorFromString(currentCategory, true)
-    : 'primary';
+  const { agreement, categoryName, agreementTitle, agreementId, rationale } =
+    useContext(AgreementContext);
+  const categoryColor = categoryName ? generateColorFromString(categoryName, true) : 'primary';
   const breadcrumsProps: BreadcrumsProps[] = [
     {
-      name: currentCategory || 'categoryName',
+      name: categoryName,
       link:
-        categories
-          .filter((categoryObj) => categoryObj.name === currentCategory)[0]
-          ?.id.toString() || '',
+        categories.filter((categoryObj) => categoryObj.name === categoryName)[0]?.id.toString() ||
+        '',
     },
     {
-      name: agreementContext.agreementTitle || 'Agreement Name',
-      link: agreementContext.agreementId.toString(),
+      name: agreementTitle || 'Agreement Name',
+      link: agreementId.toString(),
       icon: DocLogo,
     },
   ];
+
+  function calcChapterSuggestions(chapter: IChapter): number {
+    return chapter.sections.reduce(
+      (acc: number, section: ISection) => acc + section.suggestions.length,
+      0
+    );
+  }
+
   return (
-    <Stack direction="column">
+    <>
       <Appbar breadcrumsSection={breadcrumsProps}></Appbar>
       <Stack direction="column">
         <Stack
@@ -40,17 +50,15 @@ const AgreementPage: FC = () => {
           sx={{ margin: '2rem' }}
         >
           <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography sx={{ fontSize: '36px' }} variant="h1">
-              {agreementContext.agreementTitle || 'Agreement Name'}
-            </Typography>
-            {currentCategory && (
+            <Typography variant="h1">{agreementTitle}</Typography>
+            {categoryName && (
               <Chip
-                label={currentCategory ? currentCategory : ''}
+                label={categoryName ?? ''}
                 size="small"
-                style={{
-                  marginLeft: '1rem',
+                sx={{
+                  marginStart: 2,
                   backgroundColor: categoryColor,
-                  fontSize: '0.8rem',
+                  fontSize: '1rem',
                 }}
               />
             )}
@@ -60,11 +68,41 @@ const AgreementPage: FC = () => {
             <Typography variant="body1"> View Agreement</Typography>
           </Button>
         </Stack>
-        <Typography sx={{ paddingLeft: '3rem', fontSize: '16px' }} variant="body2">
-          {agreementContext.rationale || 'rationale'}
+        <Typography sx={{ paddingLeft: '4rem' }} variant="body2">
+          {rationale || 'rationale'}
         </Typography>
       </Stack>
-    </Stack>
+      <Stack direction="column">
+        {agreement?.chapters?.map((chapter, i) => {
+          return (
+            <Stack direction="column" key={i}>
+              <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
+                <Typography variant="h3">
+                  {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter })}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {t(StringBank.SECTION_CARD_TITLE_SECTIONS, {
+                    sectionNum: Object.keys(chapter).length,
+                  })}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {t(StringBank.SECTION_CARD_TITLE_SUGGESTIONS, {
+                    suggestionsNum: calcChapterSuggestions(chapter),
+                  })}
+                </Typography>
+              </Stack>
+              <Stack direction="column" rowGap="2rem" maxWidth="md">
+                {chapter.sections.map((section, j) => {
+                  return (
+                    <SectionCard suggestions={section.suggestions} key={j} id={j}></SectionCard>
+                  );
+                })}
+              </Stack>
+            </Stack>
+          );
+        })}
+      </Stack>
+    </>
   );
 };
 
