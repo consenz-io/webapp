@@ -12,6 +12,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import styled from 'styled-components';
+import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
 
 export interface ActionProps {
   icon: JSX.Element;
@@ -55,7 +56,7 @@ const AppbarContainer = styled(Stack)`
 function renderBreadcrums(breadcrumsProps: BreadcrumsProps[]) {
   return (
     <Stack direction="row" justifyContent="center" alignItems="center">
-      <Breadcrumbs separator="›" aria-label="breadcrumb">
+      <Breadcrumbs separator={<ArrowLogo fontSize="1rem" />} aria-label="breadcrumb">
         {breadcrumsProps.map((braedcrumObj, i) => {
           const Icon = braedcrumObj.icon;
           return (
