@@ -28,6 +28,7 @@ export const en: Record<StringBank, string> = {
   LOGOUT: 'Log Out',
   NEW_AGREEMENT: 'New Agreement',
   NEW_CHAPTER: 'New Chapter',
+  NO_CATEGORY: 'No Category',
   PUBLISH_AGREEMENT: 'Publish Agreement',
   RATIONALE: 'Rationale',
   REQUIRE_ADMIN_APPROVAL: 'Require Admin Approval',
