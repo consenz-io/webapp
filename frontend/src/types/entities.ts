@@ -7,6 +7,7 @@ export interface IAgreement {
   updated_at: string;
   rationale: string;
   is_archived?: boolean;
+  chapters?: IChapter[];
 }
 
 export interface ICategory {
@@ -35,7 +36,7 @@ export interface ISection {
 
 export interface ISuggestion {
   id: number;
-  content: JSONContent;
+  content: JSONContent | string;
 }
 
 export interface IUser {

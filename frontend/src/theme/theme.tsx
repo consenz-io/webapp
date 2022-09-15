@@ -13,6 +13,7 @@ declare module '@mui/material/styles/createPalette' {
   interface Palette {
     paper: Palette['primary'];
     delete: Palette['primary'];
+    card: Palette['primary'];
   }
 }
 

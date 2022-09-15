@@ -24,4 +24,9 @@ export const he: Partial<Record<StringBank, string>> = {
   
   ותהנו!`,
   NO_CATEGORY: 'לא נבחרה קטגוריה',
+  SECTION_CARD_TITLE_CHAPTER: '# {{chapterName}}',
+  SECTION_CARD_TITLE_SECTIONS: '{{sectionNum}} חלקים',
+  SECTION_CARD_TITLE_SUGGESTIONS: '{{suggestionsNum}} הצעות',
+  SECTION_CARD_CONTENT_SECTION_NAME: 'חלק {{sectionNum}}',
+  SECTION_CARD_CONTENT_VERSIONS: 'גרסא {{versionNum}} מתוך {{totalVersionsNum}}',
 };

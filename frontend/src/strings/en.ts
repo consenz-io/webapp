@@ -46,6 +46,9 @@ export const en: Record<StringBank, string> = {
   ask your Group Manager to invite you to join
   
   and have fun!`,
-  NO_CATEGORY: 'No Category',
-  MY_NEW_CATEGORY: 'My New Category',
+  SECTION_CARD_TITLE_CHAPTER: '# {{chapterName}}',
+  SECTION_CARD_TITLE_SECTIONS: '{{sectionNum}} sections',
+  SECTION_CARD_TITLE_SUGGESTIONS: '{{suggestionsNum}} suggestions',
+  SECTION_CARD_CONTENT_SECTION_NAME: 'section {{sectionNum}}',
+  SECTION_CARD_CONTENT_VERSIONS: 'Version {{versionNum}} of {{totalVersionsNum}}',
 };

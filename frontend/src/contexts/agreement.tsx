@@ -21,7 +21,7 @@ const AgreementProvider: FC = () => {
     categoryName: agreement?.category?.name || '',
     rationale: agreement?.rationale || '',
     agreementTitle: agreement?.name || '',
-    agreement: agreement || {},
+    agreement: agreement,
   };
   return (
     <AgreementContext.Provider value={state}>
