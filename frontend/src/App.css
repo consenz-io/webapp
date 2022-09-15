@@ -13,3 +13,7 @@ p {
 .ProseMirror-focused {
   outline: none;
 }
+
+.ProseMirror th, .ProseMirror td {
+  border: 1px dotted #ADB2B8;
+}
