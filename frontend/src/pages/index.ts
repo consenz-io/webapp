@@ -1,20 +1,20 @@
 import Page404 from './Page404';
 import Home from './Home';
-import AllAgreements from './AllAgreements';
+import AllAgreements from './ActiveAgreements';
 import NewAgreement from './NewAgreement';
+import ActiveAgreements from './ActiveAgreements';
+import ArchivedAgreements from './ArchivedAgreements';
 import { Welcome } from './Welcome';
 import AgreementPage from './AgreementPage';
-import CategoryPage from './EmptyCategoryPage';
-import EmptyArchivePage from './EmptyArchivePage';
-import AllArchievedAgreements from './AllArchievedAgreements';
-import AllCategories from './AllCategories';
+import AllArchievedAgreements from './ArchivedAgreements';
+import AllCategories from './CategoryAgreements';
 
 export {
   AgreementPage,
-  EmptyArchivePage,
-  CategoryPage,
   Page404,
   Home,
+  ActiveAgreements,
+  ArchivedAgreements,
   AllAgreements,
   NewAgreement,
   Welcome,

@@ -23,7 +23,7 @@ interface IAgreementCardProps {
   title: string;
   updatedAt: Date;
   participants: number;
-  is_archived?: boolean;
+  isArchived?: boolean;
 }
 
 const MainCard = styled(Card)`
@@ -55,7 +55,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   title,
   updatedAt,
   participants,
-  is_archived,
+  isArchived,
 }) => {
   const { t } = useTranslation();
   const { mode } = useContext(ColorModeAndDirectionContext);
@@ -90,9 +90,9 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   function getMenuItems() {
     const menuItems: MenuItem[] = [
       {
-        text: t(is_archived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
+        text: t(isArchived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
         icon: <Inventory2OutlinedIcon />,
-        action: () => archiveAgreement(id, !is_archived),
+        action: () => archiveAgreement(id, !isArchived),
       },
     ];
     if (role && role === 'moderator') {

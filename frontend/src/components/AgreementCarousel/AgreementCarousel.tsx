@@ -25,7 +25,7 @@ const AgreementCarousel: FC<IAgreement> = ({
         title={name}
         updatedAt={new Date(updated_at)}
         rationale={rationale}
-        is_archived={is_archived}
+        isArchived={is_archived}
       />
     </Box>
   );
