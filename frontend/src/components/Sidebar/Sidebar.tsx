@@ -93,7 +93,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
             <SC.ListItemButton
               key={i}
               onClick={() =>
-                navigate(`/${groupSlug}/cat/${category.id}}`, {
+                navigate(`/${groupSlug}/cat/${category.id}`, {
                   state: {
                     catName: category.name,
                     catColor: generateColorFromString(category.name, true),

@@ -49,12 +49,9 @@ const AllCategories = () => {
   const { t } = useTranslation();
   const state: State = useLocation().state as State;
   const { catName, catColor } = state;
-  let { categoryId } = useParams();
+  const { categoryId } = useParams();
   const { user } = useContext(DataContext);
   const { slug } = useContext(GroupContext);
-  if (categoryId) {
-    categoryId = categoryId.substring(0, categoryId.length - 1);
-  }
   const currentGroup = user?.groups?.find((group) => group.slug === slug);
   const vars = {
     groupId: currentGroup?.id || -1,
@@ -86,7 +83,7 @@ const AllCategories = () => {
           </Stack>
           <Stack direction="row">
             <Typography variant="body2" color="#adb2b8" padding="1rem 0">
-              Maybe you&apos;d like to create one
+              {t(StringBank.CATEGORY_EMPTY_MESSAGE)}
             </Typography>
           </Stack>
           <Stack direction="row" padding="1rem 0">
