@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 import { AgreementCarousel } from 'components';
 import { GroupContext } from 'contexts/group';
+import { Box } from '@mui/system';
 
 const AllArchievedAgreements = () => {
   const navigate = useNavigate();
@@ -16,26 +17,17 @@ const AllArchievedAgreements = () => {
   const { archivedAgreements, name, slug } = useContext(GroupContext);
   if (!archivedAgreements.length) {
     return (
-      <Stack direction="column" height="100%">
-        <Stack direction="row" alignItems="center" justifyContent="flex-start">
-          <Typography fontSize="1.625rem" fontWeight="600">
-            {t(StringBank.ARCHIVE)}
+      <Stack direction="column" height="100%" justifyContent="space-between">
+        <Typography variant="h2">{t(StringBank.ARCHIVE)}</Typography>
+        <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+          <Typography variant="h3" textAlign="center">
+            {t(StringBank.ARCHIVE_EMPTY_MESSAGE)}
+          </Typography>
+          <Typography variant="body2" color="#adb2b8">
+            {t(StringBank.ARCHIVE_EMPTY_MESSAGE_END)}
           </Typography>
         </Stack>
-        <Stack direction="column" justifyContent="center" alignItems="center" height="80%">
-          <Stack direction="row" width="100%" justifyContent="center" alignItems="center">
-            <Typography variant="h3" textAlign="center">
-              {t(StringBank.ARCHIVE_EMPTY_MESSAGE_FIRST)}
-              <br />
-              {t(StringBank.ARCHIVE_EMPTY_MESSAGE_SEC)}
-            </Typography>
-          </Stack>
-          <Stack direction="row">
-            <Typography variant="body2" color="#adb2b8" padding="1rem 0">
-              {t(StringBank.ARCHIVE_EMPTY_MESSAGE_END)}
-            </Typography>
-          </Stack>
-        </Stack>
+        <Box />
       </Stack>
     );
   }
