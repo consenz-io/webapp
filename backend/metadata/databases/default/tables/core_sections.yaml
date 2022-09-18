@@ -11,7 +11,7 @@ array_relationships:
       foreign_key_constraint_on:
         column: section_id
         table:
-          name: suggestions
+          name: section_versions
           schema: core
 insert_permissions:
   - role: authenticated
