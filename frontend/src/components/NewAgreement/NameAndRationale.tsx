@@ -8,7 +8,7 @@ import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import { DropDownMenu } from 'components';
 import { GroupContext } from 'contexts/group';
 import { useTranslation } from 'react-i18next';
-import { VariantType } from 'types';
+import { ICategory, VariantType } from 'types';
 import Dialog from 'components/Dialog';
 import { useMutation } from '@apollo/client';
 import { addCategoryMutation } from 'utils/mutations';
@@ -63,20 +63,16 @@ function NameAndRationale({
     setOpenDialogState(false);
   };
 
-  function mapCategoryIdToName() {
+  useEffect(() => {
     const newIdNameMap: CategoryMap = { ...categoryIdNameMap };
-    categories.forEach((catObj: any) => {
+    categories.forEach((catObj: ICategory) => {
       newIdNameMap[catObj.id] = {
         name: catObj.name,
         color: generateColorFromString(catObj.name, true),
       };
     });
     setcategoryIdNameMap(newIdNameMap);
-  }
-
-  useEffect(() => {
-    mapCategoryIdToName();
-  }, [categories]);
+  }, [categories, categoryIdNameMap]);
 
   async function onCreateCategory(val: string) {
     const cat = await createCategoryMutationFN({
