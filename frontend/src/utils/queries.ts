@@ -21,6 +21,7 @@ export function agreementsQuery(categoryId?: string) {
       name
       rationale
       updated_at
+      is_archived
       category {
         id
         name
@@ -40,12 +41,17 @@ export function getAgreementByIdQuery() {
           name
         }
         rationale
-        chapters {
+        chapters(order_by: { index: asc }) {
           agreement_id
           name
-          sections {
-            suggestions {
+          index
+          sections(order_by: { index: asc }) {
+            index
+            suggestions(order_by: { created_at: asc }) {
+              id
               content
+              upvotes
+              downvotes
             }
           }
         }

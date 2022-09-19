@@ -8,22 +8,16 @@ import { Appbar } from 'components';
 import { BreadcrumsProps } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import SectionCard from 'components/SectionCard';
-import { IChapter, ISection } from 'types';
+import { IAgreement, IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 
 const AgreementPage: FC = () => {
   const { t } = useTranslation();
   const { categories } = useContext(GroupContext);
-  const { agreement, agreementTitle, categoryName, rationale, agreementId } =
-    useContext(AgreementContext);
-  function calcChapterSuggestions(chapter: IChapter): number {
-    return chapter.sections.reduce(
-      (acc: number, section: ISection) => acc + section.suggestions.length,
-      0
-    );
-  }
-  const currentCategory = categoryName;
+  const agreementContext = useContext(AgreementContext);
+  const currentCategory = agreementContext.categoryName;
+  const agreement: IAgreement | undefined = agreementContext.agreement;
   const categoryColor = currentCategory
     ? generateColorFromString(currentCategory, true)
     : 'primary';
@@ -36,15 +30,16 @@ const AgreementPage: FC = () => {
           ?.id.toString() || '',
     },
     {
-      name: agreementTitle || 'Agreement Name',
-      link: agreementId.toString(),
+      name: agreement?.name || '',
+      link: agreement?.id.toString() || '',
       icon: DocLogo,
     },
   ];
+
   return (
-    <Stack direction="column">
-      <Appbar breadcrumsSection={breadcrumsProps}></Appbar>
-      <Stack direction="column">
+    <Stack>
+      <Appbar breadcrumsSection={breadcrumsProps} />
+      <Stack>
         <Stack
           direction="row"
           alignItems="center"
@@ -52,10 +47,10 @@ const AgreementPage: FC = () => {
           sx={{ margin: '2rem' }}
         >
           <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h1">{agreementTitle}</Typography>
-            {categoryName && (
+            <Typography variant="h1">{agreement?.name}</Typography>
+            {currentCategory && (
               <Chip
-                label={categoryName ?? ''}
+                label={currentCategory ?? ''}
                 size="small"
                 sx={{
                   marginStart: 2,
@@ -71,38 +66,37 @@ const AgreementPage: FC = () => {
           </Button>
         </Stack>
         <Typography sx={{ paddingLeft: '4rem' }} variant="body2">
-          {rationale || 'rationale'}
+          {agreement?.rationale}
         </Typography>
       </Stack>
       <Stack direction="column">
-        {agreement?.chapters?.map((chapter, i) => {
-          return (
-            <Stack direction="column" key={i}>
-              <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
-                <Typography variant="h3">
-                  {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {t(StringBank.SECTION_CARD_TITLE_SECTIONS, {
-                    sectionNum: chapter.sections.length,
-                  })}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {t(StringBank.SECTION_CARD_TITLE_SUGGESTIONS, {
-                    suggestionsNum: calcChapterSuggestions(chapter),
-                  })}
-                </Typography>
-              </Stack>
-              <Stack direction="column" rowGap="2rem" maxWidth="md">
-                {chapter.sections.map((section, j) => {
-                  return (
-                    <SectionCard suggestions={section.suggestions} key={j} id={j}></SectionCard>
-                  );
+        {agreement?.chapters?.map((chapter: IChapter, i: number) => (
+          <Stack direction="column" key={i}>
+            <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
+              <Typography variant="h3">
+                {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {t(StringBank.SECTION_CARD_TITLE_SECTIONS, {
+                  sectionNum: chapter.sections?.length,
                 })}
-              </Stack>
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {t(StringBank.SECTION_CARD_TITLE_SUGGESTIONS, {
+                  suggestionsNum: chapter.sections.reduce(
+                    (acc, section) => acc + section.suggestions.length,
+                    0
+                  ),
+                })}
+              </Typography>
             </Stack>
-          );
-        })}
+            <Stack direction="column" rowGap="2rem" maxWidth="md">
+              {chapter?.sections?.map((section, j: number) => (
+                <SectionCard suggestions={section.suggestions} key={j} id={section.id} />
+              ))}
+            </Stack>
+          </Stack>
+        ))}
       </Stack>
     </Stack>
   );

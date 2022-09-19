@@ -7,7 +7,7 @@ import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ContentEditor from 'components/ContentEditor';
-import { ISection, ISuggestion } from 'types/entities';
+import { ISection } from 'types/entities';
 import { ColorModeAndDirectionContext } from 'theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
@@ -34,6 +34,8 @@ const SectionCard = (props: ISection) => {
       updateContent(newIndex);
     }
   };
+
+  const currentSuggestion = props.suggestions[suggestionIndex];
 
   return (
     <Card variant="elevation" elevation={0}>
@@ -85,11 +87,11 @@ const SectionCard = (props: ISection) => {
           </Stack>
           <Stack direction="row">
             <Typography>
-              {props.suggestions.map((suggestion: ISuggestion) => {
-                if (suggestion.content) {
-                  return <ContentEditor initialContent={suggestion.content} readonly={true} />;
-                }
-              })}
+              <ContentEditor
+                key={currentSuggestion.id}
+                initialContent={currentSuggestion.content}
+                readonly={true}
+              />
             </Typography>
           </Stack>
           <Stack gap="1rem" direction="row">
@@ -98,7 +100,7 @@ const SectionCard = (props: ISection) => {
                 <LikeIcon />
               </IconButton>
               <Typography paddingLeft="4px" paddingRight="4px" color="#24ebd3">
-                {12}
+                {currentSuggestion.upvotes}
               </Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center">
@@ -106,7 +108,7 @@ const SectionCard = (props: ISection) => {
                 <DislikeIcon />
               </IconButton>
               <Typography paddingLeft="4px" paddingRight="4px">
-                {13}
+                {currentSuggestion.downvotes}
               </Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center">

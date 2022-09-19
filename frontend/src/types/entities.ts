@@ -6,6 +6,7 @@ export interface IAgreement {
   category: ICategory;
   updated_at: string;
   rationale: string;
+  is_archived?: boolean;
   chapters?: IChapter[];
 }
 
@@ -34,8 +35,11 @@ export interface ISection {
 }
 
 export interface ISuggestion {
-  id: number;
+  id: number; // unique row ID in Hasura
+  index: number; // aka "version number", the suggestion's base-1 index per section, in chronological order
   content: JSONContent | string;
+  upvotes: number;
+  downvotes: number;
 }
 
 export interface IUser {
