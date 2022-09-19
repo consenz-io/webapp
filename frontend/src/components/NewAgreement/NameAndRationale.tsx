@@ -79,7 +79,9 @@ function NameAndRationale({
   }, [categories]);
 
   async function onCreateCategory(val: string) {
-    const cat = await createCategoryMutationFN({ variables: { name: val, group_id: groupId } });
+    const cat = await createCategoryMutationFN({
+      variables: { name: val, group_id: groupId },
+    });
     if (newCatError) {
       console.error('err in mutation create category', newCatError);
     }

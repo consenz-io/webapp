@@ -116,7 +116,10 @@ const AgreementCard: FC<IAgreementCardProps> = ({
             <Box position="absolute" left="1rem" right="1rem">
               {category && (
                 <Chip
-                  sx={{ background: generateColorFromString(category || '', true), color: 'white' }}
+                  sx={{
+                    background: generateColorFromString(category || '', true),
+                    color: 'white',
+                  }}
                   label={category}
                 />
               )}
