@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export function agreementsQuery(categoryId?: string) {
+export function agreementsQuery(categoryId?: string | number) {
   let categoryExpression = '';
   if (categoryId) {
     categoryExpression = Number(categoryId)

@@ -6,6 +6,7 @@ import StepButton from '@mui/material/StepButton';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
 import styled from 'styled-components';
+import { backgroundBorderColor } from 'theme';
 
 export interface AppbarProps {
   steps: string[];
@@ -17,7 +18,7 @@ export interface AppbarProps {
 const AppbarContainer = styled(Stack)`
   && {
     align-items: center;
-    border-bottom: solid 1px #595f68;
+    border-bottom: solid 1px ${backgroundBorderColor};
     margin-top: -1rem;
     margin-right: -1rem;
     margin-left: -1rem;
@@ -55,7 +56,7 @@ const Appbar: FC<AppbarProps> = (props) => {
                 <StepLabel
                   sx={{
                     '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root': {
-                      color: '#595f68',
+                      color: backgroundBorderColor,
                     },
                     '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root.Mui-active': {
                       color: '#8d54ea',

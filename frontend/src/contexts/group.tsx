@@ -44,6 +44,8 @@ const GroupProvider: FC = () => {
     `,
     { variables: { groupId: currentGroup?.id || -1 } }
   );
+
+  const currentCategory = categoriesData?.core_categories?.find((c) => c.id === Number(categoryId));
   const [deleteAgreementFn] = useMutation(deleteAgreementMutation, {
     refetchQueries: ['agreements'],
   });
@@ -81,6 +83,7 @@ const GroupProvider: FC = () => {
     activeAgreements: activeAgreements?.core_agreements || [],
     archivedAgreements: archivedAgreements?.core_agreements || [],
     categories: categoriesData?.core_categories || [],
+    currentCategory,
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
     deleteAgreement: (id: number) => deleteAgreementFn({ variables: { id } }),
     addAgreement: (categoryId, name, rationale, chapters) => {

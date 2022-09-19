@@ -7,7 +7,7 @@ import { VariantType } from 'types';
 
 interface Props {
   stylevariant?: VariantType;
-  bgColor?: string;
+  bgcolor?: string;
 }
 
 export const DropDownMenuButton = styled(Button)<Props>`
@@ -52,7 +52,7 @@ export const DropDownMenuButton = styled(Button)<Props>`
       props.stylevariant === VariantType.SECONDARY &&
       `
          font-weight: 600;
-         background-color: ${props.bgColor || props.theme.palette.background.paper};
+         background-color: ${props.bgcolor || props.theme.palette.background.paper};
          border-radius: 8px;
          height: 40px;
          

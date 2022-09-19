@@ -1,21 +1,13 @@
-import { useQuery } from '@apollo/client';
 import { Stack, Typography, Button, Box } from '@mui/material';
-import { DataContext } from 'contexts';
 import { useContext } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { StringBank } from 'strings';
-import { IAgreement } from 'types';
-import { agreementsQuery } from 'utils/queries';
 import AddIcon from '@mui/icons-material/Add';
 import { AgreementCarousel } from 'components';
 import { useTranslation } from 'react-i18next';
 import { GroupContext } from 'contexts/group';
 import styled from 'styled-components';
-
-interface State {
-  catName: string;
-  catColor: string;
-}
+import { generateColorFromString } from 'utils/functions';
 
 const Span = styled.span`
   && {
@@ -32,38 +24,26 @@ const Span = styled.span`
   }
 `;
 
-const AllCategories = () => {
+const CategoryAgreements = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const state: State = useLocation().state as State;
-  const { catName, catColor } = state;
-  const { categoryId } = useParams();
-  const { user } = useContext(DataContext);
-  const { slug } = useContext(GroupContext);
-  const currentGroup = user?.groups?.find((group) => group.slug === slug);
-  const vars = {
-    groupId: currentGroup?.id || -1,
-    isArchived: false,
-    categoryId,
-  };
-  const { data: categoryAgreements } = useQuery<{
-    core_agreements: IAgreement[];
-  }>(agreementsQuery(categoryId), {
-    variables: vars,
-  });
+  const { slug, currentCategory, activeAgreements: agreements } = useContext(GroupContext);
+  const category = currentCategory || { id: 0, name: t(StringBank.UNCATEGORIZED) };
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
     navigate(`/${slug}/new-agreement`);
   };
 
-  const agreements = categoryAgreements;
-  const categoryName = agreements?.core_agreements[0]?.category?.name || 'category';
-  if (!agreements || !agreements?.core_agreements.length) {
+  if (!agreements?.length) {
     return (
       <Stack direction="column" height="100%" justifyContent="space-between">
-        <Typography variant="h2">{catName}</Typography>
+        <Typography variant="h2">{category?.name}</Typography>
         <Stack justifyContent="center" alignItems="center">
           <Typography variant="h3">
-            There are no <Span color={catColor}>{catName}</Span> agreements
+            There are no{' '}
+            <Span color={generateColorFromString(category?.name || '', true)}>
+              {category?.name}
+            </Span>{' '}
+            agreements
           </Typography>
           <Stack direction="row">
             <Typography variant="body2" color="#adb2b8" padding="1rem 0">
@@ -89,7 +69,7 @@ const AllCategories = () => {
       <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
         <Typography variant="h2">
           {t(StringBank.CATEGORY_AGREMENTS, {
-            category: categoryName.toUpperCase(),
+            category: category.name.toUpperCase(),
           })}
         </Typography>
         <Button
@@ -100,10 +80,10 @@ const AllCategories = () => {
           {t(StringBank.NEW_AGREEMENT)}
         </Button>
       </Stack>
-      <AgreementCarousel agreements={agreements.core_agreements} />
+      <AgreementCarousel agreements={agreements} />
       <Stack />
     </Stack>
   );
 };
 
-export default AllCategories;
+export default CategoryAgreements;

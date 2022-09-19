@@ -23,6 +23,7 @@ export interface IGroupContext {
   activeAgreements: IAgreement[];
   archivedAgreements: IAgreement[];
   categories: ICategory[];
+  currentCategory?: ICategory;
   archiveAgreement: (id: number, iArchived: boolean) => void;
   deleteAgreement: (id: number) => void;
   addAgreement: (
