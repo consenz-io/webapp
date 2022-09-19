@@ -24,7 +24,7 @@ const AgreementPage: FC = () => {
     e.preventDefault();
     console.log('clicked breadcrumb');
   };
-  // orgenzie real data to: chapter -> sections: suggestions
+  // organize real data to: chapter -> sections: suggestions
   function generateChaptersData() {
     const chaptersData: {
       [key: string]: { [key: string]: ISuggestion[] };
@@ -41,7 +41,10 @@ const AgreementPage: FC = () => {
                 const content: JSONContent = suggestionObj.content;
                 const suggestion: ISuggestion = {
                   content,
-                  id: k + 1,
+                  upvotes: suggestionObj.upvotes,
+                  downvotes: suggestionObj.downvotes,
+                  index: k + 1,
+                  id: suggestionObj.id,
                 };
                 chaptersData[chapter.name][sectionName].push(suggestion);
               });
