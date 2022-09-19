@@ -7,7 +7,7 @@ import { generateColorFromString } from 'utils/functions';
 import SectionCard from 'components/SectionCard';
 import { IAgreement, IChapter, ISection } from 'types';
 import { JSONContent } from '@tiptap/react';
-import { ISuggestion } from 'types/entities';
+import { IVersion } from 'types/entities';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 
@@ -24,10 +24,10 @@ const AgreementPage: FC = () => {
     e.preventDefault();
     console.log('clicked breadcrumb');
   };
-  // orgenzie real data to: chapter -> sections: suggestions
+  // orgenzie real data to: chapter -> sections: versions
   function generateChaptersData() {
     const chaptersData: {
-      [key: string]: { [key: string]: ISuggestion[] };
+      [key: string]: { [key: string]: IVersion[] };
     } = {};
     if (agreement && agreement.chapters && agreement.chapters.length > 0) {
       agreement.chapters.forEach((chapter: IChapter) => {
@@ -36,14 +36,14 @@ const AgreementPage: FC = () => {
           chapter.sections.forEach((section: ISection, j: number) => {
             const sectionName = `section ${j + 1}`;
             chaptersData[chapter.name][sectionName] = [];
-            if (section.suggestions && section.suggestions.length > 0) {
-              section.suggestions.forEach((suggestionObj: any, k: number) => {
-                const content: JSONContent = suggestionObj.content;
-                const suggestion: ISuggestion = {
+            if (section.versions && section.versions.length > 0) {
+              section.versions.forEach((versionObj: any, k: number) => {
+                const content: JSONContent = versionObj.content;
+                const version: IVersion = {
                   content,
                   id: k + 1,
                 };
-                chaptersData[chapter.name][sectionName].push(suggestion);
+                chaptersData[chapter.name][sectionName].push(version);
               });
             }
           });
@@ -53,13 +53,13 @@ const AgreementPage: FC = () => {
     return chaptersData;
   }
 
-  function calcChapterSuggestions(chapter: any) {
-    let suggestionsNum = 0;
+  function calcChapterVersions(chapter: any) {
+    let versionsNum = 0;
     Object.keys(chapter).forEach((sectionName: string) => {
       const section: object = chapter[sectionName];
-      suggestionsNum += Object.keys(section).length;
+      versionsNum += Object.keys(section).length;
     });
-    return suggestionsNum;
+    return versionsNum;
   }
 
   return (
@@ -145,15 +145,15 @@ const AgreementPage: FC = () => {
                   })}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {t(StringBank.SECTION_CARD_TITLE_SUGGESTIONS, {
-                    suggestionsNum: calcChapterSuggestions(chapter),
+                  {t(StringBank.SECTION_CARD_TITLE_VERSIONS, {
+                    versionsNum: calcChapterVersions(chapter),
                   })}
                 </Typography>
               </Stack>
               <Stack direction="column" rowGap="2rem" maxWidth="md">
                 {Object.keys(chapter).map((sectionName: string, j: number) => {
                   const section = chapter[sectionName];
-                  return <SectionCard suggestions={section} key={j} id={j}></SectionCard>;
+                  return <SectionCard versions={section} key={j} id={j}></SectionCard>;
                 })}
               </Stack>
             </Stack>

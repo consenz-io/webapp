@@ -7,7 +7,7 @@ import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ContentEditor from 'components/ContentEditor';
-import { ISection, ISuggestion } from 'types/entities';
+import { ISection, IVersion } from 'types/entities';
 import { ColorModeAndDirectionContext } from 'theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
@@ -15,22 +15,22 @@ import { useTranslation } from 'react-i18next';
 const SectionCard = (props: ISection) => {
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
-  const [suggestionIndex, setSuggestionIndex] = useState<number>(0);
+  const [versionIndex, setversionIndex] = useState<number>(0);
 
-  const updateContent = (newSuggestionIndex: number) => {
-    setSuggestionIndex(newSuggestionIndex);
+  const updateContent = (newversionIndex: number) => {
+    setversionIndex(newversionIndex);
   };
 
-  const forwardSuggestion = () => {
-    if (suggestionIndex + 1 < props.suggestions.length) {
-      const newIndex = suggestionIndex + 1;
+  const forwardVersion = () => {
+    if (versionIndex + 1 < props.versions.length) {
+      const newIndex = versionIndex + 1;
       updateContent(newIndex);
     }
   };
 
-  const backwardsSuggestion = () => {
-    if (suggestionIndex - 1 >= 0) {
-      const newIndex = suggestionIndex - 1;
+  const backwardsVersion = () => {
+    if (versionIndex - 1 >= 0) {
+      const newIndex = versionIndex - 1;
       updateContent(newIndex);
     }
   };
@@ -51,8 +51,8 @@ const SectionCard = (props: ISection) => {
             sx={{
               width: 'min-contnet',
             }}
-            onClick={backwardsSuggestion}
-            disabled={suggestionIndex === 0}
+            onClick={backwardsVersion}
+            disabled={versionIndex === 0}
           >
             {isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
           </IconButton>
@@ -77,17 +77,17 @@ const SectionCard = (props: ISection) => {
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {t(StringBank.SECTION_CARD_CONTENT_VERSIONS, {
-                versionNum: suggestionIndex + 1,
-                totalVersionsNum: props.suggestions.length,
+                versionNum: versionIndex + 1,
+                totalVersionsNum: props.versions.length,
               })}
             </Typography>
             <CheckCircleOutlineIcon htmlColor="#24ebd3" />
           </Stack>
           <Stack direction="row">
             <Typography>
-              {props.suggestions.map((suggestion: ISuggestion) => {
-                if (suggestion.content) {
-                  return <ContentEditor initialContent={suggestion.content} readonly={true} />;
+              {props.versions.map((version: IVersion) => {
+                if (version.content) {
+                  return <ContentEditor initialContent={version.content} readonly={true} />;
                 }
               })}
             </Typography>
@@ -132,8 +132,8 @@ const SectionCard = (props: ISection) => {
             sx={{
               width: 'min-contnet',
             }}
-            disabled={suggestionIndex === props.suggestions.length - 1}
-            onClick={forwardSuggestion}
+            disabled={versionIndex === props.versions.length - 1}
+            onClick={forwardVersion}
           >
             {isRTL ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
           </IconButton>

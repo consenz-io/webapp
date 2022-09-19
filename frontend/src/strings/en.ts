@@ -10,7 +10,7 @@ export const en: Record<StringBank, string> = {
   AGREEMENT_APPROVAL_RULES: 'Agreement Approval Rules',
   AGREEMENT_APPROVAL_RULES_DESCRIPTION: 'Set rules for changing agreement status to approved',
   AGREEMENT_PROCESS_RULES_DESCRIPTION:
-    'Set rules for accepting changes to the agreement by adding and approving new sections and approving sections improvements suggestions',
+    'Set rules for accepting changes to the agreement by adding and approving new sections and approving sections improvements versions',
   AGREEMENT_PUBLIHSED_SUCCESSFULLY: 'Your agreement has been succesfully published',
   AGREEMENT_UPDATED_AT: 'Updated at: {{date}}',
   ALL_AGREEMENTS: 'All Agreements',
@@ -37,7 +37,7 @@ export const en: Record<StringBank, string> = {
   RULES: 'Rules',
   SECTIONS: 'Sections',
   SHARE_AGREEMENT: 'Share This Agreement',
-  TIME_LIMITED_DESCRIPTION: 'For how long the aggremment suggestion will stand for a vote?',
+  TIME_LIMITED_DESCRIPTION: 'For how long the aggremment version will stand for a vote?',
   TIME_LIMITED: 'Time Limited',
   UNARCHIVE: 'Unarchive',
   UNCATEGORIZED: 'General',
@@ -49,7 +49,7 @@ export const en: Record<StringBank, string> = {
   and have fun!`,
   SECTION_CARD_TITLE_CHAPTER: '# {{chapterName}}',
   SECTION_CARD_TITLE_SECTIONS: '{{sectionNum}} sections',
-  SECTION_CARD_TITLE_SUGGESTIONS: '{{suggestionsNum}} suggestions',
+  SECTION_CARD_TITLE_VERSIONS: '{{versionsNum}} versions',
   SECTION_CARD_CONTENT_SECTION_NAME: 'section {{sectionNum}}',
   SECTION_CARD_CONTENT_VERSIONS: 'Version {{versionNum}} of {{totalVersionsNum}}',
 };

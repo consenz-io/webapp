@@ -30,10 +30,10 @@ export interface IGroup {
 
 export interface ISection {
   id: number;
-  suggestions: ISuggestion[];
+  versions: IVersion[];
 }
 
-export interface ISuggestion {
+export interface IVersion {
   id: number;
   content: JSONContent | string;
 }

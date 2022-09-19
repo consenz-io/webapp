@@ -44,7 +44,7 @@ export function getAgreementByIdQuery() {
           agreement_id
           name
           sections {
-            suggestions {
+            versions {
               content
             }
           }

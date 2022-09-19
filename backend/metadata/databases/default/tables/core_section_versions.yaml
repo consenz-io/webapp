@@ -33,8 +33,9 @@ insert_permissions:
             agreement:
               group:
                 group_users:
-                  user_id:
-                    _eq: X-Hasura-User-Id
+                  user:
+                    user_id:
+                      _eq: X-Hasura-User-Id
       columns:
         - id
         - section_id
@@ -44,15 +45,24 @@ insert_permissions:
 select_permissions:
   - role: authenticated
     permission:
-      columns: []
+      columns:
+        - id
+        - section_id
+        - content
+        - created_at
+        - updated_at
+      computed_fields:
+        - downvotes
+        - updavotes
       filter:
         section:
           chapter:
             agreement:
               group:
                 group_users:
-                  user_id:
-                    _eq: X-Hasura-User-Id
+                  user:
+                    user_id:
+                      _eq: X-Hasura-User-Id
   - role: moderator
     permission:
       columns:
@@ -68,13 +78,19 @@ select_permissions:
 update_permissions:
   - role: authenticated
     permission:
-      columns: []
+      columns:
+        - id
+        - section_id
+        - content
+        - created_at
+        - updated_at
       filter:
         section:
           chapter:
             agreement:
               group:
                 group_users:
-                  user_id:
-                    _eq: X-Hasura-User-Id
+                  user:
+                    user_id:
+                      _eq: X-Hasura-User-Id
       check: null
