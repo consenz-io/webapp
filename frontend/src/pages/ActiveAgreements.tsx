@@ -42,11 +42,7 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
         </Button>
       </Stack>
       {agreements.length ? (
-        <Stack flexDirection={{ xs: 'column', sm: 'row' }} flexWrap={{ sx: 'nowrap', sm: 'wrap' }}>
-          {agreements.map((agreement, i) => (
-            <AgreementCarousel {...agreement} key={i} />
-          ))}
-        </Stack>
+        <AgreementCarousel agreements={agreements} />
       ) : (
         <Stack alignItems="center" justifyContent="center">
           <Stack flexDirection="row" justifyContent="center">

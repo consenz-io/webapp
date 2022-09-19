@@ -1,33 +1,30 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import AgreementCard from 'components/AgreementCard';
 import { FC } from 'react';
 import { IAgreement } from 'types';
 
-const AgreementCarousel: FC<IAgreement> = ({
-  id,
-  category,
-  updated_at,
-  rationale,
-  is_archived,
-  name,
-}) => {
+const AgreementCarousel: FC<{ agreements: IAgreement[] }> = ({ agreements }) => {
   return (
-    <Box
-      key={id}
-      flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }}
-      padding={1}
-      minWidth="0"
-    >
-      <AgreementCard
-        id={id}
-        participants={14}
-        category={category?.name}
-        title={name}
-        updatedAt={new Date(updated_at)}
-        rationale={rationale}
-        isArchived={is_archived}
-      />
-    </Box>
+    <Stack flexDirection={{ xs: 'column', sm: 'row' }} flexWrap={{ sx: 'nowrap', sm: 'wrap' }}>
+      {agreements.map((agreement: IAgreement) => (
+        <Box
+          key={agreement.id}
+          flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }}
+          padding={1}
+          minWidth="0"
+        >
+          <AgreementCard
+            id={agreement.id}
+            participants={14}
+            category={agreement.category?.name}
+            title={agreement.name}
+            updatedAt={new Date(agreement.updated_at)}
+            rationale={agreement.rationale}
+            isArchived={agreement.is_archived}
+          />
+        </Box>
+      ))}
+    </Stack>
   );
 };
 

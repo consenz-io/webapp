@@ -48,11 +48,7 @@ const AllArchievedAgreements = () => {
           {t(StringBank.NEW_AGREEMENT)}
         </Button>
       </Stack>
-      <Stack flexDirection={{ xs: 'column', sm: 'row' }} flexWrap={{ sx: 'nowrap', sm: 'wrap' }}>
-        {archivedAgreements.map((archivedAgreement, i) => (
-          <AgreementCarousel {...archivedAgreement} key={i} />
-        ))}
-      </Stack>
+      <AgreementCarousel agreements={archivedAgreements} />
       <Stack />
     </Stack>
   );

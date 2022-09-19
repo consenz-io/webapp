@@ -32,18 +32,6 @@ const Span = styled.span`
   }
 `;
 
-const NewAgreementButton = styled(Button)`
-  && {
-    width: 160px;
-    height: 36px;
-    border-radius: 8px;
-    flex-grow: 0;
-    font-family: Lato;
-    font-size: 14px;
-    background-color: #3f4550;
-  }
-`;
-
 const AllCategories = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -83,9 +71,13 @@ const AllCategories = () => {
             </Typography>
           </Stack>
           <Stack direction="row" padding="1rem 0">
-            <NewAgreementButton variant="contained" startIcon={<AddIcon />}>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={(event) => handleMenuItemClick(event, slug)}
+            >
               {t(StringBank.NEW_AGREEMENT)}
-            </NewAgreementButton>
+            </Button>
           </Stack>
         </Stack>
         <Box></Box>
@@ -108,11 +100,7 @@ const AllCategories = () => {
           {t(StringBank.NEW_AGREEMENT)}
         </Button>
       </Stack>
-      <Stack flexDirection={{ xs: 'column', sm: 'row' }} flexWrap={{ sx: 'nowrap', sm: 'wrap' }}>
-        {agreements?.core_agreements.map((agreement, i) => (
-          <AgreementCarousel {...agreement} key={i} />
-        ))}
-      </Stack>
+      <AgreementCarousel agreements={agreements.core_agreements} />
       <Stack />
     </Stack>
   );
