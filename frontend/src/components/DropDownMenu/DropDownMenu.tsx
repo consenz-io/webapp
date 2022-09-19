@@ -110,7 +110,11 @@ const DropDownMenu: FC<IProps> = ({
             >
               {menuItem.color && (
                 <CircleIcon
-                  style={{ fill: menuItem.color, marginRight: '.5rem', marginLeft: '-.25rem' }}
+                  style={{
+                    fill: menuItem.color,
+                    marginRight: '.5rem',
+                    marginLeft: '-.25rem',
+                  }}
                 />
               )}
               {menuItem.icon}

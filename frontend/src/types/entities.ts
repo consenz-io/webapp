@@ -6,6 +6,7 @@ export interface IAgreement {
   category: ICategory;
   updated_at: string;
   rationale: string;
+  is_archived?: boolean;
   chapters?: IChapter[];
 }
 
