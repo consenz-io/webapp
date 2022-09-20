@@ -45,6 +45,7 @@ export const en: Record<StringBank, string> = {
   UNARCHIVE: 'Unarchive',
   UNCATEGORIZED: 'General',
   VIEW_AGREEMENT: 'View Agreement',
+  VIEW_CURRENT_DRAFT: 'View Current Draft',
   WELCOME_HEADER: 'Welcome to consenz!',
   WELCOME_PARAGRAPH: `You are not part of a Group yet,
   ask your Group Manager to invite you to join
