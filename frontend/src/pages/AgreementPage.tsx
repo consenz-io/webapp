@@ -83,7 +83,7 @@ const AgreementPage: FC = () => {
             </Typography>
           </Button>
         </Stack>
-        <Typography sx={{ paddingLeft: '1rem' }} variant="body2">
+        <Typography sx={{ paddingLeft: '1rem' }} variant="body2" maxWidth="md">
           {agreementContext.rationale || 'rationale'}
         </Typography>
         <Box />
