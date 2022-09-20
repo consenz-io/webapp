@@ -31,12 +31,12 @@ export interface IGroup {
 
 export interface ISection {
   id: number;
-  suggestions: ISuggestion[];
+  versions: IVersion[];
 }
 
-export interface ISuggestion {
-  id: number; // unique row ID in Hasura
-  index: number; // aka "version number", the suggestion's base-1 index per section, in chronological order
+export interface IVersion {
+  id: number;
+  index: number;
   content: JSONContent | string;
   upvotes: number;
   downvotes: number;

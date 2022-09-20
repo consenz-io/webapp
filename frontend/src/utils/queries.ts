@@ -47,7 +47,7 @@ export function getAgreementByIdQuery() {
           index
           sections(order_by: { index: asc }) {
             index
-            suggestions(order_by: { created_at: asc }) {
+            versions(order_by: { created_at: asc }) {
               id
               content
               upvotes

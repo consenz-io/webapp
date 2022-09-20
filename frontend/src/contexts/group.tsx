@@ -106,7 +106,7 @@ const GroupProvider: FC = () => {
                   .filter((s) => !isJsonContentEmpty(s.content))
                   .map((s) => ({
                     index: allNonEmptySections.indexOf(s) + 1,
-                    suggestions: { data: { content: s.content } },
+                    versions: { data: { content: s.content } },
                   })),
               },
             })),

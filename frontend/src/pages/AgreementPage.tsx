@@ -99,9 +99,9 @@ const AgreementPage: FC = () => {
                 })}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {t(StringBank.SECTION_CARD_TITLE_SUGGESTIONS, {
+                {t(StringBank.SECTION_CARD_TITLE_VERSIONS, {
                   suggestionsNum: chapter.sections.reduce(
-                    (acc, section) => acc + section.suggestions.length,
+                    (acc, section) => acc + section.versions.length,
                     0
                   ),
                 })}
@@ -109,7 +109,7 @@ const AgreementPage: FC = () => {
             </Stack>
             <Stack direction="column" rowGap="2rem" maxWidth="md">
               {chapter?.sections?.map((section, j: number) => (
-                <SectionCard suggestions={section.suggestions} key={j} id={section.id} />
+                <SectionCard versions={section.versions} key={j} id={section.id} />
               ))}
             </Stack>
           </Stack>
