@@ -39,7 +39,7 @@ const SectionCard = (props: ISection) => {
 
   return (
     <Card variant="elevation" elevation={0}>
-      <Stack direction="row" justifyContent="space-around" alignItems="strech">
+      <Stack direction="row" justifyContent="space-around">
         <Stack
           id="rightArrowCol"
           justifyContent="center"
