@@ -95,9 +95,7 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
             open={snackbarOpen}
             message="URL Copied Successfully"
             autoHideDuration={4000}
-            onClose={() => {
-              setSnackbarOpen(false);
-            }}
+            onClose={() => setSnackbarOpen(false)}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           />
         </Stack>
