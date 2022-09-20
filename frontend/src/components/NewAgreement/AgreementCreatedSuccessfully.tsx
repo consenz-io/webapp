@@ -1,5 +1,14 @@
-import { Button, Container, Divider, IconButton, Stack, SvgIcon, Typography } from '@mui/material';
-import { FC, useContext } from 'react';
+import {
+  Button,
+  Container,
+  Divider,
+  IconButton,
+  Stack,
+  SvgIcon,
+  Typography,
+  Snackbar,
+} from '@mui/material';
+import { FC, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { useNavigate } from 'react-router-dom';
@@ -14,26 +23,27 @@ const CopyIconWrapper = styled(SvgIcon)`
   }
 `;
 
-const CopyEL: FC<{ text: string }> = ({ text }) => {
-  return (
-    <IconButton
-      sx={{ marginStart: '2rem', marginEnd: '1rem' }}
-      onClick={() => {
-        navigator.clipboard.writeText(text);
-      }}
-    >
-      <CopyIconWrapper>
-        <CopyIcon />
-      </CopyIconWrapper>
-    </IconButton>
-  );
-};
-
 const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId }) => {
   const { t } = useTranslation();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const { slug: groupSlug } = useContext(GroupContext);
   const navigate = useNavigate();
   const AgreementText = `${window.location.origin}/${groupSlug}/agreement/${agreementId}`;
+  const CopyEL: FC<{ text: string }> = ({ text }) => {
+    return (
+      <IconButton
+        sx={{ marginStart: '2rem', marginEnd: '1rem' }}
+        onClick={() => {
+          setSnackbarOpen(true);
+          navigator.clipboard.writeText(text);
+        }}
+      >
+        <CopyIconWrapper>
+          <CopyIcon />
+        </CopyIconWrapper>
+      </IconButton>
+    );
+  };
   return (
     <Container maxWidth="xs" sx={{ height: '100%' }}>
       <Stack
@@ -81,6 +91,15 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
             {AgreementText}
           </Typography>
           <CopyEL text={AgreementText} />
+          <Snackbar
+            open={snackbarOpen}
+            message="URL Copied Successfully"
+            autoHideDuration={4000}
+            onClose={() => {
+              setSnackbarOpen(false);
+            }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          />
         </Stack>
       </Stack>
     </Container>
