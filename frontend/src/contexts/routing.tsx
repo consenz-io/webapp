@@ -1,11 +1,19 @@
 import { createContext, FC } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { IFCProps, IRoutingContext } from 'types';
-import { AgreementPage, Home, Page404, AllAgreements, NewAgreement, Welcome } from 'pages';
+import {
+  AgreementPage,
+  Home,
+  Page404,
+  AllAgreements,
+  NewAgreement,
+  Welcome,
+  AllArchievedAgreements,
+  AllCategories,
+} from 'pages';
 import { SidebarLayout } from 'components';
 import { GroupProvider } from './group';
 import { AgreementProvider } from './agreement';
-
 const HOME_ROUTE = '/';
 const WELCOME_ROUTE = '/welcome';
 
@@ -34,8 +42,8 @@ const RoutesProvider: FC = () => {
           <Route path={`${HOME_ROUTE}/:groupSlug`} element={<GroupProvider />}>
             <Route element={<SidebarLayout />}>
               <Route path="active-agreements" element={<AllAgreements />} />
-              <Route path="archive" element={<AllAgreements isArchive />} />
-              <Route path="cat/:categoryId" element={<AllAgreements />} />
+              <Route path="archive" element={<AllArchievedAgreements />} />
+              <Route path="cat/:categoryId" element={<AllCategories />} />
               <Route path="new-agreement" element={<NewAgreement />} />
               <Route path="agreement" element={<AgreementProvider />}>
                 <Route path=":agreementId" element={<AgreementPage />} />

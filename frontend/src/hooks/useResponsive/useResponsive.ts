@@ -4,7 +4,9 @@ import { IWindowWidth } from './types';
 const useResponsive = () => {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
-  const [windowWidth, setWindowWidth] = useState<IWindowWidth>({ width: undefined });
+  const [windowWidth, setWindowWidth] = useState<IWindowWidth>({
+    width: undefined,
+  });
   const { width } = windowWidth;
 
   useEffect(() => {

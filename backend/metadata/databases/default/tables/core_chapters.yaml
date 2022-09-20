@@ -31,11 +31,12 @@ select_permissions:
   - role: authenticated
     permission:
       columns:
-        - id
-        - created_at
-        - updated_at
-        - name
         - agreement_id
+        - created_at
+        - id
+        - index
+        - name
+        - updated_at
       filter:
         agreement:
           group:

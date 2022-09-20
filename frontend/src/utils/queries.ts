@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export function agreementsQuery(categoryId?: string) {
+export function agreementsQuery(categoryId?: string | number) {
   let categoryExpression = '';
   if (categoryId) {
     categoryExpression = Number(categoryId)
@@ -21,6 +21,7 @@ export function agreementsQuery(categoryId?: string) {
       name
       rationale
       updated_at
+      is_archived
       category {
         id
         name
@@ -40,12 +41,17 @@ export function getAgreementByIdQuery() {
           name
         }
         rationale
-        chapters {
+        chapters(order_by: { index: asc }) {
           agreement_id
           name
-          sections {
-            versions {
+          index
+          sections(order_by: { index: asc }) {
+            index
+            versions(order_by: { created_at: asc }) {
+              id
               content
+              upvotes
+              downvotes
             }
           }
         }

@@ -84,7 +84,7 @@ const DropDownMenu: FC<IProps> = ({
           isUser={!!btnCapital}
           isBorderHidden={isBorderHidden}
           stylevariant={styleVariant}
-          bgColor={bgColor}
+          bgcolor={bgColor}
         >
           {getButtonText()}
         </SC.DropDownMenuButton>
@@ -110,7 +110,11 @@ const DropDownMenu: FC<IProps> = ({
             >
               {menuItem.color && (
                 <CircleIcon
-                  style={{ fill: menuItem.color, marginRight: '.5rem', marginLeft: '-.25rem' }}
+                  style={{
+                    fill: menuItem.color,
+                    marginRight: '.5rem',
+                    marginLeft: '-.25rem',
+                  }}
                 />
               )}
               {menuItem.icon}
