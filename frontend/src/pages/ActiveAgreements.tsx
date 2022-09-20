@@ -19,7 +19,6 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
   const { activeAgreements, archivedAgreements, name, slug } = useContext(GroupContext);
 
   const agreements = isArchive ? archivedAgreements : activeAgreements;
-  console.log('agreements', agreements);
 
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
     navigate(`/${slug}/new-agreement`);

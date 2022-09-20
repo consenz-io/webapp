@@ -8,7 +8,6 @@ const AgreementContext = createContext<IAgreementContext>({} as IAgreementContex
 
 const AgreementProvider: FC = () => {
   const { agreementId } = useParams();
-  console.log('agreementId', agreementId);
   const { data } = useQuery<{
     core_agreements: IAgreement[];
   }>(getAgreementByIdQuery(), {
@@ -16,7 +15,6 @@ const AgreementProvider: FC = () => {
       agreementId,
     },
   });
-  console.log('data', data);
   const agreement = data?.core_agreements[0];
   const state: IAgreementContext = {
     agreementId: agreement?.id || NaN,
