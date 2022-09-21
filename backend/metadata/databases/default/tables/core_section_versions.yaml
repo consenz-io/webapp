@@ -18,6 +18,13 @@ computed_fields:
         name: section_versions_count_votes_down
         schema: core
     comment: ""
+  - name: my_vote
+    definition:
+      function:
+        name: section_version_hasura_user_vote
+        schema: core
+      session_argument: hasura_session
+    comment: 'The current hasura user''s vote on this section version: up, down, or null.'
   - name: upvotes
     definition:
       function:
@@ -53,6 +60,7 @@ select_permissions:
         - updated_at
       computed_fields:
         - downvotes
+        - my_vote
         - upvotes
       filter:
         section:
@@ -73,6 +81,7 @@ select_permissions:
         - updated_at
       computed_fields:
         - downvotes
+        - my_vote
         - upvotes
       filter: {}
 update_permissions:
