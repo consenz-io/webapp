@@ -23,6 +23,12 @@ computed_fields:
         name: agreement_consensus_average
         schema: core
     comment: Average of all section version consensus values for the agreement document.
+  - name: threshold
+    definition:
+      function:
+        name: agreement_threshold
+        schema: core
+    comment: The agreement document's consensus average multiplied by its voters count.
   - name: users
     definition:
       function:
@@ -69,6 +75,7 @@ select_permissions:
         - updated_at
       computed_fields:
         - consensus
+        - threshold
         - users
       filter:
         group:
@@ -89,6 +96,7 @@ select_permissions:
         - updated_at
       computed_fields:
         - consensus
+        - threshold
         - users
       filter: {}
 update_permissions:
