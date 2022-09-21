@@ -1,4 +1,2 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "core"."section_versions" add column "threshold" integer
---  not null default '0';
+ALTER TABLE "core"."section_versions" 
+DROP COLUMN "threshold" CASCADE;
