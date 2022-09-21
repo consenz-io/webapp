@@ -1,4 +1,14 @@
-import { Breadcrumbs, Button, Link, Stack, Typography, Chip } from '@mui/material';
+import {
+  Breadcrumbs,
+  Button,
+  Link,
+  Stack,
+  Typography,
+  Chip,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+} from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext } from 'react';
 import DocLogo from 'assets/icons/document.svg';
@@ -8,6 +18,7 @@ import SectionCard from 'components/SectionCard';
 import { IAgreement, IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const AgreementPage: FC = () => {
   const { t } = useTranslation();
@@ -86,33 +97,45 @@ const AgreementPage: FC = () => {
           {agreementContext.rationale || 'rationale'}
         </Typography>
       </Stack>
-      <Stack direction="column">
+      <Stack direction="column" maxWidth="md" spacing={2} marginBottom="2rem">
         {agreement?.chapters?.map((chapter: IChapter, i: number) => (
-          <Stack direction="column" key={i}>
-            <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
-              <Typography variant="h3">
-                {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {t(StringBank.SECTION_CARD_TITLE_SECTIONS, {
-                  sectionNum: chapter.sections?.length,
-                })}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {t(StringBank.SECTION_CARD_TITLE_VERSIONS, {
-                  suggestionsNum: chapter.sections.reduce(
-                    (acc, section) => acc + section.versions.length,
-                    0
-                  ),
-                })}
-              </Typography>
-            </Stack>
-            <Stack direction="column" rowGap="2rem" maxWidth="md">
-              {chapter?.sections?.map((section, j: number) => (
-                <SectionCard versions={section.versions} key={j} id={section.id} />
-              ))}
-            </Stack>
-          </Stack>
+          <Accordion
+            TransitionProps={{ unmountOnExit: true }}
+            key={i}
+            sx={{
+              '&& .MuiAccordionDetails-root': {
+                backgroundColor: '#333842',
+              },
+            }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ backgroundColor: '#333842' }}>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <Typography variant="h3">
+                  {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {t(StringBank.SECTION_CARD_TITLE_SECTIONS, {
+                    sectionNum: chapter.sections?.length,
+                  })}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {t(StringBank.SECTION_CARD_TITLE_VERSIONS, {
+                    suggestionsNum: chapter.sections.reduce(
+                      (acc, section) => acc + section.versions.length,
+                      0
+                    ),
+                  })}
+                </Typography>
+              </Stack>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Stack direction="column" rowGap="2rem" maxWidth="md">
+                {chapter?.sections?.map((section, j: number) => (
+                  <SectionCard versions={section.versions} key={j} id={section.id} />
+                ))}
+              </Stack>
+            </AccordionDetails>
+          </Accordion>
         ))}
       </Stack>
     </Stack>
