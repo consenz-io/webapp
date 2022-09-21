@@ -16,6 +16,19 @@ array_relationships:
         table:
           name: chapters
           schema: core
+computed_fields:
+  - name: consensus
+    definition:
+      function:
+        name: agreement_consensus_average
+        schema: core
+    comment: Average of all section version consensus values for the agreement document.
+  - name: users
+    definition:
+      function:
+        name: agreeement_voters_count
+        schema: core
+    comment: Count of all distinct users who have voted for any section version in the agreement document.
 insert_permissions:
   - role: authenticated
     permission:
@@ -54,6 +67,9 @@ select_permissions:
         - name
         - rationale
         - updated_at
+      computed_fields:
+        - consensus
+        - users
       filter:
         group:
           group_users:
@@ -71,6 +87,9 @@ select_permissions:
         - rationale
         - created_at
         - updated_at
+      computed_fields:
+        - consensus
+        - users
       filter: {}
 update_permissions:
   - role: authenticated
