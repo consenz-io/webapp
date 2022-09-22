@@ -54,7 +54,6 @@ const AgreementProvider: FC = () => {
     agreementTitle: agreement?.name || '',
     agreement: agreement,
     vote: (user_id: number, version_id: number, type: 'up' | 'down') => {
-      console.log('version_id IAgreementContext', version_id);
       return onVote(user_id, version_id, type);
     },
   };

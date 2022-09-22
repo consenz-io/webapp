@@ -17,6 +17,7 @@ const AgreementPage: FC = () => {
   const agreementContext = useContext(AgreementContext);
   const currentCategory = agreementContext.categoryName;
   const agreement: IAgreement | undefined = agreementContext.agreement;
+  console.log('agreement', agreement);
   const categoryColor = currentCategory
     ? generateColorFromString(currentCategory, true)
     : 'primary';
@@ -116,7 +117,7 @@ const AgreementPage: FC = () => {
                   userId={userId || -1}
                   versions={section.versions}
                   key={j}
-                  id={section.id}
+                  index={section.index}
                 />
               ))}
             </Stack>

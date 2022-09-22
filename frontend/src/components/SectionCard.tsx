@@ -15,7 +15,6 @@ import { AgreementContext } from 'contexts/agreement';
 import { IAgreementContext } from 'types';
 
 const SectionCard = (props: ISection) => {
-  console.log('props', props);
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const [versionIndex, setversionIndex] = useState<number>(0);
@@ -80,7 +79,7 @@ const SectionCard = (props: ISection) => {
                 color: '#E0E0E0',
               }}
             >
-              {t(StringBank.SECTION_CARD_CONTENT_SECTION_NAME, { sectionNum: props.id + 1 })}
+              {t(StringBank.SECTION_CARD_CONTENT_SECTION_NAME, { sectionNum: props.index + 1 })}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {t(StringBank.SECTION_CARD_CONTENT_VERSIONS, {
@@ -104,7 +103,7 @@ const SectionCard = (props: ISection) => {
               <IconButton>
                 <LikeIcon
                   onClick={() => {
-                    vote(userId, props.id, 'up');
+                    vote(userId, currentVersion.id, 'up');
                   }}
                 />
               </IconButton>
@@ -116,7 +115,7 @@ const SectionCard = (props: ISection) => {
               <IconButton>
                 <DislikeIcon
                   onClick={() => {
-                    vote(userId, props.id, 'down');
+                    vote(userId, currentVersion.id, 'down');
                   }}
                 />
               </IconButton>
