@@ -18,7 +18,7 @@ computed_fields:
         name: section_versions_count_votes_down
         schema: core
     comment: ""
-  - name: updavotes
+  - name: upvotes
     definition:
       function:
         name: section_versions_count_votes_up
@@ -38,10 +38,10 @@ insert_permissions:
                       _eq: X-Hasura-User-Id
       columns:
         - id
-        - section_id
-        - content
         - created_at
         - updated_at
+        - section_id
+        - content
 select_permissions:
   - role: authenticated
     permission:
@@ -53,7 +53,7 @@ select_permissions:
         - updated_at
       computed_fields:
         - downvotes
-        - updavotes
+        - upvotes
       filter:
         section:
           chapter:
@@ -73,7 +73,7 @@ select_permissions:
         - updated_at
       computed_fields:
         - downvotes
-        - updavotes
+        - upvotes
       filter: {}
 update_permissions:
   - role: authenticated
