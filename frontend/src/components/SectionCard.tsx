@@ -11,12 +11,17 @@ import { ISection } from 'types/entities';
 import { ColorModeAndDirectionContext } from 'theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
+import { AgreementContext } from 'contexts/agreement';
+import { IAgreementContext } from 'types';
 
 const SectionCard = (props: ISection) => {
+  console.log('props', props);
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const [versionIndex, setversionIndex] = useState<number>(0);
-
+  const agreementContext: IAgreementContext = useContext(AgreementContext);
+  const { vote } = agreementContext;
+  const userId = props.userId;
   const updateContent = (newversionIndex: number) => {
     setversionIndex(newversionIndex);
   };
@@ -97,7 +102,11 @@ const SectionCard = (props: ISection) => {
           <Stack gap="1rem" direction="row">
             <Stack direction="row" justifyContent="center" alignItems="center">
               <IconButton>
-                <LikeIcon />
+                <LikeIcon
+                  onClick={() => {
+                    vote(userId, props.id, 'up');
+                  }}
+                />
               </IconButton>
               <Typography paddingLeft="4px" paddingRight="4px" color="#24ebd3">
                 {currentVersion.upvotes}
@@ -105,7 +114,11 @@ const SectionCard = (props: ISection) => {
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center">
               <IconButton>
-                <DislikeIcon />
+                <DislikeIcon
+                  onClick={() => {
+                    vote(userId, props.id, 'down');
+                  }}
+                />
               </IconButton>
               <Typography paddingLeft="4px" paddingRight="4px">
                 {currentVersion.downvotes}

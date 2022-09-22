@@ -5,12 +5,15 @@ import DocLogo from 'assets/icons/document.svg';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { generateColorFromString } from 'utils/functions';
 import SectionCard from 'components/SectionCard';
-import { IAgreement, IChapter } from 'types';
+import { IAgreement, IChapter, ISection } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
+import { DataContext } from 'contexts';
 
 const AgreementPage: FC = () => {
   const { t } = useTranslation();
+  const { user } = useContext(DataContext);
+  const userId: number | undefined = user?.id;
   const agreementContext = useContext(AgreementContext);
   const currentCategory = agreementContext.categoryName;
   const agreement: IAgreement | undefined = agreementContext.agreement;
@@ -108,8 +111,13 @@ const AgreementPage: FC = () => {
               </Typography>
             </Stack>
             <Stack direction="column" rowGap="2rem" maxWidth="md">
-              {chapter?.sections?.map((section, j: number) => (
-                <SectionCard versions={section.versions} key={j} id={section.id} />
+              {chapter?.sections?.map((section: ISection, j: number) => (
+                <SectionCard
+                  userId={userId || -1}
+                  versions={section.versions}
+                  key={j}
+                  id={section.id}
+                />
               ))}
             </Stack>
           </Stack>
