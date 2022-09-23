@@ -38,6 +38,11 @@ export const en: Record<StringBank, string> = {
   REQUIRE_ADMIN_APPROVAL_DESCRIPTION: 'An admin must approve any changes to the draft',
   RETURN_TO_ALL_AGREEMENTS: 'Return to all agreements',
   RULES: 'Rules',
+  SECTION_CARD_CONTENT_SECTION_NAME: 'section {{sectionNum}}',
+  SECTION_CARD_CONTENT_VERSIONS: 'Version {{versionNum}} of {{totalVersionsNum}}',
+  SECTION_CARD_TITLE_CHAPTER: '# {{chapterName}}',
+  SECTION_CARD_TITLE_SECTIONS: '{{sectionNum}} sections',
+  SECTION_CARD_TITLE_VERSIONS: '{{versionsNum}} versions',
   SECTIONS: 'Sections',
   SHARE_AGREEMENT: 'Share This Agreement',
   TIME_LIMITED_DESCRIPTION: 'For how long the aggremment version will stand for a vote?',
@@ -50,9 +55,4 @@ export const en: Record<StringBank, string> = {
   ask your Group Manager to invite you to join
   
   and have fun!`,
-  SECTION_CARD_TITLE_CHAPTER: '# {{chapterName}}',
-  SECTION_CARD_TITLE_SECTIONS: '{{sectionNum}} sections',
-  SECTION_CARD_TITLE_VERSIONS: '{{versionsNum}} versions',
-  SECTION_CARD_CONTENT_SECTION_NAME: 'section {{sectionNum}}',
-  SECTION_CARD_CONTENT_VERSIONS: 'Version {{versionNum}} of {{totalVersionsNum}}',
 };
