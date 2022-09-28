@@ -25,7 +25,7 @@ const CopyIconWrapper = styled(SvgIcon)`
 
 const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId }) => {
   const { t } = useTranslation();
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [isSnackbarOpen, setSnackbarOpen] = useState(false);
   const { slug: groupSlug } = useContext(GroupContext);
   const navigate = useNavigate();
   const AgreementText = `${window.location.origin}/${groupSlug}/agreement/${agreementId}`;
@@ -92,8 +92,8 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
           </Typography>
           <CopyEL text={AgreementText} />
           <Snackbar
-            open={snackbarOpen}
-            message="URL Copied Successfully"
+            open={isSnackbarOpen}
+            message={t(StringBank.URL_COPIED_SUCCESSFULLY)}
             autoHideDuration={4000}
             onClose={() => setSnackbarOpen(false)}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
