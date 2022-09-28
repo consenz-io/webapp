@@ -42,36 +42,26 @@ const SectionCard = (props: ISection) => {
   const currentVersion = props.versions[versionIndex];
 
   return (
-    <Card variant="elevation" elevation={0}>
-      <Stack direction="row" justifyContent="space-around" alignItems="center">
-        <Stack
-          flexGrow="1"
-          id="rightArrowCol"
-          justifyContent="center"
-          alignItems="center"
-          padding="0 2rem"
-          direction="column"
-          order="1"
+    <Card variant="elevation" elevation={0} sx={{ paddingX: 1 }}>
+      <Stack direction="row" justifyContent="space-between" spacing={2}>
+        <IconButton
+          sx={{
+            width: 'min-contnet',
+          }}
+          onClick={backwardsVersion}
+          disabled={versionIndex === 0}
         >
-          <IconButton
-            sx={{
-              width: 'min-contnet',
-            }}
-            onClick={backwardsVersion}
-            disabled={versionIndex === 0}
-          >
-            {isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
-          </IconButton>
-        </Stack>
+          {isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
+        </IconButton>
         <Stack
-          flexGrow="10"
           id="contentCol"
           justifyContent="center"
           direction="column"
-          order="2"
-          paddingTop="2rem"
+          paddingTop={4}
+          paddingBottom={2}
+          flexGrow={1}
         >
-          <Stack direction="row" gap="1rem">
+          <Stack direction="row" spacing={2} alignItems="center">
             <Typography
               variant="body2"
               sx={{
@@ -79,7 +69,7 @@ const SectionCard = (props: ISection) => {
                 color: '#E0E0E0',
               }}
             >
-              {t(StringBank.SECTION_CARD_CONTENT_SECTION_NAME, { sectionNum: props.index + 1 })}
+              {t(StringBank.SECTION_CARD_CONTENT_SECTION_NAME, { sectionNum: props.index })}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {t(StringBank.SECTION_CARD_CONTENT_VERSIONS, {
@@ -87,7 +77,7 @@ const SectionCard = (props: ISection) => {
                 totalVersionsNum: props.versions.length,
               })}
             </Typography>
-            <CheckCircleOutlineIcon htmlColor="#24ebd3" />
+            <CheckCircleOutlineIcon htmlColor="#24ebd3" fontSize="inherit" />
           </Stack>
           <Stack direction="row">
             <Typography>
@@ -99,59 +89,43 @@ const SectionCard = (props: ISection) => {
             </Typography>
           </Stack>
           <Stack gap="1rem" direction="row">
-            <Stack direction="row" justifyContent="center" alignItems="center">
-              <IconButton>
+            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+              <IconButton sx={{ padding: '0' }}>
                 <LikeIcon
                   onClick={() => {
                     vote(userId, currentVersion.id, 'up');
                   }}
                 />
               </IconButton>
-              <Typography paddingLeft="4px" paddingRight="4px" color="#24ebd3">
-                {currentVersion.upvotes}
-              </Typography>
+              <Typography color="#24ebd3">{currentVersion.upvotes}</Typography>
             </Stack>
-            <Stack direction="row" justifyContent="center" alignItems="center">
-              <IconButton>
+            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+              <IconButton sx={{ padding: '0' }}>
                 <DislikeIcon
                   onClick={() => {
                     vote(userId, currentVersion.id, 'down');
                   }}
                 />
               </IconButton>
-              <Typography paddingLeft="4px" paddingRight="4px">
-                {currentVersion.downvotes}
-              </Typography>
+              <Typography>{currentVersion.downvotes}</Typography>
             </Stack>
-            <Stack direction="row" justifyContent="center" alignItems="center">
-              <IconButton>
+            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+              <IconButton sx={{ padding: '0' }}>
                 <CommentIcon />
               </IconButton>
-              <Typography paddingLeft="4px" paddingRight="4px">
-                {5}
-              </Typography>
+              <Typography>{5}</Typography>
             </Stack>
           </Stack>
         </Stack>
-        <Stack
-          justifyContent="center"
-          alignItems="center"
-          padding="0 1rem"
-          flexGrow="1"
-          id="leftArrowCol"
-          direction="column"
-          order="3"
+        <IconButton
+          sx={{
+            width: 'min-contnet',
+          }}
+          disabled={versionIndex === props.versions.length - 1}
+          onClick={forwardVersion}
         >
-          <IconButton
-            sx={{
-              width: 'min-contnet',
-            }}
-            disabled={versionIndex === props.versions.length - 1}
-            onClick={forwardVersion}
-          >
-            {isRTL ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
-          </IconButton>
-        </Stack>
+          {isRTL ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
+        </IconButton>
       </Stack>
     </Card>
   );
