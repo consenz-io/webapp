@@ -37,19 +37,23 @@ insert_permissions:
                     user_id:
                       _eq: X-Hasura-User-Id
       columns:
-        - id
-        - created_at
-        - updated_at
-        - section_id
+        - consensus
         - content
+        - created_at
+        - id
+        - section_id
+        - threshold
+        - updated_at
 select_permissions:
   - role: authenticated
     permission:
       columns:
-        - id
-        - section_id
+        - consensus
         - content
         - created_at
+        - id
+        - section_id
+        - threshold
         - updated_at
       computed_fields:
         - downvotes
@@ -66,10 +70,12 @@ select_permissions:
   - role: moderator
     permission:
       columns:
-        - id
-        - section_id
+        - consensus
         - content
         - created_at
+        - id
+        - section_id
+        - threshold
         - updated_at
       computed_fields:
         - downvotes
@@ -79,10 +85,12 @@ update_permissions:
   - role: authenticated
     permission:
       columns:
-        - id
-        - section_id
+        - consensus
         - content
         - created_at
+        - id
+        - section_id
+        - threshold
         - updated_at
       filter:
         section:
