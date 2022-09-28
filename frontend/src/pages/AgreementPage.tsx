@@ -14,6 +14,7 @@ const AgreementPage: FC = () => {
   const agreementContext = useContext(AgreementContext);
   const currentCategory = agreementContext.categoryName;
   const agreement: IAgreement | undefined = agreementContext.agreement;
+  console.log('agreement', agreement);
   const categoryColor = currentCategory
     ? generateColorFromString(currentCategory, true)
     : 'primary';
@@ -109,7 +110,7 @@ const AgreementPage: FC = () => {
             </Stack>
             <Stack direction="column" rowGap="2rem" maxWidth="md">
               {chapter?.sections?.map((section, j: number) => (
-                <SectionCard versions={section.versions} key={j} id={section.id} />
+                <SectionCard versions={section.versions} key={j} id={j} />
               ))}
             </Stack>
           </Stack>
