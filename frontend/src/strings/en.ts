@@ -51,6 +51,7 @@ export const en: Record<StringBank, string> = {
   UNCATEGORIZED: 'General',
   URL_COPIED_SUCCESSFULLY: 'URL Copied successfully',
   VIEW_AGREEMENT: 'View Agreement',
+  VIEW_CURRENT_DRAFT: 'View Current Draft',
   WELCOME_HEADER: 'Welcome to consenz!',
   WELCOME_PARAGRAPH: `You are not part of a Group yet,
   ask your Group Manager to invite you to join
