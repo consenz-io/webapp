@@ -21,6 +21,7 @@ export const he: Partial<Record<StringBank, string>> = {
   NEW_AGREEMENT: 'הסכם חדש',
   TIME_LIMITED: 'מוגבל בזמן',
   UNARCHIVE: 'העברה מארכיון',
+  URL_COPIED_SUCCESSFULLY: 'כתובת הועתקה בהצלחה',
   WELCOME_HEADER: 'ברוכים הבאים לקונסנז!',
   WELCOME_PARAGRAPH: `אתן עוד לא חלק מקבוצה.
   בקשו ממנהל הקבוצה שלכן הזמנה על מנת להשתתף

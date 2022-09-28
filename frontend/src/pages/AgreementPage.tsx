@@ -83,7 +83,7 @@ const AgreementPage: FC = () => {
             </Typography>
           </Button>
         </Stack>
-        <Typography sx={{ paddingLeft: '1rem' }} variant="body2">
+        <Typography sx={{ paddingLeft: '1rem' }} variant="body2" maxWidth="md">
           {agreementContext.rationale || 'rationale'}
         </Typography>
         <Box />
@@ -111,7 +111,7 @@ const AgreementPage: FC = () => {
             </Stack>
             <Stack direction="column" rowGap="2rem" maxWidth="md">
               {chapter?.sections?.map((section, j: number) => {
-                return <SectionCard versions={section.versions} key={j} id={j} />;
+                return <SectionCard versions={section.versions} key={j} index={section.index} />;
               })}
             </Stack>
           </Stack>

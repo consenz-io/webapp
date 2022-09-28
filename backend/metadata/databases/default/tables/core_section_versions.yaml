@@ -18,7 +18,7 @@ computed_fields:
         name: section_versions_count_votes_down
         schema: core
     comment: ""
-  - name: updavotes
+  - name: upvotes
     definition:
       function:
         name: section_versions_count_votes_up
@@ -37,23 +37,27 @@ insert_permissions:
                     user_id:
                       _eq: X-Hasura-User-Id
       columns:
-        - id
-        - section_id
+        - consensus
         - content
         - created_at
+        - id
+        - section_id
+        - threshold
         - updated_at
 select_permissions:
   - role: authenticated
     permission:
       columns:
-        - id
-        - section_id
+        - consensus
         - content
         - created_at
+        - id
+        - section_id
+        - threshold
         - updated_at
       computed_fields:
         - downvotes
-        - updavotes
+        - upvotes
       filter:
         section:
           chapter:
@@ -66,23 +70,27 @@ select_permissions:
   - role: moderator
     permission:
       columns:
-        - id
-        - section_id
+        - consensus
         - content
         - created_at
+        - id
+        - section_id
+        - threshold
         - updated_at
       computed_fields:
         - downvotes
-        - updavotes
+        - upvotes
       filter: {}
 update_permissions:
   - role: authenticated
     permission:
       columns:
-        - id
-        - section_id
+        - consensus
         - content
         - created_at
+        - id
+        - section_id
+        - threshold
         - updated_at
       filter:
         section:
