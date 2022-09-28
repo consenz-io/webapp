@@ -1,8 +1,7 @@
-import { Button, Stack, Typography, Chip } from '@mui/material';
+import { Button, Stack, Typography, Chip, Box, SvgIcon } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext } from 'react';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { generateColorFromString } from 'utils/functions';
 import { Appbar } from 'components';
 import { BreadcrumsProps } from 'components/Appbar';
@@ -39,21 +38,23 @@ const AgreementPage: FC = () => {
   return (
     <Stack>
       <Appbar breadcrumsSection={breadcrumsProps} />
-      <Stack>
+      <Stack direction="column" spacing={4}>
         <Stack
           direction="row"
           alignItems="center"
           justifyContent="space-between"
-          sx={{ margin: '2rem' }}
+          marginTop={4}
+          maxWidth="md"
         >
           <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h1">{agreement?.name}</Typography>
+            <Typography variant="h1" marginRight={2}>
+              {agreementContext.agreementTitle || 'Agreement Name'}
+            </Typography>
             {currentCategory && (
               <Chip
                 label={currentCategory ?? ''}
                 size="small"
                 sx={{
-                  marginStart: 2,
                   backgroundColor: categoryColor,
                   fontSize: '1rem',
                 }}
@@ -61,13 +62,18 @@ const AgreementPage: FC = () => {
             )}
           </Stack>
           <Button variant="contained">
-            <VisibilityOutlinedIcon />
-            <Typography variant="body1"> View Agreement</Typography>
+            <SvgIcon>
+              <DocLogo />
+            </SvgIcon>
+            <Typography sx={{ paddingX: '.5rem' }} variant="h6">
+              {t(StringBank.VIEW_CURRENT_DRAFT)}
+            </Typography>
           </Button>
         </Stack>
-        <Typography sx={{ paddingLeft: '4rem' }} variant="body2">
-          {agreement?.rationale}
+        <Typography sx={{ paddingLeft: '1rem' }} variant="body2" maxWidth="md">
+          {agreementContext.rationale || 'rationale'}
         </Typography>
+        <Box />
       </Stack>
       <Stack direction="column">
         {agreement?.chapters?.map((chapter: IChapter, i: number) => (
@@ -82,18 +88,18 @@ const AgreementPage: FC = () => {
                 })}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {t(StringBank.SECTION_CARD_TITLE_SUGGESTIONS, {
-                  suggestionsNum: chapter.sections.reduce(
-                    (acc, section) => acc + section.suggestions.length,
+                {t(StringBank.SECTION_CARD_TITLE_VERSIONS, {
+                  versionsNum: chapter.sections.reduce(
+                    (acc, section) => acc + section.versions.length,
                     0
                   ),
                 })}
               </Typography>
             </Stack>
             <Stack direction="column" rowGap="2rem" maxWidth="md">
-              {chapter?.sections?.map((section, j: number) => (
-                <SectionCard suggestions={section.suggestions} key={j} id={section.id} />
-              ))}
+              {chapter?.sections?.map((section, j: number) => {
+                return <SectionCard versions={section.versions} key={j} index={section.index} />;
+              })}
             </Stack>
           </Stack>
         ))}

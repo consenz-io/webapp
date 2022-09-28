@@ -1,0 +1,113 @@
+table:
+  name: section_versions
+  schema: core
+object_relationships:
+  - name: section
+    using:
+      manual_configuration:
+        column_mapping:
+          section_id: id
+        insertion_order: null
+        remote_table:
+          name: sections
+          schema: core
+computed_fields:
+  - name: downvotes
+    definition:
+      function:
+        name: section_versions_count_votes_down
+        schema: core
+    comment: ""
+  - name: my_vote
+    definition:
+      function:
+        name: section_version_hasura_user_vote
+        schema: core
+      session_argument: hasura_session
+    comment: 'The current hasura user''s vote on this section version: up, down, or null.'
+  - name: upvotes
+    definition:
+      function:
+        name: section_versions_count_votes_up
+        schema: core
+    comment: ""
+insert_permissions:
+  - role: authenticated
+    permission:
+      check:
+        section:
+          chapter:
+            agreement:
+              group:
+                group_users:
+                  user:
+                    user_id:
+                      _eq: X-Hasura-User-Id
+      columns:
+        - consensus
+        - content
+        - created_at
+        - id
+        - section_id
+        - threshold
+        - updated_at
+select_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - consensus
+        - content
+        - created_at
+        - id
+        - section_id
+        - threshold
+        - updated_at
+      computed_fields:
+        - downvotes
+        - my_vote
+        - upvotes
+      filter:
+        section:
+          chapter:
+            agreement:
+              group:
+                group_users:
+                  user:
+                    user_id:
+                      _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      columns:
+        - consensus
+        - content
+        - created_at
+        - id
+        - section_id
+        - threshold
+        - updated_at
+      computed_fields:
+        - downvotes
+        - my_vote
+        - upvotes
+      filter: {}
+update_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - consensus
+        - content
+        - created_at
+        - id
+        - section_id
+        - threshold
+        - updated_at
+      filter:
+        section:
+          chapter:
+            agreement:
+              group:
+                group_users:
+                  user:
+                    user_id:
+                      _eq: X-Hasura-User-Id
+      check: null

@@ -5,13 +5,16 @@ object_relationships:
   - name: chapter
     using:
       foreign_key_constraint_on: chapter_id
+  - name: current_version
+    using:
+      foreign_key_constraint_on: current_version_id
 array_relationships:
-  - name: suggestions
+  - name: versions
     using:
       foreign_key_constraint_on:
         column: section_id
         table:
-          name: suggestions
+          name: section_versions
           schema: core
 insert_permissions:
   - role: authenticated

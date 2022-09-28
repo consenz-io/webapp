@@ -21,15 +21,17 @@ export const he: Partial<Record<StringBank, string>> = {
   NEW_AGREEMENT: 'הסכם חדש',
   TIME_LIMITED: 'מוגבל בזמן',
   UNARCHIVE: 'העברה מארכיון',
+  URL_COPIED_SUCCESSFULLY: 'כתובת הועתקה בהצלחה',
   WELCOME_HEADER: 'ברוכים הבאים לקונסנז!',
   WELCOME_PARAGRAPH: `אתן עוד לא חלק מקבוצה.
   בקשו ממנהל הקבוצה שלכן הזמנה על מנת להשתתף
   
   ותהנו!`,
+  VIEW_CURRENT_DRAFT: 'צפייה בגרסא הנוכחית',
   NO_CATEGORY: 'לא נבחרה קטגוריה',
   SECTION_CARD_TITLE_CHAPTER: '# {{chapterName}}',
   SECTION_CARD_TITLE_SECTIONS: '{{sectionNum}} חלקים',
-  SECTION_CARD_TITLE_SUGGESTIONS: '{{suggestionsNum}} הצעות',
+  SECTION_CARD_TITLE_VERSIONS: '{{versionsNum}} הצעות',
   SECTION_CARD_CONTENT_SECTION_NAME: 'חלק {{sectionNum}}',
   SECTION_CARD_CONTENT_VERSIONS: 'גרסא {{versionNum}} מתוך {{totalVersionsNum}}',
 };

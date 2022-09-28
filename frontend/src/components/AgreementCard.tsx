@@ -8,7 +8,7 @@ import { generateColorFromString, truncateAfterWords } from 'utils/functions';
 import DropDownMenu from './DropDownMenu';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { GroupContext } from 'contexts/group';
-import { ColorModeAndDirectionContext } from 'theme';
+import { backgroundBorderColor, ColorModeAndDirectionContext } from 'theme';
 import { MenuItem, ThemeModeType, VariantType } from 'types';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -62,7 +62,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   const { role } = useContext(AuthContext);
   const { archiveAgreement, slug, deleteAgreement } = useContext(GroupContext);
   const navigate = useNavigate();
-  const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : '#595F68';
+  const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : backgroundBorderColor;
 
   const baseDelDialogContent = `Please write the name of the agreement: ${title} - to delete it.`;
   const [currentContent, setDelPopContent] = useState<string>(baseDelDialogContent);

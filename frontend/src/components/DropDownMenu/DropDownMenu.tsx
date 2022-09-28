@@ -84,7 +84,7 @@ const DropDownMenu: FC<IProps> = ({
           isUser={!!btnCapital}
           isBorderHidden={isBorderHidden}
           stylevariant={styleVariant}
-          bgColor={bgColor}
+          bgcolor={bgColor}
         >
           {getButtonText()}
         </SC.DropDownMenuButton>

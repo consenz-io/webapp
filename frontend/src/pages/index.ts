@@ -7,7 +7,7 @@ import ArchivedAgreements from './ArchivedAgreements';
 import { Welcome } from './Welcome';
 import AgreementPage from './AgreementPage';
 import AllArchievedAgreements from './ArchivedAgreements';
-import AllCategories from './CategoryAgreements';
+import CategoryAgreements from './CategoryAgreements';
 
 export {
   AgreementPage,
@@ -19,5 +19,5 @@ export {
   NewAgreement,
   Welcome,
   AllArchievedAgreements,
-  AllCategories,
+  CategoryAgreements as AllCategories,
 };
