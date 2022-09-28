@@ -111,7 +111,7 @@ const AgreementPage: FC = () => {
             </Stack>
             <Stack direction="column" rowGap="2rem" maxWidth="md">
               {chapter?.sections?.map((section, j: number) => {
-                return <SectionCard versions={section.versions} key={j} id={j} />;
+                return <SectionCard versions={section.versions} key={j} index={section.index} />;
               })}
             </Stack>
           </Stack>

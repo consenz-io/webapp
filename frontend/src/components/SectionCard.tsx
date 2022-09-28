@@ -38,26 +38,25 @@ const SectionCard = (props: ISection) => {
   const currentVersion = props.versions[versionIndex];
 
   return (
-    <Card variant="elevation" elevation={0}>
-      <Stack direction="row" justifyContent="space-around">
-        <Stack
-          id="rightArrowCol"
-          justifyContent="center"
-          alignItems="center"
-          direction="column"
-          minWidth="4rem"
+    <Card variant="elevation" elevation={0} sx={{ paddingX: 1 }}>
+      <Stack direction="row" justifyContent="space-between" spacing={2}>
+        <IconButton
+          sx={{
+            width: 'min-contnet',
+          }}
+          onClick={backwardsVersion}
+          disabled={versionIndex === 0}
         >
-          <IconButton
-            sx={{
-              width: 'min-contnet',
-            }}
-            onClick={backwardsVersion}
-            disabled={versionIndex === 0}
-          >
-            {isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
-          </IconButton>
-        </Stack>
-        <Stack id="contentCol" justifyContent="center" direction="column" paddingY="2rem">
+          {isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
+        </IconButton>
+        <Stack
+          id="contentCol"
+          justifyContent="center"
+          direction="column"
+          paddingTop={4}
+          paddingBottom={2}
+          flexGrow={1}
+        >
           <Stack direction="row" spacing={2} alignItems="center">
             <Typography
               variant="body2"
@@ -66,7 +65,7 @@ const SectionCard = (props: ISection) => {
                 color: '#E0E0E0',
               }}
             >
-              {t(StringBank.SECTION_CARD_CONTENT_SECTION_NAME, { sectionNum: props.id + 1 })}
+              {t(StringBank.SECTION_CARD_CONTENT_SECTION_NAME, { sectionNum: props.index })}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {t(StringBank.SECTION_CARD_CONTENT_VERSIONS, {
@@ -106,23 +105,15 @@ const SectionCard = (props: ISection) => {
             </Stack>
           </Stack>
         </Stack>
-        <Stack
-          id="leftArrowCol"
-          justifyContent="center"
-          alignItems="center"
-          direction="column"
-          minWidth="4rem"
+        <IconButton
+          sx={{
+            width: 'min-contnet',
+          }}
+          disabled={versionIndex === props.versions.length - 1}
+          onClick={forwardVersion}
         >
-          <IconButton
-            sx={{
-              width: 'min-contnet',
-            }}
-            disabled={versionIndex === props.versions.length - 1}
-            onClick={forwardVersion}
-          >
-            {isRTL ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
-          </IconButton>
-        </Stack>
+          {isRTL ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
+        </IconButton>
       </Stack>
     </Card>
   );
