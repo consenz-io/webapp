@@ -58,11 +58,11 @@ const AgreementPage: FC = () => {
           direction="row"
           alignItems="center"
           justifyContent="space-between"
-          marginTop="2rem"
+          marginTop={4}
           maxWidth="md"
         >
           <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h1" marginRight="1rem">
+            <Typography variant="h1" marginRight={2}>
               {agreementContext.agreementTitle || 'Agreement Name'}
             </Typography>
             {currentCategory && (
