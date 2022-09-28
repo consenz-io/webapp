@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { createContext, FC } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { IAgreement, IAgreementContext } from 'types';
-import { getAgreementByIdQuery } from 'utils/queries';
+import { agreement as agreementQuery } from 'utils/queries';
 
 const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);
 
@@ -10,7 +10,7 @@ const AgreementProvider: FC = () => {
   const { agreementId } = useParams();
   const { data } = useQuery<{
     core_agreements: IAgreement[];
-  }>(getAgreementByIdQuery(), {
+  }>(agreementQuery, {
     variables: {
       agreementId,
     },

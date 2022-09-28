@@ -31,35 +31,33 @@ export function agreementsQuery(categoryId?: string | number) {
 `;
 }
 
-export function getAgreementByIdQuery() {
-  return gql`
-    query getAgreement($agreementId: Int!) {
-      core_agreements(where: { id: { _eq: $agreementId } }) {
-        id
+export const agreement = gql`
+  query agreement($agreementId: Int!) {
+    core_agreements(where: { id: { _eq: $agreementId } }) {
+      id
+      name
+      category {
         name
-        category {
-          name
-        }
-        rationale
-        chapters(order_by: { index: asc }) {
-          agreement_id
-          name
+      }
+      rationale
+      chapters(order_by: { index: asc }) {
+        agreement_id
+        name
+        index
+        sections(order_by: { index: asc }) {
           index
-          sections(order_by: { index: asc }) {
-            index
-            versions(order_by: { created_at: asc }) {
-              id
-              content
-              upvotes
-              downvotes
-            }
+          versions(order_by: { created_at: asc }) {
+            id
+            content
+            upvotes
+            downvotes
           }
         }
-        group {
-          name
-          slug
-        }
+      }
+      group {
+        name
+        slug
       }
     }
-  `;
-}
+  }
+`;

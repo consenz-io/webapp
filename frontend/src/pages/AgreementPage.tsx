@@ -100,7 +100,7 @@ const AgreementPage: FC = () => {
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {t(StringBank.SECTION_CARD_TITLE_VERSIONS, {
-                  suggestionsNum: chapter.sections.reduce(
+                  versionsNum: chapter.sections.reduce(
                     (acc, section) => acc + section.versions.length,
                     0
                   ),
