@@ -49,15 +49,9 @@ const AgreementPage: FC = () => {
           </Link>
         </Breadcrumbs>
       </Stack>
-      <Stack direction="column" spacing={4}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          marginTop={4}
-          maxWidth="md"
-        >
-          <Stack direction="row" alignItems="end" justifyContent="space-between">
+      <Stack direction="column" spacing={4} paddingX={2} paddingY={3}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Stack direction="row" alignItems="end">
             <Typography variant="h1" marginRight={2}>
               {agreement?.name}
             </Typography>
@@ -67,7 +61,7 @@ const AgreementPage: FC = () => {
                 size="small"
                 sx={{
                   backgroundColor: categoryColor,
-                  marginY: 0.5,
+                  marginBlockEnd: 0.5,
                 }}
               />
             )}
@@ -79,12 +73,8 @@ const AgreementPage: FC = () => {
             </Typography>
           </Button>
         </Stack>
-        <Typography sx={{ paddingLeft: '1rem' }} variant="body2" maxWidth="md">
-          {agreement?.rationale}
-        </Typography>
+        <Typography>{agreement?.rationale}</Typography>
         <Box />
-      </Stack>
-      <Stack direction="column">
         {agreement?.chapters?.map((chapter: IChapter, i: number) => (
           <Stack direction="column" key={i}>
             <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
@@ -105,7 +95,7 @@ const AgreementPage: FC = () => {
                 })}
               </Typography>
             </Stack>
-            <Stack direction="column" rowGap="2rem" maxWidth="md">
+            <Stack direction="column" spacing={2}>
               {chapter?.sections?.map((section, j: number) => {
                 return (
                   <SectionCard
