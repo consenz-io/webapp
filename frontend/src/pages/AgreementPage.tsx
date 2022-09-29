@@ -88,58 +88,61 @@ const AgreementPage: FC = () => {
         </Stack>
         <Typography>{agreement?.rationale}</Typography>
         <Box />
-        {agreement?.chapters?.map((chapter: IChapter) => (
-          <Accordion
-            TransitionProps={{ unmountOnExit: true }}
-            key={generateRandString()}
-            sx={{
-              boxShadow: 'none',
-              position: 'static',
-            }}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+        <Stack>
+          {agreement?.chapters?.map((chapter: IChapter) => (
+            <Accordion
+              TransitionProps={{ unmountOnExit: true }}
+              key={generateRandString()}
               sx={{
-                // backgroundColor: '#333842',
-                borderBottom: '1px solid #3f4550',
-                height: '4.5rem',
+                boxShadow: 'none',
+                position: 'static',
               }}
             >
-              <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
-                <Typography variant="h3">
-                  {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ wordSpacing: '0.2rem' }}>
-                  {t(StringBank.SECTION_CARD_TITLE_SECTIONS, {
-                    sectionNum: chapter.sections?.length,
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{
+                  backgroundColor: '#333842',
+                  borderBottom: '1px solid #3f4550',
+                  height: '4.5rem',
+                  padding: '0',
+                }}
+              >
+                <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
+                  <Typography variant="h3">
+                    {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ wordSpacing: '0.2rem' }}>
+                    {t(StringBank.SECTION_CARD_TITLE_SECTIONS, {
+                      sectionNum: chapter.sections?.length,
+                    })}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ wordSpacing: '0.2rem' }}>
+                    {t(StringBank.SECTION_CARD_TITLE_VERSIONS, {
+                      versionsNum: chapter.sections.reduce(
+                        (acc, section) => acc + section.versions.length,
+                        0
+                      ),
+                    })}
+                  </Typography>
+                </Stack>
+              </AccordionSummary>
+              <AccordionDetails sx={{ backgroundColor: '#333842' }}>
+                <Stack direction="column" spacing={2}>
+                  {chapter?.sections?.map((section) => {
+                    return (
+                      <SectionCard
+                        versions={section.versions}
+                        key={generateRandString()}
+                        index={section.index}
+                        current_version={section.current_version}
+                      />
+                    );
                   })}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ wordSpacing: '0.2rem' }}>
-                  {t(StringBank.SECTION_CARD_TITLE_VERSIONS, {
-                    versionsNum: chapter.sections.reduce(
-                      (acc, section) => acc + section.versions.length,
-                      0
-                    ),
-                  })}
-                </Typography>
-              </Stack>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack direction="column" spacing={2}>
-                {chapter?.sections?.map((section) => {
-                  return (
-                    <SectionCard
-                      versions={section.versions}
-                      key={generateRandString()}
-                      index={section.index}
-                      current_version={section.current_version}
-                    />
-                  );
-                })}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-        ))}
+                </Stack>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </Stack>
       </Stack>
     </Stack>
   );
