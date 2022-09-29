@@ -22,3 +22,13 @@ export function truncateAfterWords(str: string, numWords: number): string {
 export function isJsonContentEmpty(json?: JSONContent): boolean {
   return !json?.content?.[0].content;
 }
+
+export function generateRandString(length = 5) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}

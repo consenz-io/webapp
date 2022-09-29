@@ -13,6 +13,7 @@ import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import styled from 'styled-components';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
+import { generateRandString } from 'utils/functions';
 
 export interface ActionProps {
   icon: JSX.Element;
@@ -26,7 +27,7 @@ export interface BreadcrumsProps {
       title?: string | undefined;
     }
   >;
-  link?: string;
+  link?: string | undefined;
 }
 
 export interface StepsProps {
@@ -57,28 +58,44 @@ function renderBreadcrums(breadcrumsProps: BreadcrumsProps[]) {
   return (
     <Stack direction="row" justifyContent="center" alignItems="center">
       <Breadcrumbs separator={<ArrowLogo fontSize="1rem" />} aria-label="breadcrumb">
-        {breadcrumsProps.map((braedcrumObj, i) => {
-          const Icon = braedcrumObj.icon;
-          return (
-            <Link
-              key={i}
-              underline="hover"
-              alignItems="center"
-              justifyContent="center"
-              href={braedcrumObj.link}
-            >
-              <Typography
-                variant="body2"
-                lineHeight="2.58"
-                padding="0.12rem"
-                color={i === breadcrumsProps.length - 1 ? 'white' : 'GrayText'}
+        {breadcrumsProps.map((breadcrumObj, i) => {
+          const Icon = breadcrumObj.icon;
+          if (breadcrumObj.link) {
+            return (
+              <Link
+                key={generateRandString()}
+                underline="hover"
+                alignItems="center"
+                justifyContent="center"
+                href={breadcrumObj.link}
               >
-                <Stack direction="row" justifyContent="center" alignItems="center" gap="0.5rem">
-                  {Icon && <Icon />}
-                  {braedcrumObj.name}
-                </Stack>
-              </Typography>
-            </Link>
+                <Typography
+                  variant="body2"
+                  lineHeight="2.58"
+                  padding="0.12rem"
+                  color={i === breadcrumsProps.length - 1 ? 'white' : 'GrayText'}
+                >
+                  <Stack direction="row" justifyContent="center" alignItems="center" gap="0.5rem">
+                    {Icon && <Icon />}
+                    {breadcrumObj.name}
+                  </Stack>
+                </Typography>
+              </Link>
+            );
+          }
+          return (
+            <Typography
+              key={generateRandString()}
+              variant="body2"
+              lineHeight="2.58"
+              padding="0.12rem"
+              color={i === breadcrumsProps.length - 1 ? 'white' : 'GrayText'}
+            >
+              <Stack direction="row" justifyContent="center" alignItems="center" gap="0.5rem">
+                {Icon && <Icon />}
+                {breadcrumObj.name}
+              </Stack>
+            </Typography>
           );
         })}
       </Breadcrumbs>

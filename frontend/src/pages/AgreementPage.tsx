@@ -17,6 +17,8 @@ const AgreementPage: FC = () => {
   const { categories } = useContext(GroupContext);
   const { agreement, agreementTitle, categoryName, rationale, agreementId } =
     useContext(AgreementContext);
+  console.log('agreementId', agreementId);
+  console.log('categoryName', categoryName);
   function calcChapterSuggestions(chapter: IChapter): number {
     return chapter.sections.reduce(
       (acc: number, section: ISection) => acc + section.suggestions.length,
@@ -37,7 +39,7 @@ const AgreementPage: FC = () => {
     },
     {
       name: agreementTitle || 'Agreement Name',
-      link: agreementId.toString(),
+      link: isNaN(agreementId) ? undefined : agreementId.toString(),
       icon: DocLogo,
     },
   ];
