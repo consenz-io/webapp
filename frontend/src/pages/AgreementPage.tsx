@@ -5,6 +5,7 @@ import {
   Stack,
   Typography,
   Chip,
+  Box,
   Accordion,
   AccordionDetails,
   AccordionSummary,
@@ -12,22 +13,17 @@ import {
 import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext } from 'react';
 import DocLogo from 'assets/icons/document.svg';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { generateColorFromString } from 'utils/functions';
 import SectionCard from 'components/SectionCard';
-import { IAgreement, IChapter } from 'types';
+import { IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const AgreementPage: FC = () => {
   const { t } = useTranslation();
-  const agreementContext = useContext(AgreementContext);
-  const currentCategory = agreementContext.categoryName;
-  const agreement: IAgreement | undefined = agreementContext.agreement;
-  const categoryColor = currentCategory
-    ? generateColorFromString(currentCategory, true)
-    : 'primary';
+  const { agreement, categoryName } = useContext(AgreementContext);
+  const categoryColor = categoryName ? generateColorFromString(categoryName, true) : 'primary';
 
   return (
     <Stack>
@@ -47,7 +43,7 @@ const AgreementPage: FC = () => {
                 paddingRight: '0.5rem',
               }}
             >
-              {currentCategory || 'categoryName'}
+              {categoryName}
             </Typography>
           </Link>
           <Link underline="hover" key="1" color="inherit" href="/">
@@ -60,44 +56,37 @@ const AgreementPage: FC = () => {
               }}
             >
               <img src={DocLogo} alt="docIcon" width="20rem" height="18px" />
-              {agreementContext.agreementTitle || 'Agreement Name'}
+              {agreement?.name}
             </Stack>
           </Link>
         </Breadcrumbs>
       </Stack>
-      <Stack direction="column">
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{ margin: '2rem' }}
-        >
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h1">
-              {agreementContext.agreementTitle || 'Agreement Name'}
+      <Stack direction="column" spacing={4} paddingX={2} paddingY={3}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Stack direction="row" alignItems="end">
+            <Typography variant="h1" marginRight={2}>
+              {agreement?.name}
             </Typography>
-            {currentCategory && (
+            {categoryName && (
               <Chip
-                label={currentCategory ? currentCategory : ''}
+                label={categoryName ? categoryName : ''}
                 size="small"
-                style={{
-                  marginLeft: '1rem',
+                sx={{
                   backgroundColor: categoryColor,
-                  fontSize: '1rem',
+                  marginBlockEnd: 0.5,
                 }}
               />
             )}
           </Stack>
           <Button variant="contained">
-            <VisibilityOutlinedIcon />
-            <Typography variant="body1"> View Agreement</Typography>
+            <img src={DocLogo} alt="docIcon" />
+            <Typography sx={{ paddingX: '.5rem' }} variant="h6">
+              {t(StringBank.VIEW_CURRENT_DRAFT)}
+            </Typography>
           </Button>
         </Stack>
-        <Typography sx={{ paddingLeft: '4rem' }} variant="body2">
-          {agreementContext.rationale || 'rationale'}
-        </Typography>
-      </Stack>
-      <Stack direction="column" maxWidth="md" spacing={2} marginBottom="2rem">
+        <Typography>{agreement?.rationale}</Typography>
+        <Box />
         {agreement?.chapters?.map((chapter: IChapter, i: number) => (
           <Accordion
             TransitionProps={{ unmountOnExit: true }}
@@ -109,7 +98,7 @@ const AgreementPage: FC = () => {
             }}
           >
             <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ backgroundColor: '#333842' }}>
-              <Stack direction="row" alignItems="center" spacing={2}>
+              <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
                 <Typography variant="h3">
                   {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
                 </Typography>
@@ -120,7 +109,7 @@ const AgreementPage: FC = () => {
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {t(StringBank.SECTION_CARD_TITLE_VERSIONS, {
-                    suggestionsNum: chapter.sections.reduce(
+                    versionsNum: chapter.sections.reduce(
                       (acc, section) => acc + section.versions.length,
                       0
                     ),
@@ -129,10 +118,17 @@ const AgreementPage: FC = () => {
               </Stack>
             </AccordionSummary>
             <AccordionDetails>
-              <Stack direction="column" rowGap="2rem" maxWidth="md">
-                {chapter?.sections?.map((section, j: number) => (
-                  <SectionCard versions={section.versions} key={j} id={section.id} />
-                ))}
+              <Stack direction="column" spacing={2}>
+                {chapter?.sections?.map((section, j: number) => {
+                  return (
+                    <SectionCard
+                      versions={section.versions}
+                      key={j}
+                      index={section.index}
+                      current_version={section.current_version}
+                    />
+                  );
+                })}
               </Stack>
             </AccordionDetails>
           </Accordion>

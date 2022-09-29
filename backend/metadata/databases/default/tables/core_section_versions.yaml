@@ -18,7 +18,14 @@ computed_fields:
         name: section_versions_count_votes_down
         schema: core
     comment: ""
-  - name: updavotes
+  - name: my_vote
+    definition:
+      function:
+        name: section_version_hasura_user_vote
+        schema: core
+      session_argument: hasura_session
+    comment: 'The current hasura user''s vote on this section version: up, down, or null.'
+  - name: upvotes
     definition:
       function:
         name: section_versions_count_votes_up
@@ -37,23 +44,28 @@ insert_permissions:
                     user_id:
                       _eq: X-Hasura-User-Id
       columns:
-        - id
-        - section_id
+        - consensus
         - content
         - created_at
+        - id
+        - section_id
+        - threshold
         - updated_at
 select_permissions:
   - role: authenticated
     permission:
       columns:
-        - id
-        - section_id
+        - consensus
         - content
         - created_at
+        - id
+        - section_id
+        - threshold
         - updated_at
       computed_fields:
         - downvotes
-        - updavotes
+        - my_vote
+        - upvotes
       filter:
         section:
           chapter:
@@ -66,23 +78,28 @@ select_permissions:
   - role: moderator
     permission:
       columns:
-        - id
-        - section_id
+        - consensus
         - content
         - created_at
+        - id
+        - section_id
+        - threshold
         - updated_at
       computed_fields:
         - downvotes
-        - updavotes
+        - my_vote
+        - upvotes
       filter: {}
 update_permissions:
   - role: authenticated
     permission:
       columns:
-        - id
-        - section_id
+        - consensus
         - content
         - created_at
+        - id
+        - section_id
+        - threshold
         - updated_at
       filter:
         section:

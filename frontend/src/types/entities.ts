@@ -30,8 +30,9 @@ export interface IGroup {
 }
 
 export interface ISection {
-  id: number;
+  index: number;
   versions: IVersion[];
+  current_version?: { id: number } | null;
 }
 
 export interface IVersion {
