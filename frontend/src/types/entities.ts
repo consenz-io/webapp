@@ -33,6 +33,7 @@ export interface ISection {
   index: number;
   versions: IVersion[];
   userId: number;
+  current_version?: { id: number } | null;
 }
 
 export interface IVersion {

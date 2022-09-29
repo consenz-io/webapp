@@ -39,7 +39,8 @@ const SectionCard = (props: ISection) => {
     }
   };
 
-  const currentVersion = props.versions[versionIndex];
+  const displayedVersion = props.versions[versionIndex];
+  const isCurrentVersionDisplayed = displayedVersion.id === props.current_version?.id;
 
   return (
     <Card variant="elevation" elevation={0} sx={{ paddingX: 1 }}>
@@ -77,13 +78,15 @@ const SectionCard = (props: ISection) => {
                 totalVersionsNum: props.versions.length,
               })}
             </Typography>
-            <CheckCircleOutlineIcon htmlColor="#24ebd3" fontSize="inherit" />
+            {isCurrentVersionDisplayed && (
+              <CheckCircleOutlineIcon htmlColor="#24ebd3" fontSize="inherit" />
+            )}
           </Stack>
           <Stack direction="row">
             <Typography>
               <ContentEditor
-                key={currentVersion.id}
-                initialContent={currentVersion.content}
+                key={displayedVersion.id}
+                initialContent={displayedVersion.content}
                 readonly={true}
               />
             </Typography>
@@ -97,7 +100,7 @@ const SectionCard = (props: ISection) => {
                   }}
                 />
               </IconButton>
-              <Typography color="#24ebd3">{currentVersion.upvotes}</Typography>
+              <Typography color="#24ebd3">{displayedVersion.upvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton sx={{ padding: '0' }}>
@@ -107,7 +110,7 @@ const SectionCard = (props: ISection) => {
                   }}
                 />
               </IconButton>
-              <Typography>{currentVersion.downvotes}</Typography>
+              <Typography>{displayedVersion.downvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton sx={{ padding: '0' }}>
