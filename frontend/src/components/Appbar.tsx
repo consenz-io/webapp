@@ -13,6 +13,7 @@ import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import styled from 'styled-components';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
+import { backgroundBorderColor } from 'theme';
 import { generateRandString } from 'utils/functions';
 
 export interface ActionProps {
@@ -45,8 +46,8 @@ interface AppbarProps {
 const AppbarContainer = styled(Stack)`
   && {
     align-items: center;
-    border-bottom: solid 1px #595f68;
-    margin-top: -0.5rem;
+    border-bottom: solid 1px ${backgroundBorderColor};
+    margin-top: -1rem;
     margin-right: -1rem;
     margin-left: -1rem;
     padding: 0 1rem;

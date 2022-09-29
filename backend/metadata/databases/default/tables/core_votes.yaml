@@ -4,7 +4,7 @@ table:
 object_relationships:
   - name: suggestion
     using:
-      foreign_key_constraint_on: suggestion_id
+      foreign_key_constraint_on: version_id
   - name: user
     using:
       foreign_key_constraint_on: user_id
@@ -22,14 +22,14 @@ insert_permissions:
                       user_id:
                         _eq: X-Hasura-User-Id
       columns:
-        - suggestion_id
+        - version_id
         - type
         - user_id
 select_permissions:
   - role: authenticated
     permission:
       columns:
-        - suggestion_id
+        - version_id
         - type
         - user_id
       filter:
@@ -45,7 +45,7 @@ select_permissions:
   - role: moderator
     permission:
       columns:
-        - suggestion_id
+        - version_id
         - user_id
         - type
       filter: {}

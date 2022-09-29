@@ -6,6 +6,7 @@ export interface IAgreement {
   category: ICategory;
   updated_at: string;
   rationale: string;
+  is_archived?: boolean;
   chapters?: IChapter[];
 }
 
@@ -29,13 +30,16 @@ export interface IGroup {
 }
 
 export interface ISection {
-  id: number;
-  suggestions: ISuggestion[];
+  index: number;
+  versions: IVersion[];
 }
 
-export interface ISuggestion {
+export interface IVersion {
   id: number;
+  index: number;
   content: JSONContent | string;
+  upvotes: number;
+  downvotes: number;
 }
 
 export interface IUser {

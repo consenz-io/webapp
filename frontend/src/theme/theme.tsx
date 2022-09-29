@@ -23,6 +23,8 @@ declare module '@mui/material/Button' {
   }
 }
 
+export const backgroundBorderColor = '#595f68';
+
 export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOptions = (
   mode,
   isRTL
@@ -230,7 +232,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
               paper: '#3f4550',
               sidebar: '#2C2E33',
               active: '#333842',
-              border: '#595f68',
+              border: backgroundBorderColor,
               default: '#333842',
               capital: '#4c67f6',
               dropdown: '#292d36',
