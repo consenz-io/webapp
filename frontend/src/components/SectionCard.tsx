@@ -96,7 +96,7 @@ const SectionCard = (props: ISection) => {
               <IconButton sx={{ padding: '0' }}>
                 <LikeIcon
                   onClick={() => {
-                    vote(userId, currentVersion.id, 'up');
+                    vote(userId, displayedVersion.id, 'up');
                   }}
                 />
               </IconButton>
@@ -106,7 +106,7 @@ const SectionCard = (props: ISection) => {
               <IconButton sx={{ padding: '0' }}>
                 <DislikeIcon
                   onClick={() => {
-                    vote(userId, currentVersion.id, 'down');
+                    vote(userId, displayedVersion.id, 'down');
                   }}
                 />
               </IconButton>
