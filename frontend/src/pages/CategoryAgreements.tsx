@@ -35,7 +35,7 @@ const CategoryAgreements = () => {
 
   if (!agreements?.length) {
     return (
-      <Stack direction="column" height="100%" justifyContent="space-between">
+      <Stack height="100%" justifyContent="space-between" padding={{ sm: 2 }}>
         <Typography variant="h2">{category?.name}</Typography>
         <Stack justifyContent="center" alignItems="center">
           <Typography variant="h3">
