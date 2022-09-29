@@ -44,14 +44,7 @@ const SectionCard = (props: ISection) => {
         <IconButton onClick={backwardsVersion} disabled={versionIndex === 0}>
           {isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
         </IconButton>
-        <Stack
-          id="contentCol"
-          justifyContent="center"
-          direction="column"
-          paddingTop={4}
-          paddingBottom={2}
-          flexGrow={1}
-        >
+        <Stack paddingTop={4} paddingBottom={2} flexGrow={1}>
           <Stack direction="row" spacing={2} alignItems="center">
             <Typography
               variant="body2"
@@ -72,26 +65,22 @@ const SectionCard = (props: ISection) => {
               <CheckCircleOutlineIcon htmlColor="#24ebd3" fontSize="inherit" />
             )}
           </Stack>
-          <ContentEditor
-            key={displayedVersion.id}
-            initialContent={displayedVersion.content}
-            readonly
-          />
+          <ContentEditor initialContent={displayedVersion.content} readonly />
           <Stack gap="1rem" direction="row">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton sx={{ padding: '0' }}>
+              <IconButton size="small">
                 <LikeIcon />
               </IconButton>
               <Typography color="#24ebd3">{displayedVersion.upvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton sx={{ padding: '0' }}>
+              <IconButton size="small">
                 <DislikeIcon />
               </IconButton>
               <Typography>{displayedVersion.downvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton sx={{ padding: '0' }}>
+              <IconButton size="small">
                 <CommentIcon />
               </IconButton>
               <Typography>{5}</Typography>
