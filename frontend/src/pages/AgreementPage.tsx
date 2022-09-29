@@ -19,6 +19,7 @@ import { IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { generateRandString } from 'utils/functions';
 
 const AgreementPage: FC = () => {
   const { t } = useTranslation();
@@ -87,27 +88,33 @@ const AgreementPage: FC = () => {
         </Stack>
         <Typography>{agreement?.rationale}</Typography>
         <Box />
-        {agreement?.chapters?.map((chapter: IChapter, i: number) => (
+        {agreement?.chapters?.map((chapter: IChapter) => (
           <Accordion
             TransitionProps={{ unmountOnExit: true }}
-            key={i}
+            key={generateRandString()}
             sx={{
-              '&& .MuiAccordionDetails-root': {
-                backgroundColor: '#333842',
-              },
+              boxShadow: 'none',
+              position: 'static',
             }}
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ backgroundColor: '#333842' }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              sx={{
+                // backgroundColor: '#333842',
+                borderBottom: '1px solid #3f4550',
+                height: '4.5rem',
+              }}
+            >
               <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
                 <Typography variant="h3">
                   {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" sx={{ wordSpacing: '0.2rem' }}>
                   {t(StringBank.SECTION_CARD_TITLE_SECTIONS, {
                     sectionNum: chapter.sections?.length,
                   })}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" sx={{ wordSpacing: '0.2rem' }}>
                   {t(StringBank.SECTION_CARD_TITLE_VERSIONS, {
                     versionsNum: chapter.sections.reduce(
                       (acc, section) => acc + section.versions.length,
@@ -119,11 +126,11 @@ const AgreementPage: FC = () => {
             </AccordionSummary>
             <AccordionDetails>
               <Stack direction="column" spacing={2}>
-                {chapter?.sections?.map((section, j: number) => {
+                {chapter?.sections?.map((section) => {
                   return (
                     <SectionCard
                       versions={section.versions}
-                      key={j}
+                      key={generateRandString()}
                       index={section.index}
                       current_version={section.current_version}
                     />
