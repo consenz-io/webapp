@@ -12,7 +12,7 @@ import { DataContext } from 'contexts';
 const AgreementPage: FC = () => {
   const { t } = useTranslation();
   const { agreement, categoryName } = useContext(AgreementContext);
-  const categoryColor = categoryName ? generateColorFromString(categoryName, true) : 'primary';
+  const categoryColor = generateColorFromString(categoryName || t(StringBank.UNCATEGORIZED), true);
   const { user } = useContext(DataContext);
   const userId: number | undefined = user?.id;
 
@@ -34,7 +34,7 @@ const AgreementPage: FC = () => {
                 paddingRight: '0.5rem',
               }}
             >
-              {categoryName}
+              {categoryName || t(StringBank.UNCATEGORIZED)}
             </Typography>
           </Link>
           <Link underline="hover" key="1" color="inherit" href="/">
