@@ -49,13 +49,13 @@ const AgreementPage: FC = () => {
             <Typography variant="h1" marginRight={2}>
               {agreementTitle || 'Agreement Name'}
             </Typography>
-            {currentCategory && (
+            {categoryName && (
               <Chip
                 label={currentCategory ?? ''}
                 size="small"
                 sx={{
                   backgroundColor: categoryColor,
-                  fontSize: '1rem',
+                  marginBlockEnd: 0.5,
                 }}
               />
             )}
@@ -73,8 +73,6 @@ const AgreementPage: FC = () => {
           {rationale || 'rationale'}
         </Typography>
         <Box />
-      </Stack>
-      <Stack direction="column">
         {agreement?.chapters?.map((chapter: IChapter, i: number) => (
           <Stack direction="column" key={i}>
             <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">

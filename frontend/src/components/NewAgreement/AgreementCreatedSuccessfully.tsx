@@ -96,7 +96,7 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
             message={t(StringBank.URL_COPIED_SUCCESSFULLY)}
             autoHideDuration={4000}
             onClose={() => setSnackbarOpen(false)}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           />
         </Stack>
       </Stack>
