@@ -4,18 +4,14 @@ import { FC, useContext } from 'react';
 import DocLogo from 'assets/icons/document.svg';
 import { generateColorFromString } from 'utils/functions';
 import SectionCard from 'components/SectionCard';
-import { IAgreement, IChapter } from 'types';
+import { IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 
 const AgreementPage: FC = () => {
   const { t } = useTranslation();
-  const agreementContext = useContext(AgreementContext);
-  const currentCategory = agreementContext.categoryName;
-  const agreement: IAgreement | undefined = agreementContext.agreement;
-  const categoryColor = currentCategory
-    ? generateColorFromString(currentCategory, true)
-    : 'primary';
+  const { agreement, categoryName } = useContext(AgreementContext);
+  const categoryColor = categoryName ? generateColorFromString(categoryName, true) : 'primary';
 
   return (
     <Stack>
@@ -35,7 +31,7 @@ const AgreementPage: FC = () => {
                 paddingRight: '0.5rem',
               }}
             >
-              {currentCategory || 'categoryName'}
+              {categoryName}
             </Typography>
           </Link>
           <Link underline="hover" key="1" color="inherit" href="/">
@@ -48,7 +44,7 @@ const AgreementPage: FC = () => {
               }}
             >
               <img src={DocLogo} alt="docIcon" width="20rem" height="18px" />
-              {agreementContext.agreementTitle || 'Agreement Name'}
+              {agreement?.name}
             </Stack>
           </Link>
         </Breadcrumbs>
@@ -61,17 +57,17 @@ const AgreementPage: FC = () => {
           marginTop={4}
           maxWidth="md"
         >
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Stack direction="row" alignItems="end" justifyContent="space-between">
             <Typography variant="h1" marginRight={2}>
-              {agreementContext.agreementTitle || 'Agreement Name'}
+              {agreement?.name}
             </Typography>
-            {currentCategory && (
+            {categoryName && (
               <Chip
-                label={currentCategory ? currentCategory : ''}
+                label={categoryName ? categoryName : ''}
                 size="small"
-                style={{
+                sx={{
                   backgroundColor: categoryColor,
-                  fontSize: '1rem',
+                  marginY: 0.5,
                 }}
               />
             )}
@@ -84,7 +80,7 @@ const AgreementPage: FC = () => {
           </Button>
         </Stack>
         <Typography sx={{ paddingLeft: '1rem' }} variant="body2" maxWidth="md">
-          {agreementContext.rationale || 'rationale'}
+          {agreement?.rationale}
         </Typography>
         <Box />
       </Stack>
