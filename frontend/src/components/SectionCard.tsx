@@ -40,14 +40,8 @@ const SectionCard = (props: ISection) => {
 
   return (
     <Card variant="elevation" elevation={0} sx={{ paddingX: 1 }}>
-      <Stack direction="row" justifyContent="space-between" spacing={2}>
-        <IconButton
-          sx={{
-            width: 'min-contnet',
-          }}
-          onClick={backwardsVersion}
-          disabled={versionIndex === 0}
-        >
+      <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+        <IconButton onClick={backwardsVersion} disabled={versionIndex === 0}>
           {isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
         </IconButton>
         <Stack
@@ -78,15 +72,11 @@ const SectionCard = (props: ISection) => {
               <CheckCircleOutlineIcon htmlColor="#24ebd3" fontSize="inherit" />
             )}
           </Stack>
-          <Stack direction="row">
-            <Typography>
-              <ContentEditor
-                key={displayedVersion.id}
-                initialContent={displayedVersion.content}
-                readonly={true}
-              />
-            </Typography>
-          </Stack>
+          <ContentEditor
+            key={displayedVersion.id}
+            initialContent={displayedVersion.content}
+            readonly
+          />
           <Stack gap="1rem" direction="row">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton sx={{ padding: '0' }}>
@@ -108,13 +98,7 @@ const SectionCard = (props: ISection) => {
             </Stack>
           </Stack>
         </Stack>
-        <IconButton
-          sx={{
-            width: 'min-contnet',
-          }}
-          disabled={versionIndex === props.versions.length - 1}
-          onClick={forwardVersion}
-        >
+        <IconButton disabled={versionIndex === props.versions.length - 1} onClick={forwardVersion}>
           {isRTL ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
         </IconButton>
       </Stack>
