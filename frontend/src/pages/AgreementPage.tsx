@@ -7,7 +7,7 @@ import { Appbar } from 'components';
 import { BreadcrumsProps } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import SectionCard from 'components/SectionCard';
-import { IChapter, ISection } from 'types';
+import { IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -16,20 +16,16 @@ const AgreementPage: FC = () => {
   const { t } = useTranslation();
   const { groupSlug } = useParams();
   const { categories } = useContext(GroupContext);
-  const { agreement, agreementTitle, categoryName, rationale } = useContext(AgreementContext);
-  const currentCategory = categoryName;
-  const categoryColor = currentCategory
-    ? generateColorFromString(currentCategory, true)
-    : 'primary';
+  const { agreement, categoryName } = useContext(AgreementContext);
   const breadcrumsProps: BreadcrumsProps[] = [
     {
-      name: currentCategory || 'categoryName',
+      name: categoryName || t(StringBank.UNCATEGORIZED),
       link: `/${groupSlug}/cat/${categories
-        .filter((categoryObj) => categoryObj.name === currentCategory)[0]
+        .find((categoryObj) => categoryObj.name === categoryName)
         ?.id.toString()}`,
     },
     {
-      name: agreementTitle || 'Agreement Name',
+      name: agreement?.name ?? '',
       icon: DocLogo,
     },
   ];
@@ -37,24 +33,18 @@ const AgreementPage: FC = () => {
   return (
     <Stack>
       <Appbar breadcrumsSection={breadcrumsProps} />
-      <Stack direction="column" spacing={4}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          marginTop={4}
-          maxWidth="md"
-        >
+      <Stack direction="column" spacing={4} paddingX={2} paddingY={3}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="h1" marginRight={2}>
-              {agreementTitle || 'Agreement Name'}
+              {agreement?.name}
             </Typography>
             {categoryName && (
               <Chip
-                label={currentCategory ?? ''}
+                label={categoryName}
                 size="small"
                 sx={{
-                  backgroundColor: categoryColor,
+                  backgroundColor: generateColorFromString(categoryName, true),
                   marginBlockEnd: 0.5,
                 }}
               />
@@ -69,9 +59,7 @@ const AgreementPage: FC = () => {
             </Typography>
           </Button>
         </Stack>
-        <Typography sx={{ paddingLeft: '1rem' }} variant="body2" maxWidth="md">
-          {rationale || 'rationale'}
-        </Typography>
+        <Typography>{agreement?.rationale}</Typography>
         <Box />
         {agreement?.chapters?.map((chapter: IChapter, i: number) => (
           <Stack direction="column" key={i}>
@@ -93,10 +81,15 @@ const AgreementPage: FC = () => {
                 })}
               </Typography>
             </Stack>
-            <Stack direction="column" rowGap="2rem" maxWidth="md">
-              {chapter?.sections?.map((section: ISection, j: number) => {
-                return <SectionCard versions={section.versions} key={j} index={section.index} />;
-              })}
+            <Stack direction="column" spacing={2}>
+              {chapter?.sections?.map((section, j: number) => (
+                <SectionCard
+                  versions={section.versions}
+                  key={j}
+                  index={section.index}
+                  current_version={section.current_version}
+                />
+              ))}
             </Stack>
           </Stack>
         ))}
