@@ -35,7 +35,7 @@ const AgreementPage: FC = () => {
       <Appbar breadcrumsSection={breadcrumsProps} />
       <Stack direction="column" spacing={4} paddingX={2} paddingY={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Stack direction="row" alignItems="end">
             <Typography variant="h1" marginRight={2}>
               {agreement?.name}
             </Typography>
