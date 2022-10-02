@@ -7,14 +7,11 @@ import SectionCard from 'components/SectionCard';
 import { IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
-import { DataContext } from 'contexts';
 
 const AgreementPage: FC = () => {
   const { t } = useTranslation();
   const { agreement, categoryName } = useContext(AgreementContext);
   const categoryColor = generateColorFromString(categoryName || t(StringBank.UNCATEGORIZED), true);
-  const { user } = useContext(DataContext);
-  const userId: number | undefined = user?.id;
 
   return (
     <Stack>
@@ -115,7 +112,6 @@ const AgreementPage: FC = () => {
                     versions={section.versions}
                     key={j}
                     index={section.index}
-                    userId={userId || -1}
                     current_version={section.current_version}
                   />
                 );

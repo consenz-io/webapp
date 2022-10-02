@@ -20,7 +20,6 @@ const SectionCard = (props: ISection) => {
   const [versionIndex, setversionIndex] = useState<number>(0);
   const agreementContext: IAgreementContext = useContext(AgreementContext);
   const { vote } = agreementContext;
-  const userId = props.userId;
   const updateContent = (newversionIndex: number) => {
     setversionIndex(newversionIndex);
   };
@@ -96,7 +95,7 @@ const SectionCard = (props: ISection) => {
               <IconButton sx={{ padding: '0' }}>
                 <LikeIcon
                   onClick={() => {
-                    vote(userId, displayedVersion.id, 'up');
+                    vote(displayedVersion.id, 'up');
                   }}
                 />
               </IconButton>
@@ -106,7 +105,7 @@ const SectionCard = (props: ISection) => {
               <IconButton sx={{ padding: '0' }}>
                 <DislikeIcon
                   onClick={() => {
-                    vote(userId, displayedVersion.id, 'down');
+                    vote(displayedVersion.id, 'down');
                   }}
                 />
               </IconButton>

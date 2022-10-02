@@ -1,14 +1,17 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { createContext, FC } from 'react';
+import { createContext, FC, useContext } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { IAgreement, IAgreementContext } from 'types';
 import { voteMutation } from 'utils/mutations';
 import { agreement as agreementQuery } from 'utils/queries';
+import { DataContext } from 'contexts/data';
 
 const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);
 
 const AgreementProvider: FC = () => {
   const { agreementId } = useParams();
+  const { user } = useContext(DataContext);
+  const user_id = user?.id;
   const { data } = useQuery<{
     core_agreements: IAgreement[];
   }>(agreementQuery, {
@@ -17,11 +20,9 @@ const AgreementProvider: FC = () => {
     },
   });
 
-  const [voteFn, { error: voteError }] = useMutation(voteMutation, {
-    refetchQueries: ['votes'],
-  });
+  const [voteFn, { error: voteError }] = useMutation(voteMutation);
 
-  const onVote = async (user_id: number, version_id: number, type: 'up' | 'down') => {
+  const vote = async (version_id: number, type: 'up' | 'down') => {
     if (!user_id || !version_id) {
       console.error(
         `error in voting: bad arguments: user_id: ${user_id}, version_id: ${version_id}`
@@ -53,9 +54,7 @@ const AgreementProvider: FC = () => {
     rationale: agreement?.rationale || '',
     agreementTitle: agreement?.name || '',
     agreement: agreement,
-    vote: (user_id: number, version_id: number, type: 'up' | 'down') => {
-      return onVote(user_id, version_id, type);
-    },
+    vote: (version_id, type) => vote(version_id, type),
   };
   return (
     <AgreementContext.Provider value={state}>
