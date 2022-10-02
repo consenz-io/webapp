@@ -1,7 +1,7 @@
 import {
-  Breadcrumbs,
+  // Breadcrumbs,
   Button,
-  Link,
+  // Link,
   Stack,
   Typography,
   Chip,
@@ -9,60 +9,44 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  SvgIcon,
 } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext } from 'react';
-import DocLogo from 'assets/icons/document.svg';
+import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { generateColorFromString } from 'utils/functions';
+import { Appbar } from 'components';
+import { BreadcrumsProps } from 'components/Appbar';
+import { GroupContext } from 'contexts/group';
 import SectionCard from 'components/SectionCard';
 import { IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { generateRandString } from 'utils/functions';
+import { useParams } from 'react-router-dom';
 
 const AgreementPage: FC = () => {
   const { t } = useTranslation();
+  const { groupSlug } = useParams();
+  const { categories } = useContext(GroupContext);
   const { agreement, categoryName } = useContext(AgreementContext);
-  console.log('agreement', agreement);
-  const categoryColor = categoryName ? generateColorFromString(categoryName, true) : 'primary';
+  const breadcrumsProps: BreadcrumsProps[] = [
+    {
+      name: categoryName || t(StringBank.UNCATEGORIZED),
+      link: `/${groupSlug}/cat/${categories
+        .find((categoryObj) => categoryObj.name === categoryName)
+        ?.id.toString()}`,
+    },
+    {
+      name: agreement?.name ?? '',
+      icon: DocLogo,
+    },
+  ];
 
   return (
     <Stack>
-      <Stack
-        direction="row"
-        sx={{
-          borderBottom: '1px solid #3f4550',
-          paddingBottom: '1.5rem',
-        }}
-      >
-        <Breadcrumbs separator="›" aria-label="breadcrumb">
-          <Link underline="hover" key="1" color="inherit" href="/">
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: '500',
-                paddingRight: '0.5rem',
-              }}
-            >
-              {categoryName}
-            </Typography>
-          </Link>
-          <Link underline="hover" key="1" color="inherit" href="/">
-            <Stack
-              spacing={1}
-              direction="row"
-              sx={{
-                fontSize: '0.87rem',
-                alignItems: 'center',
-              }}
-            >
-              <img src={DocLogo} alt="docIcon" width="20rem" height="18px" />
-              {agreement?.name}
-            </Stack>
-          </Link>
-        </Breadcrumbs>
-      </Stack>
+      <Appbar breadcrumsSection={breadcrumsProps} />
       <Stack direction="column" spacing={4} paddingX={2} paddingY={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" alignItems="end">
@@ -71,17 +55,19 @@ const AgreementPage: FC = () => {
             </Typography>
             {categoryName && (
               <Chip
-                label={categoryName ? categoryName : ''}
+                label={categoryName}
                 size="small"
                 sx={{
-                  backgroundColor: categoryColor,
+                  backgroundColor: generateColorFromString(categoryName, true),
                   marginBlockEnd: 0.5,
                 }}
               />
             )}
           </Stack>
           <Button variant="contained">
-            <img src={DocLogo} alt="docIcon" />
+            <SvgIcon>
+              <DocLogo />
+            </SvgIcon>
             <Typography sx={{ paddingX: '.5rem' }} variant="h6">
               {t(StringBank.VIEW_CURRENT_DRAFT)}
             </Typography>

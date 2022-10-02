@@ -1,18 +1,45 @@
 import { FC } from 'react';
-import { IconButton, Stack, StepLabel, SvgIcon, Typography } from '@mui/material';
+import {
+  Breadcrumbs,
+  IconButton,
+  Link,
+  Stack,
+  StepLabel,
+  SvgIcon,
+  Typography,
+} from '@mui/material';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
-import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
-import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
 import styled from 'styled-components';
+import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
 import { backgroundBorderColor } from 'theme';
 
-export interface AppbarProps {
+export interface ActionProps {
+  icon: JSX.Element;
+  onClickFn: () => void;
+}
+
+export interface BreadcrumsProps {
+  name: string;
+  icon?: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & {
+      title?: string | undefined;
+    }
+  >;
+  link?: string | undefined;
+}
+
+export interface StepsProps {
   steps: string[];
   activeStep: number;
-  agreementName: string;
-  closeFn: () => void;
+  onStepChange?: () => void;
+}
+
+interface AppbarProps {
+  stepperSection?: StepsProps;
+  actionsSection?: ActionProps[];
+  breadcrumsSection?: BreadcrumsProps[];
 }
 
 const AppbarContainer = styled(Stack)`
@@ -27,54 +54,81 @@ const AppbarContainer = styled(Stack)`
   }
 `;
 
-const XIconWrapper = styled(SvgIcon)`
-  svg path {
-    fill: #adb2b8;
-  }
-`;
+function renderBreadcrums(breadcrumsProps: BreadcrumsProps[]) {
+  return (
+    <Stack direction="row" alignItems="center" flexGrow={1}>
+      <Breadcrumbs separator={<ArrowLogo fontSize="1rem" />} aria-label="breadcrumb">
+        {breadcrumsProps.map((breadcrumObj, i) => {
+          const Icon = breadcrumObj.icon;
+          if (breadcrumObj.link) {
+            return (
+              <Link key={i} underline="hover" justifyContent="center" href={breadcrumObj.link}>
+                <Typography
+                  variant="body2"
+                  color={i === breadcrumsProps.length - 1 ? 'white' : 'GrayText'}
+                >
+                  <Stack direction="row" justifyContent="center" alignItems="center" gap="0.5rem">
+                    {Icon && <Icon />}
+                    {breadcrumObj.name}
+                  </Stack>
+                </Typography>
+              </Link>
+            );
+          }
+          return (
+            <Typography
+              key={i}
+              variant="body2"
+              lineHeight="2.58"
+              padding="0.12rem"
+              color={i === breadcrumsProps.length - 1 ? 'white' : 'GrayText'}
+            >
+              <Stack direction="row" justifyContent="center" alignItems="center" gap="0.5rem">
+                {Icon && <Icon />}
+                {breadcrumObj.name}
+              </Stack>
+            </Typography>
+          );
+        })}
+      </Breadcrumbs>
+    </Stack>
+  );
+}
 
 const Appbar: FC<AppbarProps> = (props) => {
   return (
-    <AppbarContainer direction="row" alignItems="center" justifyContent="space-between">
-      <Stack direction="row" gap="0.5rem">
-        <DocLogo />
-        <Typography fontSize="0.875rem" lineHeight="1.57" paddingTop="2px">
-          {props.agreementName}
-        </Typography>
-      </Stack>
-      <Stack direction="row">
-        <Stepper nonLinear activeStep={props.activeStep - 1}>
-          {props.steps.map((step, i) => (
-            <Step
-              disabled
-              key={i}
-              color="inherit"
-              completed={props.activeStep > i + 1}
-              sx={{ padding: '0 1rem' }}
-            >
-              <StepButton sx={{ padding: '0', margin: '0' }} disableRipple>
-                <StepLabel
-                  sx={{
-                    '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root': {
-                      color: backgroundBorderColor,
-                    },
-                    '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root.Mui-active': {
-                      color: '#8d54ea',
-                    },
-                  }}
-                >
-                  {step}
-                </StepLabel>
-              </StepButton>
-            </Step>
+    <AppbarContainer direction="row" alignItems="center">
+      {props.breadcrumsSection &&
+        props.breadcrumsSection.length > 0 &&
+        renderBreadcrums(props.breadcrumsSection)}
+      {props.stepperSection && props.stepperSection.activeStep && (
+        <Stack direction="row" justifyContent="center">
+          <Stepper nonLinear activeStep={props.stepperSection.activeStep - 1}>
+            {props.stepperSection.steps.map((step, i) => (
+              <Step
+                disabled
+                key={i}
+                color="inherit"
+                completed={props.stepperSection && props.stepperSection.activeStep > i + 1}
+                sx={{ padding: '0 1rem' }}
+              >
+                <StepButton sx={{ padding: '0', margin: '0' }} disableRipple>
+                  <StepLabel>{step}</StepLabel>
+                </StepButton>
+              </Step>
+            ))}
+          </Stepper>
+        </Stack>
+      )}
+      {props.actionsSection && props.actionsSection.length > 0 && (
+        <Stack id="actions" direction="row" justifyContent="flex-end" flexGrow={1}>
+          {props.actionsSection.map((actionObj, j) => (
+            <IconButton key={j} onClick={actionObj.onClickFn}>
+              <SvgIcon>{actionObj.icon}</SvgIcon>
+            </IconButton>
           ))}
-        </Stepper>
-      </Stack>
-      <IconButton>
-        <XIconWrapper onClick={props.closeFn}>
-          <XLogo />
-        </XIconWrapper>
-      </IconButton>
+        </Stack>
+      )}
     </AppbarContainer>
   );
 };
