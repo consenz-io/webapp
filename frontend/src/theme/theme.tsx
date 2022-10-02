@@ -189,6 +189,13 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
           },
         },
       },
+      MuiStepIcon: {
+        styleOverrides: {
+          root: {
+            color: backgroundBorderColor,
+          },
+        },
+      },
     },
     palette: {
       mode,
