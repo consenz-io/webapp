@@ -16,7 +16,7 @@ export interface ICategory {
 }
 
 export interface IChapter {
-  id: number;
+  index: number;
   name: string;
   sections: ISection[];
 }

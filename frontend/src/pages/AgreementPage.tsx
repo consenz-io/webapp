@@ -24,6 +24,7 @@ import { generateRandString } from 'utils/functions';
 const AgreementPage: FC = () => {
   const { t } = useTranslation();
   const { agreement, categoryName } = useContext(AgreementContext);
+  console.log('agreement', agreement);
   const categoryColor = categoryName ? generateColorFromString(categoryName, true) : 'primary';
 
   return (
@@ -92,7 +93,8 @@ const AgreementPage: FC = () => {
           {agreement?.chapters?.map((chapter: IChapter) => (
             <Accordion
               TransitionProps={{ unmountOnExit: true }}
-              key={generateRandString()}
+              defaultExpanded={true}
+              key={chapter.index}
               sx={{
                 boxShadow: 'none',
                 position: 'static',
