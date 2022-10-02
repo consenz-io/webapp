@@ -14,7 +14,6 @@ import StepButton from '@mui/material/StepButton';
 import styled from 'styled-components';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
 import { backgroundBorderColor } from 'theme';
-import { generateRandString } from 'utils/functions';
 
 export interface ActionProps {
   icon: JSX.Element;
@@ -57,23 +56,15 @@ const AppbarContainer = styled(Stack)`
 
 function renderBreadcrums(breadcrumsProps: BreadcrumsProps[]) {
   return (
-    <Stack direction="row" justifyContent="center" alignItems="center">
+    <Stack direction="row" alignItems="center" flexGrow={1}>
       <Breadcrumbs separator={<ArrowLogo fontSize="1rem" />} aria-label="breadcrumb">
         {breadcrumsProps.map((breadcrumObj, i) => {
           const Icon = breadcrumObj.icon;
           if (breadcrumObj.link) {
             return (
-              <Link
-                key={generateRandString()}
-                underline="hover"
-                alignItems="center"
-                justifyContent="center"
-                href={breadcrumObj.link}
-              >
+              <Link key={i} underline="hover" justifyContent="center" href={breadcrumObj.link}>
                 <Typography
                   variant="body2"
-                  lineHeight="2.58"
-                  padding="0.12rem"
                   color={i === breadcrumsProps.length - 1 ? 'white' : 'GrayText'}
                 >
                   <Stack direction="row" justifyContent="center" alignItems="center" gap="0.5rem">
@@ -86,7 +77,7 @@ function renderBreadcrums(breadcrumsProps: BreadcrumsProps[]) {
           }
           return (
             <Typography
-              key={generateRandString()}
+              key={i}
               variant="body2"
               lineHeight="2.58"
               padding="0.12rem"
@@ -106,21 +97,12 @@ function renderBreadcrums(breadcrumsProps: BreadcrumsProps[]) {
 
 const Appbar: FC<AppbarProps> = (props) => {
   return (
-    <AppbarContainer direction="row" alignItems="center" justifyContent="space-between">
-      <Stack
-        id="breadcrums"
-        direction="row"
-        gap="0.5rem"
-        justifyContent="flex-start"
-        alignItems="center"
-        flexGrow={1}
-      >
-        {props.breadcrumsSection &&
-          props.breadcrumsSection.length > 0 &&
-          renderBreadcrums(props.breadcrumsSection)}
-      </Stack>
-      <Stack id="stepper" flexGrow={1} direction="row">
-        {props.stepperSection && props.stepperSection.activeStep && (
+    <AppbarContainer direction="row" alignItems="center">
+      {props.breadcrumsSection &&
+        props.breadcrumsSection.length > 0 &&
+        renderBreadcrums(props.breadcrumsSection)}
+      {props.stepperSection && props.stepperSection.activeStep && (
+        <Stack direction="row" justifyContent="center">
           <Stepper nonLinear activeStep={props.stepperSection.activeStep - 1}>
             {props.stepperSection.steps.map((step, i) => (
               <Step
@@ -131,34 +113,20 @@ const Appbar: FC<AppbarProps> = (props) => {
                 sx={{ padding: '0 1rem' }}
               >
                 <StepButton sx={{ padding: '0', margin: '0' }} disableRipple>
-                  <StepLabel
-                    sx={{
-                      '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root': {
-                        color: 'background.border',
-                      },
-                      '& .css-dsfbi5-MuiSvgIcon-root-MuiStepIcon-root.Mui-active': {
-                        color: 'primary.main',
-                      },
-                    }}
-                  >
-                    {step}
-                  </StepLabel>
+                  <StepLabel>{step}</StepLabel>
                 </StepButton>
               </Step>
             ))}
           </Stepper>
-        )}
-      </Stack>
+        </Stack>
+      )}
       {props.actionsSection && props.actionsSection.length > 0 && (
-        <Stack id="actions" direction="row" flexGrow={1} justifyContent="flex-end">
-          {props.actionsSection.map((actionObj, j) => {
-            const Icon = actionObj.icon;
-            return (
-              <IconButton key={j} onClick={actionObj.onClickFn}>
-                <SvgIcon>{Icon}</SvgIcon>
-              </IconButton>
-            );
-          })}
+        <Stack id="actions" direction="row" justifyContent="flex-end" flexGrow={1}>
+          {props.actionsSection.map((actionObj, j) => (
+            <IconButton key={j} onClick={actionObj.onClickFn}>
+              <SvgIcon>{actionObj.icon}</SvgIcon>
+            </IconButton>
+          ))}
         </Stack>
       )}
     </AppbarContainer>
