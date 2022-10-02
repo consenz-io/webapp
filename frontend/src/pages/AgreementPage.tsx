@@ -1,90 +1,66 @@
-import { Breadcrumbs, Button, Link, Stack, Typography, Chip, Box } from '@mui/material';
+import { Button, Stack, Typography, Chip, Box, SvgIcon } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext } from 'react';
-import DocLogo from 'assets/icons/document.svg';
+import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { generateColorFromString } from 'utils/functions';
+import { Appbar } from 'components';
+import { BreadcrumsProps } from 'components/Appbar';
+import { GroupContext } from 'contexts/group';
 import SectionCard from 'components/SectionCard';
 import { IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 
 const AgreementPage: FC = () => {
   const { t } = useTranslation();
+  const { groupSlug } = useParams();
+  const { categories } = useContext(GroupContext);
   const { agreement, categoryName } = useContext(AgreementContext);
-  const categoryColor = generateColorFromString(categoryName || t(StringBank.UNCATEGORIZED), true);
+  const breadcrumsProps: BreadcrumsProps[] = [
+    {
+      name: categoryName || t(StringBank.UNCATEGORIZED),
+      link: `/${groupSlug}/cat/${categories
+        .find((categoryObj) => categoryObj.name === categoryName)
+        ?.id.toString()}`,
+    },
+    {
+      name: agreement?.name ?? '',
+      icon: DocLogo,
+    },
+  ];
 
   return (
     <Stack>
-      <Stack
-        direction="row"
-        sx={{
-          borderBottom: '1px solid #3f4550',
-          paddingBottom: '1.5rem',
-        }}
-      >
-        <Breadcrumbs separator="›" aria-label="breadcrumb">
-          <Link underline="hover" key="1" color="inherit" href="/">
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: '500',
-                paddingRight: '0.5rem',
-              }}
-            >
-              {categoryName || t(StringBank.UNCATEGORIZED)}
-            </Typography>
-          </Link>
-          <Link underline="hover" key="1" color="inherit" href="/">
-            <Stack
-              spacing={1}
-              direction="row"
-              sx={{
-                fontSize: '0.87rem',
-                alignItems: 'center',
-              }}
-            >
-              <img src={DocLogo} alt="docIcon" width="20rem" height="18px" />
-              {agreement?.name}
-            </Stack>
-          </Link>
-        </Breadcrumbs>
-      </Stack>
-      <Stack direction="column" spacing={4}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          marginTop={4}
-          maxWidth="md"
-        >
-          <Stack direction="row" alignItems="end" justifyContent="space-between">
+      <Appbar breadcrumsSection={breadcrumsProps} />
+      <Stack direction="column" spacing={4} paddingX={2} paddingY={3}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Stack direction="row" alignItems="end">
             <Typography variant="h1" marginRight={2}>
               {agreement?.name}
             </Typography>
             {categoryName && (
               <Chip
-                label={categoryName ? categoryName : ''}
+                label={categoryName}
                 size="small"
                 sx={{
-                  backgroundColor: categoryColor,
-                  marginY: 0.5,
+                  backgroundColor: generateColorFromString(categoryName, true),
+                  marginBlockEnd: 0.5,
                 }}
               />
             )}
           </Stack>
           <Button variant="contained">
-            <img src={DocLogo} alt="docIcon" />
+            <SvgIcon>
+              <DocLogo />
+            </SvgIcon>
             <Typography sx={{ paddingX: '.5rem' }} variant="h6">
               {t(StringBank.VIEW_CURRENT_DRAFT)}
             </Typography>
           </Button>
         </Stack>
-        <Typography sx={{ paddingLeft: '1rem' }} variant="body2" maxWidth="md">
-          {agreement?.rationale}
-        </Typography>
+        <Typography>{agreement?.rationale}</Typography>
         <Box />
-      </Stack>
-      <Stack direction="column">
         {agreement?.chapters?.map((chapter: IChapter, i: number) => (
           <Stack direction="column" key={i}>
             <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
@@ -105,17 +81,15 @@ const AgreementPage: FC = () => {
                 })}
               </Typography>
             </Stack>
-            <Stack direction="column" rowGap="2rem" maxWidth="md">
-              {chapter?.sections?.map((section, j: number) => {
-                return (
-                  <SectionCard
-                    versions={section.versions}
-                    key={j}
-                    index={section.index}
-                    current_version={section.current_version}
-                  />
-                );
-              })}
+            <Stack direction="column" spacing={2}>
+              {chapter?.sections?.map((section, j: number) => (
+                <SectionCard
+                  versions={section.versions}
+                  key={j}
+                  index={section.index}
+                  current_version={section.current_version}
+                />
+              ))}
             </Stack>
           </Stack>
         ))}

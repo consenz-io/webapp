@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
 import { FC } from 'react';
 import { useState, useContext } from 'react';
-import { Button, Stack, Container } from '@mui/material';
+import { Button, Stack, Container, SvgIcon } from '@mui/material';
 import { GroupContext } from 'contexts/group';
 import { LocalChapter } from 'types';
 import {
@@ -11,8 +11,17 @@ import {
   AgreementRules,
   NameAndRationale,
 } from 'components/NewAgreement';
+import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { Appbar } from 'components';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
+import styled from 'styled-components';
+
+const XIconWrapper = styled(SvgIcon)`
+  svg path {
+    fill: #adb2b8;
+  }
+`;
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -78,13 +87,32 @@ const NewAgreement: FC = () => {
     return <AgreementCreatedSuccessfully agreementId={createdAgreementId} />;
   }
 
+  const steps = [t(StringBank.RATIONALE), t(StringBank.SECTIONS), t(StringBank.RULES)];
+  const stepsProps = { steps, activeStep: step };
+
+  const breadcrumsProps = [
+    {
+      name: agreementName || 'My New Agreement',
+      icon: DocLogo,
+    },
+  ];
+  const actionsProps = [
+    {
+      icon: (
+        <XIconWrapper>
+          <XLogo />
+        </XIconWrapper>
+      ),
+      onClickFn: () => navigate(-1),
+    },
+  ];
+
   return (
     <>
       <Appbar
-        agreementName={agreementName || 'My New Agreement'}
-        steps={[t(StringBank.RATIONALE), t(StringBank.SECTIONS), t(StringBank.RULES)]}
-        activeStep={step}
-        closeFn={() => navigate(-1)}
+        stepperSection={stepsProps}
+        breadcrumsSection={breadcrumsProps}
+        actionsSection={actionsProps}
       />
       <Container maxWidth="md">
         <Stack justifyContent="center" spacing={5} marginY={4}>

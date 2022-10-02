@@ -17,7 +17,7 @@ const AllArchievedAgreements = () => {
   const { archivedAgreements, name, slug } = useContext(GroupContext);
   if (!archivedAgreements.length) {
     return (
-      <Stack direction="column" height="100%" justifyContent="space-between">
+      <Stack padding={{ sm: 2 }} height="100%" justifyContent="space-between">
         <Typography variant="h2">{t(StringBank.ARCHIVE)}</Typography>
         <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
           <Typography variant="h3" textAlign="center">
