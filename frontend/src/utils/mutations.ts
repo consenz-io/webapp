@@ -43,3 +43,15 @@ export const deleteAgreementMutation = gql`
     }
   }
 `;
+
+export const voteMutation = gql`
+  mutation Vote($user_id: Int!, $version_id: Int!, $type: String!) {
+    insert_core_votes(objects: { user_id: $user_id, version_id: $version_id, type: $type }) {
+      returning {
+        user_id
+        version_id
+        type
+      }
+    }
+  }
+`;

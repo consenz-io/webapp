@@ -11,12 +11,15 @@ import { ISection } from 'types/entities';
 import { ColorModeAndDirectionContext } from 'theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
+import { AgreementContext } from 'contexts/agreement';
+import { IAgreementContext } from 'types';
 
 const SectionCard = (props: ISection) => {
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const [versionIndex, setversionIndex] = useState<number>(0);
-
+  const agreementContext: IAgreementContext = useContext(AgreementContext);
+  const { vote } = agreementContext;
   const updateContent = (newversionIndex: number) => {
     setversionIndex(newversionIndex);
   };
@@ -68,14 +71,22 @@ const SectionCard = (props: ISection) => {
           <ContentEditor initialContent={displayedVersion.content} readonly />
           <Stack gap="1rem" direction="row">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton size="small">
-                <LikeIcon />
+              <IconButton sx={{ padding: '0' }}>
+                <LikeIcon
+                  onClick={() => {
+                    vote(displayedVersion.id, 'up');
+                  }}
+                />
               </IconButton>
               <Typography color="#24ebd3">{displayedVersion.upvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton size="small">
-                <DislikeIcon />
+              <IconButton sx={{ padding: '0' }}>
+                <DislikeIcon
+                  onClick={() => {
+                    vote(displayedVersion.id, 'down');
+                  }}
+                />
               </IconButton>
               <Typography>{displayedVersion.downvotes}</Typography>
             </Stack>

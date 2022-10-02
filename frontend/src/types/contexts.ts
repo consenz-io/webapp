@@ -43,4 +43,5 @@ export interface IAgreementContext {
   rationale: string;
   agreementTitle: string;
   categoryName: string;
+  vote: (version_id: number, type: 'up' | 'down') => any;
 }
