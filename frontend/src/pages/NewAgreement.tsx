@@ -109,11 +109,7 @@ const NewAgreement: FC = () => {
 
   return (
     <>
-      <Appbar
-        stepperSection={stepsProps}
-        breadcrumsSection={breadcrumsProps}
-        actionsSection={actionsProps}
-      />
+      <Appbar stepper={stepsProps} breadcrumbs={breadcrumsProps} actions={actionsProps} />
       <Container maxWidth="md">
         <Stack justifyContent="center" spacing={5} marginY={4}>
           {step < 3 && (

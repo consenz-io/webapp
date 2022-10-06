@@ -15,12 +15,12 @@ import styled from 'styled-components';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
 import { backgroundBorderColor } from 'theme';
 
-export interface ActionProps {
+export interface Action {
   icon: JSX.Element;
   onClickFn: () => void;
 }
 
-export interface BreadcrumsProps {
+export interface Breadcrumb {
   name: string;
   icon?: React.FunctionComponent<
     React.SVGProps<SVGSVGElement> & {
@@ -30,16 +30,16 @@ export interface BreadcrumsProps {
   link?: string | undefined;
 }
 
-export interface StepsProps {
+export interface StepperMeta {
   steps: string[];
   activeStep: number;
   onStepChange?: () => void;
 }
 
 interface AppbarProps {
-  stepperSection?: StepsProps;
-  actionsSection?: ActionProps[];
-  breadcrumsSection?: BreadcrumsProps[];
+  stepper?: StepperMeta;
+  actions?: Action[];
+  breadcrumbs?: Breadcrumb[];
 }
 
 const AppbarContainer = styled(Stack)`
@@ -54,64 +54,39 @@ const AppbarContainer = styled(Stack)`
   }
 `;
 
-function renderBreadcrums(breadcrumsProps: BreadcrumsProps[]) {
-  return (
-    <Breadcrumbs
-      separator={<ArrowLogo fontSize="1rem" />}
-      aria-label="breadcrumb"
-      sx={{ flexBasis: 'calc(100%/3)' }}
-    >
-      {breadcrumsProps.map((breadcrumObj, i) => {
-        const Icon = breadcrumObj.icon;
-        if (breadcrumObj.link) {
-          return (
-            <Link key={i} underline="hover" justifyContent="center" href={breadcrumObj.link}>
-              <Typography
-                variant="body2"
-                color={i === breadcrumsProps.length - 1 ? 'white' : 'GrayText'}
-              >
-                <Stack direction="row" justifyContent="center" alignItems="center" gap="0.5rem">
-                  {Icon && <Icon />}
-                  {breadcrumObj.name}
-                </Stack>
-              </Typography>
-            </Link>
-          );
-        }
-        return (
-          <Typography
-            key={i}
-            variant="body2"
-            lineHeight="2.58"
-            padding="0.12rem"
-            color={i === breadcrumsProps.length - 1 ? 'white' : 'GrayText'}
-          >
-            <Stack direction="row" justifyContent="center" alignItems="center" gap="0.5rem">
-              {Icon && <Icon />}
-              {breadcrumObj.name}
-            </Stack>
-          </Typography>
-        );
-      })}
-    </Breadcrumbs>
-  );
-}
-
 const Appbar: FC<AppbarProps> = (props) => {
   return (
     <AppbarContainer direction="row" alignItems="center">
-      {props.breadcrumsSection &&
-        props.breadcrumsSection.length > 0 &&
-        renderBreadcrums(props.breadcrumsSection)}
-      {props.stepperSection && props.stepperSection.activeStep && (
+      {props.breadcrumbs?.length && (
+        <Breadcrumbs
+          separator={<ArrowLogo fontSize="1rem" />}
+          aria-label="breadcrumb"
+          sx={{ flexBasis: 'calc(100%/3)' }}
+        >
+          {props.breadcrumbs.map((breadcrumb, i) => (
+            <Link key={i} underline="none" justifyContent="center" href={breadcrumb.link}>
+              <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
+                {breadcrumb.icon && <breadcrumb.icon />}
+                <Typography
+                  variant="body2"
+                  color={i === (props.breadcrumbs?.length || 0) - 1 ? 'white' : 'GrayText'}
+                >
+                  {breadcrumb.name}
+                </Typography>
+              </Stack>
+            </Link>
+          ))}
+        </Breadcrumbs>
+      )}
+      {props.stepper && props.stepper.activeStep && (
         <Stack flexBasis="calc(100%/3)" alignItems="center">
-          <Stepper nonLinear activeStep={props.stepperSection.activeStep - 1}>
-            {props.stepperSection.steps.map((step, i) => (
+          <Stepper nonLinear activeStep={props.stepper.activeStep - 1}>
+            {props.stepper.steps.map((step, i) => (
               <Step
                 disabled
                 key={i}
                 color="inherit"
-                completed={props.stepperSection && props.stepperSection.activeStep > i + 1}
+                completed={props.stepper && props.stepper.activeStep > i + 1}
                 sx={{ padding: '0 1rem' }}
               >
                 <StepButton sx={{ padding: '0', margin: '0' }} disableRipple>
@@ -122,9 +97,9 @@ const Appbar: FC<AppbarProps> = (props) => {
           </Stepper>
         </Stack>
       )}
-      {props.actionsSection && props.actionsSection.length > 0 && (
+      {props.actions && props.actions.length > 0 && (
         <Stack id="actions" direction="row" justifyContent="flex-end" flexBasis="calc(100%/3)">
-          {props.actionsSection.map((actionObj, j) => (
+          {props.actions.map((actionObj, j) => (
             <IconButton key={j} onClick={actionObj.onClickFn}>
               <SvgIcon>{actionObj.icon}</SvgIcon>
             </IconButton>
