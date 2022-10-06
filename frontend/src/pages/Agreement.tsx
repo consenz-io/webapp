@@ -26,7 +26,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { generateRandString } from 'utils/functions';
 import { useParams } from 'react-router-dom';
 
-const AgreementPage: FC = () => {
+const Agreement: FC = () => {
   const { t } = useTranslation();
   const { groupSlug } = useParams();
   const { categories } = useContext(GroupContext);
@@ -136,4 +136,4 @@ const AgreementPage: FC = () => {
   );
 };
 
-export default AgreementPage;
+export default Agreement;

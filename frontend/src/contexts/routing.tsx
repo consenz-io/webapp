@@ -2,7 +2,7 @@ import { createContext, FC } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { IFCProps, IRoutingContext } from 'types';
 import {
-  AgreementPage,
+  Agreement,
   Home,
   Page404,
   AllAgreements,
@@ -46,7 +46,7 @@ const RoutesProvider: FC = () => {
               <Route path="cat/:categoryId" element={<AllCategories />} />
               <Route path="new-agreement" element={<NewAgreement />} />
               <Route path="agreement" element={<AgreementProvider />}>
-                <Route path=":agreementId" element={<AgreementPage />} />
+                <Route path=":agreementId" element={<Agreement />} />
               </Route>
             </Route>
           </Route>

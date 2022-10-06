@@ -5,12 +5,12 @@ import NewAgreement from './NewAgreement';
 import ActiveAgreements from './ActiveAgreements';
 import ArchivedAgreements from './ArchivedAgreements';
 import { Welcome } from './Welcome';
-import AgreementPage from './AgreementPage';
+import Agreement from './Agreement';
 import AllArchievedAgreements from './ArchivedAgreements';
 import CategoryAgreements from './CategoryAgreements';
 
 export {
-  AgreementPage,
+  Agreement,
   Page404,
   Home,
   ActiveAgreements,
