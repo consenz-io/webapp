@@ -8,6 +8,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   SvgIcon,
+  Link,
 } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext } from 'react';
@@ -21,7 +22,7 @@ import { IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Link, useParams } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
@@ -114,7 +115,12 @@ const Agreement: FC = () => {
               <AccordionDetails sx={{ backgroundColor: '#333842' }}>
                 <Stack direction="column" spacing={2}>
                   {chapter?.sections?.map((section) => (
-                    <Link to={`section/${section.id}`} key={section.id}>
+                    <Link
+                      to={`section/${section.id}`}
+                      key={section.id}
+                      component={RouterLink}
+                      underline="none"
+                    >
                       <SectionCard section={section} />
                     </Link>
                   ))}
