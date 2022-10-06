@@ -8,6 +8,7 @@ import { Welcome } from './Welcome';
 import Agreement from './Agreement';
 import AllArchievedAgreements from './ArchivedAgreements';
 import CategoryAgreements from './CategoryAgreements';
+import Section from './Section';
 
 export {
   Agreement,
@@ -18,6 +19,7 @@ export {
   AllAgreements,
   NewAgreement,
   Welcome,
+  Section,
   AllArchievedAgreements,
-  CategoryAgreements as AllCategories,
+  CategoryAgreements,
 };

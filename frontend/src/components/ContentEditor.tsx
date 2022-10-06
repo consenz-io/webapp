@@ -5,7 +5,7 @@ import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
-import { Divider, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import {
   FormatAlignCenter,
   FormatAlignLeft,
@@ -21,6 +21,7 @@ import {
 import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
+import { backgroundBorderColor } from 'theme';
 
 interface IProps {
   initialContent?: JSONContent | string;
@@ -67,7 +68,6 @@ function ContentEditor({
               onClick={() => editor.chain().focus().toggleBold().run()}
               selected={editor.isActive('bold')}
               color="secondary"
-              sx={{ borderRadius: 1 }}
             >
               <FormatBold color="secondary" />
             </ToggleButton>
@@ -76,7 +76,6 @@ function ContentEditor({
               onClick={() => editor.chain().focus().toggleItalic().run()}
               selected={editor.isActive('italic')}
               color="secondary"
-              sx={{ borderRadius: 1 }}
             >
               <FormatItalic color="secondary" />
             </ToggleButton>
@@ -85,16 +84,14 @@ function ContentEditor({
               onClick={() => editor.chain().focus().toggleUnderline().run()}
               selected={editor.isActive('underline')}
               color="secondary"
-              sx={{ borderRadius: 1 }}
+              sx={{ borderInlineEnd: `1px solid ${backgroundBorderColor}` }}
             >
               <FormatUnderlined color="secondary" />
             </ToggleButton>
-            <Divider orientation="vertical" flexItem />
             <ToggleButton
               value="left"
               onClick={() => editor.chain().focus().setTextAlign('left').run()}
               color="secondary"
-              sx={{ borderRadius: 1 }}
               selected={editor.isActive({ textAlign: 'left' })}
             >
               <FormatAlignLeft color="secondary" />
@@ -103,7 +100,6 @@ function ContentEditor({
               value="center"
               onClick={() => editor.chain().focus().setTextAlign('center').run()}
               color="secondary"
-              sx={{ borderRadius: 1 }}
               selected={editor.isActive({ textAlign: 'center' })}
             >
               <FormatAlignCenter color="secondary" />
@@ -112,17 +108,15 @@ function ContentEditor({
               value="right"
               onClick={() => editor.chain().focus().setTextAlign('right').run()}
               color="secondary"
-              sx={{ borderRadius: 1 }}
+              sx={{ borderInlineEnd: `1px solid ${backgroundBorderColor}` }}
               selected={editor.isActive({ textAlign: 'right' })}
             >
               <FormatAlignRight color="secondary" />
             </ToggleButton>
-            <Divider orientation="vertical" flexItem />
             <ToggleButton
               value="bulleted"
               onClick={() => editor.chain().focus().toggleBulletList().run()}
               color="secondary"
-              sx={{ borderRadius: 1 }}
               selected={editor.isActive('bulletList')}
             >
               <FormatListBulleted color="secondary" />
@@ -131,12 +125,11 @@ function ContentEditor({
               value="numbered"
               onClick={() => editor.chain().focus().toggleOrderedList().run()}
               color="secondary"
-              sx={{ borderRadius: 1 }}
               selected={editor.isActive('orderedList')}
+              sx={{ borderInlineEnd: `1px solid ${backgroundBorderColor}` }}
             >
               <FormatListNumbered color="secondary" />
             </ToggleButton>
-            <Divider orientation="vertical" flexItem />
             <ToggleButton
               value="hyperlink"
               onClick={() =>
@@ -152,7 +145,6 @@ function ContentEditor({
                   .run()
               }
               color="secondary"
-              sx={{ borderRadius: 1 }}
               selected={editor.isActive('link')}
             >
               <InsertLink color="secondary" />
@@ -161,7 +153,6 @@ function ContentEditor({
               value="table"
               onClick={() => editor.chain().focus().insertTable({ rows: 1, cols: 2 }).run()}
               color="secondary"
-              sx={{ borderRadius: 1 }}
             >
               <TableChart color="secondary" />
             </ToggleButton>

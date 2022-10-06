@@ -45,6 +45,7 @@ export const agreement = gql`
         name
         index
         sections(order_by: { index: asc }) {
+          id
           index
           current_version {
             id

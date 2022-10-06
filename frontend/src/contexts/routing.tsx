@@ -9,7 +9,8 @@ import {
   NewAgreement,
   Welcome,
   AllArchievedAgreements,
-  AllCategories,
+  CategoryAgreements,
+  Section,
 } from 'pages';
 import { SidebarLayout } from 'components';
 import { GroupProvider } from './group';
@@ -43,10 +44,13 @@ const RoutesProvider: FC = () => {
             <Route element={<SidebarLayout />}>
               <Route path="active-agreements" element={<AllAgreements />} />
               <Route path="archive" element={<AllArchievedAgreements />} />
-              <Route path="cat/:categoryId" element={<AllCategories />} />
+              <Route path="cat/:categoryId" element={<CategoryAgreements />} />
               <Route path="new-agreement" element={<NewAgreement />} />
               <Route path="agreement" element={<AgreementProvider />}>
-                <Route path=":agreementId" element={<Agreement />} />
+                <Route path=":agreementId">
+                  <Route path="" element={<Agreement />} />
+                  <Route path="section/:sectionId" element={<Section />} />
+                </Route>
               </Route>
             </Route>
           </Route>

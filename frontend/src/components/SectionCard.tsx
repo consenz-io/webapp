@@ -1,7 +1,7 @@
 import { Card, IconButton, Stack, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useContext, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { ReactComponent as LikeIcon } from 'assets/icons/like-outlined.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
@@ -14,7 +14,11 @@ import { useTranslation } from 'react-i18next';
 import { AgreementContext } from 'contexts/agreement';
 import { IAgreementContext } from 'types';
 
-const SectionCard = (props: ISection) => {
+interface Props {
+  section: ISection;
+}
+
+const SectionCard: FC<Props> = ({ section }) => {
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const [versionIndex, setversionIndex] = useState<number>(0);
@@ -25,7 +29,7 @@ const SectionCard = (props: ISection) => {
   };
 
   const forwardVersion = () => {
-    if (versionIndex + 1 < props.versions.length) {
+    if (versionIndex + 1 < section.versions.length) {
       const newIndex = versionIndex + 1;
       updateContent(newIndex);
     }
@@ -38,8 +42,8 @@ const SectionCard = (props: ISection) => {
     }
   };
 
-  const displayedVersion = props.versions[versionIndex];
-  const isCurrentVersionDisplayed = displayedVersion.id === props.current_version?.id;
+  const displayedVersion = section.versions[versionIndex];
+  const isCurrentVersionDisplayed = displayedVersion.id === section.current_version?.id;
 
   return (
     <Card variant="elevation" elevation={0} sx={{ paddingX: 1 }}>
@@ -56,12 +60,12 @@ const SectionCard = (props: ISection) => {
                 color: '#E0E0E0',
               }}
             >
-              {t(StringBank.SECTION_CARD_CONTENT_SECTION_NAME, { sectionNum: props.index })}
+              {t(StringBank.SECTION_CARD_CONTENT_SECTION_NAME, { sectionNum: section.index })}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {t(StringBank.SECTION_CARD_CONTENT_VERSIONS, {
                 versionNum: versionIndex + 1,
-                totalVersionsNum: props.versions.length,
+                totalVersionsNum: section.versions.length,
               })}
             </Typography>
             {isCurrentVersionDisplayed && (
@@ -71,22 +75,14 @@ const SectionCard = (props: ISection) => {
           <ContentEditor initialContent={displayedVersion.content} readonly />
           <Stack gap="1rem" direction="row">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton sx={{ padding: '0' }}>
-                <LikeIcon
-                  onClick={() => {
-                    vote(displayedVersion.id, 'up');
-                  }}
-                />
+              <IconButton onClick={() => vote(displayedVersion.id, 'up')}>
+                <LikeIcon />
               </IconButton>
               <Typography color="#24ebd3">{displayedVersion.upvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton sx={{ padding: '0' }}>
-                <DislikeIcon
-                  onClick={() => {
-                    vote(displayedVersion.id, 'down');
-                  }}
-                />
+              <IconButton onClick={() => vote(displayedVersion.id, 'down')}>
+                <DislikeIcon />
               </IconButton>
               <Typography>{displayedVersion.downvotes}</Typography>
             </Stack>
@@ -98,7 +94,10 @@ const SectionCard = (props: ISection) => {
             </Stack>
           </Stack>
         </Stack>
-        <IconButton disabled={versionIndex === props.versions.length - 1} onClick={forwardVersion}>
+        <IconButton
+          disabled={versionIndex === section.versions.length - 1}
+          onClick={forwardVersion}
+        >
           {isRTL ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
         </IconButton>
       </Stack>

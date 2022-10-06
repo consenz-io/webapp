@@ -1,7 +1,5 @@
 import {
-  // Breadcrumbs,
   Button,
-  // Link,
   Stack,
   Typography,
   Chip,
@@ -23,8 +21,7 @@ import { IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { generateRandString } from 'utils/functions';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
@@ -116,16 +113,11 @@ const Agreement: FC = () => {
               </AccordionSummary>
               <AccordionDetails sx={{ backgroundColor: '#333842' }}>
                 <Stack direction="column" spacing={2}>
-                  {chapter?.sections?.map((section) => {
-                    return (
-                      <SectionCard
-                        versions={section.versions}
-                        key={generateRandString()}
-                        index={section.index}
-                        current_version={section.current_version}
-                      />
-                    );
-                  })}
+                  {chapter?.sections?.map((section) => (
+                    <Link to={`section/${section.id}`} key={section.id}>
+                      <SectionCard section={section} />
+                    </Link>
+                  ))}
                 </Stack>
               </AccordionDetails>
             </Accordion>

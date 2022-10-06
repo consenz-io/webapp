@@ -1,19 +1,12 @@
 import { FC } from 'react';
-import {
-  Breadcrumbs,
-  IconButton,
-  Link,
-  Stack,
-  StepLabel,
-  SvgIcon,
-  Typography,
-} from '@mui/material';
+import { Breadcrumbs, IconButton, Stack, StepLabel, SvgIcon, Typography } from '@mui/material';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import styled from 'styled-components';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
 import { backgroundBorderColor } from 'theme';
+import { Link } from 'react-router-dom';
 
 export interface Action {
   icon: JSX.Element;
@@ -64,17 +57,24 @@ const Appbar: FC<AppbarProps> = (props) => {
           sx={{ flexBasis: 'calc(100%/3)' }}
         >
           {props.breadcrumbs.map((breadcrumb, i) => (
-            <Link key={i} underline="none" justifyContent="center" href={breadcrumb.link}>
-              <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
-                {breadcrumb.icon && <breadcrumb.icon />}
-                <Typography
-                  variant="body2"
-                  color={i === (props.breadcrumbs?.length || 0) - 1 ? 'white' : 'GrayText'}
-                >
-                  {breadcrumb.name}
-                </Typography>
-              </Stack>
-            </Link>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              spacing={1}
+              component={breadcrumb.link ? Link : Stack}
+              to={breadcrumb.link ?? ''}
+              key={i}
+              sx={{ textDecoration: 'none' }}
+            >
+              {breadcrumb.icon && <breadcrumb.icon />}
+              <Typography
+                variant="body2"
+                color={i === (props.breadcrumbs?.length || 0) - 1 ? 'white' : 'GrayText'}
+              >
+                {breadcrumb.name}
+              </Typography>
+            </Stack>
           ))}
         </Breadcrumbs>
       )}
