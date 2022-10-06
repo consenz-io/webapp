@@ -20,7 +20,9 @@ const AgreementProvider: FC = () => {
     },
   });
 
-  const [voteFn, { error: voteError }] = useMutation(voteMutation);
+  const [voteFn, { error: voteError }] = useMutation(voteMutation, {
+    refetchQueries: ['agreement'],
+  });
 
   const vote = async (version_id: number, type: 'up' | 'down') => {
     if (!user_id || !version_id) {
