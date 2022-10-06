@@ -32,7 +32,9 @@ insert_permissions:
             user:
               user_id:
                 _eq: X-Hasura-User-Id
-      columns: []
+      columns:
+        - group_id
+        - name
 select_permissions:
   - role: authenticated
     permission:
