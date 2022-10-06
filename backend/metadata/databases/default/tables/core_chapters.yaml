@@ -27,6 +27,19 @@ insert_permissions:
         - agreement_id
         - index
         - name
+  - role: moderator
+    permission:
+      check:
+        agreement:
+          group:
+            group_users:
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
+      columns:
+        - agreement_id
+        - index
+        - name
 select_permissions:
   - role: authenticated
     permission:
@@ -53,4 +66,10 @@ select_permissions:
         - index
         - name
         - updated_at
-      filter: {}
+      filter:
+        agreement:
+          group:
+            group_users:
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id

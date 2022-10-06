@@ -51,6 +51,22 @@ insert_permissions:
         - section_id
         - threshold
         - updated_at
+  - role: moderator
+    permission:
+      check:
+        section:
+          chapter:
+            agreement:
+              group:
+                group_users:
+                  user:
+                    user_id:
+                      _eq: X-Hasura-User-Id
+      columns:
+        - consensus
+        - content
+        - section_id
+        - threshold
 select_permissions:
   - role: authenticated
     permission:
