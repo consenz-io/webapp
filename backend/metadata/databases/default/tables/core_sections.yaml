@@ -39,6 +39,7 @@ select_permissions:
       columns:
         - chapter_id
         - created_at
+        - current_version_id
         - id
         - index
         - updated_at
@@ -54,9 +55,10 @@ select_permissions:
     permission:
       columns:
         - chapter_id
+        - created_at
+        - current_version_id
         - id
         - index
-        - created_at
         - updated_at
       filter: {}
 update_permissions:

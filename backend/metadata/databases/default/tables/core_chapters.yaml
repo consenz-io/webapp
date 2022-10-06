@@ -48,8 +48,9 @@ select_permissions:
     permission:
       columns:
         - agreement_id
-        - id
-        - name
         - created_at
+        - id
+        - index
+        - name
         - updated_at
       filter: {}
