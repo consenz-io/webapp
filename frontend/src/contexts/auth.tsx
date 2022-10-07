@@ -15,16 +15,18 @@ const AuthProvider = ({ children }: IFCProps) => {
   } = useAuth0();
 
   useEffect(() => {
-    getAccessTokenSilently()
-      .then((token) => {
-        setJwt(token);
-      })
-      .catch(() => loginWithRedirect());
-    getIdTokenClaims().then((idClaims) => {
-      if (idClaims) {
-        setUserRole(idClaims.role || userRole || '');
-      }
-    });
+    setTimeout(() => {
+      getAccessTokenSilently()
+        .then((token) => {
+          setJwt(token);
+        })
+        .catch(() => loginWithRedirect());
+      getIdTokenClaims().then((idClaims) => {
+        if (idClaims) {
+          setUserRole(idClaims.role || userRole || '');
+        }
+      });
+    }, 100);
   }, [getAccessTokenSilently, loginWithRedirect, getIdTokenClaims, userRole]);
 
   function logout(): void {

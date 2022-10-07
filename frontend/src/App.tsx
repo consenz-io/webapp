@@ -68,7 +68,7 @@ const App: FC = () => {
     <Auth0Provider
       domain={auth0Domain}
       clientId={auth0ClientId}
-      useRefreshTokens={false}
+      useRefreshTokens
       redirectUri={window.location.origin}
       cacheLocation="localstorage"
       audience="hasura"
