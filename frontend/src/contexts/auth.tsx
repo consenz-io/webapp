@@ -9,25 +9,27 @@ const AuthProvider = ({ children }: IFCProps) => {
   const [userRole, setUserRole] = useState<string>('');
   const {
     getAccessTokenSilently,
+    isLoading,
     logout: logoutAuth0,
     loginWithRedirect,
     getIdTokenClaims,
   } = useAuth0();
 
   useEffect(() => {
-    setTimeout(() => {
-      getAccessTokenSilently()
-        .then((token) => {
-          setJwt(token);
-        })
-        .catch(() => loginWithRedirect());
-      getIdTokenClaims().then((idClaims) => {
-        if (idClaims) {
-          setUserRole(idClaims.role || userRole || '');
-        }
-      });
-    }, 100);
-  }, [getAccessTokenSilently, loginWithRedirect, getIdTokenClaims, userRole]);
+    if (isLoading) {
+      return;
+    }
+    getAccessTokenSilently()
+      .then((token) => {
+        setJwt(token);
+      })
+      .catch(loginWithRedirect);
+    getIdTokenClaims().then((idClaims) => {
+      if (idClaims) {
+        setUserRole(idClaims.role || userRole || '');
+      }
+    });
+  }, [getAccessTokenSilently, isLoading, loginWithRedirect, getIdTokenClaims, userRole]);
 
   function logout(): void {
     setJwt(undefined);
