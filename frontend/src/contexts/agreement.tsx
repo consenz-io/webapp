@@ -24,7 +24,7 @@ const AgreementProvider: FC = () => {
     refetchQueries: ['agreement'],
   });
 
-  const vote = async (version_id: number, type: 'up' | 'down') => {
+  async function vote(version_id: number, type: 'up' | 'down') {
     if (!user_id || !version_id) {
       console.error(
         `error in voting: bad arguments: user_id: ${user_id}, version_id: ${version_id}`
@@ -47,7 +47,7 @@ const AgreementProvider: FC = () => {
       return;
     }
     return voteRes;
-  };
+  }
 
   const agreement = data?.core_agreements[0];
   const state: IAgreementContext = {
@@ -56,7 +56,7 @@ const AgreementProvider: FC = () => {
     rationale: agreement?.rationale || '',
     agreementTitle: agreement?.name || '',
     agreement: agreement,
-    vote: (version_id, type) => vote(version_id, type),
+    vote,
   };
   return (
     <AgreementContext.Provider value={state}>
