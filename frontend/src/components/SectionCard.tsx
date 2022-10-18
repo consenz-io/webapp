@@ -24,6 +24,9 @@ const SectionCard: FC<Props> = ({ section }) => {
   const [versionIndex, setversionIndex] = useState<number>(0);
   const agreementContext: IAgreementContext = useContext(AgreementContext);
   const { vote } = agreementContext;
+  const displayedVersion = section.versions[versionIndex];
+  const isCurrentVersionDisplayed = displayedVersion.id === section.current_version?.id;
+
   const updateContent = (newversionIndex: number) => {
     setversionIndex(newversionIndex);
   };
@@ -42,8 +45,10 @@ const SectionCard: FC<Props> = ({ section }) => {
     }
   };
 
-  const displayedVersion = section.versions[versionIndex];
-  const isCurrentVersionDisplayed = displayedVersion.id === section.current_version?.id;
+  function handleVote(type: 'up' | 'down', e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    vote(displayedVersion.id, type);
+  }
 
   return (
     <Card variant="elevation" elevation={0} sx={{ paddingX: 1 }}>
@@ -75,13 +80,13 @@ const SectionCard: FC<Props> = ({ section }) => {
           <ContentEditor initialContent={displayedVersion.content} readonly />
           <Stack gap="1rem" direction="row">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton onClick={() => vote(displayedVersion.id, 'up')}>
+              <IconButton onClick={(e) => handleVote('up', e)}>
                 <LikeIcon />
               </IconButton>
               <Typography color="#24ebd3">{displayedVersion.upvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton onClick={() => vote(displayedVersion.id, 'down')}>
+              <IconButton onClick={(e) => handleVote('down', e)}>
                 <DislikeIcon />
               </IconButton>
               <Typography>{displayedVersion.downvotes}</Typography>

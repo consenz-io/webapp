@@ -25,6 +25,22 @@ insert_permissions:
         - version_id
         - type
         - user_id
+  - role: moderator
+    permission:
+      check:
+        suggestion:
+          section:
+            chapter:
+              agreement:
+                group:
+                  group_users:
+                    user:
+                      user_id:
+                        _eq: X-Hasura-User-Id
+      columns:
+        - user_id
+        - version_id
+        - type
 select_permissions:
   - role: authenticated
     permission:
