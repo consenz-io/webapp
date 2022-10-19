@@ -1,27 +1,13 @@
-import {
-  Button,
-  Container,
-  Divider,
-  IconButton,
-  Stack,
-  SvgIcon,
-  Typography,
-  Snackbar,
-} from '@mui/material';
+import { Button, Container, Divider, IconButton, Stack, Typography, Snackbar } from '@mui/material';
 import { FC, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { useNavigate } from 'react-router-dom';
 import { GroupContext } from 'contexts/group';
 import handLogo from 'assets/icons/hand-v@3x.png';
-import styled from 'styled-components';
 import { ReactComponent as CopyIcon } from 'assets/icons/copy.svg';
-
-const CopyIconWrapper = styled(SvgIcon)`
-  svg path {
-    fill: #adb2b8;
-  }
-`;
+import { SvgIcon } from 'components';
+import { textSecondaryColor } from 'theme';
 
 const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId }) => {
   const { t } = useTranslation();
@@ -38,9 +24,9 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
           navigator.clipboard.writeText(text);
         }}
       >
-        <CopyIconWrapper>
+        <SvgIcon htmlColor={textSecondaryColor}>
           <CopyIcon />
-        </CopyIconWrapper>
+        </SvgIcon>
       </IconButton>
     );
   };

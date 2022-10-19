@@ -5,7 +5,7 @@ import React, { FC, useContext, useState } from 'react';
 import { ReactComponent as LikeIcon } from 'assets/icons/like-outlined.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
 import ContentEditor from 'components/ContentEditor';
 import { ISection } from 'types/entities';
 import { ColorModeAndDirectionContext } from 'theme';
@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { AgreementContext } from 'contexts/agreement';
 import { IAgreementContext } from 'types';
 import { ClickableCard } from './ClickableCard';
+import SvgIcon from './SvgIcon';
 
 interface Props {
   onClick: () => void;
@@ -83,7 +84,9 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
               })}
             </Typography>
             {isCurrentVersionDisplayed && (
-              <CheckCircleOutlineIcon htmlColor="#24ebd3" fontSize="inherit" />
+              <SvgIcon htmlColor="#24ebd3">
+                <CheckCircleIcon />
+              </SvgIcon>
             )}
           </Stack>
           <ContentEditor initialContent={displayedVersion.content} readonly />

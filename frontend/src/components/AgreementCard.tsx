@@ -1,4 +1,4 @@
-import { Box, CardContent, Chip, Stack, SvgIcon, Typography } from '@mui/material';
+import { Box, CardContent, Chip, Stack, Typography } from '@mui/material';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { FC, useContext, useState } from 'react';
@@ -11,11 +11,10 @@ import { GroupContext } from 'contexts/group';
 import { backgroundBorderColor, ColorModeAndDirectionContext } from 'theme';
 import { MenuItem, ThemeModeType, VariantType } from 'types';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import DialogEl from '../components/Dialog';
 import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
 import { AuthContext } from 'contexts';
-import { ClickableCard } from '.';
+import { ClickableCard, SvgIcon } from '.';
 
 interface IAgreementCardProps {
   id: number;
@@ -26,20 +25,6 @@ interface IAgreementCardProps {
   participants: number;
   isArchived?: boolean;
 }
-
-const TrashIconWrapper = styled(SvgIcon)`
-  svg path {
-    fill: #fc6d8f;
-  }
-`;
-
-const TrashEL = () => {
-  return (
-    <TrashIconWrapper>
-      <TrashIcon />
-    </TrashIconWrapper>
-  );
-};
 
 const AgreementCard: FC<IAgreementCardProps> = ({
   id,
@@ -91,7 +76,11 @@ const AgreementCard: FC<IAgreementCardProps> = ({
     if (role && role === 'moderator') {
       menuItems.push({
         text: 'Delete',
-        icon: <TrashEL />,
+        icon: (
+          <SvgIcon htmlColor="#fc6d8f">
+            <TrashIcon />
+          </SvgIcon>
+        ),
         action: () => {
           handleClickOpenDialog();
         },

@@ -8,6 +8,7 @@ import Dialog from './Dialog';
 import ContentEditor from './ContentEditor';
 import AgreementCarousel from './AgreementCarousel';
 import Appbar from './Appbar';
+import SvgIcon from './SvgIcon';
 import SectionCard from './SectionCard';
 import { ClickableCard } from './ClickableCard';
 
@@ -24,4 +25,5 @@ export {
   Sidebar,
   SidebarController,
   SidebarLayout,
+  SvgIcon,
 };
