@@ -9,17 +9,19 @@ import ContentEditor from './ContentEditor';
 import AgreementCarousel from './AgreementCarousel';
 import Appbar from './Appbar';
 import SectionCard from './SectionCard';
+import { ClickableCard } from './ClickableCard';
 
 export {
-  Sidebar,
-  SidebarLayout,
-  SidebarController,
-  DropDownMenu,
-  GroupsNav,
   AgreementCard,
-  ContentEditor,
-  Dialog,
   AgreementCarousel,
   Appbar,
+  ClickableCard,
+  ContentEditor,
+  Dialog,
+  DropDownMenu,
+  GroupsNav,
   SectionCard,
+  Sidebar,
+  SidebarController,
+  SidebarLayout,
 };

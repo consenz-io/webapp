@@ -1,7 +1,7 @@
-import { Card, IconButton, Stack, Typography } from '@mui/material';
+import { IconButton, Stack, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { FC, useContext, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { ReactComponent as LikeIcon } from 'assets/icons/like-outlined.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
@@ -13,45 +13,54 @@ import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import { AgreementContext } from 'contexts/agreement';
 import { IAgreementContext } from 'types';
+import { ClickableCard } from './ClickableCard';
 
 interface Props {
+  onClick: () => void;
   section: ISection;
 }
 
-const SectionCard: FC<Props> = ({ section }) => {
+const SectionCard: FC<Props> = ({ section, onClick }) => {
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
-  const [versionIndex, setversionIndex] = useState<number>(0);
+  const [versionIndex, setVersionIndex] = useState<number>(0);
   const agreementContext: IAgreementContext = useContext(AgreementContext);
   const { vote } = agreementContext;
   const displayedVersion = section.versions[versionIndex];
   const isCurrentVersionDisplayed = displayedVersion.id === section.current_version?.id;
 
-  const updateContent = (newversionIndex: number) => {
-    setversionIndex(newversionIndex);
-  };
+  function updateContent(newversionIndex: number) {
+    setVersionIndex(newversionIndex);
+  }
 
-  const forwardVersion = () => {
+  function forwardVersion(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation();
     if (versionIndex + 1 < section.versions.length) {
       const newIndex = versionIndex + 1;
       updateContent(newIndex);
     }
-  };
+  }
 
-  const backwardsVersion = () => {
+  function backwardsVersion(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation();
     if (versionIndex - 1 >= 0) {
       const newIndex = versionIndex - 1;
       updateContent(newIndex);
     }
-  };
+  }
 
   function handleVote(type: 'up' | 'down', e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault();
+    e.stopPropagation();
     vote(displayedVersion.id, type);
   }
 
   return (
-    <Card variant="elevation" elevation={0} sx={{ paddingX: 1 }}>
+    <ClickableCard
+      variant="elevation"
+      elevation={0}
+      sx={{ paddingX: 1, cursor: 'pointer' }}
+      onClick={onClick}
+    >
       <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
         <IconButton onClick={backwardsVersion} disabled={versionIndex === 0}>
           {isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
@@ -106,7 +115,7 @@ const SectionCard: FC<Props> = ({ section }) => {
           {isRTL ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
         </IconButton>
       </Stack>
-    </Card>
+    </ClickableCard>
   );
 };
 

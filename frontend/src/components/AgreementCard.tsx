@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Chip, Stack, SvgIcon, Typography } from '@mui/material';
+import { Box, CardContent, Chip, Stack, SvgIcon, Typography } from '@mui/material';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { FC, useContext, useState } from 'react';
@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import DialogEl from '../components/Dialog';
 import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
 import { AuthContext } from 'contexts';
+import { ClickableCard } from '.';
 
 interface IAgreementCardProps {
   id: number;
@@ -25,14 +26,6 @@ interface IAgreementCardProps {
   participants: number;
   isArchived?: boolean;
 }
-
-const MainCard = styled(Card)`
-  cursor: pointer;
-  transition: all 0.2s linear;
-  &:hover {
-    box-shadow: 0px 0px 8px ${(props) => props.theme.palette.background.border};
-  }
-`;
 
 const TrashIconWrapper = styled(SvgIcon)`
   svg path {
@@ -110,7 +103,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
 
   return (
     <>
-      <MainCard onClick={() => navigate(`/${slug}/agreement/${id}`)}>
+      <ClickableCard onClick={() => navigate(`/${slug}/agreement/${id}`)}>
         <Stack>
           <CardContent sx={{ backgroundColor: cardBackgroundColor, position: 'relative' }}>
             <Box position="absolute" left="1rem" right="1rem">
@@ -162,6 +155,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
               </Typography>
               <Typography variant="caption">
                 {t(StringBank.AGREEMENT_UPDATED_AT, {
+                  interpolation: { escapeValue: false },
                   date: updatedAt.toLocaleString(navigator.language, {
                     month: 'numeric',
                     day: 'numeric',
@@ -174,7 +168,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
             </Stack>
           </CardContent>
         </Stack>
-      </MainCard>
+      </ClickableCard>
       <DialogEl
         openDialogState={openDialogState}
         title="Delete Agreement"
