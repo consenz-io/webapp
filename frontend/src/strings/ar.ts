@@ -15,12 +15,12 @@ export const ar: Record<StringBank, string> = {
   AGREEMENT_UPDATED_AT: '{{date}} :اخر حتلنة',
   ALL_AGREEMENTS: 'كل الاتفاقيات',
   ARCHIVE: 'ارشيف',
-  ARCHIVE_EMPTY_MESSAGE: "هنا ستخزن الاتفاقيات في الارشيف",
+  ARCHIVE_EMPTY_MESSAGE: 'هنا ستخزن الاتفاقيات في الارشيف',
   ARCHIVE_EMPTY_MESSAGE_END: 'إذا كانت موجودة',
   BACK: 'رجوع',
   CATEGORY: 'فئة',
   CATEGORIES: 'فئات',
-  CATEGORY_EMPTY_MESSAGE: "هل تريد انشاء مجموعة جديدة؟"
+  CATEGORY_EMPTY_MESSAGE: 'هل تريد انشاء مجموعة جديدة؟',
   COMING_SOON: 'قريباً',
   CONTINUE: 'أكمل',
   CREATE_FIRST_AGREEMENT: 'حرر اتفاقيتك الاولى',
@@ -48,7 +48,7 @@ export const ar: Record<StringBank, string> = {
   TIME_LIMITED_DESCRIPTION: 'كم من الوقت ستكون نسخة هذه الاتفاقية معروضة للتصويت؟',
   TIME_LIMITED: 'محدد بالوقت',
   UNARCHIVE: 'نقل من الارشيف',
-  UNCATEGORIZED: 'عام
+  UNCATEGORIZED: 'عام',
   URL_COPIED_SUCCESSFULLY: 'تم نسخ الرابط بنجاح',
   VERSION: 'اصدار',
   VIEW_AGREEMENT: 'عرض الاتفاقية',
