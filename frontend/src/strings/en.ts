@@ -24,6 +24,7 @@ export const en: Record<StringBank, string> = {
   COMING_SOON: 'Coming Soon',
   CONTINUE: 'Continue',
   CREATE_FIRST_AGREEMENT: 'Create your first agreement',
+  CURRENT_VERSION: 'Current Version',
   GOTO_HOMEPAGE_TITLE: 'Go to consenz homepage',
   GROUP_AGREEMENTS: "{{group}}'s Agreements",
   CATEGORY_AGREMENTS: '{{category}} category - active Agreements',

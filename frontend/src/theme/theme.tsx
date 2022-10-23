@@ -197,6 +197,18 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
           },
         },
       },
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            color: mode === ThemeModeType.DARK ? '#f2f2f2' : 'black',
+            backgroundColor: mode === ThemeModeType.DARK ? 'black' : '#b9bbbe',
+            padding: '0.6em 1em',
+            '& .MuiTooltip-arrow': {
+              color: mode === ThemeModeType.DARK ? 'black' : '#b9bbbe',
+            },
+          },
+        },
+      },
     },
     palette: {
       mode,

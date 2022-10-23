@@ -16,6 +16,7 @@ export const he: Partial<Record<StringBank, string>> = {
   CATEGORY: 'קטגוריה',
   CATEGORY_EMPTY_MESSAGE: 'אולי תרצו ליצור אחד',
   CONTINUE: 'להמשיך',
+  CURRENT_VERSION: 'הגרסה הנוכחית',
   GOTO_HOMEPAGE_TITLE: 'לעבור לדף הבית',
   LOGOUT: 'יציאה',
   NEW_AGREEMENT: 'הסכם חדש',
