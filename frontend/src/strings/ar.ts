@@ -24,6 +24,7 @@ export const ar: Record<StringBank, string> = {
   COMING_SOON: 'قريباً',
   CONTINUE: 'أكمل',
   CREATE_FIRST_AGREEMENT: 'حرر اتفاقيتك الاولى',
+  CURRENT_VERSION: 'الإصدار الحالي',
   GOTO_HOMEPAGE_TITLE: 'الى صفحة البيت',
   GROUP_AGREEMENTS: '{{group}}:عدد الاتفاقيات في مجموعة',
   CATEGORY_AGREMENTS: '{{category}} الاتفاقيات الفعالة - فئة',

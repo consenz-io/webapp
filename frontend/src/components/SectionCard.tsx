@@ -1,4 +1,4 @@
-import { IconButton, Stack, Typography } from '@mui/material';
+import { IconButton, Stack, Typography, Tooltip } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React, { FC, useContext, useState } from 'react';
@@ -84,9 +84,11 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
               })}
             </Typography>
             {isCurrentVersionDisplayed && (
-              <SvgIcon htmlColor="#24ebd3">
-                <CheckCircleIcon />
-              </SvgIcon>
+              <Tooltip title={t(StringBank.CURRENT_VERSION)} arrow placement="top">
+                <SvgIcon htmlColor="#24ebd3">
+                  <CheckCircleIcon />
+                </SvgIcon>
+              </Tooltip>
             )}
           </Stack>
           <ContentEditor initialContent={displayedVersion.content} readonly />
