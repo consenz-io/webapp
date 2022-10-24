@@ -49,6 +49,7 @@ insert_permissions:
         - created_at
         - id
         - section_id
+        - status
         - threshold
         - updated_at
   - role: moderator
@@ -66,6 +67,7 @@ insert_permissions:
         - consensus
         - content
         - section_id
+        - status
         - threshold
 select_permissions:
   - role: authenticated
@@ -76,6 +78,7 @@ select_permissions:
         - created_at
         - id
         - section_id
+        - status
         - threshold
         - updated_at
       computed_fields:
@@ -99,6 +102,7 @@ select_permissions:
         - created_at
         - id
         - section_id
+        - status
         - threshold
         - updated_at
       computed_fields:
@@ -115,6 +119,7 @@ update_permissions:
         - created_at
         - id
         - section_id
+        - status
         - threshold
         - updated_at
       filter:
