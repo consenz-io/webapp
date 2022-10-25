@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Appbar } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
-import { FC, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
 import { Chip, Stack } from '@mui/material';
@@ -11,6 +11,7 @@ import { StringBank } from 'strings';
 const Section: FC = () => {
   const { section } = useContext(SectionContext);
   const { agreement } = useContext(AgreementContext);
+  const [displayedVersion, setDisplayedVersion] = useState(section?.versions[0]);
   return (
     <>
       <Appbar
@@ -27,9 +28,10 @@ const Section: FC = () => {
           <Chip
             deleteIcon={<CheckCircleIcon />}
             onDelete={version.id === section.current_version?.id ? () => {} : undefined}
+            onClick={() => setDisplayedVersion(version)}
             label={`${t(StringBank.VERSION)} ${i + 1}`}
             key={version.id}
-            color={version.id === section.current_version?.id ? 'primary' : 'default'}
+            color={displayedVersion === version ? 'primary' : 'default'}
           />
         ))}
       </Stack>
