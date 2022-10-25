@@ -2,18 +2,20 @@ import { createContext, FC } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { IFCProps, IRoutingContext } from 'types';
 import {
-  AgreementPage,
+  Agreement,
   Home,
   Page404,
   AllAgreements,
   NewAgreement,
   Welcome,
   AllArchievedAgreements,
-  AllCategories,
+  CategoryAgreements,
+  Section,
 } from 'pages';
 import { SidebarLayout } from 'components';
 import { GroupProvider } from './group';
 import { AgreementProvider } from './agreement';
+import { SectionProvider } from './section';
 const HOME_ROUTE = '/';
 const WELCOME_ROUTE = '/welcome';
 
@@ -43,10 +45,20 @@ const RoutesProvider: FC = () => {
             <Route element={<SidebarLayout />}>
               <Route path="active-agreements" element={<AllAgreements />} />
               <Route path="archive" element={<AllArchievedAgreements />} />
-              <Route path="cat/:categoryId" element={<AllCategories />} />
+              <Route path="cat/:categoryId" element={<CategoryAgreements />} />
               <Route path="new-agreement" element={<NewAgreement />} />
               <Route path="agreement" element={<AgreementProvider />}>
-                <Route path=":agreementId" element={<AgreementPage />} />
+                <Route path=":agreementId">
+                  <Route path="" element={<Agreement />} />
+                  <Route
+                    path="section/:sectionId"
+                    element={
+                      <SectionProvider>
+                        <Section />
+                      </SectionProvider>
+                    }
+                  />
+                </Route>
               </Route>
             </Route>
           </Route>

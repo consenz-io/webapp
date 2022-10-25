@@ -2,6 +2,8 @@ import * as SC from './style';
 import { Dialog, Stack, Typography, IconButton, Button } from '@mui/material';
 import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
 import { useState } from 'react';
+import { textSecondaryColor } from 'theme';
+import { SvgIcon } from 'components';
 
 interface DialogProps {
   title: string;
@@ -61,9 +63,9 @@ export default function DialogEl(props: DialogProps) {
           {props.title}
         </Typography>
         <IconButton onClick={props.cancelFunction} sx={{ marginRight: '-0.5rem' }}>
-          <SC.XIconWrapper>
+          <SvgIcon htmlColor={textSecondaryColor}>
             <Xbtn />
-          </SC.XIconWrapper>
+          </SvgIcon>
         </IconButton>
       </Stack>
       <Stack direction="row" alignItems="center">
@@ -71,7 +73,7 @@ export default function DialogEl(props: DialogProps) {
           sx={{
             fontFamily: 'Lato',
             fontSize: '14px',
-            color: '#adb2b8',
+            color: textSecondaryColor,
             padding: '0 2rem 0.56rem 2rem',
           }}
           variant="body1"

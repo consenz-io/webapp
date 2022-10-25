@@ -45,6 +45,7 @@ export const agreementByIdQuery = gql`
         name
         index
         sections(order_by: { index: asc }) {
+          id
           index
           current_version {
             id
@@ -60,6 +61,23 @@ export const agreementByIdQuery = gql`
       group {
         name
         slug
+      }
+    }
+  }
+`;
+
+export const section = gql`
+  query section($sectionId: Int!) {
+    core_sections(where: { id: { _eq: $sectionId } }) {
+      id
+      current_version {
+        id
+      }
+      versions(order_by: { created_at: asc }) {
+        id
+        content
+        upvotes
+        downvotes
       }
     }
   }

@@ -33,6 +33,20 @@ insert_permissions:
         - id
         - index
         - updated_at
+  - role: moderator
+    permission:
+      check:
+        chapter:
+          agreement:
+            group:
+              group_users:
+                user:
+                  user_id:
+                    _eq: X-Hasura-User-Id
+      columns:
+        - chapter_id
+        - current_version_id
+        - index
 select_permissions:
   - role: authenticated
     permission:

@@ -1,7 +1,5 @@
 import {
-  // Breadcrumbs,
   Button,
-  // Link,
   Stack,
   Typography,
   Chip,
@@ -16,22 +14,22 @@ import { FC, useContext } from 'react';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { generateColorFromString } from 'utils/functions';
 import { Appbar } from 'components';
-import { BreadcrumsProps } from 'components/Appbar';
+import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import SectionCard from 'components/SectionCard';
 import { IChapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { generateRandString } from 'utils/functions';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const AgreementPage: FC = () => {
+const Agreement: FC = () => {
   const { t } = useTranslation();
   const { groupSlug } = useParams();
   const { categories } = useContext(GroupContext);
   const { agreement, categoryName } = useContext(AgreementContext);
-  const breadcrumsProps: BreadcrumsProps[] = [
+  const navigate = useNavigate();
+  const breadcrumsProps: Breadcrumb[] = [
     {
       name: categoryName || t(StringBank.UNCATEGORIZED),
       link: `/${groupSlug}/cat/${categories
@@ -46,7 +44,7 @@ const AgreementPage: FC = () => {
 
   return (
     <Stack>
-      <Appbar breadcrumsSection={breadcrumsProps} />
+      <Appbar breadcrumbs={breadcrumsProps} />
       <Stack direction="column" spacing={4} paddingX={2} paddingY={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" alignItems="end">
@@ -116,16 +114,13 @@ const AgreementPage: FC = () => {
               </AccordionSummary>
               <AccordionDetails sx={{ backgroundColor: '#333842' }}>
                 <Stack direction="column" spacing={2}>
-                  {chapter?.sections?.map((section) => {
-                    return (
-                      <SectionCard
-                        versions={section.versions}
-                        key={generateRandString()}
-                        index={section.index}
-                        current_version={section.current_version}
-                      />
-                    );
-                  })}
+                  {chapter?.sections?.map((section) => (
+                    <SectionCard
+                      key={section.id}
+                      section={section}
+                      onClick={() => navigate(`section/${section.id}`)}
+                    />
+                  ))}
                 </Stack>
               </AccordionDetails>
             </Accordion>
@@ -136,4 +131,4 @@ const AgreementPage: FC = () => {
   );
 };
 
-export default AgreementPage;
+export default Agreement;

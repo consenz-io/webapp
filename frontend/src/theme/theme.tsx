@@ -24,6 +24,7 @@ declare module '@mui/material/Button' {
 }
 
 export const backgroundBorderColor = '#595f68';
+export const textSecondaryColor = '#adb2b8';
 
 export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOptions = (
   mode,
@@ -196,6 +197,18 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
           },
         },
       },
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            color: mode === ThemeModeType.DARK ? '#f2f2f2' : 'black',
+            backgroundColor: mode === ThemeModeType.DARK ? 'black' : '#b9bbbe',
+            padding: '0.6em 1em',
+            '& .MuiTooltip-arrow': {
+              color: mode === ThemeModeType.DARK ? 'black' : '#b9bbbe',
+            },
+          },
+        },
+      },
     },
     palette: {
       mode,
@@ -221,7 +234,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             },
             text: {
               primary: '#000000',
-              secondary: '#ADB2B8',
+              secondary: textSecondaryColor,
             },
           }
         : {
@@ -246,7 +259,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             },
             text: {
               primary: '#ffffff',
-              secondary: '#ADB2B8',
+              secondary: textSecondaryColor,
             },
           }),
     },

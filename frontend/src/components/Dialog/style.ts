@@ -1,11 +1,5 @@
 import styled from 'styled-components';
-import { TextField, DialogActions, SvgIcon } from '@mui/material';
-
-export const XIconWrapper = styled(SvgIcon)`
-  svg path {
-    fill: #adb2b8;
-  }
-`;
+import { TextField, DialogActions } from '@mui/material';
 
 export const DialogInput = styled(TextField)`
   && {

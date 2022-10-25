@@ -5,12 +5,13 @@ import NewAgreement from './NewAgreement';
 import ActiveAgreements from './ActiveAgreements';
 import ArchivedAgreements from './ArchivedAgreements';
 import { Welcome } from './Welcome';
-import AgreementPage from './AgreementPage';
+import Agreement from './Agreement';
 import AllArchievedAgreements from './ArchivedAgreements';
 import CategoryAgreements from './CategoryAgreements';
+import Section from './Section';
 
 export {
-  AgreementPage,
+  Agreement,
   Page404,
   Home,
   ActiveAgreements,
@@ -18,6 +19,7 @@ export {
   AllAgreements,
   NewAgreement,
   Welcome,
+  Section,
   AllArchievedAgreements,
-  CategoryAgreements as AllCategories,
+  CategoryAgreements,
 };

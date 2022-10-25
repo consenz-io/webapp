@@ -15,13 +15,7 @@ import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { Appbar } from 'components';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
-import styled from 'styled-components';
-
-const XIconWrapper = styled(SvgIcon)`
-  svg path {
-    fill: #adb2b8;
-  }
-`;
+import { textSecondaryColor } from 'theme';
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -99,9 +93,9 @@ const NewAgreement: FC = () => {
   const actionsProps = [
     {
       icon: (
-        <XIconWrapper>
+        <SvgIcon htmlColor={textSecondaryColor}>
           <XLogo />
-        </XIconWrapper>
+        </SvgIcon>
       ),
       onClickFn: () => navigate(-1),
     },
@@ -109,11 +103,7 @@ const NewAgreement: FC = () => {
 
   return (
     <>
-      <Appbar
-        stepperSection={stepsProps}
-        breadcrumsSection={breadcrumsProps}
-        actionsSection={actionsProps}
-      />
+      <Appbar stepper={stepsProps} breadcrumbs={breadcrumsProps} actions={actionsProps} />
       <Container maxWidth="md">
         <Stack justifyContent="center" spacing={5} marginY={4}>
           {step < 3 && (

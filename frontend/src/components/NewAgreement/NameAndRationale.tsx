@@ -117,7 +117,7 @@ function NameAndRationale({
               {
                 text: t(StringBank.ADD_NEW_CATEGORY),
                 textColor: 'text.secondary',
-                value: null,
+                value: 'new',
                 action: () => setOpenDialogState(true),
                 icon: <AddIcon sx={{ color: 'text.secondary', marginLeft: '-0.25rem' }} />,
               },

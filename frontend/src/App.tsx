@@ -16,17 +16,25 @@ const App: FC = () => {
   const [isRTL, setIsRTL] = useState(false);
   const { i18n } = useTranslation();
 
-  const toggleLanguage = useCallback(
+  const rotateLanguage = useCallback(
     (e: globalThis.KeyboardEvent) => {
       if (e.key === '`') {
         if (i18n.language === 'en') {
           i18n.changeLanguage('he');
           setIsRTL(true);
-        } else {
-          setIsRTL(false);
-          i18n.changeLanguage('en');
+          return;
         }
-      } else if (e.key === '~') {
+        if (i18n.language === 'he') {
+          i18n.changeLanguage('ar');
+          return;
+        }
+        if (i18n.language === 'ar') {
+          i18n.changeLanguage('en');
+          setIsRTL(false);
+          return;
+        }
+      }
+      if (e.key === '~') {
         setMode(mode === ThemeModeType.DARK ? ThemeModeType.LIGHT : ThemeModeType.DARK);
         i18n.changeLanguage('en');
       }
@@ -39,12 +47,12 @@ const App: FC = () => {
   }, [isRTL]);
 
   useEffect(() => {
-    window.addEventListener('keydown', toggleLanguage);
+    window.addEventListener('keydown', rotateLanguage);
 
     return () => {
-      window.removeEventListener('keydown', toggleLanguage);
+      window.removeEventListener('keydown', rotateLanguage);
     };
-  }, [toggleLanguage]);
+  }, [rotateLanguage]);
 
   const colorModeAndDirectionState = useMemo(
     () => ({
@@ -68,7 +76,7 @@ const App: FC = () => {
     <Auth0Provider
       domain={auth0Domain}
       clientId={auth0ClientId}
-      useRefreshTokens={false}
+      useRefreshTokens
       redirectUri={window.location.origin}
       cacheLocation="localstorage"
       audience="hasura"

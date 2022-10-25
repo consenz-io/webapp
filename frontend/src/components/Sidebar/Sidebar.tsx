@@ -93,7 +93,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
             <SC.ListItemButton
               key={i}
               onClick={() => navigate(`/${groupSlug}/cat/${category.id}`)}
-              selected={window.location.href.endsWith(String(category.id))}
+              selected={window.location.href.endsWith(`cat/${String(category.id)}`)}
             >
               <ListItemIcon>
                 <CircleIcon
