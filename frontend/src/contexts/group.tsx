@@ -24,14 +24,14 @@ const GroupProvider: FC = () => {
       isArchived: false,
       categoryId,
     },
-    skip: !(currentGroup && currentGroup?.id),
+    skip: !currentGroup?.id,
   });
 
   const { data: archivedAgreements } = useQuery<{
     core_agreements: IAgreement[];
   }>(agreementsQuery(), {
     variables: { groupId: currentGroup?.id || -1, isArchived: true },
-    skip: !(currentGroup && currentGroup?.id),
+    skip: !currentGroup?.id,
   });
 
   const { data: categoriesData } = useQuery<{ core_categories: ICategory[] }>(
@@ -43,7 +43,7 @@ const GroupProvider: FC = () => {
         }
       }
     `,
-    { variables: { groupId: currentGroup?.id || -1 }, skip: !(currentGroup && currentGroup?.id) }
+    { variables: { groupId: currentGroup?.id || -1 }, skip: !currentGroup?.id }
   );
 
   const currentCategory = categoriesData?.core_categories?.find((c) => c.id === Number(categoryId));
