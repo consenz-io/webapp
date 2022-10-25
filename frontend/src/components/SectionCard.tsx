@@ -1,4 +1,4 @@
-import { IconButton, Stack, Typography, Tooltip } from '@mui/material';
+import { IconButton, Stack, Typography, Tooltip, useTheme } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React, { FC, useContext, useState } from 'react';
@@ -33,13 +33,24 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
   function updateContent(newversionIndex: number) {
     setVersionIndex(newversionIndex);
   }
-
-  function checkVoteColor(voteType: 'up' | 'down') {
+  const mode = useTheme().palette.mode;
+  function checkIconColor(voteType: 'up' | 'down' | 'comment') {
     let color;
+    let regularColor;
+    switch (mode) {
+      case 'light':
+        regularColor = 'black';
+        break;
+      case 'dark':
+        regularColor = '';
+        break;
+    }
     if (voteType === 'up') {
-      color = myVote === 'up' ? '#24ebd3' : '';
+      color = myVote === 'up' ? '#24ebd3' : regularColor;
+    } else if (voteType === 'down') {
+      color = myVote === 'down' ? '#ff5a82' : regularColor;
     } else {
-      color = myVote === 'down' ? '#ff5a82' : '';
+      return regularColor;
     }
     return color;
   }
@@ -105,23 +116,25 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
           <Stack gap="1rem" direction="row">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton onClick={(e) => handleVote('up', e)}>
-                <SvgIcon htmlColor={checkVoteColor('up')}>
+                <SvgIcon htmlColor={checkIconColor('up')}>
                   <LikeIcon />
                 </SvgIcon>
               </IconButton>
-              <Typography color={checkVoteColor('up')}>{displayedVersion.upvotes}</Typography>
+              <Typography color={checkIconColor('up')}>{displayedVersion.upvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton onClick={(e) => handleVote('down', e)}>
-                <SvgIcon htmlColor={checkVoteColor('down')}>
+                <SvgIcon htmlColor={checkIconColor('down')}>
                   <DislikeIcon />
                 </SvgIcon>
               </IconButton>
-              <Typography color={checkVoteColor('down')}>{displayedVersion.downvotes}</Typography>
+              <Typography color={checkIconColor('down')}>{displayedVersion.downvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton size="small">
-                <CommentIcon />
+                <SvgIcon htmlColor={checkIconColor('comment')}>
+                  <CommentIcon />
+                </SvgIcon>
               </IconButton>
               <Typography>{5}</Typography>
             </Stack>
