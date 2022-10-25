@@ -50,6 +50,7 @@ const AgreementProvider: FC = () => {
   }
 
   const agreement = data?.core_agreements[0];
+  console.log('agreement', agreement);
   const state: IAgreementContext = {
     agreementId: agreement?.id || NaN,
     categoryName: agreement?.category?.name || '',

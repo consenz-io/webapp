@@ -42,6 +42,7 @@ export interface IVersion {
   content: JSONContent | string;
   upvotes: number;
   downvotes: number;
+  my_vote: string;
 }
 
 export interface IUser {

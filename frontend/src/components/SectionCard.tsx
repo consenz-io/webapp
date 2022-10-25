@@ -2,7 +2,7 @@ import { IconButton, Stack, Typography, Tooltip } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React, { FC, useContext, useState } from 'react';
-import { ReactComponent as LikeIcon } from 'assets/icons/like-outlined.svg';
+import { ReactComponent as LikeIcon } from 'assets/icons/like-uncolored.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
@@ -29,9 +29,19 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
   const { vote } = agreementContext;
   const displayedVersion = section.versions[versionIndex];
   const isCurrentVersionDisplayed = displayedVersion.id === section.current_version?.id;
-
+  const myVote = section.versions[versionIndex].my_vote;
   function updateContent(newversionIndex: number) {
     setVersionIndex(newversionIndex);
+  }
+
+  function checkVoteColor(voteType: 'up' | 'down') {
+    let color;
+    if (voteType === 'up') {
+      color = myVote === 'up' ? '#24ebd3' : '';
+    } else {
+      color = myVote === 'down' ? '#ff5a82' : '';
+    }
+    return color;
   }
 
   function forwardVersion(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -95,15 +105,19 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
           <Stack gap="1rem" direction="row">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton onClick={(e) => handleVote('up', e)}>
-                <LikeIcon />
+                <SvgIcon htmlColor={checkVoteColor('up')}>
+                  <LikeIcon />
+                </SvgIcon>
               </IconButton>
-              <Typography color="#24ebd3">{displayedVersion.upvotes}</Typography>
+              <Typography color={checkVoteColor('up')}>{displayedVersion.upvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton onClick={(e) => handleVote('down', e)}>
-                <DislikeIcon />
+                <SvgIcon htmlColor={checkVoteColor('down')}>
+                  <DislikeIcon />
+                </SvgIcon>
               </IconButton>
-              <Typography>{displayedVersion.downvotes}</Typography>
+              <Typography color={checkVoteColor('down')}>{displayedVersion.downvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton size="small">

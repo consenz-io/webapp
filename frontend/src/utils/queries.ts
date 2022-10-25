@@ -55,6 +55,7 @@ export const agreement = gql`
             content
             upvotes
             downvotes
+            my_vote
           }
         }
       }
