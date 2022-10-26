@@ -36,6 +36,7 @@ export const agreementByIdQuery = gql`
     core_agreements(where: { id: { _eq: $agreementId } }) {
       id
       name
+      updated_at
       category {
         name
       }

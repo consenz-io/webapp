@@ -16,6 +16,7 @@ import { SidebarLayout } from 'components';
 import { GroupProvider } from './group';
 import { AgreementProvider } from './agreement';
 import { SectionProvider } from './section';
+import Draft from '../pages/Draft';
 const HOME_ROUTE = '/';
 const WELCOME_ROUTE = '/welcome';
 
@@ -58,6 +59,7 @@ const RoutesProvider: FC = () => {
                       </SectionProvider>
                     }
                   />
+                  <Route path="draft" element={<Draft />} />
                 </Route>
               </Route>
             </Route>
