@@ -7,12 +7,18 @@ import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
-const Agreement: FC = () => {
+export const SectionText = styled(ContentEditor)`
+  color: ${(props) => props.theme.palette.text.draftText};
+`;
+
+const Draft: FC = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
-  const { groupSlug } = useParams();
-  const { categories } = useContext(GroupContext);
+  const { groupSlug, agreementId } = useParams();
+  const { categories, slug } = useContext(GroupContext);
   const { agreement, categoryName } = useContext(AgreementContext);
   const breadcrumbsProps: Breadcrumb[] = [
     {
@@ -45,8 +51,15 @@ const Agreement: FC = () => {
             </Typography>
             <Typography align="center" color="text.draftPrimary" variant="body2" mb={2}>
               {agreement?.rationale}
-              <Link href="#" color="text.draftLink" underline="none">
-                ... {t(StringBank.READ_MORE)}
+              ... &nbsp;
+              <Link
+                component="button"
+                onClick={() => navigate(`/${slug}/agreement/${agreementId}`)}
+                color="text.draftLink"
+                underline="none"
+                sx={{ verticalAlign: 'initial' }}
+              >
+                {t(StringBank.READ_MORE)}
               </Link>
             </Typography>
             <Typography
@@ -97,7 +110,7 @@ const Agreement: FC = () => {
                       >
                         {`${t(StringBank.SECTION)} ${section.index}`}
                       </Typography>
-                      <ContentEditor readonly initialContent={section.current_version?.content} />
+                      <SectionText readonly initialContent={section.current_version?.content} />
                     </Box>
                   </Typography>
                 </div>
@@ -110,4 +123,4 @@ const Agreement: FC = () => {
   );
 };
 
-export default Agreement;
+export default Draft;

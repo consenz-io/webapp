@@ -25,8 +25,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
-  const { groupSlug } = useParams();
-  const { categories } = useContext(GroupContext);
+  const { groupSlug, agreementId } = useParams();
+  const { categories, slug } = useContext(GroupContext);
   const { agreement, categoryName } = useContext(AgreementContext);
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
@@ -62,7 +62,10 @@ const Agreement: FC = () => {
               />
             )}
           </Stack>
-          <Button variant="contained">
+          <Button
+            variant="contained"
+            onClick={() => navigate(`/${slug}/agreement/${agreementId}/draft`)}
+          >
             <SvgIcon>
               <DocLogo />
             </SvgIcon>
