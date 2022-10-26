@@ -81,6 +81,7 @@ export const section = gql`
         created_at
         upvotes
         downvotes
+        my_vote
       }
     }
   }

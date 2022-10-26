@@ -2,7 +2,7 @@ import { IconButton, Stack, Typography, Tooltip, useTheme } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React, { FC, useContext, useState } from 'react';
-import { ReactComponent as LikeIcon } from 'assets/icons/like-uncolored.svg';
+import { ReactComponent as LikeIcon } from 'assets/icons/like.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
@@ -15,6 +15,7 @@ import { AgreementContext } from 'contexts/agreement';
 import { IAgreementContext } from 'types';
 import { ClickableCard } from './ClickableCard';
 import SvgIcon from './SvgIcon';
+import { getVoteColor } from 'utils/functions';
 
 interface Props {
   onClick: () => void;
@@ -30,29 +31,14 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
   const displayedVersion = section.versions[versionIndex];
   const isCurrentVersionDisplayed = displayedVersion.id === section.current_version?.id;
   const myVote = section.versions[versionIndex].my_vote;
+  const theme = useTheme();
+
   function updateContent(newversionIndex: number) {
     setVersionIndex(newversionIndex);
   }
-  const mode = useTheme().palette.mode;
-  function checkIconColor(voteType: 'up' | 'down' | 'comment') {
-    let color;
-    let regularColor;
-    switch (mode) {
-      case 'light':
-        regularColor = 'black';
-        break;
-      case 'dark':
-        regularColor = '';
-        break;
-    }
-    if (voteType === 'up') {
-      color = myVote === 'up' ? '#24ebd3' : regularColor;
-    } else if (voteType === 'down') {
-      color = myVote === 'down' ? '#ff5a82' : regularColor;
-    } else {
-      return regularColor;
-    }
-    return color;
+
+  function checkIconColor(voteType: 'up' | 'down') {
+    return getVoteColor(theme, voteType, myVote);
   }
 
   function forwardVersion(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -132,7 +118,7 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton size="small">
-                <SvgIcon htmlColor={checkIconColor('comment')}>
+                <SvgIcon htmlColor={theme.palette.text.primary}>
                   <CommentIcon />
                 </SvgIcon>
               </IconButton>
