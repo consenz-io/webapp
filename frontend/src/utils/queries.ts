@@ -50,6 +50,7 @@ export const agreementByIdQuery = gql`
           index
           current_version {
             id
+            content
           }
           versions(order_by: { created_at: asc }) {
             id

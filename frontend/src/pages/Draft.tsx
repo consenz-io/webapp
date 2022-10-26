@@ -2,7 +2,7 @@ import { Box, Typography, Link } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext } from 'react';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
-import { Appbar } from 'components';
+import { Appbar, ContentEditor } from 'components';
 import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import { StringBank } from 'strings';
@@ -90,26 +90,14 @@ const Agreement: FC = () => {
                   >
                     <Box mb={3}>
                       <Typography
-                        fontFamily="NotoSerif"
+                        fontFamily="'NotoSerif', serif"
                         fontSize="0.8125rem"
                         component="h3"
                         color="text.draftTitle"
                       >
                         {`${t(StringBank.SECTION)} ${section.index}`}
                       </Typography>
-                      <Typography
-                        fontFamily="NotoSerif"
-                        fontSize="0.8125rem"
-                        color="text.draftText"
-                        mb={1}
-                      >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                      </Typography>
+                      <ContentEditor readonly initialContent={section.current_version?.content} />
                     </Box>
                   </Typography>
                 </div>
