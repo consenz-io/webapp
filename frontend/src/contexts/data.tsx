@@ -12,13 +12,35 @@ import { apiUrl } from 'utils/constants';
 import { AuthContext } from './auth';
 
 const DataContext = createContext<IDataContext>({});
+const apolloCache = new InMemoryCache({
+  typePolicies: {
+    core_section_versions: {
+      fields: {
+        created_at: {
+          read(existing) {
+            return new Date(existing);
+          },
+        },
+      },
+    },
+    core_agreements: {
+      fields: {
+        updated_at: {
+          read(existing) {
+            return new Date(existing);
+          },
+        },
+      },
+    },
+  },
+});
 
 const DataProvider = ({ children }: IFCProps) => {
   const [user, setUser] = useState<IUser>();
   const [apolloClient, setApolloClient] = useState<ApolloClient<NormalizedCacheObject>>(
     new ApolloClient({
       uri: apiUrl,
-      cache: new InMemoryCache(),
+      cache: apolloCache,
     })
   );
   const { jwt } = useContext(AuthContext);
@@ -29,7 +51,7 @@ const DataProvider = ({ children }: IFCProps) => {
       setApolloClient(
         new ApolloClient({
           uri: apiUrl,
-          cache: new InMemoryCache(),
+          cache: apolloCache,
           headers: {
             Authorization: `Bearer ${jwt}`,
           },

@@ -147,6 +147,7 @@ export const BtnCapital = styled.span`
   color: white;
   font-weight: 500;
   z-index: 1;
+  position: relative;
   &:before {
     content: '';
     position: absolute;
