@@ -55,6 +55,7 @@ export const agreementByIdQuery = gql`
             content
             upvotes
             downvotes
+            my_vote
           }
         }
       }
