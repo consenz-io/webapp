@@ -15,6 +15,7 @@ export const en: Record<StringBank, string> = {
   AGREEMENT_UPDATED_AT: 'Updated at: {{date}}',
   AGREEMENT_LAST_UPDATED: 'Last Updated: {{date}}',
   ALL_AGREEMENTS: 'All Agreements',
+  ANONYMOUS: 'Anonymous',
   ARCHIVE: 'Archive',
   ARCHIVE_EMPTY_MESSAGE: "And this is where i'll\nput my archived agreements",
   ARCHIVE_EMPTY_MESSAGE_END: 'If I had any...',

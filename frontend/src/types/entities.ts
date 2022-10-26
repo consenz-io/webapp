@@ -40,9 +40,10 @@ export interface IVersion {
   id: number;
   index: number;
   content: JSONContent | string;
-  upvotes: number;
+  created_at: Date;
   downvotes: number;
   my_vote: string;
+  upvotes: number;
 }
 
 export interface IUser {

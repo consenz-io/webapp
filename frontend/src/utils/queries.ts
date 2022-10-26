@@ -54,6 +54,7 @@ export const agreementByIdQuery = gql`
           versions(order_by: { created_at: asc }) {
             id
             content
+            created_at
             upvotes
             downvotes
             my_vote
@@ -78,6 +79,7 @@ export const section = gql`
       versions(order_by: { created_at: asc }) {
         id
         content
+        created_at
         upvotes
         downvotes
       }

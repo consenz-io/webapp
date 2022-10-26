@@ -2,6 +2,15 @@ table:
   name: section_versions
   schema: core
 object_relationships:
+  - name: author
+    using:
+      manual_configuration:
+        column_mapping:
+          author_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: core
   - name: section
     using:
       manual_configuration:
@@ -49,7 +58,6 @@ insert_permissions:
         - created_at
         - id
         - section_id
-        - status
         - threshold
         - updated_at
   - role: moderator
@@ -67,7 +75,6 @@ insert_permissions:
         - consensus
         - content
         - section_id
-        - status
         - threshold
 select_permissions:
   - role: authenticated
@@ -78,7 +85,6 @@ select_permissions:
         - created_at
         - id
         - section_id
-        - status
         - threshold
         - updated_at
       computed_fields:
@@ -102,7 +108,6 @@ select_permissions:
         - created_at
         - id
         - section_id
-        - status
         - threshold
         - updated_at
       computed_fields:
@@ -119,7 +124,6 @@ update_permissions:
         - created_at
         - id
         - section_id
-        - status
         - threshold
         - updated_at
       filter:

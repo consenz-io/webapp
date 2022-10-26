@@ -1,6 +1,6 @@
 import { StringBank } from './bank';
 
-export const ar: Record<StringBank, string> = {
+export const ar: Partial<Record<StringBank, string>> = {
   ADD_NEW_CATEGORY: 'فئة جديدة',
   ADD_RATIONALE_HEADER: 'اضافة:',
   ADD_RATIONALE_PARAGRAPH: `لماذا تستلزم هذه الاتفاقية؟ ما الخلفية من وراء انشاءها؟ أي احتياجات او مشاكل قد تحل؟`,
