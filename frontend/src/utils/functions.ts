@@ -1,3 +1,4 @@
+import { Theme } from '@mui/material';
 import { JSONContent } from '@tiptap/react';
 
 export function capitalize(str: string): string {
@@ -31,4 +32,18 @@ export function generateRandString(length = 5) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+export function getVoteColor(
+  theme: Theme,
+  voteType: 'up' | 'down',
+  existingVote?: 'up' | 'down'
+): string {
+  if (voteType === 'up' && existingVote === 'up') {
+    return theme.palette.success.main;
+  }
+  if (voteType === 'down' && existingVote === 'down') {
+    return theme.palette.error.main;
+  }
+  return theme.palette.text.primary;
 }

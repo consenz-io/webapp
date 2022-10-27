@@ -42,7 +42,7 @@ export interface IVersion {
   content: JSONContent | string;
   created_at: Date;
   downvotes: number;
-  my_vote: string;
+  my_vote?: 'up' | 'down';
   upvotes: number;
 }
 

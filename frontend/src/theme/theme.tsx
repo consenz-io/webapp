@@ -25,6 +25,8 @@ declare module '@mui/material/Button' {
 
 export const backgroundBorderColor = '#595f68';
 export const textSecondaryColor = '#adb2b8';
+export const successColor = '#24ebd3';
+export const errorColor = '#ff5a82';
 
 export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOptions = (
   mode,
@@ -220,8 +222,11 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             secondary: {
               main: '#f50057',
             },
+            error: {
+              main: errorColor,
+            },
             success: {
-              main: '#13bd76',
+              main: successColor,
             },
             background: {
               paper: '#fcfcfd',
@@ -250,12 +255,15 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             primary: {
               main: '#8d54ea',
             },
+            error: {
+              main: errorColor,
+            },
             secondary: {
               main: '#3f4550',
               dark: '#686d73',
             },
             success: {
-              main: '#13bd76',
+              main: successColor,
             },
             background: {
               paper: '#3f4550',
