@@ -1,5 +1,5 @@
 import { FetchResult } from '@apollo/client';
-import { IAgreement, ICategory, IUser, LocalChapter } from './entities';
+import { Agreement, Category, User, LocalChapter } from './entities';
 
 export interface IAuthContext {
   jwt?: string;
@@ -8,7 +8,7 @@ export interface IAuthContext {
 }
 
 export interface IDataContext {
-  user?: IUser | null;
+  user?: User | null;
 }
 
 export interface IRoutingContext {
@@ -20,10 +20,10 @@ export interface IGroupContext {
   slug: string;
   name: string;
   id: number;
-  activeAgreements: IAgreement[];
-  archivedAgreements: IAgreement[];
-  categories: ICategory[];
-  currentCategory?: ICategory;
+  activeAgreements: Agreement[];
+  archivedAgreements: Agreement[];
+  categories: Category[];
+  currentCategory?: Category;
   archiveAgreement: (id: number, iArchived: boolean) => void;
   deleteAgreement: (id: number) => void;
   addAgreement: (

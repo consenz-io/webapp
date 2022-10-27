@@ -2,7 +2,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { createContext, FC, useContext } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { IGroupContext } from 'types';
-import { IAgreement, ICategory } from 'types';
+import { Agreement, Category } from 'types';
 import { deleteAgreementMutation } from 'utils/mutations';
 import { agreementsQuery } from 'utils/queries';
 import { DataContext } from './data';
@@ -17,7 +17,7 @@ const GroupProvider: FC = () => {
 
   const currentGroup = user?.groups?.find((group) => group.slug === groupSlug);
   const { data: activeAgreements } = useQuery<{
-    core_agreements: IAgreement[];
+    core_agreements: Agreement[];
   }>(agreementsQuery(categoryId), {
     variables: {
       groupId: currentGroup?.id || -1,
@@ -28,13 +28,13 @@ const GroupProvider: FC = () => {
   });
 
   const { data: archivedAgreements } = useQuery<{
-    core_agreements: IAgreement[];
+    core_agreements: Agreement[];
   }>(agreementsQuery(), {
     variables: { groupId: currentGroup?.id || -1, isArchived: true },
     skip: !currentGroup?.id,
   });
 
-  const { data: categoriesData } = useQuery<{ core_categories: ICategory[] }>(
+  const { data: categoriesData } = useQuery<{ core_categories: Category[] }>(
     gql`
       query categories($groupId: Int!) {
         core_categories(where: { group_id: { _eq: $groupId } }) {

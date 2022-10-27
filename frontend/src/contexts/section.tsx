@@ -1,11 +1,11 @@
 import { useQuery } from '@apollo/client';
 import { createContext, FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { IFCProps, ISection } from 'types';
+import { IFCProps, Section } from 'types';
 import { section as sectionQuery } from 'utils/queries';
 
 interface SectionState {
-  section?: ISection;
+  section?: Section;
 }
 
 const SectionContext = createContext<SectionState>({});
@@ -13,7 +13,7 @@ const SectionContext = createContext<SectionState>({});
 const SectionProvider: FC<IFCProps> = ({ children }) => {
   const { sectionId } = useParams();
   const { data } = useQuery<{
-    core_sections: ISection[];
+    core_sections: Section[];
   }>(sectionQuery, {
     variables: {
       sectionId,

@@ -7,7 +7,7 @@ import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
 import ContentEditor from 'components/ContentEditor';
-import { ISection } from 'types/entities';
+import { Section } from 'types/entities';
 import { ColorModeAndDirectionContext } from 'theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +18,7 @@ import { getVoteColor } from 'utils/functions';
 
 interface Props {
   onClick: () => void;
-  section: ISection;
+  section: Section;
 }
 
 const SectionCard: FC<Props> = ({ section, onClick }) => {

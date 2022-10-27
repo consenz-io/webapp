@@ -1,12 +1,12 @@
 import { Box, Stack } from '@mui/material';
 import AgreementCard from 'components/AgreementCard';
 import { FC } from 'react';
-import { IAgreement } from 'types';
+import { Agreement } from 'types';
 
-const AgreementCarousel: FC<{ agreements: IAgreement[] }> = ({ agreements }) => {
+const AgreementCarousel: FC<{ agreements: Agreement[] }> = ({ agreements }) => {
   return (
     <Stack flexDirection={{ xs: 'column', sm: 'row' }} flexWrap={{ sx: 'nowrap', sm: 'wrap' }}>
-      {agreements.map((agreement: IAgreement) => (
+      {agreements.map((agreement: Agreement) => (
         <Box
           key={agreement.id}
           flexBasis={{ xs: '25%', sm: '33%', lg: '25%', xl: '20%' }}

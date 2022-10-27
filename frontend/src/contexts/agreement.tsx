@@ -1,7 +1,7 @@
 import { FetchResult, useMutation, useQuery } from '@apollo/client';
 import { createContext, FC, useContext } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { IAgreement, IVersion } from 'types';
+import { Agreement, Version } from 'types';
 import {
   insertVote as insertVoteMutation,
   updateVote as updateVoteMutation,
@@ -12,11 +12,11 @@ import { DataContext } from 'contexts/data';
 
 interface IAgreementContext {
   agreementId: number;
-  agreement: IAgreement | undefined;
+  agreement: Agreement | undefined;
   rationale: string;
   agreementTitle: string;
   categoryName: string;
-  vote: (version: IVersion, type: 'up' | 'down') => Promise<FetchResult<void>>;
+  vote: (version: Version, type: 'up' | 'down') => Promise<FetchResult<void>>;
 }
 
 const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);
@@ -26,7 +26,7 @@ const AgreementProvider: FC = () => {
   const { user } = useContext(DataContext);
   const userId = user?.id;
   const { data } = useQuery<{
-    core_agreements: IAgreement[];
+    core_agreements: Agreement[];
   }>(agreementQuery, {
     variables: {
       agreementId,
@@ -46,7 +46,7 @@ const AgreementProvider: FC = () => {
     refetchQueries: ['agreement'],
   });
 
-  async function vote(version: IVersion, type: 'up' | 'down') {
+  async function vote(version: Version, type: 'up' | 'down') {
     if (!version.my_vote) {
       return insertVote({
         variables: {

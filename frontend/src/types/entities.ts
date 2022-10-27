@@ -1,42 +1,42 @@
 import { JSONContent } from '@tiptap/react';
 
-export interface IAgreement {
+export interface Agreement {
   id: number;
   name: string;
-  category: ICategory;
+  category: Category;
   updated_at: Date;
   rationale: string;
   is_archived?: boolean;
-  chapters?: IChapter[];
+  chapters?: Chapter[];
 }
 
-export interface ICategory {
+export interface Category {
   name: string;
   id: number;
 }
 
-export interface IChapter {
+export interface Chapter {
   index: number;
   name: string;
-  sections: ISection[];
+  sections: Section[];
 }
 
-export interface IGroup {
+export interface Group {
   id: number;
-  agreements?: IAgreement[];
+  agreements?: Agreement[];
   name: string;
   slug: string;
   color: string;
 }
 
-export interface ISection {
+export interface Section {
   id: number;
   index: number;
-  versions: IVersion[];
+  versions: Version[];
   current_version?: { id: number; content: JSONContent };
 }
 
-export interface IVersion {
+export interface Version {
   id: number;
   index: number;
   content: JSONContent | string;
@@ -46,10 +46,10 @@ export interface IVersion {
   upvotes: number;
 }
 
-export interface IUser {
+export interface User {
   id: number;
   email: string;
-  groups?: IGroup[];
+  groups?: Group[];
   displayName?: string;
 }
 

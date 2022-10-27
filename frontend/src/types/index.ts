@@ -1,13 +1,13 @@
 export type { IOutletContext, IFCProps, MenuItem, ICategorySelectProps } from './misc';
 export { ThemeModeType, VariantType } from './misc';
 export type {
-  IAgreement,
-  ICategory,
-  IGroup,
-  IUser,
-  IChapter,
-  ISection,
+  Agreement,
+  Category,
+  Group,
+  User,
+  Chapter,
+  Section,
   LocalChapter,
-  IVersion,
+  Version,
 } from './entities';
 export type { IAuthContext, IRoutingContext, IDataContext, IGroupContext } from './contexts';

@@ -17,7 +17,7 @@ import { Appbar } from 'components';
 import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import SectionCard from 'components/SectionCard';
-import { IChapter } from 'types';
+import { Chapter } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -77,7 +77,7 @@ const Agreement: FC = () => {
         <Typography>{agreement?.rationale}</Typography>
         <Box />
         <Stack>
-          {agreement?.chapters?.map((chapter: IChapter) => (
+          {agreement?.chapters?.map((chapter: Chapter) => (
             <Accordion
               TransitionProps={{ unmountOnExit: true }}
               defaultExpanded={true}
