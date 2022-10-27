@@ -3,11 +3,7 @@
 }
 
 p {
-  font-family: 'NotoSerif', serif;
-  font-size: 0.8125rem;
   white-space: pre-wrap;
-  margin: 0;
-  font-weight: 400;
 }
 
 .ProseMirror p.is-editor-empty:first-child::before {
@@ -16,6 +12,12 @@ p {
   float: left;
   height: 0;
   pointer-events: none;
+}
+
+.ProseMirror p {
+  font-family: 'NotoSerif', serif;
+  margin: 0;
+  font-weight: 400;
 }
 
 .ProseMirror-focused {

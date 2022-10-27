@@ -1,25 +1,28 @@
-import { Box, Typography, Link } from '@mui/material';
+import { Box, Typography, Link, Container } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
-import { FC, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { Appbar, ContentEditor } from 'components';
 import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { truncateAfterWords } from 'utils/functions';
 
 export const SectionText = styled(ContentEditor)`
   color: ${(props) => props.theme.palette.text.draftText};
 `;
 
 const Draft: FC = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
-  const { groupSlug, agreementId } = useParams();
-  const { categories, slug } = useContext(GroupContext);
+  const { groupSlug } = useParams();
+  const { categories } = useContext(GroupContext);
   const { agreement, categoryName } = useContext(AgreementContext);
+  const [displayedRationale, setDisplayedRationale] = useState(
+    truncateAfterWords(agreement?.rationale ?? '', 30)
+  );
   const breadcrumbsProps: Breadcrumb[] = [
     {
       name: categoryName || t(StringBank.UNCATEGORIZED),
@@ -50,17 +53,18 @@ const Draft: FC = () => {
               {agreement?.name}
             </Typography>
             <Typography align="center" color="text.draftPrimary" variant="body2" mb={2}>
-              {agreement?.rationale}
-              ... &nbsp;
-              <Link
-                component="button"
-                onClick={() => navigate(`/${slug}/agreement/${agreementId}`)}
-                color="text.draftLink"
-                underline="none"
-                sx={{ verticalAlign: 'initial' }}
-              >
-                {t(StringBank.READ_MORE)}
-              </Link>
+              {`${displayedRationale} `}
+              {displayedRationale.length < (agreement?.rationale?.length || 0) && (
+                <Link
+                  component="button"
+                  onClick={() => setDisplayedRationale(agreement?.rationale ?? '')}
+                  color="text.draftLink"
+                  underline="none"
+                  sx={{ verticalAlign: 'initial' }}
+                >
+                  {t(StringBank.READ_MORE)}
+                </Link>
+              )}
             </Typography>
             <Typography
               component="span"
@@ -81,42 +85,68 @@ const Draft: FC = () => {
               })}
             </Typography>
           </Box>
-          {agreement?.chapters?.map((chapter, i) => (
-            <div key={i}>
+          {agreement?.chapters?.some((c) => c.sections?.some((s) => s.current_version)) ? (
+            agreement?.chapters?.map(
+              (chapter, i) =>
+                chapter.sections.some((section) => section.current_version) && (
+                  <div key={i}>
+                    <Typography
+                      component="h2"
+                      color="text.draftText"
+                      variant="h4"
+                      mb={3}
+                      fontWeight={700}
+                    >
+                      {chapter.name}
+                    </Typography>
+                    {chapter.sections.map(
+                      (section, idx) =>
+                        section.current_version && (
+                          <div key={idx}>
+                            <Typography
+                              component="h2"
+                              color="text.draftText"
+                              variant="h4"
+                              mb={3}
+                              fontWeight={700}
+                            >
+                              <Box mb={3}>
+                                <Typography
+                                  fontFamily="'NotoSerif', serif"
+                                  fontSize="0.8125rem"
+                                  component="h3"
+                                  color="text.draftTitle"
+                                >
+                                  {`${t(StringBank.SECTION)} ${section.index}`}
+                                </Typography>
+                                <SectionText
+                                  readonly
+                                  initialContent={section.current_version?.content}
+                                />
+                              </Box>
+                            </Typography>
+                          </div>
+                        )
+                    )}
+                  </div>
+                )
+            )
+          ) : (
+            <Container maxWidth="xs">
               <Typography
-                component="h2"
+                textAlign="center"
                 color="text.draftText"
-                variant="h4"
-                mb={3}
+                variant="h6"
+                mb={2}
                 fontWeight={700}
               >
-                {chapter.name}
+                {t(StringBank.NO_SECTIONS_TITLE)}
               </Typography>
-              {chapter.sections.map((section, idx) => (
-                <div key={idx}>
-                  <Typography
-                    component="h2"
-                    color="text.draftText"
-                    variant="h4"
-                    mb={3}
-                    fontWeight={700}
-                  >
-                    <Box mb={3}>
-                      <Typography
-                        fontFamily="'NotoSerif', serif"
-                        fontSize="0.8125rem"
-                        component="h3"
-                        color="text.draftTitle"
-                      >
-                        {`${t(StringBank.SECTION)} ${section.index}`}
-                      </Typography>
-                      <SectionText readonly initialContent={section.current_version?.content} />
-                    </Box>
-                  </Typography>
-                </div>
-              ))}
-            </div>
-          ))}
+              <Typography color="black" textAlign="center" variant="body2" maxWidth="xs">
+                {t(StringBank.NO_SECTIONS_PARAGRAPH)}
+              </Typography>
+            </Container>
+          )}
         </Box>
       </Box>
     </>
