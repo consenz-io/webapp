@@ -26,8 +26,7 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const [versionIndex, setVersionIndex] = useState<number>(0);
-  const agreementContext: IAgreementContext = useContext(AgreementContext);
-  const { vote } = agreementContext;
+  const { vote }: IAgreementContext = useContext(AgreementContext);
   const displayedVersion = section.versions[versionIndex];
   const isCurrentVersionDisplayed = displayedVersion.id === section.current_version?.id;
   const myVote = section.versions[versionIndex].my_vote;

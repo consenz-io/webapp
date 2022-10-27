@@ -31,8 +31,8 @@ export function agreementsQuery(categoryId?: string | number) {
 `;
 }
 
-export const agreementByIdQuery = gql`
-  query agreementById($agreementId: Int!) {
+export const agreementQuery = gql`
+  query agreement($agreementId: Int!) {
     core_agreements(where: { id: { _eq: $agreementId } }) {
       id
       name

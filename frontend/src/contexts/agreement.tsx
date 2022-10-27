@@ -3,7 +3,7 @@ import { createContext, FC, useContext } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { IAgreement, IAgreementContext } from 'types';
 import { voteMutation } from 'utils/mutations';
-import { agreementByIdQuery } from 'utils/queries';
+import { agreementQuery } from 'utils/queries';
 import { DataContext } from 'contexts/data';
 
 const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);
@@ -14,7 +14,7 @@ const AgreementProvider: FC = () => {
   const user_id = user?.id;
   const { data } = useQuery<{
     core_agreements: IAgreement[];
-  }>(agreementByIdQuery, {
+  }>(agreementQuery, {
     variables: {
       agreementId,
     },
