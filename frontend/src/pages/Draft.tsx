@@ -1,6 +1,6 @@
 import { Box, Typography, Link, Container } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { Appbar, ContentEditor } from 'components';
 import { Breadcrumb } from 'components/Appbar';
@@ -20,9 +20,12 @@ const Draft: FC = () => {
   const { groupSlug } = useParams();
   const { categories } = useContext(GroupContext);
   const { agreement, categoryName } = useContext(AgreementContext);
-  const [displayedRationale, setDisplayedRationale] = useState(
-    truncateAfterWords(agreement?.rationale ?? '', 30)
-  );
+  const [displayedRationale, setDisplayedRationale] = useState('');
+
+  useEffect(() => {
+    setDisplayedRationale(truncateAfterWords(agreement?.rationale ?? '', 30));
+  }, [agreement]);
+
   const breadcrumbsProps: Breadcrumb[] = [
     {
       name: categoryName || t(StringBank.UNCATEGORIZED),
@@ -75,13 +78,7 @@ const Draft: FC = () => {
             >
               {t(StringBank.AGREEMENT_LAST_UPDATED, {
                 interpolation: { escapeValue: false },
-                date: agreement
-                  ? new Date(agreement.updated_at).toLocaleString(navigator.language, {
-                      month: 'numeric',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })
-                  : '',
+                date: agreement?.updated_at?.toLocaleDateString(),
               })}
             </Typography>
           </Box>

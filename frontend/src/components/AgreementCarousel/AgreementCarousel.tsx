@@ -18,7 +18,7 @@ const AgreementCarousel: FC<{ agreements: IAgreement[] }> = ({ agreements }) => 
             participants={14}
             category={agreement.category?.name}
             title={agreement.name}
-            updatedAt={new Date(agreement.updated_at)}
+            updatedAt={agreement.updated_at}
             rationale={agreement.rationale}
             isArchived={agreement.is_archived}
           />
