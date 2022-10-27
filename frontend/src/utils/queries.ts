@@ -36,6 +36,7 @@ export const agreementByIdQuery = gql`
     core_agreements(where: { id: { _eq: $agreementId } }) {
       id
       name
+      updated_at
       category {
         name
       }
@@ -49,6 +50,7 @@ export const agreementByIdQuery = gql`
           index
           current_version {
             id
+            content
           }
           versions(order_by: { created_at: asc }) {
             id

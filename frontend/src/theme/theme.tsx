@@ -236,10 +236,19 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
               border: '#E3E3E3',
               active: '#F8EFFF',
               dropdown: '#292d36',
+              draftPaper: '#ffffff',
             },
             text: {
               primary: '#000000',
               secondary: textSecondaryColor,
+              draftPrimary: '#000000',
+              draftLink: '#620ee5',
+              draftDate: '#828282',
+              draftText: '#1e1c21',
+              draftTitle: '#909090',
+            },
+            border: {
+              main: '#fafafa',
             },
           }
         : {
@@ -264,10 +273,19 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
               default: '#333842',
               capital: '#4c67f6',
               dropdown: '#292d36',
+              draftPaper: '#ffffff',
             },
             text: {
               primary: '#ffffff',
               secondary: textSecondaryColor,
+              draftPrimary: '#000000',
+              draftLink: '#620ee5',
+              draftDate: '#828282',
+              draftText: '#1e1c21',
+              draftTitle: '#909090',
+            },
+            border: {
+              main: '#fafafa',
             },
           }),
     },

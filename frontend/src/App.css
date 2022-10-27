@@ -14,6 +14,12 @@ p {
   pointer-events: none;
 }
 
+.ProseMirror p {
+  font-family: 'NotoSerif', serif;
+  margin: 0;
+  font-weight: 400;
+}
+
 .ProseMirror-focused {
   outline: none;
 }
