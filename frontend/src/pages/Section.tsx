@@ -8,6 +8,7 @@ import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg
 import { ReactComponent as LinkIcon } from 'assets/icons/link.svg';
 import { ReactComponent as LikeIcon } from 'assets/icons/like.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
+import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
 import {
   Box,
   Card,
@@ -81,6 +82,14 @@ const Section: FC = () => {
             color={displayedVersion === version ? 'primary' : 'default'}
           />
         ))}
+        <Chip
+          sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
+          label={
+            <SvgIcon htmlColor={textSecondaryColor} width="24px">
+              <PlusIcon />
+            </SvgIcon>
+          }
+        />
       </Stack>
       <Card variant="elevation" elevation={0}>
         <CardContent sx={{ paddingX: 3 }}>
