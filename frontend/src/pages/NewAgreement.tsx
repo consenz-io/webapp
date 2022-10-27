@@ -71,7 +71,7 @@ const NewAgreement: FC = () => {
   async function handleContinueClick() {
     if (step === 3) {
       const agreementData = await addAgreement(categoryId, agreementName, rationale, chapters);
-      setAgreementId(agreementData.data.insert_core_agreements_one.id);
+      setAgreementId(agreementData.data?.insert_core_agreements_one?.id);
       clearAgreementLocally();
     }
     setStep(step + 1);
@@ -97,7 +97,7 @@ const NewAgreement: FC = () => {
           <XLogo />
         </SvgIcon>
       ),
-      onClickFn: () => navigate(-1),
+      onClick: () => navigate(-1),
     },
   ];
 

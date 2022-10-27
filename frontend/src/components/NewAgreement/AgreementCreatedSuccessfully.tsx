@@ -14,22 +14,7 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
   const [isSnackbarOpen, setSnackbarOpen] = useState(false);
   const { slug: groupSlug } = useContext(GroupContext);
   const navigate = useNavigate();
-  const AgreementText = `${window.location.origin}/${groupSlug}/agreement/${agreementId}`;
-  const CopyEL: FC<{ text: string }> = ({ text }) => {
-    return (
-      <IconButton
-        sx={{ marginStart: '2rem', marginEnd: '1rem' }}
-        onClick={() => {
-          setSnackbarOpen(true);
-          navigator.clipboard.writeText(text);
-        }}
-      >
-        <SvgIcon htmlColor={textSecondaryColor}>
-          <CopyIcon />
-        </SvgIcon>
-      </IconButton>
-    );
-  };
+  const agreementUrl = `${window.location.origin}/${groupSlug}/agreement/${agreementId}`;
   return (
     <Container maxWidth="xs" sx={{ height: '100%' }}>
       <Stack
@@ -43,7 +28,13 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
         <Typography variant="h2" textAlign="center">
           {t(StringBank.AGREEMENT_PUBLISHED_SUCCESSFULLY)}
         </Typography>
-        <Button variant="contained" size="large" color="primary" fullWidth>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          fullWidth
+          onClick={() => (window.location.href = agreementUrl)}
+        >
           {t(StringBank.VIEW_AGREEMENT)}
         </Button>
         <Button
@@ -74,9 +65,19 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId
             width="13rem"
             color="text.secondary"
           >
-            {AgreementText}
+            {agreementUrl}
           </Typography>
-          <CopyEL text={AgreementText} />
+          <IconButton
+            sx={{ marginStart: '2rem', marginEnd: '1rem' }}
+            onClick={() => {
+              setSnackbarOpen(true);
+              navigator.clipboard.writeText(agreementUrl);
+            }}
+          >
+            <SvgIcon htmlColor={textSecondaryColor}>
+              <CopyIcon />
+            </SvgIcon>
+          </IconButton>
           <Snackbar
             open={isSnackbarOpen}
             message={t(StringBank.URL_COPIED_SUCCESSFULLY)}

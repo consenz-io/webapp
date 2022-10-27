@@ -1,5 +1,13 @@
 import { FC } from 'react';
-import { Breadcrumbs, IconButton, Stack, StepLabel, SvgIcon, Typography } from '@mui/material';
+import {
+  Breadcrumbs,
+  Button,
+  IconButton,
+  Stack,
+  StepLabel,
+  SvgIcon,
+  Typography,
+} from '@mui/material';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
@@ -10,7 +18,8 @@ import { Link } from 'react-router-dom';
 
 export interface Action {
   icon: JSX.Element;
-  onClickFn: () => void;
+  title?: string;
+  onClick: () => void;
 }
 
 export interface Breadcrumb {
@@ -37,11 +46,8 @@ interface AppbarProps {
 
 const AppbarContainer = styled(Stack)`
   && {
-    align-items: center;
     border-bottom: solid 1px ${backgroundBorderColor};
     margin-top: -1rem;
-    margin-right: -1rem;
-    margin-left: -1rem;
     padding: 0 1rem;
     height: 57px;
   }
@@ -49,7 +55,12 @@ const AppbarContainer = styled(Stack)`
 
 const Appbar: FC<AppbarProps> = (props) => {
   return (
-    <AppbarContainer direction="row" alignItems="center">
+    <AppbarContainer
+      direction="row"
+      alignItems="center"
+      marginX={-1}
+      justifyContent="space-between"
+    >
       {props.breadcrumbs?.length && (
         <Breadcrumbs
           separator={<ArrowLogo fontSize="1rem" />}
@@ -99,11 +110,23 @@ const Appbar: FC<AppbarProps> = (props) => {
       )}
       {props.actions && props.actions.length > 0 && (
         <Stack id="actions" direction="row" justifyContent="flex-end" flexBasis="calc(100%/3)">
-          {props.actions.map((actionObj, j) => (
-            <IconButton key={j} onClick={actionObj.onClickFn}>
-              <SvgIcon>{actionObj.icon}</SvgIcon>
-            </IconButton>
-          ))}
+          {props.actions.map((action, j) =>
+            action.title ? (
+              <Button
+                key={j}
+                onClick={action.onClick}
+                startIcon={action.icon}
+                size="small"
+                color="primary"
+              >
+                {action.title}
+              </Button>
+            ) : (
+              <IconButton key={j} onClick={action.onClick}>
+                <SvgIcon>{action.icon}</SvgIcon>
+              </IconButton>
+            )
+          )}
         </Stack>
       )}
     </AppbarContainer>

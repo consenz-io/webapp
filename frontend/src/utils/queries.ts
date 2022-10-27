@@ -74,6 +74,7 @@ export const section = gql`
   query section($sectionId: Int!) {
     core_sections(where: { id: { _eq: $sectionId } }) {
       id
+      index
       current_version {
         id
       }

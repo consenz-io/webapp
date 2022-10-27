@@ -31,7 +31,7 @@ export interface IGroupContext {
     name: string,
     rationale: string,
     chapters: LocalChapter[]
-  ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
+  ) => Promise<FetchResult>;
   addAgreementData: unknown;
   addAgreementError: unknown;
   addAgreementLoading: boolean;

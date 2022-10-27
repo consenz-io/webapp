@@ -3,6 +3,7 @@ import { Appbar, ContentEditor, SvgIcon } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
+import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
 import { ReactComponent as LinkIcon } from 'assets/icons/link.svg';
 import { ReactComponent as LikeIcon } from 'assets/icons/like.svg';
@@ -22,6 +23,8 @@ import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
 import { useTranslation } from 'react-i18next';
 import { getVoteColor } from 'utils/functions';
+import { useNavigate } from 'react-router-dom';
+import { textSecondaryColor } from 'theme';
 
 const Section: FC = () => {
   const theme = useTheme();
@@ -29,6 +32,8 @@ const Section: FC = () => {
   const { agreement, vote } = useContext(AgreementContext);
   const [displayedVersion, setDisplayedVersion] = useState(section?.versions[0]);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setDisplayedVersion(section?.versions[0]);
@@ -52,6 +57,16 @@ const Section: FC = () => {
             name: agreement?.name ?? '',
             link: '..',
             icon: DocIcon,
+          },
+          {
+            name: `${t(StringBank.SECTION)} ${section?.index}`,
+          },
+        ]}
+        actions={[
+          {
+            icon: <EyeIcon />,
+            onClick: () => navigate('../draft'),
+            title: t(StringBank.VIEW_DRAFT),
           },
         ]}
       />
@@ -78,7 +93,9 @@ const Section: FC = () => {
               </Typography>
             </Stack>
             <IconButton size="small" onClick={handleShare}>
-              <LinkIcon />
+              <SvgIcon htmlColor={textSecondaryColor}>
+                <LinkIcon />
+              </SvgIcon>
             </IconButton>
           </Stack>
           <Box paddingY={4}>

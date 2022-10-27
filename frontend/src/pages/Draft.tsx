@@ -36,6 +36,7 @@ const Draft: FC = () => {
     {
       name: agreement?.name ?? '',
       icon: DocLogo,
+      link: `/${groupSlug}/agreement/${agreement?.id}`,
     },
   ];
 
