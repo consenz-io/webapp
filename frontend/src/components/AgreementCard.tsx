@@ -139,7 +139,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
               <Typography variant="caption">
                 {t(StringBank.AGREEMENT_PARTICIPANTS, { count: participants })}
               </Typography>
-              <Typography variant="body2" marginY={1} height="4.3em">
+              <Typography variant="body2" marginY={1} minHeight="4em">
                 {truncateAfterWords(rationale ?? ' ', 12)}
               </Typography>
               <Typography variant="caption">

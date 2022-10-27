@@ -44,13 +44,14 @@ const Draft: FC = () => {
       <Appbar breadcrumbs={breadcrumbsProps} />
       <Box px={{ sm: 4, lg: 17 }} py={{ sm: 4, lg: 9 }}>
         <Box
-          width="100%"
+          width="21cm"
+          maxWidth="100%"
           height="auto"
           bgcolor="background.draftPaper"
           px={6}
           pt={6}
           pb={4}
-          minHeight="80vh"
+          minHeight="29.4cm"
         >
           <Box
             textAlign="center"
