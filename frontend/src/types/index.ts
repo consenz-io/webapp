@@ -8,11 +8,6 @@ export type {
   IChapter,
   ISection,
   LocalChapter,
+  IVersion,
 } from './entities';
-export type {
-  IAuthContext,
-  IRoutingContext,
-  IDataContext,
-  IGroupContext,
-  IAgreementContext,
-} from './contexts';
+export type { IAuthContext, IRoutingContext, IDataContext, IGroupContext } from './contexts';

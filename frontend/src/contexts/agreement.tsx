@@ -1,17 +1,30 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { FetchResult, useMutation, useQuery } from '@apollo/client';
 import { createContext, FC, useContext } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { IAgreement, IAgreementContext } from 'types';
-import { voteMutation } from 'utils/mutations';
+import { IAgreement, IVersion } from 'types';
+import {
+  insertVote as insertVoteMutation,
+  updateVote as updateVoteMutation,
+  deleteVote as deleteVoteMutation,
+} from 'utils/mutations';
 import { agreementQuery } from 'utils/queries';
 import { DataContext } from 'contexts/data';
+
+interface IAgreementContext {
+  agreementId: number;
+  agreement: IAgreement | undefined;
+  rationale: string;
+  agreementTitle: string;
+  categoryName: string;
+  vote: (version: IVersion, type: 'up' | 'down') => Promise<FetchResult<void>>;
+}
 
 const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);
 
 const AgreementProvider: FC = () => {
   const { agreementId } = useParams();
   const { user } = useContext(DataContext);
-  const user_id = user?.id;
+  const userId = user?.id;
   const { data } = useQuery<{
     core_agreements: IAgreement[];
   }>(agreementQuery, {
@@ -19,37 +32,47 @@ const AgreementProvider: FC = () => {
       agreementId,
     },
   });
+  const agreement = data?.core_agreements[0];
 
-  const [voteFn, { error: voteError }] = useMutation(voteMutation, {
+  const [insertVote] = useMutation(insertVoteMutation, {
     refetchQueries: ['agreement'],
   });
 
-  async function vote(version_id: number, type: 'up' | 'down') {
-    if (!user_id || !version_id) {
-      console.error(
-        `error in voting: bad arguments: user_id: ${user_id}, version_id: ${version_id}`
-      );
-      return;
+  const [updateVote] = useMutation(updateVoteMutation, {
+    refetchQueries: ['agreement'],
+  });
+
+  const [deleteVote] = useMutation(deleteVoteMutation, {
+    refetchQueries: ['agreement'],
+  });
+
+  async function vote(version: IVersion, type: 'up' | 'down') {
+    if (!version.my_vote) {
+      return insertVote({
+        variables: {
+          userId,
+          versionId: version.id,
+          type,
+        },
+      });
     }
-    if (type !== 'up' && type !== 'down') {
-      console.error(`error in voting: vote can be type up or down`);
-      return;
+    if (version?.my_vote === type) {
+      return deleteVote({
+        variables: {
+          userId,
+          versionId: version.id,
+        },
+      });
     }
-    const voteRes = await voteFn({
+    return updateVote({
       variables: {
-        user_id,
-        version_id,
+        userId,
+        versionId: version.id,
         type,
       },
     });
-    if (voteError) {
-      console.error(`error in voting: ${voteError}`);
-      return;
-    }
-    return voteRes;
   }
 
-  const agreement = data?.core_agreements[0];
   const state: IAgreementContext = {
     agreementId: agreement?.id || NaN,
     categoryName: agreement?.category?.name || '',

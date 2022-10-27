@@ -12,7 +12,6 @@ import { ColorModeAndDirectionContext } from 'theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import { AgreementContext } from 'contexts/agreement';
-import { IAgreementContext } from 'types';
 import { ClickableCard } from './ClickableCard';
 import SvgIcon from './SvgIcon';
 import { getVoteColor } from 'utils/functions';
@@ -26,7 +25,7 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const [versionIndex, setVersionIndex] = useState<number>(0);
-  const { vote }: IAgreementContext = useContext(AgreementContext);
+  const { vote } = useContext(AgreementContext);
   const displayedVersion = section.versions[versionIndex];
   const isCurrentVersionDisplayed = displayedVersion.id === section.current_version?.id;
   const myVote = section.versions[versionIndex].my_vote;
@@ -58,7 +57,7 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
 
   function handleVote(type: 'up' | 'down', e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
-    vote(displayedVersion.id, type);
+    vote(displayedVersion, type);
   }
 
   return (

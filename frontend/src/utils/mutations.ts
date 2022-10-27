@@ -44,14 +44,33 @@ export const deleteAgreementMutation = gql`
   }
 `;
 
-export const voteMutation = gql`
-  mutation Vote($user_id: Int!, $version_id: Int!, $type: String!) {
-    insert_core_votes(objects: { user_id: $user_id, version_id: $version_id, type: $type }) {
+export const insertVote = gql`
+  mutation insertVote($userId: Int!, $versionId: Int!, $type: String!) {
+    insert_core_votes(objects: { user_id: $userId, version_id: $versionId, type: $type }) {
       returning {
         user_id
         version_id
         type
       }
+    }
+  }
+`;
+
+export const updateVote = gql`
+  mutation updateVote($userId: Int!, $versionId: Int!, $type: String!) {
+    update_core_votes_by_pk(
+      pk_columns: { user_id: $userId, version_id: $versionId }
+      _set: { type: $type }
+    ) {
+      type
+    }
+  }
+`;
+
+export const deleteVote = gql`
+  mutation deleteVote($userId: Int!, $versionId: Int!) {
+    delete_core_votes_by_pk(user_id: $userId, version_id: $versionId) {
+      type
     }
   }
 `;

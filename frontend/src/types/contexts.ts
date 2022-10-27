@@ -36,12 +36,3 @@ export interface IGroupContext {
   addAgreementError: unknown;
   addAgreementLoading: boolean;
 }
-
-export interface IAgreementContext {
-  agreementId: number;
-  agreement: IAgreement | undefined;
-  rationale: string;
-  agreementTitle: string;
-  categoryName: string;
-  vote: (version_id: number, type: 'up' | 'down') => any;
-}
