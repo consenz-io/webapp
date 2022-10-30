@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Appbar, ContentEditor, SvgIcon } from 'components';
+import { Appbar, ContentEditor, SvgIcon, TextPopup } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
@@ -33,6 +33,7 @@ const Section: FC = () => {
   const { agreement, vote } = useContext(AgreementContext);
   const [displayedVersion, setDisplayedVersion] = useState(section?.versions[0]);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [isTextPopupeOpen, setOpenPop] = useState(false);
 
   const navigate = useNavigate();
 
@@ -85,10 +86,27 @@ const Section: FC = () => {
         <Chip
           sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
           label={
-            <SvgIcon htmlColor={textSecondaryColor} width="24px">
-              <PlusIcon />
-            </SvgIcon>
+            <IconButton
+              onClick={() => {
+                setOpenPop(true);
+              }}
+            >
+              <SvgIcon htmlColor={textSecondaryColor} width="24px">
+                <PlusIcon />
+              </SvgIcon>
+            </IconButton>
           }
+        />
+        <TextPopup
+          isOpen={isTextPopupeOpen}
+          parentSection="Section X"
+          newVersionName="Vesrion Y"
+          completeFn={() => {
+            console.log('complete');
+          }}
+          cancleFn={setOpenPop}
+          completeBtnText="Add suggestion"
+          cancleBtnText="Cancle"
         />
       </Stack>
       <Card variant="elevation" elevation={0}>
