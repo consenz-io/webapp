@@ -41,13 +41,26 @@ const TextPopup = (props: dialogProps) => {
     cancleBtnText,
   } = props;
 
+  const checkContent = () => {
+    console.log('newVersionContent', newVersionContent);
+    if (
+      newVersionContent &&
+      newVersionContent.content &&
+      'content' in newVersionContent.content[0]
+    ) {
+      return false;
+    }
+    return true;
+  };
+
   return (
     <Dialog
       disablePortal={true}
       closeAfterTransition={true}
+      fullWidth={true}
+      maxWidth="md"
       PaperProps={{
         sx: {
-          width: '70%',
           backgroundColor: '#3f4550',
           borderRadius: '8px',
           backgroundImage: 'none',
@@ -59,7 +72,7 @@ const TextPopup = (props: dialogProps) => {
         cancleFn(false);
       }}
     >
-      <Stack direction="column" spacing={2}>
+      <Stack direction="column" spacing={1}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" color={textSecondaryColor}>
             <Typography variant="h3">{parentSection}</Typography>
@@ -72,6 +85,7 @@ const TextPopup = (props: dialogProps) => {
           </Stack>
           <Stack direction="row">
             <IconButton
+              edge="end"
               onClick={() => {
                 cancleFn(false);
               }}
@@ -107,13 +121,16 @@ const TextPopup = (props: dialogProps) => {
             {cancleBtnText}
           </Button>
           <Button
+            disabled={checkContent()}
             color="primary"
             variant="contained"
-            onClick={async () => {
-              await completeFn({
+            onClick={() => {
+              completeFn({
                 variables: { sectionId: props.variabels.sectionId, content: newVersionContent },
               });
+              setNewVersion(undefined);
               cancleFn(false);
+              return;
             }}
           >
             {completeBtnText}

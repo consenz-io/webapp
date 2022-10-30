@@ -36,9 +36,6 @@ const Section: FC = () => {
   const [displayedVersion, setDisplayedVersion] = useState(section?.versions[0]);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isTextPopupeOpen, setOpenPop] = useState(false);
-  const [isVersionAdded, setIsVersionAdded] = useState(false);
-
-  useEffect(() => {}, [isVersionAdded]);
 
   const navigate = useNavigate();
 
@@ -92,16 +89,13 @@ const Section: FC = () => {
         ))}
         <Chip
           sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
+          onClick={() => {
+            setOpenPop(true);
+          }}
           label={
-            <IconButton
-              onClick={() => {
-                setOpenPop(true);
-              }}
-            >
-              <SvgIcon htmlColor={textSecondaryColor} width="24px">
-                <PlusIcon />
-              </SvgIcon>
-            </IconButton>
+            <SvgIcon htmlColor={textSecondaryColor} width="24px">
+              <PlusIcon />
+            </SvgIcon>
           }
         />
         <TextPopup
@@ -114,9 +108,9 @@ const Section: FC = () => {
           }
           completeFn={addVersion}
           cancleFn={setOpenPop}
-          completeBtnText="Add suggestion"
+          completeBtnText="Add version"
           cancleBtnText="Cancle"
-          variabels={{ sectionId: section ? section.id : -1, versionChanged: setIsVersionAdded }}
+          variabels={{ sectionId: section ? section.id : -1 }}
         />
       </Stack>
       <Card variant="elevation" elevation={0}>
