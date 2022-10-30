@@ -26,6 +26,8 @@ import { useTranslation } from 'react-i18next';
 import { getVoteColor } from 'utils/functions';
 import { useNavigate } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
+import { useMutation } from '@apollo/client';
+import { addSectionVersion as insertSectionVersionMutation } from 'utils/mutations';
 
 const Section: FC = () => {
   const theme = useTheme();
@@ -34,6 +36,9 @@ const Section: FC = () => {
   const [displayedVersion, setDisplayedVersion] = useState(section?.versions[0]);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isTextPopupeOpen, setOpenPop] = useState(false);
+  const [isVersionAdded, setIsVersionAdded] = useState(false);
+
+  useEffect(() => {}, [isVersionAdded]);
 
   const navigate = useNavigate();
 
@@ -50,6 +55,8 @@ const Section: FC = () => {
   function getIconColor(voteType: 'up' | 'down'): string {
     return getVoteColor(theme, voteType, displayedVersion?.my_vote);
   }
+
+  const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['agreement'] });
 
   return (
     <>
@@ -105,12 +112,11 @@ const Section: FC = () => {
               ? `${t(StringBank.VERSION)} ${section!.versions!.length + 1}`
               : ''
           }
-          completeFn={() => {
-            console.log('complete');
-          }}
+          completeFn={addVersion}
           cancleFn={setOpenPop}
           completeBtnText="Add suggestion"
           cancleBtnText="Cancle"
+          variabels={{ sectionId: section ? section.id : -1, versionChanged: setIsVersionAdded }}
         />
       </Stack>
       <Card variant="elevation" elevation={0}>
