@@ -30,6 +30,7 @@ export const he: Partial<Record<StringBank, string>> = {
   
   ותהנו!`,
   VIEW_CURRENT_DRAFT: 'צפייה בגרסא הנוכחית',
+  INSERT_NEW_VERSION: 'אנא הזינו הצעה חדשה',
   NO_CATEGORY: 'לא נבחרה קטגוריה',
   READ_MORE: 'קרא/י עוד',
   SECTION_CARD_TITLE_CHAPTER: '# {{chapterName}}',

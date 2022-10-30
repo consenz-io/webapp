@@ -99,8 +99,12 @@ const Section: FC = () => {
         />
         <TextPopup
           isOpen={isTextPopupeOpen}
-          parentSection="Section X"
-          newVersionName="Vesrion Y"
+          parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
+          newVersionName={
+            section && section.versions
+              ? `${t(StringBank.VERSION)} ${section!.versions!.length + 1}`
+              : ''
+          }
           completeFn={() => {
             console.log('complete');
           }}
