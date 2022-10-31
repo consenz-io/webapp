@@ -8,10 +8,14 @@ import {
   AccordionDetails,
   AccordionSummary,
   SvgIcon,
+  Divider,
+  IconButton,
 } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext } from 'react';
+import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
+import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
 import { generateColorFromString } from 'utils/functions';
 import { Appbar } from 'components';
 import { Breadcrumb } from 'components/Appbar';
@@ -118,11 +122,20 @@ const Agreement: FC = () => {
               <AccordionDetails sx={{ backgroundColor: '#333842' }}>
                 <Stack direction="column" spacing={2}>
                   {chapter?.sections?.map((section) => (
-                    <SectionCard
-                      key={section.id}
-                      section={section}
-                      onClick={() => navigate(`section/${section.id}`)}
-                    />
+                    <>
+                      <SectionCard
+                        key={section.id}
+                        section={section}
+                        onClick={() => navigate(`section/${section.id}`)}
+                      />
+                      <Divider id="devider">
+                        <IconButton size="small">
+                          <SvgIcon>
+                            <PlusIcon />
+                          </SvgIcon>
+                        </IconButton>
+                      </Divider>
+                    </>
                   ))}
                 </Stack>
               </AccordionDetails>
