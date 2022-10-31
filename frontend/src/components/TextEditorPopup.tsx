@@ -30,7 +30,7 @@ interface DialogProps {
 
 const TextEditorPopup = (props: DialogProps) => {
   const { t } = useTranslation();
-  const [newVersionContent, setnewVersionContent] = useState<JSONContent>();
+  const [newTextContent, setnewTextContent] = useState<JSONContent>();
   const {
     onCancle,
     onComplete,
@@ -42,15 +42,18 @@ const TextEditorPopup = (props: DialogProps) => {
   } = props;
 
   const checkContent = () => {
-    if (
-      newVersionContent &&
-      newVersionContent.content &&
-      'content' in newVersionContent.content[0]
-    ) {
+    if (newTextContent && newTextContent.content && 'content' in newTextContent.content[0]) {
       return false;
     }
     return true;
   };
+
+  function handleCompleteClick() {
+    onComplete({ variables: { ...props.variabels, content: newTextContent } });
+    setnewTextContent(undefined);
+    onCancle(false);
+    return;
+  }
 
   return (
     <Dialog
@@ -103,10 +106,10 @@ const TextEditorPopup = (props: DialogProps) => {
           }}
         >
           <ContentEditor
-            initialContent={newVersionContent}
+            initialContent={newTextContent}
             placeholder={t(StringBank.INSERT_NEW_VERSION)}
             onChange={(newValue: JSONContent) => {
-              setnewVersionContent(newValue);
+              setnewTextContent(newValue);
             }}
           ></ContentEditor>
         </DialogContent>
@@ -123,12 +126,7 @@ const TextEditorPopup = (props: DialogProps) => {
             disabled={checkContent()}
             color="primary"
             variant="contained"
-            onClick={() => {
-              onComplete({ variables: { ...props.variabels, content: newVersionContent } });
-              setnewVersionContent(undefined);
-              onCancle(false);
-              return;
-            }}
+            onClick={handleCompleteClick}
           >
             {completeBtnText}
           </Button>

@@ -37,7 +37,7 @@ const Section: FC = () => {
   const { agreement, vote } = useContext(AgreementContext);
   const [displayedVersion, setDisplayedVersion] = useState(section?.versions[0]);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
-  const [isTextPopupeOpen, setOpenPop] = useState(false);
+  const [isTextPopupeOpen, setisTextPopupeOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -60,7 +60,7 @@ const Section: FC = () => {
     return `${t(StringBank.VERSION)} ${versionNum}`;
   }
 
-  const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['agreement'] });
+  const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
   const displayedVersionProgress = displayedVersion
     ? (100 * (displayedVersion.upvotes - displayedVersion.downvotes)) / displayedVersion.threshold
     : 0;
@@ -100,7 +100,7 @@ const Section: FC = () => {
         <Chip
           sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
           onClick={() => {
-            setOpenPop(true);
+            setisTextPopupeOpen(true);
           }}
           label={
             <SvgIcon htmlColor={textSecondaryColor} width="24px">
@@ -113,7 +113,7 @@ const Section: FC = () => {
           parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
           newVersionName={generateVersionName(section)}
           onComplete={addVersion}
-          onCancle={setOpenPop}
+          onCancle={setisTextPopupeOpen}
           completeBtnText="Add version"
           cancleBtnText="Cancle"
           variabels={{ sectionId: section ? section.id : -1 }}
