@@ -60,7 +60,7 @@ const Section: FC = () => {
     return `${t(StringBank.VERSION)} ${versionNum}`;
   }
 
-  const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['agreement'] });
+  const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
   const displayedVersionProgress = displayedVersion
     ? (100 * (displayedVersion.upvotes - displayedVersion.downvotes)) / displayedVersion.threshold
     : 0;
