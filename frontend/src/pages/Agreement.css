@@ -1,0 +1,6 @@
+div#devider:hover {
+    opacity: 1;
+}
+div#devider {
+    opacity: 0;
+}
