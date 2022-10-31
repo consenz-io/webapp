@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Appbar, ContentEditor, SvgIcon, TextPopup } from 'components';
+import { Appbar, ContentEditor, SvgIcon, TextEditorPopup } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
@@ -29,6 +29,7 @@ import { useNavigate } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { useMutation } from '@apollo/client';
 import { addSectionVersion as insertSectionVersionMutation } from 'utils/mutations';
+import { Section as SectionType } from 'types';
 
 const Section: FC = () => {
   const theme = useTheme();
@@ -52,6 +53,11 @@ const Section: FC = () => {
 
   function getIconColor(voteType: 'up' | 'down'): string {
     return getVoteColor(theme, voteType, displayedVersion?.my_vote);
+  }
+
+  function generateVersionName(section: SectionType | undefined): string {
+    const versionNum = (section?.versions?.length ?? NaN) + 1;
+    return `${t(StringBank.VERSION)} ${versionNum}`;
   }
 
   const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['agreement'] });
@@ -102,16 +108,12 @@ const Section: FC = () => {
             </SvgIcon>
           }
         />
-        <TextPopup
+        <TextEditorPopup
           isOpen={isTextPopupeOpen}
           parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
-          newVersionName={
-            section && section.versions
-              ? `${t(StringBank.VERSION)} ${section!.versions!.length + 1}`
-              : ''
-          }
-          completeFn={addVersion}
-          cancleFn={setOpenPop}
+          newVersionName={generateVersionName(section)}
+          onComplete={addVersion}
+          onCancle={setOpenPop}
           completeBtnText="Add version"
           cancleBtnText="Cancle"
           variabels={{ sectionId: section ? section.id : -1 }}
