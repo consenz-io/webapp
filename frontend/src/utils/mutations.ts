@@ -1,5 +1,15 @@
 import { gql } from '@apollo/client';
 
+export const addSection = gql`
+  mutation AddSection($chapterId: Int!, $versions: [core_section_versions_insert_input!]!) {
+    insert_core_sections_one(
+      object: { chapter_id: $chapterId, index: 100, versions: { data: $versions } }
+    ) {
+      id
+    }
+  }
+`;
+
 export const addAgreement = gql`
   mutation AddAgreement(
     $categoryId: Int

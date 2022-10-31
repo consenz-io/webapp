@@ -26,6 +26,8 @@ import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { addSection as addSectionMutation } from 'utils/mutations';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
@@ -45,6 +47,9 @@ const Agreement: FC = () => {
       icon: DocLogo,
     },
   ];
+  const [addSectionMutFN] = useMutation(addSectionMutation, {
+    refetchQueries: ['agreements'],
+  });
 
   return (
     <Stack>
@@ -122,20 +127,34 @@ const Agreement: FC = () => {
               <AccordionDetails sx={{ backgroundColor: '#333842' }}>
                 <Stack direction="column" spacing={2}>
                   {chapter?.sections?.map((section) => (
-                    <>
+                    <div key={section.id}>
                       <SectionCard
-                        key={section.id}
                         section={section}
                         onClick={() => navigate(`section/${section.id}`)}
                       />
                       <Divider id="devider">
-                        <IconButton size="small">
-                          <SvgIcon>
+                        <IconButton
+                          onClick={async () => {
+                            const res = await addSectionMutFN({
+                              variables: {
+                                chapterId: chapter.id,
+                                versions: {
+                                  content: {
+                                    key: 123213,
+                                  },
+                                },
+                              },
+                            });
+                            console.log('res', res);
+                          }}
+                          sx={{ border: '1px solid gray', width: '20px', height: '20px' }}
+                        >
+                          <SvgIcon style={{ height: ' 15px', width: '15px' }} htmlColor="red">
                             <PlusIcon />
                           </SvgIcon>
                         </IconButton>
                       </Divider>
-                    </>
+                    </div>
                   ))}
                 </Stack>
               </AccordionDetails>

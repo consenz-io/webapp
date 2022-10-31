@@ -42,6 +42,7 @@ export const agreementQuery = gql`
       }
       rationale
       chapters(order_by: { index: asc }) {
+        id
         agreement_id
         name
         index
