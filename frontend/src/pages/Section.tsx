@@ -15,6 +15,7 @@ import {
   CardContent,
   Chip,
   IconButton,
+  LinearProgress,
   Snackbar,
   Stack,
   Typography,
@@ -54,6 +55,9 @@ const Section: FC = () => {
   }
 
   const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['agreement'] });
+  const displayedVersionProgress = displayedVersion
+    ? (100 * (displayedVersion.upvotes - displayedVersion.downvotes)) / displayedVersion.threshold
+    : 0;
 
   return (
     <>
@@ -136,7 +140,7 @@ const Section: FC = () => {
               key={`version${displayedVersion?.id}`}
             />
           </Box>
-          <Stack spacing={1} direction="row">
+          <Stack spacing={1} direction="row" alignItems="center">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'up')}>
                 <SvgIcon htmlColor={getIconColor('up')}>
@@ -153,6 +157,11 @@ const Section: FC = () => {
               </IconButton>
               <Typography color={getIconColor('down')}>{displayedVersion?.downvotes}</Typography>
             </Stack>
+            <LinearProgress
+              variant="determinate"
+              value={displayedVersionProgress}
+              sx={{ flexGrow: 1 }}
+            />
           </Stack>
         </CardContent>
       </Card>

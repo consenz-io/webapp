@@ -136,6 +136,19 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
           },
         },
       },
+      MuiLinearProgress: {
+        styleOverrides: {
+          root: {
+            borderRadius: 8,
+            height: 6,
+            background: '#36393f',
+          },
+          bar: {
+            borderRadius: 8,
+            background: 'linear-gradient(90deg, rgba(165,117,247,1) 0%, rgba(36,235,211,1) 100%)',
+          },
+        },
+      },
       MuiListItemIcon: {
         styleOverrides: {
           root: {
