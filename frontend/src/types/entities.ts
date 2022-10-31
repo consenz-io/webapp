@@ -43,6 +43,7 @@ export interface Version {
   created_at: Date;
   downvotes: number;
   my_vote?: 'up' | 'down';
+  threshold: number;
   upvotes: number;
 }
 
