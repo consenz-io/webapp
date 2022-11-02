@@ -12,12 +12,12 @@ import {
   IconButton,
 } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
-import { FC, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
 import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
 import { generateColorFromString } from 'utils/functions';
-import { Appbar } from 'components';
+import { Appbar, TextEditorPopup } from 'components';
 import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import SectionCard from 'components/SectionCard';
@@ -27,13 +27,15 @@ import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { addSection as addSectionMutation } from 'utils/mutations';
+import { addSection as insertSectionMutation } from 'utils/mutations';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
   const { groupSlug, agreementId } = useParams();
   const { categories, slug } = useContext(GroupContext);
+  const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const { agreement, categoryName } = useContext(AgreementContext);
+  const [addSection] = useMutation(insertSectionMutation, { refetchQueries: ['section'] });
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
     {
@@ -47,9 +49,6 @@ const Agreement: FC = () => {
       icon: DocLogo,
     },
   ];
-  const [addSectionMutFN] = useMutation(addSectionMutation, {
-    refetchQueries: ['agreements'],
-  });
 
   return (
     <Stack>
@@ -134,19 +133,22 @@ const Agreement: FC = () => {
                       />
                       <Divider id="devider">
                         <IconButton
-                          onClick={async () => {
-                            const res = await addSectionMutFN({
-                              variables: {
-                                chapterId: chapter.id,
-                                versions: {
-                                  content: {
-                                    key: 123213,
-                                  },
-                                },
-                              },
-                            });
-                            console.log('res', res);
+                          onClick={() => {
+                            setIsTextPopupOpen(true);
                           }}
+                          // onClick={async () => {
+                          //   const res = await addSectionMutFN({
+                          //     variables: {
+                          //       chapterId: chapter.id,
+                          //       versions: {
+                          //         content: {
+                          //           key: 123213,
+                          //         },
+                          //       },
+                          //     },
+                          //   });
+                          //   console.log('res', res);
+                          // }}
                           sx={{ border: '1px solid gray', width: '20px', height: '20px' }}
                         >
                           <SvgIcon style={{ height: ' 15px', width: '15px' }} htmlColor="red">
@@ -154,6 +156,16 @@ const Agreement: FC = () => {
                           </SvgIcon>
                         </IconButton>
                       </Divider>
+                      <TextEditorPopup
+                        isOpen={isTextPopupOpen}
+                        parentSection={`${t(StringBank.NEW_SECTION)}`}
+                        onComplete={addSection}
+                        onCancel={setIsTextPopupOpen}
+                        completeBtnText={t(StringBank.ADD_VERSION)}
+                        cancelBtnText={t(StringBank.CANCEL)}
+                        variabels={{ sectionId: section ? section.id : -1 }}
+                        editorPlaceholder={t(StringBank.INSERT_NEW_SECTION_SHORT)}
+                      />
                     </div>
                   ))}
                 </Stack>
