@@ -37,7 +37,7 @@ const Section: FC = () => {
   const { agreement, vote } = useContext(AgreementContext);
   const [displayedVersion, setDisplayedVersion] = useState(section?.versions[0]);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
-  const [isTextPopupeOpen, setisTextPopupeOpen] = useState(false);
+  const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -100,7 +100,7 @@ const Section: FC = () => {
         <Chip
           sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
           onClick={() => {
-            setisTextPopupeOpen(true);
+            setIsTextPopupOpen(true);
           }}
           label={
             <SvgIcon htmlColor={textSecondaryColor} width="24px">
@@ -109,11 +109,11 @@ const Section: FC = () => {
           }
         />
         <TextEditorPopup
-          isOpen={isTextPopupeOpen}
+          isOpen={isTextPopupOpen}
           parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
           newVersionName={generateVersionName(section)}
           onComplete={addVersion}
-          onCancle={setisTextPopupeOpen}
+          onCancel={setIsTextPopupOpen}
           completeBtnText="Add version"
           cancleBtnText="Cancle"
           variabels={{ sectionId: section ? section.id : -1 }}
