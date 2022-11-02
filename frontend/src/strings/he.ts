@@ -15,6 +15,7 @@ export const he: Partial<Record<StringBank, string>> = {
   ARCHIVE_EMPTY_MESSAGE: 'וכאן זה המקום בו יהיו\nההסכמים שלנו שבארכיב',
   ARCHIVE_EMPTY_MESSAGE_END: 'אם היו כאלה...',
   CATEGORY: 'קטגוריה',
+  CANCEL: 'ביטול',
   CATEGORY_EMPTY_MESSAGE: 'אולי תרצו ליצור אחד',
   CONTINUE: 'להמשיך',
   CURRENT_VERSION: 'הגרסה הנוכחית',
@@ -30,6 +31,7 @@ export const he: Partial<Record<StringBank, string>> = {
   
   ותהנו!`,
   VIEW_CURRENT_DRAFT: 'צפייה בגרסא הנוכחית',
+  INSERT_NEW_VERSION: 'אנא הזינו הצעה חדשה',
   NO_CATEGORY: 'לא נבחרה קטגוריה',
   READ_MORE: 'קרא/י עוד',
   SECTION_CARD_TITLE_CHAPTER: '# {{chapterName}}',
