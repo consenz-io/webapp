@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const addAgreement = gql`
-  mutatiionon AddAgreement(
+  mutation AddAgreement(
     $categoryId: Int
     $groupId: Int!
     $name: String!

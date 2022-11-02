@@ -21,7 +21,7 @@ interface DialogProps {
   isOpen: boolean;
   parentSection: string;
   newVersionName: string;
-  onCancle: (val: boolean) => unknown;
+  onCancel: (val: boolean) => unknown;
   onComplete: (...args: any[]) => unknown;
   completeBtnText: string;
   cancleBtnText: string;
@@ -32,7 +32,7 @@ const TextEditorPopup = (props: DialogProps) => {
   const { t } = useTranslation();
   const [newTextContent, setnewTextContent] = useState<JSONContent>();
   const {
-    onCancle,
+    onCancel,
     onComplete,
     isOpen,
     parentSection,
@@ -51,7 +51,7 @@ const TextEditorPopup = (props: DialogProps) => {
   function handleCompleteClick() {
     onComplete({ variables: { ...props.variabels, content: newTextContent } });
     setnewTextContent(undefined);
-    onCancle(false);
+    onCancel(false);
     return;
   }
 
@@ -71,7 +71,7 @@ const TextEditorPopup = (props: DialogProps) => {
       }}
       open={isOpen}
       onClose={() => {
-        onCancle(false);
+        onCancel(false);
       }}
     >
       <Stack direction="column" spacing={1}>
@@ -89,7 +89,7 @@ const TextEditorPopup = (props: DialogProps) => {
             <IconButton
               edge="end"
               onClick={() => {
-                onCancle(false);
+                onCancel(false);
               }}
             >
               <SvgIcon htmlColor={textSecondaryColor}>
@@ -117,7 +117,7 @@ const TextEditorPopup = (props: DialogProps) => {
           <Button
             variant="contained"
             onClick={() => {
-              onCancle(false);
+              onCancel(false);
             }}
           >
             {cancleBtnText}
