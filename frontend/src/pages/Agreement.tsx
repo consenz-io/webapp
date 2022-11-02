@@ -35,7 +35,10 @@ const Agreement: FC = () => {
   const { categories, slug } = useContext(GroupContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const { agreement, categoryName } = useContext(AgreementContext);
-  const [addSection] = useMutation(insertSectionMutation, { refetchQueries: ['section'] });
+  const [addSection] = useMutation(insertSectionMutation, {
+    refetchQueries: ['section', 'agreement'],
+    awaitRefetchQueries: true,
+  });
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
     {
