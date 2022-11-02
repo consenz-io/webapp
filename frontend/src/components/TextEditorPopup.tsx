@@ -17,23 +17,23 @@ import { StringBank } from 'strings';
 import { JSONContent } from '@tiptap/react';
 import { useState } from 'react';
 
-interface dialogProps {
+interface DialogProps {
   isOpen: boolean;
   parentSection: string;
   newVersionName: string;
-  cancleFn: (val: boolean) => unknown;
-  completeFn: any;
+  onCancel: (val: boolean) => unknown;
+  onComplete: (...args: any[]) => unknown;
   completeBtnText: string;
   cancleBtnText: string;
-  variabels?: any;
+  variabels?: Record<string, unknown>;
 }
 
-const TextPopup = (props: dialogProps) => {
+const TextEditorPopup = (props: DialogProps) => {
   const { t } = useTranslation();
-  const [newVersionContent, setNewVersion] = useState<JSONContent>();
+  const [newTextContent, setnewTextContent] = useState<JSONContent>();
   const {
-    cancleFn,
-    completeFn,
+    onCancel,
+    onComplete,
     isOpen,
     parentSection,
     newVersionName,
@@ -42,16 +42,18 @@ const TextPopup = (props: dialogProps) => {
   } = props;
 
   const checkContent = () => {
-    console.log('newVersionContent', newVersionContent);
-    if (
-      newVersionContent &&
-      newVersionContent.content &&
-      'content' in newVersionContent.content[0]
-    ) {
+    if (newTextContent && newTextContent.content && 'content' in newTextContent.content[0]) {
       return false;
     }
     return true;
   };
+
+  function handleCompleteClick() {
+    onComplete({ variables: { ...props.variabels, content: newTextContent } });
+    setnewTextContent(undefined);
+    onCancel(false);
+    return;
+  }
 
   return (
     <Dialog
@@ -69,7 +71,7 @@ const TextPopup = (props: dialogProps) => {
       }}
       open={isOpen}
       onClose={() => {
-        cancleFn(false);
+        onCancel(false);
       }}
     >
       <Stack direction="column" spacing={1}>
@@ -87,7 +89,7 @@ const TextPopup = (props: dialogProps) => {
             <IconButton
               edge="end"
               onClick={() => {
-                cancleFn(false);
+                onCancel(false);
               }}
             >
               <SvgIcon htmlColor={textSecondaryColor}>
@@ -104,10 +106,10 @@ const TextPopup = (props: dialogProps) => {
           }}
         >
           <ContentEditor
-            initialContent={newVersionContent}
+            initialContent={newTextContent}
             placeholder={t(StringBank.INSERT_NEW_VERSION)}
             onChange={(newValue: JSONContent) => {
-              setNewVersion(newValue);
+              setnewTextContent(newValue);
             }}
           ></ContentEditor>
         </DialogContent>
@@ -115,7 +117,7 @@ const TextPopup = (props: dialogProps) => {
           <Button
             variant="contained"
             onClick={() => {
-              cancleFn(false);
+              onCancel(false);
             }}
           >
             {cancleBtnText}
@@ -124,14 +126,7 @@ const TextPopup = (props: dialogProps) => {
             disabled={checkContent()}
             color="primary"
             variant="contained"
-            onClick={() => {
-              completeFn({
-                variables: { sectionId: props.variabels.sectionId, content: newVersionContent },
-              });
-              setNewVersion(undefined);
-              cancleFn(false);
-              return;
-            }}
+            onClick={handleCompleteClick}
           >
             {completeBtnText}
           </Button>
@@ -141,4 +136,4 @@ const TextPopup = (props: dialogProps) => {
   );
 };
 
-export default TextPopup;
+export default TextEditorPopup;

@@ -11,7 +11,7 @@ import Appbar from './Appbar';
 import SvgIcon from './SvgIcon';
 import SectionCard from './SectionCard';
 import { ClickableCard } from './ClickableCard';
-import TextPopup from './TextPopup';
+import TextEditorPopup from './TextEditorPopup';
 
 export {
   AgreementCard,
@@ -27,5 +27,5 @@ export {
   SidebarController,
   SidebarLayout,
   SvgIcon,
-  TextPopup,
+  TextEditorPopup,
 };
