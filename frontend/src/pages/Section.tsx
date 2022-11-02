@@ -115,7 +115,7 @@ const Section: FC = () => {
           onComplete={addVersion}
           onCancel={setIsTextPopupOpen}
           completeBtnText="Add version"
-          cancleBtnText="Cancle"
+          cancelBtnText="cancel"
           variabels={{ sectionId: section ? section.id : -1 }}
         />
       </Stack>

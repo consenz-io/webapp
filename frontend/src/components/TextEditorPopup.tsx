@@ -24,7 +24,7 @@ interface DialogProps {
   onCancel: (val: boolean) => unknown;
   onComplete: (...args: any[]) => unknown;
   completeBtnText: string;
-  cancleBtnText: string;
+  cancelBtnText: string;
   variabels?: Record<string, unknown>;
 }
 
@@ -38,7 +38,7 @@ const TextEditorPopup = (props: DialogProps) => {
     parentSection,
     newVersionName,
     completeBtnText,
-    cancleBtnText,
+    cancelBtnText,
   } = props;
 
   const checkContent = () => {
@@ -120,7 +120,7 @@ const TextEditorPopup = (props: DialogProps) => {
               onCancel(false);
             }}
           >
-            {cancleBtnText}
+            {cancelBtnText}
           </Button>
           <Button
             disabled={checkContent()}
