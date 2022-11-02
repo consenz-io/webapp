@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Appbar, ContentEditor, SvgIcon } from 'components';
+import { Appbar, ContentEditor, SvgIcon, TextEditorPopup } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
@@ -27,6 +27,9 @@ import { useTranslation } from 'react-i18next';
 import { getVoteColor } from 'utils/functions';
 import { useNavigate } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
+import { useMutation } from '@apollo/client';
+import { addSectionVersion as insertSectionVersionMutation } from 'utils/mutations';
+import { Section as SectionType } from 'types';
 
 const Section: FC = () => {
   const theme = useTheme();
@@ -34,6 +37,7 @@ const Section: FC = () => {
   const { agreement, vote } = useContext(AgreementContext);
   const [displayedVersion, setDisplayedVersion] = useState(section?.versions[0]);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -51,6 +55,12 @@ const Section: FC = () => {
     return getVoteColor(theme, voteType, displayedVersion?.my_vote);
   }
 
+  function generateVersionName(section: SectionType | undefined): string {
+    const versionNum = (section?.versions?.length ?? NaN) + 1;
+    return `${t(StringBank.VERSION)} ${versionNum}`;
+  }
+
+  const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
   const displayedVersionProgress = displayedVersion
     ? (100 * (displayedVersion.upvotes - displayedVersion.downvotes)) / displayedVersion.threshold
     : 0;
@@ -89,11 +99,24 @@ const Section: FC = () => {
         ))}
         <Chip
           sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
+          onClick={() => {
+            setIsTextPopupOpen(true);
+          }}
           label={
             <SvgIcon htmlColor={textSecondaryColor} width="24px">
               <PlusIcon />
             </SvgIcon>
           }
+        />
+        <TextEditorPopup
+          isOpen={isTextPopupOpen}
+          parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
+          newVersionName={generateVersionName(section)}
+          onComplete={addVersion}
+          onCancel={setIsTextPopupOpen}
+          completeBtnText={t(StringBank.ADD_VERSION)}
+          cancelBtnText={t(StringBank.CANCEL)}
+          variabels={{ sectionId: section ? section.id : -1 }}
         />
       </Stack>
       <Card variant="elevation" elevation={0}>
