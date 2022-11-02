@@ -28,7 +28,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { addSection as insertSectionMutation } from 'utils/mutations';
-import { JSONContent } from '@tiptap/react';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
@@ -36,9 +35,7 @@ const Agreement: FC = () => {
   const { categories, slug } = useContext(GroupContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const { agreement, categoryName } = useContext(AgreementContext);
-  const [addSection] = useMutation(insertSectionMutation, {
-    refetchQueries: ['section'],
-  });
+  const [addSection] = useMutation(insertSectionMutation, { refetchQueries: ['section'] });
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
     {
@@ -149,9 +146,11 @@ const Agreement: FC = () => {
                       <TextEditorPopup
                         isOpen={isTextPopupOpen}
                         parentSection={`${t(StringBank.NEW_SECTION)}`}
-                        onComplete={(content: JSONContent) => {
+                        onComplete={(editorContent) => {
+                          const content = editorContent.variables.content;
                           const variables = {
                             chapterId: chapter.id,
+                            sectionIndex: section.id + 1,
                             versions: {
                               content,
                             },

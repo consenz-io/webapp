@@ -47,7 +47,11 @@ const TextEditorPopup = (props: DialogProps) => {
   };
 
   function handleCompleteClick() {
-    onComplete({ variables: { ...props.variabels, content: newTextContent } });
+    if (props.variabels) {
+      onComplete({ variables: { ...props.variabels, content: newTextContent } });
+    } else {
+      onComplete({ variables: { content: newTextContent } });
+    }
     setnewTextContent(undefined);
     onCancel(false);
     return;
