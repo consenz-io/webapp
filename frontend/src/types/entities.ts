@@ -39,7 +39,7 @@ export interface Section {
 export interface Version {
   id: number;
   index: number;
-  content: JSONContent | string;
+  content: JSONContent;
   created_at: Date;
   downvotes: number;
   my_vote?: 'up' | 'down';

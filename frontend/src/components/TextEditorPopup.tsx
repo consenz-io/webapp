@@ -32,9 +32,7 @@ interface DialogProps {
 
 const TextEditorPopup = (props: DialogProps) => {
   const { t } = useTranslation();
-  const [newTextContent, setnewTextContent] = useState<JSONContent | undefined>(
-    props.initialContent
-  );
+  const [newTextContent, setnewTextContent] = useState(props.initialContent);
   const {
     onCancel,
     onComplete,
@@ -49,7 +47,6 @@ const TextEditorPopup = (props: DialogProps) => {
     if (newTextContent && newTextContent.content && 'content' in newTextContent.content[0]) {
       return false;
     }
-    return true;
   };
 
   function handleCompleteClick() {
@@ -105,7 +102,7 @@ const TextEditorPopup = (props: DialogProps) => {
         >
           <ContentEditor
             content={newTextContent}
-            placeholder={t(StringBank.INSERT_NEW_VERSION)}
+            placeholder={newTextContent ? newTextContent.text : t(StringBank.INSERT_NEW_VERSION)}
             onChange={(newValue: JSONContent) => {
               setnewTextContent(newValue);
             }}

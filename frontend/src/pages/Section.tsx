@@ -114,6 +114,7 @@ const Section: FC = () => {
           completeBtnText={t(StringBank.ADD_VERSION)}
           cancelBtnText={t(StringBank.CANCEL)}
           variabels={{ sectionId: section ? section.id : -1 }}
+          initialContent={displayedVersion?.content}
         />
       </Stack>
       {displayedVersion && (
