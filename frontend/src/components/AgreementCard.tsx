@@ -6,15 +6,15 @@ import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { generateColorFromString, truncateAfterWords } from 'utils/functions';
 import DropDownMenu from './DropDownMenu';
-import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { GroupContext } from 'contexts/group';
 import { backgroundBorderColor, ColorModeAndDirectionContext } from 'theme';
 import { MenuItem, ThemeModeType, VariantType } from 'types';
 import { useNavigate } from 'react-router-dom';
-import DialogEl from '../components/Dialog';
 import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
+import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
+import { ReactComponent as ArchiveIcon } from 'assets/icons/archive.svg';
 import { AuthContext } from 'contexts';
-import { ClickableCard, SvgIcon } from '.';
+import { ClickableCard, SvgIcon, Dialog } from '.';
 
 interface IAgreementCardProps {
   id: number;
@@ -68,8 +68,13 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   function getMenuItems() {
     const menuItems: MenuItem[] = [
       {
+        icon: <EyeIcon />,
+        text: t(StringBank.VIEW_DRAFT),
+        action: () => navigate(`/${slug}/agreement/${id}/draft`),
+      },
+      {
         text: t(isArchived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
-        icon: <Inventory2OutlinedIcon />,
+        icon: <ArchiveIcon />,
         action: () => archiveAgreement(id, !isArchived),
       },
     ];
@@ -158,17 +163,17 @@ const AgreementCard: FC<IAgreementCardProps> = ({
           </CardContent>
         </Stack>
       </ClickableCard>
-      <DialogEl
+      <Dialog
         openDialogState={openDialogState}
-        title="Delete Agreement"
+        title={t(StringBank.DELETE_AGREEMENT)}
         content={currentContent}
         cancelFunction={handleCloseDialog}
         finishFunction={onDeleteAgreement}
-        cancelBtnText="cancel"
-        finishBtnText="Delete"
+        cancelBtnText={t(StringBank.CANCEL)}
+        finishBtnText={t(StringBank.DELETE)}
         placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
         doneBtnVariant="delete"
-      ></DialogEl>
+      />
     </>
   );
 };

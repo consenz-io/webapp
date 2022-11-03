@@ -19,7 +19,7 @@ const AllArchievedAgreements = () => {
     return (
       <Stack padding={{ sm: 2 }} height="100%" justifyContent="space-between">
         <Typography variant="h2">{t(StringBank.ARCHIVE)}</Typography>
-        <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+        <Stack justifyContent="center" alignItems="center" spacing={2}>
           <Typography variant="h3" textAlign="center">
             {t(StringBank.ARCHIVE_EMPTY_MESSAGE)}
           </Typography>

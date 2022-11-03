@@ -1,4 +1,4 @@
-import { IconButton, Stack, Typography, Tooltip, useTheme } from '@mui/material';
+import { IconButton, Stack, Typography, Tooltip, useTheme, LinearProgress } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React, { FC, useContext, useState } from 'react';
@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { AgreementContext } from 'contexts/agreement';
 import { ClickableCard } from './ClickableCard';
 import SvgIcon from './SvgIcon';
-import { getVoteColor } from 'utils/functions';
+import { getVersionProgress, getVoteColor } from 'utils/functions';
 
 interface Props {
   onClick: () => void;
@@ -96,8 +96,8 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
               </Tooltip>
             )}
           </Stack>
-          <ContentEditor initialContent={displayedVersion.content} readonly />
-          <Stack gap="1rem" direction="row">
+          <ContentEditor content={displayedVersion.content} readonly />
+          <Stack gap={2} direction="row" alignItems="center">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton onClick={(e) => handleVote('up', e)}>
                 <SvgIcon htmlColor={checkIconColor('up')}>
@@ -122,6 +122,11 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
               </IconButton>
               <Typography>{5}</Typography>
             </Stack>
+            <LinearProgress
+              variant="determinate"
+              value={getVersionProgress(displayedVersion)}
+              sx={{ flexGrow: 1 }}
+            />
           </Stack>
         </Stack>
         <IconButton

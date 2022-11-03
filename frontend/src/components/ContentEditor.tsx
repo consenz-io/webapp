@@ -22,9 +22,10 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import { backgroundBorderColor } from 'theme';
+import { useEffect } from 'react';
 
 interface IProps {
-  initialContent?: JSONContent | string;
+  content?: JSONContent | string;
   placeholder?: string;
   onKeyDown?: (event: React.KeyboardEvent) => void;
   onChange?: (value: JSONContent) => void;
@@ -35,7 +36,7 @@ function ContentEditor({
   placeholder,
   onKeyDown,
   onChange,
-  initialContent,
+  content,
   readonly,
   ...dataAttributes
 }: IProps): JSX.Element {
@@ -51,12 +52,18 @@ function ContentEditor({
       TableHeader,
       TableCell,
     ],
-    content: initialContent,
+    content,
     editable: !readonly,
   });
   editor?.on('update', ({ editor }) => {
     onChange?.(editor.getJSON());
   });
+  useEffect(() => {
+    if (!content) {
+      return;
+    }
+    editor?.commands.setContent(content);
+  }, [editor, content]);
 
   return (
     <div {...dataAttributes}>

@@ -24,7 +24,7 @@ import {
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
 import { useTranslation } from 'react-i18next';
-import { getVoteColor } from 'utils/functions';
+import { getVersionProgress, getVoteColor } from 'utils/functions';
 import { useNavigate } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { useMutation } from '@apollo/client';
@@ -61,9 +61,6 @@ const Section: FC = () => {
   }
 
   const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
-  const displayedVersionProgress = displayedVersion
-    ? (100 * (displayedVersion.upvotes - displayedVersion.downvotes)) / displayedVersion.threshold
-    : 0;
 
   return (
     <>
@@ -120,54 +117,52 @@ const Section: FC = () => {
           editorPlaceholder={t(StringBank.INSERT_NEW_VERSION)}
         />
       </Stack>
-      <Card variant="elevation" elevation={0}>
-        <CardContent sx={{ paddingX: 3 }}>
-          <Stack direction="row" justifyContent="space-between">
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <BtnCapital className="capital">{t(StringBank.ANONYMOUS)[0]}</BtnCapital>
-              <Typography variant="h6">{t(StringBank.ANONYMOUS)}</Typography>
-              <Typography variant="caption">
-                {displayedVersion?.created_at?.toLocaleDateString(navigator.language)}
-              </Typography>
-            </Stack>
-            <IconButton size="small" onClick={handleShare}>
-              <SvgIcon htmlColor={textSecondaryColor}>
-                <LinkIcon />
-              </SvgIcon>
-            </IconButton>
-          </Stack>
-          <Box paddingY={4}>
-            <ContentEditor
-              readonly
-              initialContent={displayedVersion?.content}
-              key={`version${displayedVersion?.id}`}
-            />
-          </Box>
-          <Stack spacing={1} direction="row" alignItems="center">
-            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'up')}>
-                <SvgIcon htmlColor={getIconColor('up')}>
-                  <LikeIcon />
+      {displayedVersion && (
+        <Card variant="elevation" elevation={0}>
+          <CardContent sx={{ paddingX: 3 }}>
+            <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <BtnCapital className="capital">{t(StringBank.ANONYMOUS)[0]}</BtnCapital>
+                <Typography variant="h6">{t(StringBank.ANONYMOUS)}</Typography>
+                <Typography variant="caption">
+                  {displayedVersion?.created_at?.toLocaleDateString(navigator.language)}
+                </Typography>
+              </Stack>
+              <IconButton size="small" onClick={handleShare}>
+                <SvgIcon htmlColor={textSecondaryColor}>
+                  <LinkIcon />
                 </SvgIcon>
               </IconButton>
-              <Typography color={getIconColor('up')}>{displayedVersion?.upvotes}</Typography>
             </Stack>
-            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'down')}>
-                <SvgIcon htmlColor={getIconColor('down')}>
-                  <DislikeIcon />
-                </SvgIcon>
-              </IconButton>
-              <Typography color={getIconColor('down')}>{displayedVersion?.downvotes}</Typography>
+            <Box paddingY={4}>
+              <ContentEditor readonly content={displayedVersion?.content} />
+            </Box>
+            <Stack spacing={1} direction="row" alignItems="center">
+              <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+                <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'up')}>
+                  <SvgIcon htmlColor={getIconColor('up')}>
+                    <LikeIcon />
+                  </SvgIcon>
+                </IconButton>
+                <Typography color={getIconColor('up')}>{displayedVersion?.upvotes}</Typography>
+              </Stack>
+              <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+                <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'down')}>
+                  <SvgIcon htmlColor={getIconColor('down')}>
+                    <DislikeIcon />
+                  </SvgIcon>
+                </IconButton>
+                <Typography color={getIconColor('down')}>{displayedVersion?.downvotes}</Typography>
+              </Stack>
+              <LinearProgress
+                variant="determinate"
+                value={getVersionProgress(displayedVersion)}
+                sx={{ flexGrow: 1 }}
+              />
             </Stack>
-            <LinearProgress
-              variant="determinate"
-              value={displayedVersionProgress}
-              sx={{ flexGrow: 1 }}
-            />
-          </Stack>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
       <Snackbar
         open={isSnackbarVisible}
         message={t(StringBank.URL_COPIED_SUCCESSFULLY)}

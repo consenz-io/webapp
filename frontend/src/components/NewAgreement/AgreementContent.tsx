@@ -109,7 +109,7 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
               )}
               <ContentEditor
                 placeholder={t(StringBank.INSERT_NEW_SECTION)}
-                initialContent={section.content}
+                content={section.content}
                 data-chapter-index={i}
                 data-section-index={j}
                 onChange={(value) => handleSectionChange(i, j, value)}

@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material';
 import { JSONContent } from '@tiptap/react';
+import { Version } from 'types';
 
 export function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -46,4 +47,8 @@ export function getVoteColor(
     return theme.palette.error.main;
   }
   return theme.palette.text.primary;
+}
+
+export function getVersionProgress(version: Version) {
+  return version ? (100 * (version.upvotes - version.downvotes)) / version.threshold : 0;
 }

@@ -1,8 +1,8 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
-  DialogContent,
   IconButton,
   Stack,
   SvgIcon,
@@ -14,6 +14,9 @@ import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
 import { JSONContent } from '@tiptap/react';
 import { useState } from 'react';
+import { inputBackgroundColor } from 'theme/theme';
+import { StringBank } from 'strings';
+import { useTranslation } from 'react-i18next';
 
 interface DialogProps {
   isOpen: boolean;
@@ -29,6 +32,8 @@ interface DialogProps {
 
 const TextEditorPopup = (props: DialogProps) => {
   const [newTextContent, setnewTextContent] = useState<JSONContent>();
+  const { t } = useTranslation();
+
   const {
     onCancel,
     onComplete,
@@ -80,16 +85,16 @@ const TextEditorPopup = (props: DialogProps) => {
 
   return (
     <Dialog
-      disablePortal={true}
-      closeAfterTransition={true}
-      fullWidth={true}
-      maxWidth="md"
+      disablePortal
+      closeAfterTransition
+      fullWidth
+      maxWidth="sm"
       PaperProps={{
         sx: {
           backgroundColor: '#3f4550',
           borderRadius: '8px',
           backgroundImage: 'none',
-          padding: 2,
+          padding: 4,
         },
       }}
       open={isOpen}
@@ -97,40 +102,34 @@ const TextEditorPopup = (props: DialogProps) => {
         onCancel(false);
       }}
     >
-      <Stack direction="column" spacing={1}>
+      <Stack spacing={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" color={textSecondaryColor}>
             {loadTitle()}
           </Stack>
-          <Stack direction="row">
-            <IconButton
-              edge="end"
-              onClick={() => {
-                onCancel(false);
-              }}
-            >
-              <SvgIcon htmlColor={textSecondaryColor}>
-                <Xbtn />
-              </SvgIcon>
-            </IconButton>
-          </Stack>
+          <IconButton edge="end" onClick={() => onCancel(false)}>
+            <SvgIcon htmlColor={textSecondaryColor}>
+              <Xbtn />
+            </SvgIcon>
+          </IconButton>
         </Stack>
-        <DialogContent
+        <Box
           sx={{
-            border: 'solid 1px#565d68',
+            border: 'solid 1px #565d68',
             borderRadius: '4px',
-            backgroundColor: 'rgba(0,0,0,0.08)',
+            backgroundColor: inputBackgroundColor,
           }}
+          paddingX={2}
         >
           <ContentEditor
-            initialContent={newTextContent}
-            placeholder={props.editorPlaceholder}
+            content={newTextContent}
+            placeholder={t(StringBank.INSERT_NEW_VERSION)}
             onChange={(newValue: JSONContent) => {
               setnewTextContent(newValue);
             }}
           ></ContentEditor>
-        </DialogContent>
-        <DialogActions>
+        </Box>
+        <DialogActions sx={{ padding: 0 }}>
           <Button
             variant="contained"
             onClick={() => {

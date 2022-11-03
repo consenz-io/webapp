@@ -15,7 +15,7 @@ export const addSection = gql`
 `;
 
 export const addAgreement = gql`
-  mutation AddAgreement(
+  mutation addAgreement(
     $categoryId: Int
     $groupId: Int!
     $name: String!
