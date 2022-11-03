@@ -1,8 +1,8 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
-  DialogContent,
   IconButton,
   Stack,
   SvgIcon,
@@ -57,10 +57,10 @@ const TextEditorPopup = (props: DialogProps) => {
 
   return (
     <Dialog
-      disablePortal={true}
-      closeAfterTransition={true}
-      fullWidth={true}
-      maxWidth="md"
+      disablePortal
+      closeAfterTransition
+      fullWidth
+      maxWidth="sm"
       PaperProps={{
         sx: {
           backgroundColor: '#3f4550',
@@ -98,21 +98,22 @@ const TextEditorPopup = (props: DialogProps) => {
             </IconButton>
           </Stack>
         </Stack>
-        <DialogContent
+        <Box
           sx={{
             border: 'solid 1px#565d68',
             borderRadius: '4px',
             backgroundColor: 'rgba(0,0,0,0.08)',
           }}
+          paddingX={2}
         >
           <ContentEditor
-            initialContent={newTextContent}
+            content={newTextContent}
             placeholder={t(StringBank.INSERT_NEW_VERSION)}
             onChange={(newValue: JSONContent) => {
               setnewTextContent(newValue);
             }}
           ></ContentEditor>
-        </DialogContent>
+        </Box>
         <DialogActions>
           <Button
             variant="contained"

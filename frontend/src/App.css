@@ -14,7 +14,7 @@ p {
   pointer-events: none;
 }
 
-.ProseMirror p {
+.ProseMirror[contenteditable=false] p {
   font-family: 'NotoSerif', serif;
   font-weight: 400;
 }

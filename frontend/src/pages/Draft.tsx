@@ -126,10 +126,7 @@ const Draft: FC = () => {
                                 >
                                   {`${t(StringBank.SECTION)} ${section.index}`}
                                 </Typography>
-                                <SectionText
-                                  readonly
-                                  initialContent={section.current_version?.content}
-                                />
+                                <SectionText readonly content={section.current_version?.content} />
                               </Box>
                             </Typography>
                           </div>

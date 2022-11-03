@@ -136,11 +136,7 @@ const Section: FC = () => {
             </IconButton>
           </Stack>
           <Box paddingY={4}>
-            <ContentEditor
-              readonly
-              initialContent={displayedVersion?.content}
-              key={`version${displayedVersion?.id}`}
-            />
+            <ContentEditor readonly content={displayedVersion?.content} />
           </Box>
           <Stack spacing={1} direction="row" alignItems="center">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>

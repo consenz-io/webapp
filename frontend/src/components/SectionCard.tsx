@@ -96,7 +96,7 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
               </Tooltip>
             )}
           </Stack>
-          <ContentEditor initialContent={displayedVersion.content} readonly />
+          <ContentEditor content={displayedVersion.content} readonly />
           <Stack gap="1rem" direction="row">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton onClick={(e) => handleVote('up', e)}>
