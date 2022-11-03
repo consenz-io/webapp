@@ -15,7 +15,7 @@ import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext, useState } from 'react';
 import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
-import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
+import PlusIcon from 'assets/icons/plus.svg';
 import { generateColorFromString } from 'utils/functions';
 import { Appbar, TextEditorPopup } from 'components';
 import { Breadcrumb } from 'components/Appbar';
@@ -127,7 +127,7 @@ const Agreement: FC = () => {
                 </Stack>
               </AccordionSummary>
               <AccordionDetails sx={{ backgroundColor: '#333842' }}>
-                <Stack spacing={2}>
+                <Stack spacing={0}>
                   {chapter?.sections?.map((section) => (
                     <div key={section.id}>
                       <SectionCard
@@ -139,11 +139,15 @@ const Agreement: FC = () => {
                           onClick={() => {
                             setIsTextPopupOpen(true);
                           }}
-                          sx={{ border: '1px solid gray', width: '15px', height: '15px' }}
+                          sx={{
+                            border: '1px solid gray',
+                            width: '15px',
+                            height: '15px',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
                         >
-                          <SvgIcon style={{ height: '10px', width: '10px' }} htmlColor="red">
-                            <PlusIcon />
-                          </SvgIcon>
+                          <img src={PlusIcon} height="10px" width="10px" />
                         </IconButton>
                       </Divider>
                       <TextEditorPopup

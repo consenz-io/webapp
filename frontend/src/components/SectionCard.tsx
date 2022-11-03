@@ -64,7 +64,7 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
     <ClickableCard
       variant="elevation"
       elevation={0}
-      sx={{ paddingX: 1, cursor: 'pointer', marginBottom: 0.5 }}
+      sx={{ paddingX: 1, cursor: 'pointer' }}
       onClick={onClick}
     >
       <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
