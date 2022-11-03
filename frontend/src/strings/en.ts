@@ -49,6 +49,7 @@ export const en: Record<StringBank, string> = {
   PUBLISH_AGREEMENT: 'Publish Agreement',
   RATIONALE: 'Rationale',
   READ_MORE: 'Read More',
+  REMAINING_SUPPORTERS: '{{count}} remaining supporters',
   REQUIRE_ADMIN_APPROVAL: 'Require Admin Approval',
   REQUIRE_ADMIN_APPROVAL_DESCRIPTION: 'An admin must approve any changes to the draft',
   RETURN_TO_ALL_AGREEMENTS: 'Return to all agreements',

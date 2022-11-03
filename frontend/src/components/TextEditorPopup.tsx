@@ -14,7 +14,7 @@ import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
 import { JSONContent } from '@tiptap/react';
 import { useState } from 'react';
-import { inputBackgroundColor } from 'theme/theme';
+import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 
@@ -70,7 +70,7 @@ const TextEditorPopup = (props: DialogProps) => {
       maxWidth="sm"
       PaperProps={{
         sx: {
-          backgroundColor: '#3f4550',
+          backgroundColor: secondaryDarkColor,
           borderRadius: '8px',
           backgroundImage: 'none',
           padding: 4,

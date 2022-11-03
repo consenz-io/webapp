@@ -57,9 +57,10 @@ export const agreementQuery = gql`
             id
             content
             created_at
-            upvotes
             downvotes
             my_vote
+            threshold
+            upvotes
           }
         }
       }
@@ -83,9 +84,10 @@ export const section = gql`
         id
         content
         created_at
-        upvotes
         downvotes
         my_vote
+        threshold
+        upvotes
       }
     }
   }

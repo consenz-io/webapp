@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { AgreementContext } from 'contexts/agreement';
 import { ClickableCard } from './ClickableCard';
 import SvgIcon from './SvgIcon';
-import { getVersionProgress, getVoteColor } from 'utils/functions';
+import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
 
 interface Props {
   onClick: () => void;
@@ -122,11 +122,19 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
               </IconButton>
               <Typography>{5}</Typography>
             </Stack>
-            <LinearProgress
-              variant="determinate"
-              value={getVersionProgress(displayedVersion)}
-              sx={{ flexGrow: 1 }}
-            />
+            <Tooltip
+              title={t(StringBank.REMAINING_SUPPORTERS, {
+                count: getRemainingSupporters(displayedVersion),
+              })}
+              arrow
+              placement="top"
+            >
+              <LinearProgress
+                variant="determinate"
+                value={getVersionProgress(displayedVersion)}
+                sx={{ flexGrow: 1 }}
+              />
+            </Tooltip>
           </Stack>
         </Stack>
         <IconButton

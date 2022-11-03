@@ -18,13 +18,14 @@ import {
   LinearProgress,
   Snackbar,
   Stack,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material';
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
 import { useTranslation } from 'react-i18next';
-import { getVersionProgress, getVoteColor } from 'utils/functions';
+import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
 import { useNavigate } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { useMutation } from '@apollo/client';
@@ -154,11 +155,19 @@ const Section: FC = () => {
                 </IconButton>
                 <Typography color={getIconColor('down')}>{displayedVersion?.downvotes}</Typography>
               </Stack>
-              <LinearProgress
-                variant="determinate"
-                value={getVersionProgress(displayedVersion)}
-                sx={{ flexGrow: 1 }}
-              />
+              <Tooltip
+                title={t(StringBank.REMAINING_SUPPORTERS, {
+                  count: getRemainingSupporters(displayedVersion),
+                })}
+                arrow
+                placement="top"
+              >
+                <LinearProgress
+                  variant="determinate"
+                  value={getVersionProgress(displayedVersion)}
+                  sx={{ flexGrow: 1 }}
+                />
+              </Tooltip>
             </Stack>
           </CardContent>
         </Card>

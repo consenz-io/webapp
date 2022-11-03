@@ -11,6 +11,7 @@ import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
 import { useState } from 'react';
 import { textSecondaryColor } from 'theme';
 import { SvgIcon } from 'components';
+import { secondaryDarkColor } from 'theme/theme';
 
 interface DialogProps {
   title: string;
@@ -41,7 +42,7 @@ export default function Dialog(props: DialogProps) {
     <MuiDialog
       PaperProps={{
         sx: {
-          backgroundColor: '#3f4550',
+          backgroundColor: secondaryDarkColor,
           borderRadius: '8px',
           backgroundImage: 'none',
           padding: 4,

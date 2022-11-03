@@ -28,6 +28,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { addSection as insertSectionMutation } from 'utils/mutations';
+import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
@@ -91,7 +92,7 @@ const Agreement: FC = () => {
           {agreement?.chapters?.map((chapter: Chapter) => (
             <Accordion
               TransitionProps={{ unmountOnExit: true }}
-              defaultExpanded={true}
+              defaultExpanded
               key={chapter.index}
               sx={{
                 boxShadow: 'none',
@@ -101,10 +102,9 @@ const Agreement: FC = () => {
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 sx={{
-                  backgroundColor: '#333842',
-                  borderBottom: '1px solid #3f4550',
+                  backgroundColor: inputBackgroundColor,
+                  borderBottom: `1px solid ${secondaryDarkColor}`,
                   height: '4.5rem',
-                  padding: '0',
                 }}
               >
                 <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
@@ -126,7 +126,12 @@ const Agreement: FC = () => {
                   </Typography>
                 </Stack>
               </AccordionSummary>
-              <AccordionDetails sx={{ backgroundColor: '#333842' }}>
+              <AccordionDetails
+                sx={{
+                  backgroundColor: inputBackgroundColor,
+                  paddingX: 0,
+                }}
+              >
                 <Stack spacing={0}>
                   {chapter?.sections?.map((section) => (
                     <div key={section.id}>
