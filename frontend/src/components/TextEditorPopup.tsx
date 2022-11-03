@@ -86,18 +86,11 @@ const TextEditorPopup = (props: DialogProps) => {
               {newVersionName}
             </Typography>
           </Stack>
-          <Stack direction="row">
-            <IconButton
-              edge="end"
-              onClick={() => {
-                onCancel(false);
-              }}
-            >
-              <SvgIcon htmlColor={textSecondaryColor}>
-                <Xbtn />
-              </SvgIcon>
-            </IconButton>
-          </Stack>
+          <IconButton edge="end" onClick={() => onCancel(false)}>
+            <SvgIcon htmlColor={textSecondaryColor}>
+              <Xbtn />
+            </SvgIcon>
+          </IconButton>
         </Stack>
         <Box
           sx={{
