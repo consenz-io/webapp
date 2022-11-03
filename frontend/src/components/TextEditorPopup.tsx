@@ -27,7 +27,7 @@ interface DialogProps {
   completeBtnText: string;
   cancelBtnText: string;
   variabels?: Record<string, unknown>;
-  initialContent: JSONContent | undefined;
+  initialContent?: JSONContent;
 }
 
 const TextEditorPopup = (props: DialogProps) => {
