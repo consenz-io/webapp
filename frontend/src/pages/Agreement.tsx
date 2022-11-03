@@ -45,7 +45,7 @@ const Agreement: FC = () => {
   return (
     <Stack>
       <Appbar breadcrumbs={breadcrumsProps} />
-      <Stack direction="column" spacing={4} paddingX={2} paddingY={3}>
+      <Stack spacing={4} paddingX={2} paddingY={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" alignItems="end">
             <Typography variant="h1" marginRight={2}>
@@ -116,7 +116,7 @@ const Agreement: FC = () => {
                 </Stack>
               </AccordionSummary>
               <AccordionDetails sx={{ backgroundColor: '#333842' }}>
-                <Stack direction="column" spacing={2}>
+                <Stack spacing={2}>
                   {chapter?.sections?.map((section) => (
                     <SectionCard
                       key={section.id}

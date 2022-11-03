@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { JSONContent } from '@tiptap/react';
 import { useState } from 'react';
+import { inputBackgroundColor } from 'theme/theme';
 
 interface DialogProps {
   isOpen: boolean;
@@ -66,7 +67,7 @@ const TextEditorPopup = (props: DialogProps) => {
           backgroundColor: '#3f4550',
           borderRadius: '8px',
           backgroundImage: 'none',
-          padding: 2,
+          padding: 4,
         },
       }}
       open={isOpen}
@@ -74,7 +75,7 @@ const TextEditorPopup = (props: DialogProps) => {
         onCancel(false);
       }}
     >
-      <Stack direction="column" spacing={1}>
+      <Stack spacing={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" color={textSecondaryColor}>
             <Typography variant="h3">{parentSection}</Typography>
@@ -100,9 +101,9 @@ const TextEditorPopup = (props: DialogProps) => {
         </Stack>
         <Box
           sx={{
-            border: 'solid 1px#565d68',
+            border: 'solid 1px #565d68',
             borderRadius: '4px',
-            backgroundColor: 'rgba(0,0,0,0.08)',
+            backgroundColor: inputBackgroundColor,
           }}
           paddingX={2}
         >
@@ -114,7 +115,7 @@ const TextEditorPopup = (props: DialogProps) => {
             }}
           ></ContentEditor>
         </Box>
-        <DialogActions>
+        <DialogActions sx={{ padding: 0 }}>
           <Button
             variant="contained"
             onClick={() => {

@@ -27,6 +27,7 @@ export const backgroundBorderColor = '#595f68';
 export const textSecondaryColor = '#adb2b8';
 export const successColor = '#24ebd3';
 export const errorColor = '#ff5a82';
+export const inputBackgroundColor = '#333842';
 
 export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOptions = (
   mode,
@@ -281,9 +282,9 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             background: {
               paper: '#3f4550',
               sidebar: '#2C2E33',
-              active: '#333842',
+              active: inputBackgroundColor,
               border: backgroundBorderColor,
-              default: '#333842',
+              default: inputBackgroundColor,
               capital: '#4c67f6',
               dropdown: '#292d36',
               draftPaper: '#ffffff',
