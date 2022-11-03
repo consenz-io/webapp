@@ -26,11 +26,14 @@ interface DialogProps {
   completeBtnText: string;
   cancelBtnText: string;
   variabels?: Record<string, unknown>;
+  initialContent: JSONContent | undefined;
 }
 
 const TextEditorPopup = (props: DialogProps) => {
   const { t } = useTranslation();
-  const [newTextContent, setnewTextContent] = useState<JSONContent>();
+  const [newTextContent, setnewTextContent] = useState<JSONContent | undefined>(
+    props.initialContent
+  );
   const {
     onCancel,
     onComplete,
