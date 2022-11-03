@@ -69,6 +69,14 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
       },
     },
     components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            backgroundColor: inputBackgroundColor,
+            borderRadius: '8px',
+          },
+        },
+      },
       MuiSwitch: {
         styleOverrides: {
           root: {

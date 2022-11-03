@@ -139,12 +139,12 @@ function NameAndRationale({
       </Stack>
       <Dialog
         openDialogState={openDialogState}
-        title="New Category"
+        title={t(StringBank.ADD_NEW_CATEGORY)}
         content=""
         cancelFunction={handleCloseDialog}
         finishFunction={onCreateCategory}
-        cancelBtnText="Close"
-        finishBtnText="Create"
+        cancelBtnText={t(StringBank.CANCEL)}
+        finishBtnText={t(StringBank.CREATE)}
         placeHolderText={t(StringBank.ADD_NEW_CATEGORY)}
       />
     </>
