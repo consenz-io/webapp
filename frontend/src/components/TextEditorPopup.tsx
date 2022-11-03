@@ -59,7 +59,11 @@ const TextEditorPopup = (props: DialogProps) => {
 
   function loadTitle() {
     if (!newVersionName) {
-      return <Typography variant="h3">{parentSection}</Typography>;
+      return (
+        <Typography variant="h3" color="white">
+          {parentSection}
+        </Typography>
+      );
     }
     return (
       <>
@@ -140,6 +144,7 @@ const TextEditorPopup = (props: DialogProps) => {
             color="primary"
             variant="contained"
             onClick={handleCompleteClick}
+            sx={{ height: '2rem' }}
           >
             {completeBtnText}
           </Button>

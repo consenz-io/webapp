@@ -134,14 +134,14 @@ const Agreement: FC = () => {
                         section={section}
                         onClick={() => navigate(`section/${section.id}`)}
                       />
-                      <Divider id="devider">
+                      <Divider id="devider" textAlign="center" variant="fullWidth">
                         <IconButton
                           onClick={() => {
                             setIsTextPopupOpen(true);
                           }}
-                          sx={{ border: '1px solid gray', width: '20px', height: '20px' }}
+                          sx={{ border: '1px solid gray', width: '15px', height: '15px' }}
                         >
-                          <SvgIcon style={{ height: ' 15px', width: '15px' }} htmlColor="red">
+                          <SvgIcon style={{ height: '10px', width: '10px' }} htmlColor="red">
                             <PlusIcon />
                           </SvgIcon>
                         </IconButton>
@@ -153,7 +153,7 @@ const Agreement: FC = () => {
                           const content = editorContent.variables.content;
                           const variables = {
                             chapterId: chapter.id,
-                            sectionIndex: section.id + 1,
+                            sectionIndex: section.index + 1,
                             versions: {
                               content,
                             },
