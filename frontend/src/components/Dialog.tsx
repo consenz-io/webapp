@@ -1,5 +1,12 @@
-import * as SC from './style';
-import { Dialog, Stack, Typography, IconButton, Button } from '@mui/material';
+import {
+  Dialog as MuiDialog,
+  Stack,
+  Typography,
+  IconButton,
+  Button,
+  TextField,
+  DialogActions,
+} from '@mui/material';
 import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
 import { useState } from 'react';
 import { textSecondaryColor } from 'theme';
@@ -26,33 +33,29 @@ interface DialogProps {
   doneBtnVariant?: 'text' | 'contained' | 'outlined' | 'delete' | undefined;
 }
 
-export default function DialogEl(props: DialogProps) {
+export default function Dialog(props: DialogProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const donBtnColor = props.doneBtnColor ? props.doneBtnColor : 'primary';
   const doneBtnVariant = props.doneBtnVariant ? props.doneBtnVariant : 'contained';
   return (
-    <Dialog
+    <MuiDialog
       PaperProps={{
         sx: {
-          width: '640px',
-          height: '256px',
           backgroundColor: '#3f4550',
           borderRadius: '8px',
           backgroundImage: 'none',
+          padding: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 3,
         },
       }}
+      maxWidth="sm"
+      fullWidth
       open={props.openDialogState}
       onClose={props.cancelFunction}
     >
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        textAlign="left"
-        margin="auto"
-        width="100%"
-        padding="0 2rem"
-      >
+      <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography
           sx={{
             fontFamily: 'Lato',
@@ -62,34 +65,31 @@ export default function DialogEl(props: DialogProps) {
         >
           {props.title}
         </Typography>
-        <IconButton onClick={props.cancelFunction} sx={{ marginRight: '-0.5rem' }}>
+        <IconButton onClick={props.cancelFunction} edge="end">
           <SvgIcon htmlColor={textSecondaryColor}>
             <Xbtn />
           </SvgIcon>
         </IconButton>
       </Stack>
-      <Stack direction="row" alignItems="center">
+      {props.content && (
         <Typography
           sx={{
             fontFamily: 'Lato',
             fontSize: '14px',
             color: textSecondaryColor,
-            padding: '0 2rem 0.56rem 2rem',
           }}
           variant="body1"
         >
           {props.content}
         </Typography>
-      </Stack>
-      <SC.InputWrapper>
-        <SC.DialogInput
-          onChange={(e) => {
-            setInputValue(e.target.value);
-          }}
-          placeholder={props.placeHolderText}
-        />
-      </SC.InputWrapper>
-      <SC.ActionsContainer>
+      )}
+      <TextField
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
+        placeholder={props.placeHolderText}
+      />
+      <DialogActions sx={{ padding: 0 }}>
         <Button onClick={props.cancelFunction}>{props.cancelBtnText}</Button>
         <Button
           color={donBtnColor}
@@ -100,7 +100,7 @@ export default function DialogEl(props: DialogProps) {
         >
           {props.finishBtnText}
         </Button>
-      </SC.ActionsContainer>
-    </Dialog>
+      </DialogActions>
+    </MuiDialog>
   );
 }

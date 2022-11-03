@@ -64,8 +64,7 @@ const Appbar: FC<AppbarProps> = (props) => {
       {props.breadcrumbs?.length && (
         <Breadcrumbs
           separator={<ArrowLogo fontSize="1rem" />}
-          aria-label="breadcrumb"
-          sx={{ flexBasis: 'calc(100%/3)' }}
+          sx={{ flexBasis: 'calc(100%/3)', flexGrow: 1 }}
         >
           {props.breadcrumbs.map((breadcrumb, i) => (
             <Stack
