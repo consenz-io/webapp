@@ -62,27 +62,6 @@ const TextEditorPopup = (props: DialogProps) => {
     return;
   }
 
-  function loadTitle() {
-    if (!newVersionName) {
-      return (
-        <Typography variant="h3" color="white">
-          {parentSection}
-        </Typography>
-      );
-    }
-    return (
-      <>
-        <Typography variant="h3">{parentSection}</Typography>
-        <Typography>
-          <ArrowLogo />
-        </Typography>
-        <Typography variant="h3" color="white">
-          {newVersionName}
-        </Typography>
-      </>
-    );
-  }
-
   return (
     <Dialog
       disablePortal
@@ -105,7 +84,17 @@ const TextEditorPopup = (props: DialogProps) => {
       <Stack spacing={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" color={textSecondaryColor}>
-            {loadTitle()}
+            <Typography variant="h3" color={newVersionName ? undefined : 'text.primary'}>
+              {parentSection}
+            </Typography>
+            {newVersionName && (
+              <>
+                <ArrowLogo />
+                <Typography variant="h3" color="white">
+                  {newVersionName}
+                </Typography>
+              </>
+            )}
           </Stack>
           <IconButton edge="end" onClick={() => onCancel(false)}>
             <SvgIcon htmlColor={textSecondaryColor}>
@@ -143,7 +132,6 @@ const TextEditorPopup = (props: DialogProps) => {
             color="primary"
             variant="contained"
             onClick={handleCompleteClick}
-            sx={{ height: '2rem' }}
           >
             {completeBtnText}
           </Button>

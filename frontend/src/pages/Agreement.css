@@ -1,6 +1,6 @@
-div#devider:hover {
+div.divider:hover {
     opacity: 1;
 }
-div#devider {
+div.divider {
     opacity: 0;
 }

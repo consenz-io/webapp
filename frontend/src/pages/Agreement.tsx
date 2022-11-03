@@ -134,7 +134,7 @@ const Agreement: FC = () => {
                         section={section}
                         onClick={() => navigate(`section/${section.id}`)}
                       />
-                      <Divider id="devider" textAlign="center" variant="fullWidth">
+                      <Divider className="divider" textAlign="center" variant="fullWidth">
                         <IconButton
                           onClick={() => {
                             setIsTextPopupOpen(true);
@@ -152,7 +152,7 @@ const Agreement: FC = () => {
                       </Divider>
                       <TextEditorPopup
                         isOpen={isTextPopupOpen}
-                        parentSection={`${t(StringBank.NEW_SECTION)}`}
+                        parentSection={t(StringBank.NEW_SECTION)}
                         onComplete={(editorContent) => {
                           const content = editorContent.variables.content;
                           const variables = {
