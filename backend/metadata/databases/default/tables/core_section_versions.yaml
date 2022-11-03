@@ -2,15 +2,6 @@ table:
   name: section_versions
   schema: core
 object_relationships:
-  - name: author
-    using:
-      manual_configuration:
-        column_mapping:
-          author_id: id
-        insertion_order: null
-        remote_table:
-          name: users
-          schema: core
   - name: section
     using:
       manual_configuration:

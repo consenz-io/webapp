@@ -12,9 +12,15 @@ insert_permissions:
   - role: authenticated
     permission:
       check:
-        user:
-          user_id:
-            _eq: X-Hasura-User-Id
+        suggestion:
+          section:
+            chapter:
+              agreement:
+                group:
+                  group_users:
+                    user:
+                      user_id:
+                        _eq: X-Hasura-User-Id
       columns:
         - version_id
         - type
@@ -22,9 +28,15 @@ insert_permissions:
   - role: moderator
     permission:
       check:
-        user:
-          user_id:
-            _eq: X-Hasura-User-Id
+        suggestion:
+          section:
+            chapter:
+              agreement:
+                group:
+                  group_users:
+                    user:
+                      user_id:
+                        _eq: X-Hasura-User-Id
       columns:
         - user_id
         - version_id
@@ -37,19 +49,22 @@ select_permissions:
         - type
         - user_id
       filter:
-        user:
-          user_id:
-            _eq: X-Hasura-User-Id
+        suggestion:
+          section:
+            chapter:
+              agreement:
+                group:
+                  group_users:
+                    user:
+                      user_id:
+                        _eq: X-Hasura-User-Id
   - role: moderator
     permission:
       columns:
         - version_id
         - user_id
         - type
-      filter:
-        user:
-          user_id:
-            _eq: X-Hasura-User-Id
+      filter: {}
 update_permissions:
   - role: authenticated
     permission:
@@ -60,24 +75,8 @@ update_permissions:
           user_id:
             _eq: X-Hasura-User-Id
       check: null
-  - role: moderator
-    permission:
-      columns:
-        - type
-      filter:
-        user:
-          user_id:
-            _eq: X-Hasura-User-Id
-      check: null
 delete_permissions:
   - role: authenticated
-    permission:
-      backend_only: false
-      filter:
-        user:
-          user_id:
-            _eq: X-Hasura-User-Id
-  - role: moderator
     permission:
       backend_only: false
       filter:
