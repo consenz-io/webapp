@@ -8,12 +8,16 @@ import {
   AccordionDetails,
   AccordionSummary,
   SvgIcon,
+  Divider,
+  IconButton,
 } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
-import { FC, useContext } from 'react';
+import { FC, useContext, useState } from 'react';
+import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
+import PlusIcon from 'assets/icons/plus.svg';
 import { generateColorFromString } from 'utils/functions';
-import { Appbar } from 'components';
+import { Appbar, TextEditorPopup } from 'components';
 import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import SectionCard from 'components/SectionCard';
@@ -22,12 +26,19 @@ import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { addSection as insertSectionMutation } from 'utils/mutations';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
   const { groupSlug, agreementId } = useParams();
   const { categories, slug } = useContext(GroupContext);
+  const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const { agreement, categoryName } = useContext(AgreementContext);
+  const [addSection] = useMutation(insertSectionMutation, {
+    refetchQueries: ['section', 'agreement'],
+    awaitRefetchQueries: true,
+  });
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
     {
@@ -116,13 +127,49 @@ const Agreement: FC = () => {
                 </Stack>
               </AccordionSummary>
               <AccordionDetails sx={{ backgroundColor: '#333842' }}>
-                <Stack spacing={2}>
+                <Stack spacing={0}>
                   {chapter?.sections?.map((section) => (
-                    <SectionCard
-                      key={section.id}
-                      section={section}
-                      onClick={() => navigate(`section/${section.id}`)}
-                    />
+                    <div key={section.id}>
+                      <SectionCard
+                        section={section}
+                        onClick={() => navigate(`section/${section.id}`)}
+                      />
+                      <Divider className="divider" textAlign="center" variant="fullWidth">
+                        <IconButton
+                          onClick={() => {
+                            setIsTextPopupOpen(true);
+                          }}
+                          sx={{
+                            border: '1px solid gray',
+                            width: '15px',
+                            height: '15px',
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <img src={PlusIcon} height="10px" width="10px" />
+                        </IconButton>
+                      </Divider>
+                      <TextEditorPopup
+                        isOpen={isTextPopupOpen}
+                        parentSection={t(StringBank.NEW_SECTION)}
+                        onComplete={(editorContent) => {
+                          const content = editorContent.variables.content;
+                          const variables = {
+                            chapterId: chapter.id,
+                            sectionIndex: section.index + 1,
+                            versions: {
+                              content,
+                            },
+                          };
+                          addSection({ variables });
+                        }}
+                        onCancel={setIsTextPopupOpen}
+                        completeBtnText={t(StringBank.ADD_VERSION)}
+                        cancelBtnText={t(StringBank.CANCEL)}
+                        editorPlaceholder={t(StringBank.INSERT_NEW_SECTION_SHORT)}
+                      />
+                    </div>
                   ))}
                 </Stack>
               </AccordionDetails>

@@ -16,6 +16,7 @@ export interface Category {
 }
 
 export interface Chapter {
+  id: number;
   index: number;
   name: string;
   sections: Section[];
