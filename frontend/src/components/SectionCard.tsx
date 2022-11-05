@@ -15,13 +15,14 @@ import { AgreementContext } from 'contexts/agreement';
 import { ClickableCard } from './ClickableCard';
 import SvgIcon from './SvgIcon';
 import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
-  onClick: () => void;
   section: Section;
 }
 
-const SectionCard: FC<Props> = ({ section, onClick }) => {
+const SectionCard: FC<Props> = ({ section }) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const [versionIndex, setVersionIndex] = useState<number>(0);
@@ -65,7 +66,7 @@ const SectionCard: FC<Props> = ({ section, onClick }) => {
       variant="elevation"
       elevation={0}
       sx={{ paddingX: 1, cursor: 'pointer' }}
-      onClick={onClick}
+      onClick={() => navigate(`section/${section.id}/${displayedVersion.id}`)}
     >
       <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
         <IconButton onClick={backwardsVersion} disabled={versionIndex === 0}>

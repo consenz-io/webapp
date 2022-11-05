@@ -135,10 +135,7 @@ const Agreement: FC = () => {
                 <Stack spacing={0}>
                   {chapter?.sections?.map((section) => (
                     <div key={section.id}>
-                      <SectionCard
-                        section={section}
-                        onClick={() => navigate(`section/${section.id}`)}
-                      />
+                      <SectionCard section={section} />
                       <Divider className="divider" textAlign="center" variant="fullWidth">
                         <IconButton
                           onClick={() => {
