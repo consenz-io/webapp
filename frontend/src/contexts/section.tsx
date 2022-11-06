@@ -23,6 +23,7 @@ const SectionProvider: FC<IFCProps> = ({ children }) => {
   const state: SectionState = {
     section: data?.core_sections[0],
   };
+  console.log('state', state.section);
   return <SectionContext.Provider value={state}>{children}</SectionContext.Provider>;
 };
 

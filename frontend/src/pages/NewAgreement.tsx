@@ -71,6 +71,7 @@ const NewAgreement: FC = () => {
   async function handleContinueClick() {
     if (step === 3) {
       const agreementData = await addAgreement(categoryId, agreementName, rationale, chapters);
+      console.log('agreementData', agreementData);
       setAgreementId(agreementData.data?.insert_core_agreements_one?.id);
       clearAgreementLocally();
     }

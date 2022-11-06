@@ -46,12 +46,14 @@ export interface Version {
   my_vote?: 'up' | 'down';
   threshold: number;
   upvotes: number;
+  author?: string;
 }
 
 export interface User {
   id: number;
   email: string;
   groups?: Group[];
+  author?: string;
   displayName?: string;
 }
 
