@@ -42,6 +42,7 @@ export const agreementQuery = gql`
       }
       rationale
       chapters(order_by: { index: asc }) {
+        id
         agreement_id
         name
         index
@@ -56,9 +57,10 @@ export const agreementQuery = gql`
             id
             content
             created_at
-            upvotes
             downvotes
             my_vote
+            threshold
+            upvotes
           }
         }
       }
@@ -82,9 +84,10 @@ export const section = gql`
         id
         content
         created_at
-        upvotes
         downvotes
         my_vote
+        threshold
+        upvotes
       }
     }
   }

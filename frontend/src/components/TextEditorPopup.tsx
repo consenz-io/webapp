@@ -12,21 +12,22 @@ import ContentEditor from './ContentEditor';
 import { textSecondaryColor } from 'theme';
 import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
-import { useTranslation } from 'react-i18next';
-import { StringBank } from 'strings';
 import { JSONContent } from '@tiptap/react';
 import { useState } from 'react';
-import { inputBackgroundColor } from 'theme/theme';
+import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
+import { StringBank } from 'strings';
+import { useTranslation } from 'react-i18next';
 
 interface DialogProps {
   isOpen: boolean;
-  parentSection: string;
-  newVersionName: string;
+  parentSection?: string;
+  newVersionName?: string;
   onCancel: (val: boolean) => unknown;
   onComplete: (...args: any[]) => unknown;
   completeBtnText: string;
   cancelBtnText: string;
   variabels?: Record<string, unknown>;
+  editorPlaceholder?: string;
   initialContent?: JSONContent;
 }
 
@@ -50,7 +51,11 @@ const TextEditorPopup = (props: DialogProps) => {
   };
 
   function handleCompleteClick() {
-    onComplete({ variables: { ...props.variabels, content: newTextContent } });
+    if (props.variabels) {
+      onComplete({ variables: { ...props.variabels, content: newTextContent } });
+    } else {
+      onComplete({ variables: { content: newTextContent } });
+    }
     setnewTextContent(undefined);
     onCancel(false);
     return;
@@ -64,7 +69,7 @@ const TextEditorPopup = (props: DialogProps) => {
       maxWidth="sm"
       PaperProps={{
         sx: {
-          backgroundColor: '#3f4550',
+          backgroundColor: secondaryDarkColor,
           borderRadius: '8px',
           backgroundImage: 'none',
           padding: 4,
@@ -78,13 +83,17 @@ const TextEditorPopup = (props: DialogProps) => {
       <Stack spacing={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" color={textSecondaryColor}>
-            <Typography variant="h3">{parentSection}</Typography>
-            <Typography>
-              <ArrowLogo />
+            <Typography variant="h3" color={newVersionName ? undefined : 'text.primary'}>
+              {parentSection}
             </Typography>
-            <Typography variant="h3" color="white">
-              {newVersionName}
-            </Typography>
+            {newVersionName && (
+              <>
+                <ArrowLogo />
+                <Typography variant="h3" color="white">
+                  {newVersionName}
+                </Typography>
+              </>
+            )}
           </Stack>
           <IconButton edge="end" onClick={() => onCancel(false)}>
             <SvgIcon htmlColor={textSecondaryColor}>

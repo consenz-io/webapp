@@ -28,6 +28,7 @@ export const textSecondaryColor = '#adb2b8';
 export const successColor = '#24ebd3';
 export const errorColor = '#ff5a82';
 export const inputBackgroundColor = '#333842';
+export const secondaryDarkColor = '#3f4550';
 
 export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOptions = (
   mode,
@@ -281,14 +282,14 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
               main: errorColor,
             },
             secondary: {
-              main: '#3f4550',
+              main: secondaryDarkColor,
               dark: '#686d73',
             },
             success: {
               main: successColor,
             },
             background: {
-              paper: '#3f4550',
+              paper: secondaryDarkColor,
               sidebar: '#2C2E33',
               active: inputBackgroundColor,
               border: backgroundBorderColor,

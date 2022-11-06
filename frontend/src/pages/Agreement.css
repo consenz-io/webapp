@@ -1,0 +1,6 @@
+div.divider:hover {
+    opacity: 1;
+}
+div.divider {
+    opacity: 0;
+}

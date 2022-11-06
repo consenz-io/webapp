@@ -52,7 +52,7 @@ const RoutesProvider: FC = () => {
                 <Route path=":agreementId">
                   <Route path="" element={<Agreement />} />
                   <Route
-                    path="section/:sectionId"
+                    path="section/:sectionId/:versionId"
                     element={
                       <SectionProvider>
                         <Section />
