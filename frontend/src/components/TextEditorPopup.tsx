@@ -102,7 +102,7 @@ const TextEditorPopup = (props: DialogProps) => {
         >
           <ContentEditor
             content={newTextContent}
-            placeholder={newTextContent ? newTextContent.text : t(StringBank.INSERT_NEW_VERSION)}
+            placeholder={t(StringBank.INSERT_NEW_VERSION)}
             onChange={(newValue: JSONContent) => {
               setnewTextContent(newValue);
             }}
