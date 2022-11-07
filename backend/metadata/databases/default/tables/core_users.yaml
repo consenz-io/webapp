@@ -26,10 +26,11 @@ select_permissions:
   - role: moderator
     permission:
       columns:
-        - id
-        - email
-        - provider
-        - user_id
         - created_at
+        - email
+        - full_name
+        - id
+        - provider
         - updated_at
+        - user_id
       filter: {}

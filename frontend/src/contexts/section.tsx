@@ -12,6 +12,7 @@ const SectionContext = createContext<SectionState>({});
 
 const SectionProvider: FC<IFCProps> = ({ children }) => {
   const { sectionId } = useParams();
+  console.log('sectionId', sectionId);
   const { data } = useQuery<{
     core_sections: Section[];
   }>(sectionQuery, {
