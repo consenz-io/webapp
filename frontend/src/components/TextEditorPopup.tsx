@@ -28,12 +28,12 @@ interface DialogProps {
   cancelBtnText: string;
   variabels?: Record<string, unknown>;
   editorPlaceholder?: string;
+  initialContent?: JSONContent;
 }
 
 const TextEditorPopup = (props: DialogProps) => {
-  const [newTextContent, setnewTextContent] = useState<JSONContent>();
   const { t } = useTranslation();
-
+  const [newTextContent, setnewTextContent] = useState(props.initialContent);
   const {
     onCancel,
     onComplete,
@@ -48,7 +48,6 @@ const TextEditorPopup = (props: DialogProps) => {
     if (newTextContent && newTextContent.content && 'content' in newTextContent.content[0]) {
       return false;
     }
-    return true;
   };
 
   function handleCompleteClick() {
