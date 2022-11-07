@@ -13,12 +13,13 @@ select_permissions:
   - role: authenticated
     permission:
       columns:
-        - id
-        - email
-        - provider
-        - user_id
         - created_at
+        - email
+        - full_name
+        - id
+        - provider
         - updated_at
+        - user_id
       filter:
         user_id:
           _eq: X-Hasura-User-Id
