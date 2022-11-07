@@ -32,8 +32,8 @@ import { Section as SectionType } from 'types';
 
 const Section: FC = () => {
   const theme = useTheme();
-  const { section } = useContext(SectionContext);
-  const { agreement, vote, addVersion } = useContext(AgreementContext);
+  const { section, addVersion } = useContext(SectionContext);
+  const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
     section?.versions?.find((v) => v.id === Number(versionId))
@@ -109,11 +109,18 @@ const Section: FC = () => {
           isOpen={isTextPopupOpen}
           parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
           newVersionName={generateVersionName(section)}
-          onComplete={addVersion}
+          onComplete={(editorContent) => {
+            if (addVersion && section) {
+              const variables = {
+                content: editorContent,
+                sectionId: section.id,
+              };
+              addVersion({ variables });
+            }
+          }}
           onCancel={setIsTextPopupOpen}
           completeBtnText={t(StringBank.ADD_VERSION)}
           cancelBtnText={t(StringBank.CANCEL)}
-          variabels={{ sectionId: section ? section.id : -1 }}
           initialContent={displayedVersion?.content}
           editorPlaceholder={t(StringBank.INSERT_NEW_VERSION)}
         />
