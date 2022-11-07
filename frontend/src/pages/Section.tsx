@@ -127,8 +127,12 @@ const Section: FC = () => {
           <CardContent sx={{ paddingX: 3 }}>
             <Stack direction="row" justifyContent="space-between">
               <Stack direction="row" alignItems="center" spacing={2}>
-                <BtnCapital className="capital">{t(StringBank.ANONYMOUS)[0]}</BtnCapital>
-                <Typography variant="h6">{t(StringBank.ANONYMOUS)}</Typography>
+                <BtnCapital className="capital">
+                  {displayedVersion?.author?.full_name[0] || t(StringBank.ANONYMOUS)[0]}
+                </BtnCapital>
+                <Typography variant="h6">
+                  {displayedVersion?.author?.full_name || t(StringBank.ANONYMOUS)}
+                </Typography>
                 <Typography variant="caption">
                   {displayedVersion?.created_at?.toLocaleDateString(navigator.language)}
                 </Typography>

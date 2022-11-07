@@ -88,6 +88,9 @@ export const section = gql`
         my_vote
         threshold
         upvotes
+        author {
+          full_name
+        }
       }
     }
   }
