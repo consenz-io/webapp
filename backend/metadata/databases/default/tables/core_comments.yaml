@@ -1,3 +1,10 @@
 table:
   name: comments
   schema: core
+object_relationships:
+  - name: section_version
+    using:
+      foreign_key_constraint_on: section_version_id
+  - name: user
+    using:
+      foreign_key_constraint_on: author_id
