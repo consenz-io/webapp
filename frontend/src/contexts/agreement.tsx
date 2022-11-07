@@ -9,6 +9,7 @@ import {
 } from 'utils/mutations';
 import { agreementQuery } from 'utils/queries';
 import { DataContext } from 'contexts/data';
+import { addSectionVersion as insertSectionVersionMutation } from 'utils/mutations';
 
 interface IAgreementContext {
   agreementId: number;
@@ -17,6 +18,7 @@ interface IAgreementContext {
   agreementTitle: string;
   categoryName: string;
   vote: (version: Version, type: 'up' | 'down') => Promise<FetchResult<void>>;
+  addVersion: () => unknown;
 }
 
 const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);
@@ -33,6 +35,7 @@ const AgreementProvider: FC = () => {
     },
   });
   const agreement = data?.core_agreements[0];
+  const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
 
   const [insertVote] = useMutation(insertVoteMutation, {
     refetchQueries: ['agreement'],
@@ -80,6 +83,7 @@ const AgreementProvider: FC = () => {
     agreementTitle: agreement?.name || '',
     agreement: agreement,
     vote,
+    addVersion,
   };
   return (
     <AgreementContext.Provider value={state}>

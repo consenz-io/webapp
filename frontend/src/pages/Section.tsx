@@ -28,14 +28,12 @@ import { useTranslation } from 'react-i18next';
 import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
-import { useMutation } from '@apollo/client';
-import { addSectionVersion as insertSectionVersionMutation } from 'utils/mutations';
 import { Section as SectionType } from 'types';
 
 const Section: FC = () => {
   const theme = useTheme();
   const { section } = useContext(SectionContext);
-  const { agreement, vote } = useContext(AgreementContext);
+  const { agreement, vote, addVersion } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
     section?.versions?.find((v) => v.id === Number(versionId))
@@ -63,8 +61,6 @@ const Section: FC = () => {
     const versionNum = (section?.versions?.length ?? NaN) + 1;
     return `${t(StringBank.VERSION)} ${versionNum}`;
   }
-
-  const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
 
   return (
     <>
