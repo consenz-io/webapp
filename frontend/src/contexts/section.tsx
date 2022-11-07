@@ -12,7 +12,6 @@ const SectionContext = createContext<SectionState>({});
 
 const SectionProvider: FC<IFCProps> = ({ children }) => {
   const { sectionId } = useParams();
-  console.log('sectionId', sectionId);
   const { data } = useQuery<{
     core_sections: Section[];
   }>(sectionQuery, {
@@ -24,7 +23,6 @@ const SectionProvider: FC<IFCProps> = ({ children }) => {
   const state: SectionState = {
     section: data?.core_sections[0],
   };
-  console.log('state', state.section);
   return <SectionContext.Provider value={state}>{children}</SectionContext.Provider>;
 };
 

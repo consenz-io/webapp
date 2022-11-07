@@ -46,7 +46,9 @@ export interface Version {
   my_vote?: 'up' | 'down';
   threshold: number;
   upvotes: number;
-  author?: string;
+  author?: {
+    full_name: string;
+  };
 }
 
 export interface User {

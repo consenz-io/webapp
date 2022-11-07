@@ -89,7 +89,6 @@ export const section = gql`
         threshold
         upvotes
         author {
-          email
           full_name
         }
       }
