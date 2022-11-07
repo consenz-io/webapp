@@ -128,7 +128,7 @@ const Section: FC = () => {
             <Stack direction="row" justifyContent="space-between">
               <Stack direction="row" alignItems="center" spacing={2}>
                 <BtnCapital className="capital">
-                  {displayedVersion?.author?.full_name[0] || t(StringBank.ANONYMOUS)[0]}
+                  {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
                 </BtnCapital>
                 <Typography variant="h6">
                   {displayedVersion?.author?.full_name || t(StringBank.ANONYMOUS)}
