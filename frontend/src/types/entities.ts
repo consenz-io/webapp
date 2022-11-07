@@ -55,7 +55,6 @@ export interface User {
   id: number;
   email: string;
   groups?: Group[];
-  author?: string;
   displayName?: string;
 }
 
