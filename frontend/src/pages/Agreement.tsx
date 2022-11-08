@@ -133,12 +133,7 @@ const Agreement: FC = () => {
                 }}
               >
                 <Stack spacing={0}>
-                  <Divider
-                    className="divider"
-                    textAlign="center"
-                    variant="fullWidth"
-                    sx={{ paddingBottom: 1 }}
-                  >
+                  <Divider className="divider" textAlign="center" variant="fullWidth">
                     <IconButton
                       onClick={() => {
                         setIsTextPopupOpen(true);
