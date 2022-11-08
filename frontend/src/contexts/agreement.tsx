@@ -29,7 +29,7 @@ interface IAgreementContext {
   agreementTitle: string;
   categoryName: string;
   vote: (version: Version, type: 'up' | 'down') => Promise<FetchResult<void>>;
-  addSection: (variables: sectionVariables) => Promise<FetchResult>;
+  addSection: (variables: sectionVariables) => void;
 }
 
 const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);

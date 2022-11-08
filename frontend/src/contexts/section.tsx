@@ -15,7 +15,7 @@ export interface addVersionVars {
 
 interface SectionState {
   section?: Section;
-  addVersion?: (variables: addVersionVars) => unknown;
+  addVersion?: (variables: addVersionVars) => void;
 }
 
 const SectionContext = createContext<SectionState>({});

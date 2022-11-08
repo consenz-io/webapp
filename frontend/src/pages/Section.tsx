@@ -30,6 +30,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { addVersionVars } from 'contexts/section';
+import { JSONContent } from '@tiptap/react';
 
 const Section: FC = () => {
   const theme = useTheme();
@@ -62,6 +63,19 @@ const Section: FC = () => {
     const versionNum = (section?.versions?.length ?? NaN) + 1;
     return `${t(StringBank.VERSION)} ${versionNum}`;
   }
+
+  const addVersionHandler = (editorContent: JSONContent, sectionId: number) => {
+    const variables: addVersionVars = {
+      variables: {
+        content: editorContent,
+        sectionId,
+      },
+    };
+    if (addVersion) {
+      addVersion(variables);
+    }
+    setIsTextPopupOpen(false);
+  };
 
   return (
     <>
@@ -112,14 +126,7 @@ const Section: FC = () => {
           newVersionName={generateVersionName(section)}
           onComplete={(editorContent) => {
             if (addVersion && section) {
-              const variables: addVersionVars = {
-                variables: {
-                  content: editorContent,
-                  sectionId: section.id,
-                },
-              };
-              addVersion(variables);
-              setIsTextPopupOpen(false);
+              addVersionHandler(editorContent, section.id);
             }
           }}
           onCancel={setIsTextPopupOpen}
