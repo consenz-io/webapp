@@ -120,7 +120,6 @@ const TextEditorPopup = (props: DialogProps) => {
             variant="contained"
             onClick={() => {
               onComplete(newTextContent);
-              onCancel(false);
             }}
           >
             {completeBtnText}

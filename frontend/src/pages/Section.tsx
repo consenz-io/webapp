@@ -29,6 +29,7 @@ import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
+import { addVersionVars } from 'contexts/section';
 
 const Section: FC = () => {
   const theme = useTheme();
@@ -111,11 +112,14 @@ const Section: FC = () => {
           newVersionName={generateVersionName(section)}
           onComplete={(editorContent) => {
             if (addVersion && section) {
-              const variables = {
-                content: editorContent,
-                sectionId: section.id,
+              const variables: addVersionVars = {
+                variables: {
+                  content: editorContent,
+                  sectionId: section.id,
+                },
               };
-              addVersion({ variables });
+              addVersion(variables);
+              setIsTextPopupOpen(false);
             }
           }}
           onCancel={setIsTextPopupOpen}

@@ -4,10 +4,18 @@ import { useParams } from 'react-router-dom';
 import { IFCProps, Section } from 'types';
 import { section as sectionQuery } from 'utils/queries';
 import { addSectionVersion as insertSectionVersionMutation } from 'utils/mutations';
+import { JSONContent } from '@tiptap/react';
+
+export interface addVersionVars {
+  variables: {
+    content: JSONContent;
+    sectionId: number;
+  };
+}
 
 interface SectionState {
   section?: Section;
-  addVersion?: (...args: any[]) => unknown;
+  addVersion?: (variables: addVersionVars) => unknown;
 }
 
 const SectionContext = createContext<SectionState>({});
