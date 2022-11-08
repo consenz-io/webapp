@@ -2,19 +2,25 @@ table:
   name: comments
   schema: core
 object_relationships:
+  - name: author
+    using:
+      foreign_key_constraint_on: author_id
   - name: section_version
     using:
       foreign_key_constraint_on: section_version_id
-  - name: user
-    using:
-      foreign_key_constraint_on: author_id
 insert_permissions:
   - role: authenticated
     permission:
       check:
-        user:
-          user_id:
-            _eq: X-Hasura-User-Id
+        section_version:
+          section:
+            chapter:
+              agreement:
+                group:
+                  group_users:
+                    user:
+                      user_id:
+                        _eq: X-Hasura-User-Id
       columns:
         - id
         - created_at
@@ -31,6 +37,12 @@ select_permissions:
         - context
         - created_at
       filter:
-        user:
-          user_id:
-            _eq: X-Hasura-User-Id
+        section_version:
+          section:
+            chapter:
+              agreement:
+                group:
+                  group_users:
+                    user:
+                      user_id:
+                        _eq: X-Hasura-User-Id
