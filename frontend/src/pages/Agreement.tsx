@@ -133,6 +133,27 @@ const Agreement: FC = () => {
                 }}
               >
                 <Stack spacing={0}>
+                  <Divider
+                    className="divider"
+                    textAlign="center"
+                    variant="fullWidth"
+                    sx={{ paddingBottom: 1 }}
+                  >
+                    <IconButton
+                      onClick={() => {
+                        setIsTextPopupOpen(true);
+                      }}
+                      sx={{
+                        border: '1px solid gray',
+                        width: '15px',
+                        height: '15px',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <img src={PlusIcon} height="10px" width="10px" />
+                    </IconButton>
+                  </Divider>
                   {chapter?.sections?.map((section) => (
                     <div key={section.id}>
                       <SectionCard section={section} />
