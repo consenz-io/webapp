@@ -35,6 +35,8 @@ const Agreement: FC = () => {
   const { groupSlug, agreementId } = useParams();
   const { categories, slug } = useContext(GroupContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
+  const [currentChapterId, setCurrentChapterId] = useState<number>(-1);
+  const [currentSectionIndex, setCurrentSectionIndex] = useState<number>(-1);
   const { agreement, categoryName } = useContext(AgreementContext);
   const [addSection] = useMutation(insertSectionMutation, {
     refetchQueries: ['section', 'agreement'],
@@ -160,6 +162,8 @@ const Agreement: FC = () => {
                       <Divider className="divider" textAlign="center" variant="fullWidth">
                         <IconButton
                           onClick={() => {
+                            setCurrentChapterId(chapter.id);
+                            setCurrentSectionIndex(section.index);
                             setIsTextPopupOpen(true);
                           }}
                           sx={{
@@ -173,25 +177,6 @@ const Agreement: FC = () => {
                           <img src={PlusIcon} height="10px" width="10px" />
                         </IconButton>
                       </Divider>
-                      <TextEditorPopup
-                        isOpen={isTextPopupOpen}
-                        parentSection={t(StringBank.NEW_SECTION)}
-                        onComplete={(editorContent) => {
-                          const content = editorContent.variables.content;
-                          const variables = {
-                            chapterId: chapter.id,
-                            sectionIndex: section.index + 1,
-                            versions: {
-                              content,
-                            },
-                          };
-                          addSection({ variables });
-                        }}
-                        onCancel={setIsTextPopupOpen}
-                        completeBtnText={t(StringBank.ADD_VERSION)}
-                        cancelBtnText={t(StringBank.CANCEL)}
-                        editorPlaceholder={t(StringBank.INSERT_NEW_SECTION_SHORT)}
-                      />
                     </div>
                   ))}
                 </Stack>
@@ -200,6 +185,25 @@ const Agreement: FC = () => {
           ))}
         </Stack>
       </Stack>
+      <TextEditorPopup
+        isOpen={isTextPopupOpen}
+        parentSection={t(StringBank.NEW_SECTION)}
+        onComplete={(editorContent) => {
+          const content = editorContent.variables.content;
+          const variables = {
+            chapterId: currentChapterId,
+            sectionIndex: currentSectionIndex + 1,
+            versions: {
+              content,
+            },
+          };
+          addSection({ variables });
+        }}
+        onCancel={setIsTextPopupOpen}
+        completeBtnText={t(StringBank.ADD_VERSION)}
+        cancelBtnText={t(StringBank.CANCEL)}
+        editorPlaceholder={t(StringBank.INSERT_NEW_SECTION_SHORT)}
+      />
     </Stack>
   );
 };
