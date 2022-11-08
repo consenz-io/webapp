@@ -143,6 +143,8 @@ const Agreement: FC = () => {
                   >
                     <IconButton
                       onClick={() => {
+                        setCurrentChapterId(chapter.id);
+                        setCurrentSectionIndex(1);
                         setIsTextPopupOpen(true);
                       }}
                       sx={{
