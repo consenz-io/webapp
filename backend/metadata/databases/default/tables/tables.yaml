@@ -7,5 +7,4 @@
 - "!include core_sections.yaml"
 - "!include core_users.yaml"
 - "!include core_users_groups.yaml"
-- "!include core_users_public.yaml"
 - "!include core_votes.yaml"

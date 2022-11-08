@@ -9,7 +9,7 @@ object_relationships:
           author_id: id
         insertion_order: null
         remote_table:
-          name: users_public
+          name: users
           schema: core
   - name: section
     using:
