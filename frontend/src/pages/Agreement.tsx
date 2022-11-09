@@ -196,7 +196,7 @@ const Agreement: FC = () => {
           addSectionHandler(editorContent, currentChapterId, currentSectionIndex)
         }
         onCancel={setIsTextPopupOpen}
-        completeBtnText={t(StringBank.ADD_VERSION)}
+        completeBtnText={t(StringBank.ADD_SECTION)}
         cancelBtnText={t(StringBank.CANCEL)}
         editorPlaceholder={t(StringBank.INSERT_NEW_SECTION_SHORT)}
       />
