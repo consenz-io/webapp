@@ -107,7 +107,7 @@ const Agreement: FC = () => {
                   height: '4.5rem',
                 }}
               >
-                <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
+                <Stack direction="row" alignItems="center" height="4rem" gap={2}>
                   <Typography variant="h3">
                     {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
                   </Typography>
@@ -129,10 +129,26 @@ const Agreement: FC = () => {
               <AccordionDetails
                 sx={{
                   backgroundColor: inputBackgroundColor,
-                  paddingX: 0,
+                  padding: 0,
                 }}
               >
                 <Stack spacing={0}>
+                  <Divider className="divider" textAlign="center" variant="fullWidth">
+                    <IconButton
+                      onClick={() => {
+                        setIsTextPopupOpen(true);
+                      }}
+                      sx={{
+                        border: '1px solid gray',
+                        width: '15px',
+                        height: '15px',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <img src={PlusIcon} height="10px" width="10px" />
+                    </IconButton>
+                  </Divider>
                   {chapter?.sections?.map((section) => (
                     <div key={section.id}>
                       <SectionCard section={section} />
