@@ -11,7 +11,7 @@ import {
   Divider,
   IconButton,
 } from '@mui/material';
-import { AgreementContext, sectionVariables } from 'contexts/agreement';
+import { AgreementContext, AddSectionVariables } from 'contexts/agreement';
 import { FC, useContext, useState } from 'react';
 import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
@@ -34,6 +34,8 @@ const Agreement: FC = () => {
   const { groupSlug, agreementId } = useParams();
   const { categories, slug } = useContext(GroupContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
+  const [currentChapterId, setCurrentChapterId] = useState<number>(-1);
+  const [currentSectionIndex, setCurrentSectionIndex] = useState<number>(-1);
   const { agreement, categoryName, addSection } = useContext(AgreementContext);
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
@@ -49,23 +51,17 @@ const Agreement: FC = () => {
     },
   ];
 
-  const addSectionHandler = (
-    editorContent: JSONContent,
-    chapterId: number,
-    sectionIndex: number
-  ) => {
-    const variables: sectionVariables = {
-      variables: {
-        chapterId,
-        sectionIndex,
-        versions: {
-          content: editorContent,
-        },
+  function addSectionHandler(editorContent: JSONContent, chapterId: number, sectionIndex: number) {
+    const variables: AddSectionVariables = {
+      chapterId,
+      sectionIndex,
+      versions: {
+        content: editorContent,
       },
     };
     addSection(variables);
     setIsTextPopupOpen(false);
-  };
+  }
 
   return (
     <Stack>
@@ -149,6 +145,8 @@ const Agreement: FC = () => {
                   <Divider className="divider" textAlign="center" variant="fullWidth">
                     <IconButton
                       onClick={() => {
+                        setCurrentChapterId(chapter.id);
+                        setCurrentSectionIndex(chapter?.sections[0].index);
                         setIsTextPopupOpen(true);
                       }}
                       sx={{
@@ -168,6 +166,8 @@ const Agreement: FC = () => {
                       <Divider className="divider" textAlign="center" variant="fullWidth">
                         <IconButton
                           onClick={() => {
+                            setCurrentChapterId(chapter.id);
+                            setCurrentSectionIndex(section.index + 1);
                             setIsTextPopupOpen(true);
                           }}
                           sx={{
@@ -181,17 +181,6 @@ const Agreement: FC = () => {
                           <img src={PlusIcon} height="10px" width="10px" />
                         </IconButton>
                       </Divider>
-                      <TextEditorPopup
-                        isOpen={isTextPopupOpen}
-                        parentSection={t(StringBank.NEW_SECTION)}
-                        onComplete={(editorContent) => {
-                          addSectionHandler(editorContent, chapter.id, section.index + 1);
-                        }}
-                        onCancel={setIsTextPopupOpen}
-                        completeBtnText={t(StringBank.ADD_VERSION)}
-                        cancelBtnText={t(StringBank.CANCEL)}
-                        editorPlaceholder={t(StringBank.INSERT_NEW_SECTION_SHORT)}
-                      />
                     </div>
                   ))}
                 </Stack>
@@ -200,6 +189,17 @@ const Agreement: FC = () => {
           ))}
         </Stack>
       </Stack>
+      <TextEditorPopup
+        isOpen={isTextPopupOpen}
+        parentSection={t(StringBank.NEW_SECTION)}
+        onComplete={(editorContent) =>
+          addSectionHandler(editorContent, currentChapterId, currentSectionIndex)
+        }
+        onCancel={setIsTextPopupOpen}
+        completeBtnText={t(StringBank.ADD_VERSION)}
+        cancelBtnText={t(StringBank.CANCEL)}
+        editorPlaceholder={t(StringBank.INSERT_NEW_SECTION_SHORT)}
+      />
     </Stack>
   );
 };
