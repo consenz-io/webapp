@@ -144,7 +144,7 @@ const Agreement: FC = () => {
                     <IconButton
                       onClick={() => {
                         setCurrentChapterId(chapter.id);
-                        setCurrentSectionIndex(1);
+                        setCurrentSectionIndex(chapter?.sections[0].id);
                         setIsTextPopupOpen(true);
                       }}
                       sx={{
@@ -165,7 +165,7 @@ const Agreement: FC = () => {
                         <IconButton
                           onClick={() => {
                             setCurrentChapterId(chapter.id);
-                            setCurrentSectionIndex(section.index);
+                            setCurrentSectionIndex(section.index + 1);
                             setIsTextPopupOpen(true);
                           }}
                           sx={{
@@ -194,7 +194,7 @@ const Agreement: FC = () => {
           const content = editorContent.variables.content;
           const variables = {
             chapterId: currentChapterId,
-            sectionIndex: currentSectionIndex + 1,
+            sectionIndex: currentSectionIndex,
             versions: {
               content,
             },
