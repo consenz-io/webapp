@@ -4,10 +4,22 @@ table:
 object_relationships:
   - name: author
     using:
-      foreign_key_constraint_on: author_id
+      manual_configuration:
+        column_mapping:
+          author_id: id
+        insertion_order: null
+        remote_table:
+          name: users_public
+          schema: core
   - name: section_version
     using:
-      foreign_key_constraint_on: section_version_id
+      manual_configuration:
+        column_mapping:
+          section_version_id: id
+        insertion_order: null
+        remote_table:
+          name: section_versions
+          schema: core
 insert_permissions:
   - role: authenticated
     permission:
@@ -22,13 +34,44 @@ insert_permissions:
                       user_id:
                         _eq: X-Hasura-User-Id
       columns:
-        - id
-        - created_at
+        - content
+        - section_version_id
+  - role: moderator
+    permission:
+      check:
+        section_version:
+          section:
+            chapter:
+              agreement:
+                group:
+                  group_users:
+                    user:
+                      user_id:
+                        _eq: X-Hasura-User-Id
+      columns:
         - author_id
         - content
         - section_version_id
 select_permissions:
   - role: authenticated
+    permission:
+      columns:
+        - author_id
+        - content
+        - created_at
+        - id
+        - section_version_id
+      filter:
+        section_version:
+          section:
+            chapter:
+              agreement:
+                group:
+                  group_users:
+                    user:
+                      user_id:
+                        _eq: X-Hasura-User-Id
+  - role: moderator
     permission:
       columns:
         - author_id
