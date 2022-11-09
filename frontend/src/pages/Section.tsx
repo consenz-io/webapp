@@ -29,7 +29,6 @@ import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
-import { addVersionVars } from 'contexts/section';
 import { JSONContent } from '@tiptap/react';
 
 const Section: FC = () => {
@@ -64,18 +63,18 @@ const Section: FC = () => {
     return `${t(StringBank.VERSION)} ${versionNum}`;
   }
 
-  const addVersionHandler = (editorContent: JSONContent, sectionId: number) => {
-    const variables: addVersionVars = {
+  function handleComplete(editorContent: JSONContent) {
+    if (!section || !addVersion) {
+      return;
+    }
+    addVersion({
       variables: {
         content: editorContent,
-        sectionId,
+        sectionId: section.id,
       },
-    };
-    if (addVersion) {
-      addVersion(variables);
-    }
+    });
     setIsTextPopupOpen(false);
-  };
+  }
 
   return (
     <>
@@ -124,11 +123,7 @@ const Section: FC = () => {
           isOpen={isTextPopupOpen}
           parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
           newVersionName={generateVersionName(section)}
-          onComplete={(editorContent) => {
-            if (addVersion && section) {
-              addVersionHandler(editorContent, section.id);
-            }
-          }}
+          onComplete={handleComplete}
           onCancel={setIsTextPopupOpen}
           completeBtnText={t(StringBank.ADD_VERSION)}
           cancelBtnText={t(StringBank.CANCEL)}

@@ -11,7 +11,7 @@ import {
   Divider,
   IconButton,
 } from '@mui/material';
-import { AgreementContext, AddSectionVariables } from 'contexts/agreement';
+import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext, useState } from 'react';
 import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
@@ -51,15 +51,14 @@ const Agreement: FC = () => {
     },
   ];
 
-  function addSectionHandler(editorContent: JSONContent, chapterId: number, sectionIndex: number) {
-    const variables: AddSectionVariables = {
-      chapterId,
-      sectionIndex,
+  function handleComplete(editorContent: JSONContent) {
+    addSection({
+      chapterId: currentChapterId,
+      sectionIndex: currentSectionIndex,
       versions: {
         content: editorContent,
       },
-    };
-    addSection(variables);
+    });
     setIsTextPopupOpen(false);
   }
 
@@ -192,9 +191,7 @@ const Agreement: FC = () => {
       <TextEditorPopup
         isOpen={isTextPopupOpen}
         parentSection={t(StringBank.NEW_SECTION)}
-        onComplete={(editorContent) =>
-          addSectionHandler(editorContent, currentChapterId, currentSectionIndex)
-        }
+        onComplete={handleComplete}
         onCancel={setIsTextPopupOpen}
         completeBtnText={t(StringBank.ADD_SECTION)}
         cancelBtnText={t(StringBank.CANCEL)}
