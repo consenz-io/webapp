@@ -11,7 +11,7 @@ import {
   Divider,
   IconButton,
 } from '@mui/material';
-import { AgreementContext, sectionVariables } from 'contexts/agreement';
+import { AgreementContext, AddSectionVariables } from 'contexts/agreement';
 import { FC, useContext, useState } from 'react';
 import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
@@ -36,11 +36,7 @@ const Agreement: FC = () => {
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const [currentChapterId, setCurrentChapterId] = useState<number>(-1);
   const [currentSectionIndex, setCurrentSectionIndex] = useState<number>(-1);
-  const { agreement, categoryName } = useContext(AgreementContext);
-  const [addSection] = useMutation(insertSectionMutation, {
-    refetchQueries: ['section', 'agreement'],
-    awaitRefetchQueries: true,
-  });
+  const { agreement, categoryName, addSection } = useContext(AgreementContext);
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
     {
@@ -56,13 +52,11 @@ const Agreement: FC = () => {
   ];
 
   function addSectionHandler(editorContent: JSONContent, chapterId: number, sectionIndex: number) {
-    const variables: sectionVariables = {
-      variables: {
-        chapterId,
-        sectionIndex,
-        versions: {
-          content: editorContent,
-        },
+    const variables: AddSectionVariables = {
+      chapterId,
+      sectionIndex,
+      versions: {
+        content: editorContent,
       },
     };
     addSection(variables);

@@ -12,13 +12,11 @@ import { DataContext } from 'contexts/data';
 import { addSection as insertSectionMutation } from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
 
-export interface sectionVariables {
-  variables: {
-    chapterId: number;
-    sectionIndex: number;
-    versions: {
-      content: JSONContent;
-    };
+export interface AddSectionVariables {
+  chapterId: number;
+  sectionIndex: number;
+  versions: {
+    content: JSONContent;
   };
 }
 
@@ -29,7 +27,7 @@ interface IAgreementContext {
   agreementTitle: string;
   categoryName: string;
   vote: (version: Version, type: 'up' | 'down') => Promise<FetchResult<void>>;
-  addSection: (variables: sectionVariables) => void;
+  addSection: (variables: AddSectionVariables) => void;
 }
 
 const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);
@@ -96,7 +94,9 @@ const AgreementProvider: FC = () => {
     agreementTitle: agreement?.name || '',
     agreement: agreement,
     vote,
-    addSection,
+    addSection(variables) {
+      addSection({ variables });
+    },
   };
   return (
     <AgreementContext.Provider value={state}>
