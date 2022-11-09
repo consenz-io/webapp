@@ -26,7 +26,6 @@ interface DialogProps {
   onComplete: (...args: any[]) => unknown;
   completeBtnText: string;
   cancelBtnText: string;
-  variabels?: Record<string, unknown>;
   editorPlaceholder?: string;
   initialContent?: JSONContent;
 }
@@ -49,17 +48,6 @@ const TextEditorPopup = (props: DialogProps) => {
       return false;
     }
   };
-
-  function handleCompleteClick() {
-    if (props.variabels) {
-      onComplete({ variables: { ...props.variabels, content: newTextContent } });
-    } else {
-      onComplete({ variables: { content: newTextContent } });
-    }
-    setnewTextContent(undefined);
-    onCancel(false);
-    return;
-  }
 
   return (
     <Dialog
@@ -130,7 +118,9 @@ const TextEditorPopup = (props: DialogProps) => {
             disabled={checkContent()}
             color="primary"
             variant="contained"
-            onClick={handleCompleteClick}
+            onClick={() => {
+              onComplete(newTextContent);
+            }}
           >
             {completeBtnText}
           </Button>

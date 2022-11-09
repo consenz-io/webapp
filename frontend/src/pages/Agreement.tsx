@@ -11,7 +11,7 @@ import {
   Divider,
   IconButton,
 } from '@mui/material';
-import { AgreementContext } from 'contexts/agreement';
+import { AgreementContext, sectionVariables } from 'contexts/agreement';
 import { FC, useContext, useState } from 'react';
 import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
@@ -26,9 +26,8 @@ import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import { addSection as insertSectionMutation } from 'utils/mutations';
 import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
+import { JSONContent } from '@tiptap/react';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
@@ -55,6 +54,20 @@ const Agreement: FC = () => {
       icon: DocLogo,
     },
   ];
+
+  function addSectionHandler(editorContent: JSONContent, chapterId: number, sectionIndex: number) {
+    const variables: sectionVariables = {
+      variables: {
+        chapterId,
+        sectionIndex,
+        versions: {
+          content: editorContent,
+        },
+      },
+    };
+    addSection(variables);
+    setIsTextPopupOpen(false);
+  }
 
   return (
     <Stack>
@@ -139,7 +152,7 @@ const Agreement: FC = () => {
                     <IconButton
                       onClick={() => {
                         setCurrentChapterId(chapter.id);
-                        setCurrentSectionIndex(chapter?.sections[0].id);
+                        setCurrentSectionIndex(chapter?.sections[0].index);
                         setIsTextPopupOpen(true);
                       }}
                       sx={{
@@ -185,17 +198,9 @@ const Agreement: FC = () => {
       <TextEditorPopup
         isOpen={isTextPopupOpen}
         parentSection={t(StringBank.NEW_SECTION)}
-        onComplete={(editorContent) => {
-          const content = editorContent.variables.content;
-          const variables = {
-            chapterId: currentChapterId,
-            sectionIndex: currentSectionIndex,
-            versions: {
-              content,
-            },
-          };
-          addSection({ variables });
-        }}
+        onComplete={(editorContent) =>
+          addSectionHandler(editorContent, currentChapterId, currentSectionIndex)
+        }
         onCancel={setIsTextPopupOpen}
         completeBtnText={t(StringBank.ADD_VERSION)}
         cancelBtnText={t(StringBank.CANCEL)}
