@@ -28,13 +28,13 @@ import { useTranslation } from 'react-i18next';
 import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
-import { useMutation } from '@apollo/client';
-import { addSectionVersion as insertSectionVersionMutation } from 'utils/mutations';
 import { Section as SectionType } from 'types';
+import { addVersionVars } from 'contexts/section';
+import { JSONContent } from '@tiptap/react';
 
 const Section: FC = () => {
   const theme = useTheme();
-  const { section } = useContext(SectionContext);
+  const { section, addVersion } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
@@ -64,7 +64,18 @@ const Section: FC = () => {
     return `${t(StringBank.VERSION)} ${versionNum}`;
   }
 
-  const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
+  const addVersionHandler = (editorContent: JSONContent, sectionId: number) => {
+    const variables: addVersionVars = {
+      variables: {
+        content: editorContent,
+        sectionId,
+      },
+    };
+    if (addVersion) {
+      addVersion(variables);
+    }
+    setIsTextPopupOpen(false);
+  };
 
   return (
     <>
@@ -113,11 +124,14 @@ const Section: FC = () => {
           isOpen={isTextPopupOpen}
           parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
           newVersionName={generateVersionName(section)}
-          onComplete={addVersion}
+          onComplete={(editorContent) => {
+            if (addVersion && section) {
+              addVersionHandler(editorContent, section.id);
+            }
+          }}
           onCancel={setIsTextPopupOpen}
           completeBtnText={t(StringBank.ADD_VERSION)}
           cancelBtnText={t(StringBank.CANCEL)}
-          variabels={{ sectionId: section ? section.id : -1 }}
           initialContent={displayedVersion?.content}
           editorPlaceholder={t(StringBank.INSERT_NEW_VERSION)}
         />

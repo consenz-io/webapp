@@ -9,6 +9,18 @@ import {
 } from 'utils/mutations';
 import { agreementQuery } from 'utils/queries';
 import { DataContext } from 'contexts/data';
+import { addSection as insertSectionMutation } from 'utils/mutations';
+import { JSONContent } from '@tiptap/react';
+
+export interface sectionVariables {
+  variables: {
+    chapterId: number;
+    sectionIndex: number;
+    versions: {
+      content: JSONContent;
+    };
+  };
+}
 
 interface IAgreementContext {
   agreementId: number;
@@ -17,6 +29,7 @@ interface IAgreementContext {
   agreementTitle: string;
   categoryName: string;
   vote: (version: Version, type: 'up' | 'down') => Promise<FetchResult<void>>;
+  addSection: (variables: sectionVariables) => void;
 }
 
 const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);
@@ -33,7 +46,10 @@ const AgreementProvider: FC = () => {
     },
   });
   const agreement = data?.core_agreements[0];
-
+  const [addSection] = useMutation(insertSectionMutation, {
+    refetchQueries: ['section', 'agreement'],
+    awaitRefetchQueries: true,
+  });
   const [insertVote] = useMutation(insertVoteMutation, {
     refetchQueries: ['agreement'],
   });
@@ -80,6 +96,7 @@ const AgreementProvider: FC = () => {
     agreementTitle: agreement?.name || '',
     agreement: agreement,
     vote,
+    addSection,
   };
   return (
     <AgreementContext.Provider value={state}>

@@ -11,7 +11,7 @@ import {
   Divider,
   IconButton,
 } from '@mui/material';
-import { AgreementContext } from 'contexts/agreement';
+import { AgreementContext, sectionVariables } from 'contexts/agreement';
 import { FC, useContext, useState } from 'react';
 import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
@@ -26,20 +26,15 @@ import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import { addSection as insertSectionMutation } from 'utils/mutations';
 import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
+import { JSONContent } from '@tiptap/react';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
   const { groupSlug, agreementId } = useParams();
   const { categories, slug } = useContext(GroupContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
-  const { agreement, categoryName } = useContext(AgreementContext);
-  const [addSection] = useMutation(insertSectionMutation, {
-    refetchQueries: ['section', 'agreement'],
-    awaitRefetchQueries: true,
-  });
+  const { agreement, categoryName, addSection } = useContext(AgreementContext);
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
     {
@@ -53,6 +48,24 @@ const Agreement: FC = () => {
       icon: DocLogo,
     },
   ];
+
+  const addSectionHandler = (
+    editorContent: JSONContent,
+    chapterId: number,
+    sectionIndex: number
+  ) => {
+    const variables: sectionVariables = {
+      variables: {
+        chapterId,
+        sectionIndex,
+        versions: {
+          content: editorContent,
+        },
+      },
+    };
+    addSection(variables);
+    setIsTextPopupOpen(false);
+  };
 
   return (
     <Stack>
@@ -172,15 +185,7 @@ const Agreement: FC = () => {
                         isOpen={isTextPopupOpen}
                         parentSection={t(StringBank.NEW_SECTION)}
                         onComplete={(editorContent) => {
-                          const content = editorContent.variables.content;
-                          const variables = {
-                            chapterId: chapter.id,
-                            sectionIndex: section.index + 1,
-                            versions: {
-                              content,
-                            },
-                          };
-                          addSection({ variables });
+                          addSectionHandler(editorContent, chapter.id, section.index + 1);
                         }}
                         onCancel={setIsTextPopupOpen}
                         completeBtnText={t(StringBank.ADD_VERSION)}
