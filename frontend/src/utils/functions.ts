@@ -50,9 +50,7 @@ export function getVoteColor(
 }
 
 export function getVersionProgress(version: Version) {
-  return version
-    ? clamp((100 * (version.upvotes - version.downvotes)) / version.threshold, 0, 100)
-    : 0;
+  return 50 * clamp((version.upvotes - version.downvotes) / version.threshold, -1, 1) + 50;
 }
 
 export function getRemainingSupporters(version: Version) {
