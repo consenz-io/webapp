@@ -1,5 +1,5 @@
 import { FetchResult, useMutation, useQuery } from '@apollo/client';
-import { createContext, FC, useContext } from 'react';
+import { createContext, FC, useContext, useEffect } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { Agreement, Version } from 'types';
 import {
@@ -36,13 +36,18 @@ const AgreementProvider: FC = () => {
   const { agreementId } = useParams();
   const { user } = useContext(DataContext);
   const userId = user?.id;
-  const { data } = useQuery<{
+  const { data, startPolling, stopPolling } = useQuery<{
     core_agreements: Agreement[];
   }>(agreementQuery, {
     variables: {
       agreementId,
     },
   });
+  useEffect(() => {
+    startPolling(5000);
+    return () => stopPolling();
+  }, [startPolling, stopPolling]);
+
   const agreement = data?.core_agreements[0];
   const [addSection] = useMutation(insertSectionMutation, {
     refetchQueries: ['section', 'agreement'],
