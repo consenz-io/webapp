@@ -97,7 +97,7 @@ const Agreement: FC = () => {
         <Typography>{agreement?.rationale}</Typography>
         <Box />
         <Stack>
-          {agreement?.chapters?.map((chapter: Chapter) => (
+          {agreement?.chapters?.map((chapter: Chapter, chapterIndex: number) => (
             <Accordion
               TransitionProps={{ unmountOnExit: true }}
               defaultExpanded
@@ -145,7 +145,7 @@ const Agreement: FC = () => {
                     <IconButton
                       onClick={() => {
                         setCurrentChapterId(chapter.id);
-                        setCurrentSectionIndex(chapter?.sections[0].index);
+                        setCurrentSectionIndex(chapter?.sections[chapterIndex]?.index);
                         setIsTextPopupOpen(true);
                       }}
                       sx={{
