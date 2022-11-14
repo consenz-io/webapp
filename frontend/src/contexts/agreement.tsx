@@ -1,5 +1,5 @@
 import { FetchResult, useMutation, useQuery } from '@apollo/client';
-import { createContext, FC, useContext } from 'react';
+import { createContext, FC, useContext, useEffect } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { Agreement, Version } from 'types';
 import {
@@ -9,6 +9,16 @@ import {
 } from 'utils/mutations';
 import { agreementQuery } from 'utils/queries';
 import { DataContext } from 'contexts/data';
+import { addSection as insertSectionMutation } from 'utils/mutations';
+import { JSONContent } from '@tiptap/react';
+
+export interface AddSectionVariables {
+  chapterId: number;
+  sectionIndex: number;
+  versions: {
+    content: JSONContent;
+  };
+}
 
 interface IAgreementContext {
   agreementId: number;
@@ -17,6 +27,7 @@ interface IAgreementContext {
   agreementTitle: string;
   categoryName: string;
   vote: (version: Version, type: 'up' | 'down') => Promise<FetchResult<void>>;
+  addSection: (variables: AddSectionVariables) => void;
 }
 
 const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);
@@ -25,15 +36,23 @@ const AgreementProvider: FC = () => {
   const { agreementId } = useParams();
   const { user } = useContext(DataContext);
   const userId = user?.id;
-  const { data } = useQuery<{
+  const { data, startPolling, stopPolling } = useQuery<{
     core_agreements: Agreement[];
   }>(agreementQuery, {
     variables: {
       agreementId,
     },
   });
-  const agreement = data?.core_agreements[0];
+  useEffect(() => {
+    startPolling(5000);
+    return () => stopPolling();
+  }, [startPolling, stopPolling]);
 
+  const agreement = data?.core_agreements[0];
+  const [addSection] = useMutation(insertSectionMutation, {
+    refetchQueries: ['section', 'agreement'],
+    awaitRefetchQueries: true,
+  });
   const [insertVote] = useMutation(insertVoteMutation, {
     refetchQueries: ['agreement'],
   });
@@ -80,6 +99,9 @@ const AgreementProvider: FC = () => {
     agreementTitle: agreement?.name || '',
     agreement: agreement,
     vote,
+    addSection(variables) {
+      addSection({ variables });
+    },
   };
   return (
     <AgreementContext.Provider value={state}>

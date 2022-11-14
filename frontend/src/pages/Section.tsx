@@ -117,7 +117,6 @@ const Section: FC = () => {
           onCancel={setIsTextPopupOpen}
           completeBtnText={t(StringBank.ADD_VERSION)}
           cancelBtnText={t(StringBank.CANCEL)}
-          variabels={{ sectionId: section ? section.id : -1 }}
           initialContent={displayedVersion?.content}
           editorPlaceholder={t(StringBank.INSERT_NEW_VERSION)}
         />

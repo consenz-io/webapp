@@ -26,20 +26,17 @@ import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import { addSection as insertSectionMutation } from 'utils/mutations';
 import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
+import { JSONContent } from '@tiptap/react';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
   const { groupSlug, agreementId } = useParams();
   const { categories, slug } = useContext(GroupContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
-  const { agreement, categoryName } = useContext(AgreementContext);
-  const [addSection] = useMutation(insertSectionMutation, {
-    refetchQueries: ['section', 'agreement'],
-    awaitRefetchQueries: true,
-  });
+  const [currentChapterId, setCurrentChapterId] = useState<number>(-1);
+  const [currentSectionIndex, setCurrentSectionIndex] = useState<number>(-1);
+  const { agreement, categoryName, addSection } = useContext(AgreementContext);
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
     {
@@ -53,6 +50,17 @@ const Agreement: FC = () => {
       icon: DocLogo,
     },
   ];
+
+  function handleComplete(editorContent: JSONContent) {
+    addSection({
+      chapterId: currentChapterId,
+      sectionIndex: currentSectionIndex,
+      versions: {
+        content: editorContent,
+      },
+    });
+    setIsTextPopupOpen(false);
+  }
 
   return (
     <Stack>
@@ -107,7 +115,7 @@ const Agreement: FC = () => {
                   height: '4.5rem',
                 }}
               >
-                <Stack direction="row" alignItems="center" height="4rem" columnGap="1rem">
+                <Stack direction="row" alignItems="center" height="4rem" gap={2}>
                   <Typography variant="h3">
                     {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
                   </Typography>
@@ -129,16 +137,36 @@ const Agreement: FC = () => {
               <AccordionDetails
                 sx={{
                   backgroundColor: inputBackgroundColor,
-                  paddingX: 0,
+                  padding: 0,
                 }}
               >
                 <Stack spacing={0}>
+                  <Divider className="divider" textAlign="center" variant="fullWidth">
+                    <IconButton
+                      onClick={() => {
+                        setCurrentChapterId(chapter.id);
+                        setCurrentSectionIndex(chapter?.sections[0].index);
+                        setIsTextPopupOpen(true);
+                      }}
+                      sx={{
+                        border: '1px solid gray',
+                        width: '15px',
+                        height: '15px',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <img src={PlusIcon} height="10px" width="10px" />
+                    </IconButton>
+                  </Divider>
                   {chapter?.sections?.map((section) => (
                     <div key={section.id}>
                       <SectionCard section={section} />
                       <Divider className="divider" textAlign="center" variant="fullWidth">
                         <IconButton
                           onClick={() => {
+                            setCurrentChapterId(chapter.id);
+                            setCurrentSectionIndex(section.index + 1);
                             setIsTextPopupOpen(true);
                           }}
                           sx={{
@@ -152,25 +180,6 @@ const Agreement: FC = () => {
                           <img src={PlusIcon} height="10px" width="10px" />
                         </IconButton>
                       </Divider>
-                      <TextEditorPopup
-                        isOpen={isTextPopupOpen}
-                        parentSection={t(StringBank.NEW_SECTION)}
-                        onComplete={(editorContent) => {
-                          const content = editorContent.variables.content;
-                          const variables = {
-                            chapterId: chapter.id,
-                            sectionIndex: section.index + 1,
-                            versions: {
-                              content,
-                            },
-                          };
-                          addSection({ variables });
-                        }}
-                        onCancel={setIsTextPopupOpen}
-                        completeBtnText={t(StringBank.ADD_VERSION)}
-                        cancelBtnText={t(StringBank.CANCEL)}
-                        editorPlaceholder={t(StringBank.INSERT_NEW_SECTION_SHORT)}
-                      />
                     </div>
                   ))}
                 </Stack>
@@ -179,6 +188,15 @@ const Agreement: FC = () => {
           ))}
         </Stack>
       </Stack>
+      <TextEditorPopup
+        isOpen={isTextPopupOpen}
+        parentSection={t(StringBank.NEW_SECTION)}
+        onComplete={handleComplete}
+        onCancel={setIsTextPopupOpen}
+        completeBtnText={t(StringBank.ADD_SECTION)}
+        cancelBtnText={t(StringBank.CANCEL)}
+        editorPlaceholder={t(StringBank.INSERT_NEW_SECTION_SHORT)}
+      />
     </Stack>
   );
 };

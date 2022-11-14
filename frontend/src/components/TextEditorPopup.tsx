@@ -15,9 +15,6 @@ import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
 import { JSONContent } from '@tiptap/react';
 import { useState } from 'react';
 import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
-import { StringBank } from 'strings';
-import { useTranslation } from 'react-i18next';
-
 interface DialogProps {
   isOpen: boolean;
   parentSection?: string;
@@ -26,13 +23,11 @@ interface DialogProps {
   onComplete: (...args: any[]) => unknown;
   completeBtnText: string;
   cancelBtnText: string;
-  variabels?: Record<string, unknown>;
-  editorPlaceholder?: string;
+  editorPlaceholder: string;
   initialContent?: JSONContent;
 }
 
 const TextEditorPopup = (props: DialogProps) => {
-  const { t } = useTranslation();
   const [newTextContent, setnewTextContent] = useState(props.initialContent);
   const {
     onCancel,
@@ -49,16 +44,6 @@ const TextEditorPopup = (props: DialogProps) => {
       return false;
     }
   };
-
-  function handleCompleteClick() {
-    if (props.variabels) {
-      onComplete({ variables: { ...props.variabels, content: newTextContent } });
-    } else {
-      onComplete({ variables: { content: newTextContent } });
-    }
-    onCancel(false);
-    return;
-  }
 
   return (
     <Dialog
@@ -110,7 +95,7 @@ const TextEditorPopup = (props: DialogProps) => {
         >
           <ContentEditor
             content={newTextContent}
-            placeholder={t(StringBank.INSERT_NEW_VERSION)}
+            placeholder={props.editorPlaceholder}
             onChange={(newValue: JSONContent) => {
               setnewTextContent(newValue);
             }}
@@ -129,7 +114,9 @@ const TextEditorPopup = (props: DialogProps) => {
             disabled={checkContent()}
             color="primary"
             variant="contained"
-            onClick={handleCompleteClick}
+            onClick={() => {
+              onComplete(newTextContent);
+            }}
           >
             {completeBtnText}
           </Button>

@@ -9,7 +9,7 @@ object_relationships:
           author_id: id
         insertion_order: null
         remote_table:
-          name: users
+          name: users_public
           schema: core
   - name: section
     using:
@@ -19,6 +19,16 @@ object_relationships:
         insertion_order: null
         remote_table:
           name: sections
+          schema: core
+array_relationships:
+  - name: comments
+    using:
+      manual_configuration:
+        column_mapping:
+          id: section_version_id
+        insertion_order: null
+        remote_table:
+          name: comments
           schema: core
 computed_fields:
   - name: downvotes
