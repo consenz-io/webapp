@@ -31,6 +31,7 @@ import { textSecondaryColor } from 'theme';
 import { useMutation } from '@apollo/client';
 import { addSectionVersion as insertSectionVersionMutation } from 'utils/mutations';
 import { Section as SectionType } from 'types';
+import { JSONContent } from '@tiptap/react';
 
 const Section: FC = () => {
   const theme = useTheme();
@@ -62,6 +63,19 @@ const Section: FC = () => {
   function generateVersionName(section: SectionType | undefined): string {
     const versionNum = (section?.versions?.length ?? NaN) + 1;
     return `${t(StringBank.VERSION)} ${versionNum}`;
+  }
+
+  function handleComplete(editorContent: JSONContent) {
+    if (!section || !addVersion) {
+      return;
+    }
+    addVersion({
+      variables: {
+        content: editorContent,
+        sectionId: section.id,
+      },
+    });
+    setIsTextPopupOpen(false);
   }
 
   const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
@@ -113,7 +127,7 @@ const Section: FC = () => {
           isOpen={isTextPopupOpen}
           parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
           newVersionName={generateVersionName(section)}
-          onComplete={addVersion}
+          onComplete={handleComplete}
           onCancel={setIsTextPopupOpen}
           completeBtnText={t(StringBank.ADD_VERSION)}
           cancelBtnText={t(StringBank.CANCEL)}
