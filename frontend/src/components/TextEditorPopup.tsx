@@ -56,7 +56,6 @@ const TextEditorPopup = (props: DialogProps) => {
     } else {
       onComplete({ variables: { content: newTextContent } });
     }
-    setnewTextContent(undefined);
     onCancel(false);
     return;
   }
