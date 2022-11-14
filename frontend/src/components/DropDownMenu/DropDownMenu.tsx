@@ -1,65 +1,132 @@
-import * as SC from "./style";
-import React, {FC, useState} from "react";
-import { IFCProps } from "./types";
-import CircleIcon from "@mui/icons-material/Circle";
+import * as SC from './style';
+import { FC, useState, ReactNode, MouseEvent } from 'react';
+import { MenuItem } from 'types';
+import CircleIcon from '@mui/icons-material/Circle';
+import { capitalize } from 'utils/functions';
+import { IconButton, Typography } from '@mui/material';
+import { VariantType } from 'types';
 
-const DropDownMenu: FC<IFCProps> = ({ name, buttonText, menuItems, endIcon, btnCapital }) => {
+interface IProps {
+  value?: number | null;
+  name: string;
+  buttonText?: string;
+  menuItems: MenuItem[];
+  endIcon?: ReactNode;
+  btnCapital?: string;
+  isBorderHidden?: boolean;
+  mainIcon?: ReactNode;
+  styleVariant?: VariantType;
+  bgColor?: string;
+}
+
+const DropDownMenu: FC<IProps> = ({
+  name,
+  buttonText = '',
+  mainIcon,
+  menuItems,
+  endIcon,
+  btnCapital,
+  isBorderHidden,
+  value,
+  styleVariant,
+  bgColor,
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(e.currentTarget); //TODO fix anchorEl error on console
+  const handleClick = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    setAnchorEl(e.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>) => {
+    e.stopPropagation();
     setAnchorEl(null);
   };
 
-  const handleMenuItemOnClick = (e: React.MouseEvent<HTMLElement>) => {
-    return e;
+  const handleMenuItemOnClick = (
+    e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>,
+    menuItem: MenuItem
+  ) => {
+    menuItem.action?.();
+    handleClose(e);
   };
 
-  return <>
-    <SC.DropDownMenuButton
-      id={`${name}-button`}
-      aria-controls={open ? `${name}-menu` : undefined}
-      aria-haspopup="true"
-      aria-expanded={open ? "true" : undefined}
-      onClick={handleClick}
-      endIcon={endIcon}
-      isUser={!!btnCapital}
-    >
-      {btnCapital &&
-        <SC.BtnCapital className="capital">{btnCapital}</SC.BtnCapital>
-      }
+  const getButtonText = () => {
+    if (value) {
+      return menuItems.find((item) => item.value === value)?.text;
+    }
 
-      {buttonText}
-    </SC.DropDownMenuButton>
+    if (btnCapital) {
+      return (
+        <>
+          <SC.BtnCapital className="capital">{btnCapital}</SC.BtnCapital>
+          {capitalize(buttonText)}
+        </>
+      );
+    }
 
-    <SC.DropDownMenu
-      id={`${name}-menu`}
-      open={open}
-      onClose={handleClose}
-      MenuListProps={{
-        "aria-labelledby": `${name}-button`,
-      }}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
-      }}
-    >
-      {menuItems.map((menuItem, i) => {
-        return <SC.DropDownMenuItem
-          key={i}
-          onClick={handleMenuItemOnClick}
+    return buttonText;
+  };
+
+  return (
+    <>
+      {mainIcon ? (
+        <IconButton onClick={handleClick}>{mainIcon}</IconButton>
+      ) : (
+        <SC.DropDownMenuButton
+          id={`${name}-button`}
+          aria-controls={open ? `${name}-menu` : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          endIcon={endIcon}
+          isUser={!!btnCapital}
+          isBorderHidden={isBorderHidden}
+          stylevariant={styleVariant}
+          bgcolor={bgColor}
         >
-          <CircleIcon style={{fill: menuItem.color, marginRight: ".5rem", marginLeft: "-.25rem"}} />
-          {menuItem.text}
-        </SC.DropDownMenuItem>;
+          {getButtonText()}
+        </SC.DropDownMenuButton>
+      )}
 
-      })}
-    </SC.DropDownMenu>
-  </>;
+      <SC.DropDownMenu
+        id={`${name}-menu`}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': `${name}-button`,
+        }}
+        anchorEl={anchorEl}
+        stylevariant={styleVariant}
+      >
+        {menuItems.map((menuItem, i) => {
+          return (
+            <SC.DropDownMenuItem
+              selected={menuItem.value === value}
+              key={i}
+              onClick={(e) => handleMenuItemOnClick(e, menuItem)}
+              stylevariant={styleVariant}
+            >
+              {menuItem.color && (
+                <CircleIcon
+                  style={{
+                    fill: menuItem.color,
+                    marginRight: '.5rem',
+                    marginLeft: '-.25rem',
+                  }}
+                />
+              )}
+              {menuItem.icon}
+              <Typography variant="body2" color={menuItem.textColor}>
+                {menuItem.text}
+              </Typography>
+            </SC.DropDownMenuItem>
+          );
+        })}
+      </SC.DropDownMenu>
+    </>
+  );
 };
 
 export default DropDownMenu;

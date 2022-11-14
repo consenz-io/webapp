@@ -1,1 +1,147 @@
-import * as SC from "./style";import {FC, useState, useEffect, useContext} from "react";import {IFCProps, IMenuItems, IUserData} from "./types";import { useResponsive } from "hooks";import { Logo } from "assets";import { Link } from "react-router-dom";import { useTranslation } from "react-i18next";import { StringBank } from "strings";import { DropDownMenu }  from "components";import { useAuth0 } from "@auth0/auth0-react";import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";import {ColorModeAndDirectionContext} from "../../theme";const Sidebar :FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {  const { user } = useAuth0();  const { isMobile } = useResponsive();  const { t } = useTranslation();  const { isRTL } = useContext(ColorModeAndDirectionContext);  const [groupMenuItems] = useState<IMenuItems[]>([ //TODO replace static items with user groups    {      color: "#4fe3d1",      text: "Soficoop"    },    {      color: "#8b61e5",      text: "Another Group"    },    {      color: "#ed4fae",      text: "Another Group"    },  ]);  const [userMenuItems] = useState<IMenuItems[]>([]);  const [userData, setUserData] = useState<IUserData>({    name: ""  });  const { name } = userData;  useEffect(() => {    if (user) {      const name = user.given_name || user.nickname;      setUserData(pv => ({...pv, name }));    }  }, [user]);  const content = (    <>      <SC.LogoContainer>        <Link to="/" title={t(StringBank.GOTO_HOMEPAGE_TITLE)}>          <Logo />        </Link>      </SC.LogoContainer>      <DropDownMenu        name='group'        menuItems={groupMenuItems}        buttonText='Soficoop' //TODO make buttonText dynamic        endIcon={<KeyboardArrowDownIcon />}      />      <SC.Content>Sidebar content</SC.Content>      <DropDownMenu        name='user'        menuItems={userMenuItems}        buttonText={name}        btnCapital={name?.charAt(0)}        endIcon={isRTL ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}      />    </>  );  return (    <>      <SC.Container>        <nav>          {isMobile            ?            <SC.Drawer              variant="temporary"              open={mobileOpen}              onClose={handleSidebarToggle}              ModalProps={{                keepMounted: true              }}            >              {content}            </SC.Drawer>            :            <SC.Drawer              variant="persistent"              anchor="left"              open            >              {content}            </SC.Drawer>          }        </nav>      </SC.Container>    </>  );};export default Sidebar;
+import * as SC from './style';
+import { FC, useState, useContext } from 'react';
+import { IFCProps } from './types';
+import { useResponsive } from 'hooks';
+import { Logo } from 'assets';
+import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { StringBank } from 'strings';
+import { DropDownMenu, GroupsNav } from 'components';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { DataContext } from '../../contexts/data';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import { ColorModeAndDirectionContext } from '../../theme';
+import { MenuItem } from 'types';
+import { AuthContext } from 'contexts';
+import { List, ListItemIcon, ListItemText, ListSubheader, Typography } from '@mui/material';
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import { GroupContext } from 'contexts/group';
+import { generateColorFromString } from 'utils/functions';
+import CircleIcon from '@mui/icons-material/Circle';
+
+interface SidebarItem {
+  name: string;
+  to: string;
+  icon: React.ReactElement;
+}
+
+const sidebarItems: SidebarItem[] = [
+  {
+    name: StringBank.ALL_AGREEMENTS,
+    to: 'active-agreements',
+    icon: <ContentCopyOutlinedIcon />,
+  },
+  {
+    name: StringBank.ARCHIVE,
+    to: 'archive',
+    icon: <Inventory2OutlinedIcon />,
+  },
+];
+
+const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
+  const { user } = useContext(DataContext);
+  const { logout } = useContext(AuthContext);
+  const { isMobile } = useResponsive();
+  const { t } = useTranslation();
+  const { isRTL } = useContext(ColorModeAndDirectionContext);
+  const navigate = useNavigate();
+  const { slug: groupSlug, categories } = useContext(GroupContext);
+  const [userMenuItems] = useState<MenuItem[]>([
+    {
+      text: t(StringBank.LOGOUT),
+      action: logout,
+    },
+  ]);
+
+  const content = (
+    <>
+      <SC.LogoContainer>
+        <Link to="/" title={t(StringBank.GOTO_HOMEPAGE_TITLE)}>
+          <Logo />
+        </Link>
+      </SC.LogoContainer>
+      <GroupsNav name="group" menuItems={user?.groups} endIcon={<KeyboardArrowDownIcon />} />
+      <SC.Content>
+        <List>
+          {sidebarItems.map((item, i) => (
+            <SC.ListItemButton
+              key={i}
+              onClick={() => navigate(`/${groupSlug}/${item.to}`)}
+              selected={window.location.href.endsWith(item.to)}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText>
+                <Typography variant="h6">{t(item.name)}</Typography>
+              </ListItemText>
+            </SC.ListItemButton>
+          ))}
+          <ListSubheader>{t(StringBank.CATEGORIES)}</ListSubheader>
+          <SC.ListItemButton
+            onClick={() => navigate(`/${groupSlug}/cat/0`)}
+            selected={window.location.href.endsWith('0')}
+          >
+            <ListItemIcon>
+              <CircleIcon sx={{ color: 'background.border' }} fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography variant="h6">{t(StringBank.UNCATEGORIZED)}</Typography>
+            </ListItemText>
+          </SC.ListItemButton>
+          {categories?.map((category, i) => (
+            <SC.ListItemButton
+              key={i}
+              onClick={() => navigate(`/${groupSlug}/cat/${category.id}`)}
+              selected={window.location.href.endsWith(`cat/${String(category.id)}`)}
+            >
+              <ListItemIcon>
+                <CircleIcon
+                  htmlColor={generateColorFromString(category.name, true)}
+                  fontSize="small"
+                />
+              </ListItemIcon>
+              <ListItemText>
+                <Typography variant="h6">{category.name}</Typography>
+              </ListItemText>
+            </SC.ListItemButton>
+          ))}
+        </List>
+      </SC.Content>
+      <DropDownMenu
+        name="user"
+        menuItems={userMenuItems}
+        buttonText={user?.displayName || ''}
+        btnCapital={user?.displayName?.charAt(0)}
+        endIcon={isRTL ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
+      />
+    </>
+  );
+
+  return (
+    <>
+      <SC.Container>
+        <nav>
+          {isMobile ? (
+            <SC.Drawer
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleSidebarToggle}
+              ModalProps={{
+                keepMounted: true,
+              }}
+            >
+              {content}
+            </SC.Drawer>
+          ) : (
+            <SC.Drawer variant="persistent" anchor="left" open>
+              {content}
+            </SC.Drawer>
+          )}
+        </nav>
+      </SC.Container>
+    </>
+  );
+};
+
+export default Sidebar;

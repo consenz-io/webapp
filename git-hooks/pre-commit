@@ -1,0 +1,17 @@
+#!/bin/sh
+RED="\033[1;31m"
+GREEN="\033[1;32m"
+NC="\033[0m"
+linter_exit_code=1
+all_script_files=$(git diff --cached --diff-filter=d --name-only | grep -E '^.*\.(js|jsx|tsx|ts)$'$)
+./frontend/node_modules/.bin/eslint $all_script_files --fix
+linter_exit_code=$?
+git add -f $all_script_files
+if [ $linter_exit_code -ne 0 ]
+then
+  echo "${RED} ❌ Linter errors have occurred ( ͡ಥ ͜ʖ ͡ಥ)${NC}"
+  exit 1
+else
+  echo "${GREEN} ✔ Eslint and Stylelint did not find any errors [̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]${NC}"
+  exit 0
+fi

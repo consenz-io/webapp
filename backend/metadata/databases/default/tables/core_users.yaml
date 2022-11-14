@@ -1,3 +1,37 @@
 table:
-  schema: core
   name: users
+  schema: core
+array_relationships:
+  - name: user_groups
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: users_groups
+          schema: core
+select_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - created_at
+        - email
+        - full_name
+        - id
+        - provider
+        - updated_at
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      allow_aggregations: true
+  - role: moderator
+    permission:
+      columns:
+        - created_at
+        - email
+        - full_name
+        - id
+        - provider
+        - updated_at
+        - user_id
+      filter: {}

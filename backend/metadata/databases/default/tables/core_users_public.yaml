@@ -1,0 +1,24 @@
+table:
+  name: users_public
+  schema: core
+object_relationships:
+  - name: user
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: core
+select_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - full_name
+      filter: {}
+  - role: moderator
+    permission:
+      columns:
+        - full_name
+      filter: {}

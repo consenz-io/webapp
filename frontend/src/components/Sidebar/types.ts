@@ -1,13 +1,8 @@
 export interface IFCProps {
-    mobileOpen: boolean,
-    handleSidebarToggle: () => void,
-}
-
-export interface IMenuItems {
-    text: string,
-    color: string
+  mobileOpen: boolean;
+  handleSidebarToggle: () => void;
 }
 
 export interface IUserData {
-    name: string,
+  name: string;
 }

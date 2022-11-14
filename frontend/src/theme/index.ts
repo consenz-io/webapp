@@ -1,1 +1,6 @@
-export { getDesignTokens, ColorModeAndDirectionContext } from "./theme";
+export {
+  getDesignTokens,
+  ColorModeAndDirectionContext,
+  backgroundBorderColor,
+  textSecondaryColor,
+} from './theme';

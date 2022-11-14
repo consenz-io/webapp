@@ -1,3 +1,28 @@
-.container {
-  height: 100vh;
+#root {
+  white-space: pre-line;
+}
+
+p {
+  white-space: pre-wrap;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror[contenteditable=false] p {
+  font-family: 'NotoSerif', serif;
+  font-weight: 400;
+}
+
+.ProseMirror-focused {
+  outline: none;
+}
+
+.ProseMirror th, .ProseMirror td {
+  border: 1px dotted #ADB2B8;
 }

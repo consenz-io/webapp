@@ -1,0 +1,1 @@
+CREATE TABLE "core"."users_groups" ("user" integer NOT NULL, "group" integer NOT NULL, "id" serial NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("user") REFERENCES "core"."users"("id") ON UPDATE restrict ON DELETE cascade, FOREIGN KEY ("group") REFERENCES "core"."groups"("id") ON UPDATE restrict ON DELETE cascade, UNIQUE ("id"));

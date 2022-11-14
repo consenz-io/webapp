@@ -1,0 +1,144 @@
+table:
+  name: agreements
+  schema: core
+object_relationships:
+  - name: category
+    using:
+      foreign_key_constraint_on: category_id
+  - name: group
+    using:
+      foreign_key_constraint_on: group_id
+array_relationships:
+  - name: chapters
+    using:
+      foreign_key_constraint_on:
+        column: agreement_id
+        table:
+          name: chapters
+          schema: core
+computed_fields:
+  - name: consensus
+    definition:
+      function:
+        name: agreement_consensus_average
+        schema: core
+    comment: Average of all section version consensus values for the agreement document.
+  - name: threshold
+    definition:
+      function:
+        name: agreement_threshold
+        schema: core
+    comment: The agreement document's consensus average multiplied by its voters count.
+  - name: users
+    definition:
+      function:
+        name: agreeement_voters_count
+        schema: core
+    comment: Count of all distinct users who have voted for any section version in the agreement document.
+insert_permissions:
+  - role: authenticated
+    permission:
+      check:
+        group:
+          group_users:
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
+      set:
+        created_at: now()
+        updated_at: now()
+      columns:
+        - category_id
+        - group_id
+        - name
+        - rationale
+  - role: moderator
+    permission:
+      check: {}
+      columns:
+        - category_id
+        - group_id
+        - is_archived
+        - name
+        - rationale
+select_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - category_id
+        - created_at
+        - group_id
+        - id
+        - is_archived
+        - name
+        - rationale
+        - updated_at
+      computed_fields:
+        - consensus
+        - threshold
+        - users
+      filter:
+        group:
+          group_users:
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      columns:
+        - is_archived
+        - category_id
+        - group_id
+        - id
+        - name
+        - rationale
+        - created_at
+        - updated_at
+      computed_fields:
+        - consensus
+        - threshold
+        - users
+      filter: {}
+update_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - category_id
+        - is_archived
+        - name
+        - rationale
+        - updated_at
+      filter:
+        group:
+          group_users:
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
+      check:
+        group:
+          group_users:
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      columns:
+        - category_id
+        - group_id
+        - is_archived
+        - name
+        - rationale
+      filter: {}
+      check: null
+delete_permissions:
+  - role: authenticated
+    permission:
+      filter:
+        group:
+          group_users:
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      filter: {}

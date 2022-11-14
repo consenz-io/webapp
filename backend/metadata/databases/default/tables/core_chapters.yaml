@@ -1,0 +1,75 @@
+table:
+  name: chapters
+  schema: core
+object_relationships:
+  - name: agreement
+    using:
+      foreign_key_constraint_on: agreement_id
+array_relationships:
+  - name: sections
+    using:
+      foreign_key_constraint_on:
+        column: chapter_id
+        table:
+          name: sections
+          schema: core
+insert_permissions:
+  - role: authenticated
+    permission:
+      check:
+        agreement:
+          group:
+            group_users:
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
+      columns:
+        - agreement_id
+        - index
+        - name
+  - role: moderator
+    permission:
+      check:
+        agreement:
+          group:
+            group_users:
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
+      columns:
+        - agreement_id
+        - index
+        - name
+select_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - agreement_id
+        - created_at
+        - id
+        - index
+        - name
+        - updated_at
+      filter:
+        agreement:
+          group:
+            group_users:
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      columns:
+        - agreement_id
+        - created_at
+        - id
+        - index
+        - name
+        - updated_at
+      filter:
+        agreement:
+          group:
+            group_users:
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
