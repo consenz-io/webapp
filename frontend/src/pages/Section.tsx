@@ -26,7 +26,12 @@ import {
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
 import { useTranslation } from 'react-i18next';
-import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
+import {
+  calcTimeAgoFromDate,
+  getRemainingSupporters,
+  getVersionProgress,
+  getVoteColor,
+} from 'utils/functions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
@@ -218,7 +223,9 @@ const Section: FC = () => {
                             <Typography>{comment.author.full_name}</Typography>
                           </Box>
                           <Box>
-                            <Typography variant="caption">{comment.created_at}</Typography>
+                            <Typography variant="caption">
+                              {calcTimeAgoFromDate(comment.created_at)}
+                            </Typography>
                           </Box>
                         </Stack>
                         <Stack direction="row">{comment.content}</Stack>
