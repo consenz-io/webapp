@@ -212,7 +212,7 @@ const Section: FC = () => {
             <Container maxWidth="sm">
               <Stack direction="row" spacing={4}>
                 <Box sx={{ paddingTop: 0.5 }}>
-                  <BtnCapital className="capital">
+                  <BtnCapital className="capital" color="main">
                     {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
                   </BtnCapital>
                 </Box>
