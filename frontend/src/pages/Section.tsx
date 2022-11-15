@@ -14,6 +14,7 @@ import {
   Card,
   CardContent,
   Chip,
+  Container,
   IconButton,
   LinearProgress,
   Snackbar,
@@ -30,6 +31,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
+import { useQuery } from '@apollo/client';
+import { getComments } from 'utils/queries';
+import { Comment } from 'types/entities';
 
 const Section: FC = () => {
   const theme = useTheme();
@@ -41,7 +45,13 @@ const Section: FC = () => {
   );
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
+  const { data } = useQuery<{ core_comments: Comment[] }>(getComments, {
+    variables: {
+      section_version_id: displayedVersion?.id || -1,
+    },
+  });
 
+  console.log('data', data);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -186,6 +196,37 @@ const Section: FC = () => {
                 />
               </Tooltip>
             </Stack>
+          </CardContent>
+        </Card>
+      )}
+      {displayedVersion && (
+        <Card variant="elevation" elevation={0}>
+          <CardContent>
+            {data &&
+              data.core_comments.map((comment: Comment) => {
+                return (
+                  <Container key={comment.id} maxWidth="sm" sx={{ marginBottom: '2rem' }}>
+                    <Stack direction="row" spacing={4}>
+                      <Stack alignItems="center" paddingTop={1}>
+                        <BtnCapital className="capital">
+                          {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+                        </BtnCapital>
+                      </Stack>
+                      <Stack>
+                        <Stack direction="row" spacing={2}>
+                          <Box>
+                            <Typography>{comment.author.full_name}</Typography>
+                          </Box>
+                          <Box>
+                            <Typography variant="caption">{comment.created_at}</Typography>
+                          </Box>
+                        </Stack>
+                        <Stack direction="row">{comment.content}</Stack>
+                      </Stack>
+                    </Stack>
+                  </Container>
+                );
+              })}
           </CardContent>
         </Card>
       )}
