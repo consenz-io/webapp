@@ -90,6 +90,7 @@ export const section = gql`
         upvotes
         author {
           full_name
+          id
         }
       }
     }

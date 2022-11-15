@@ -20,7 +20,9 @@ import {
   Stack,
   Tooltip,
   Typography,
+  Container,
   useTheme,
+  Button,
 } from '@mui/material';
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
@@ -30,17 +32,20 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
+import { inputBackgroundColor } from 'theme/theme';
 
 const Section: FC = () => {
   const theme = useTheme();
-  const { section, addVersion } = useContext(SectionContext);
+  const { section, addVersion, addComment } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
     section?.versions?.find((v) => v.id === Number(versionId))
   );
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
+  const [newComment, setNewComment] = useState<string>('');
 
   const navigate = useNavigate();
 
@@ -74,6 +79,18 @@ const Section: FC = () => {
       },
     });
     setIsTextPopupOpen(false);
+  }
+
+  function extractContentText(content: JSONContent) {
+    try {
+      const text = content!.content![0].content![0].text;
+      if (typeof text === 'string') {
+        return text;
+      }
+      return '';
+    } catch (error) {
+      return '';
+    }
   }
 
   return (
@@ -189,11 +206,80 @@ const Section: FC = () => {
           </CardContent>
         </Card>
       )}
+      {displayedVersion && (
+        <Card variant="elevation" elevation={0} sx={{ marginTop: 1 }}>
+          <CardContent>
+            <Container maxWidth="sm">
+              <Stack direction="row" spacing={4}>
+                <Box sx={{ paddingTop: 0.5 }}>
+                  <BtnCapital className="capital">
+                    {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+                  </BtnCapital>
+                </Box>
+                <Box
+                  sx={{
+                    borderRadius: '4px',
+                    backgroundColor: inputBackgroundColor,
+                  }}
+                  width="36rem"
+                  height="7rem"
+                  paddingX={2}
+                >
+                  <ContentEditor
+                    placeholder={t(StringBank.ADD_COMMENT_IN_SECTION)}
+                    content={newComment}
+                    onChange={(content: JSONContent) => {
+                      const text = extractContentText(content);
+                      if (!content || !text) {
+                        setNewComment('');
+                        return;
+                      }
+                      if (text && text !== newComment) {
+                        setNewComment(text);
+                      }
+                    }}
+                  ></ContentEditor>
+                </Box>
+              </Stack>
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  disabled={newComment === ''}
+                  variant="text"
+                  sx={{ paddingX: 0 }}
+                  onClick={() => {
+                    if (newComment !== '' && addComment && displayedVersion?.author) {
+                      addComment({
+                        variables: {
+                          content: newComment,
+                          authorId: displayedVersion?.author?.id,
+                          sectionVersionId: displayedVersion.id,
+                        },
+                      });
+                      setNewComment('');
+                      setIsCommentSnackbarVisible(true);
+                    }
+                    return;
+                  }}
+                >
+                  <Typography color={newComment === '' ? 'gray' : '#c49eff'}>Publish</Typography>
+                </Button>
+              </Stack>
+            </Container>
+          </CardContent>
+        </Card>
+      )}
       <Snackbar
         open={isSnackbarVisible}
         message={t(StringBank.URL_COPIED_SUCCESSFULLY)}
         autoHideDuration={4000}
         onClose={() => setIsSnackbarVisible(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      />
+      <Snackbar
+        open={isCommentSnackbarVisible}
+        message={t(StringBank.COMMNET_POSTED)}
+        autoHideDuration={4000}
+        onClose={() => setIsCommentSnackbarVisible(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       />
     </>
