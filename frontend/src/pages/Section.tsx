@@ -58,8 +58,9 @@ const Section: FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const res = addComment!(commentVars);
-    console.log('res', res);
+    if (commentVars.variables.section_version_id !== -1) {
+      addComment!(commentVars);
+    }
   }, [displayedVersion]);
 
   useEffect(() => {
@@ -220,6 +221,7 @@ const Section: FC = () => {
                       direction="row"
                       spacing={4}
                       sx={{ marginBottom: '2rem' }}
+                      justifyContent="center"
                     >
                       <Stack alignItems="center" paddingTop={1}>
                         <BtnCapital className="capital">
