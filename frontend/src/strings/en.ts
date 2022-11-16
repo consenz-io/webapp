@@ -49,6 +49,7 @@ export const en: Record<StringBank, string> = {
   NO_SECTIONS_TITLE: 'No Sections were approved yet.',
   NO_SECTIONS_PARAGRAPH:
     'Go to the agreement discussion page and vote for the sections that you would like to see here',
+  PUBLISH: 'Publish',
   PUBLISH_AGREEMENT: 'Publish Agreement',
   RATIONALE: 'Rationale',
   READ_MORE: 'Read More',

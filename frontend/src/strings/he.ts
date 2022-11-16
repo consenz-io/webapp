@@ -33,6 +33,7 @@ export const he: Partial<Record<StringBank, string>> = {
   בקשו ממנהל הקבוצה שלכן הזמנה על מנת להשתתף
   
   ותהנו!`,
+  PUBLISH: 'פרסום',
   VIEW_CURRENT_DRAFT: 'צפייה בגרסא הנוכחית',
   INSERT_NEW_VERSION: 'אנא הזינו הצעה חדשה',
   INSERT_NEW_SECTION_SHORT: 'אנא הזינו חלק חדש',

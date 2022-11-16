@@ -93,6 +93,21 @@ const Section: FC = () => {
     }
   }
 
+  function handelAddComment() {
+    if (newComment !== '' && addComment && displayedVersion?.author) {
+      addComment({
+        variables: {
+          content: newComment,
+          authorId: displayedVersion?.author?.id,
+          sectionVersionId: displayedVersion.id,
+        },
+      });
+      setNewComment('');
+      setIsCommentSnackbarVisible(true);
+    }
+    return;
+  }
+
   return (
     <>
       <Appbar
@@ -246,22 +261,11 @@ const Section: FC = () => {
                   disabled={newComment === ''}
                   variant="text"
                   sx={{ paddingX: 0 }}
-                  onClick={() => {
-                    if (newComment !== '' && addComment && displayedVersion?.author) {
-                      addComment({
-                        variables: {
-                          content: newComment,
-                          authorId: displayedVersion?.author?.id,
-                          sectionVersionId: displayedVersion.id,
-                        },
-                      });
-                      setNewComment('');
-                      setIsCommentSnackbarVisible(true);
-                    }
-                    return;
-                  }}
+                  onClick={handelAddComment}
                 >
-                  <Typography color={newComment === '' ? 'gray' : '#c49eff'}>Publish</Typography>
+                  <Typography color={newComment === '' ? 'gray' : '#c49eff'}>
+                    {t(StringBank.PUBLISH)}
+                  </Typography>
                 </Button>
               </Stack>
             </Container>
