@@ -36,13 +36,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
-import { useQuery } from '@apollo/client';
-import { getComments } from 'utils/queries';
+import { addCommentVars } from 'contexts/section';
 import { Comment } from 'types/entities';
 
 const Section: FC = () => {
   const theme = useTheme();
-  const { section, addVersion } = useContext(SectionContext);
+  const { section, addVersion, addComment, comments } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
@@ -50,13 +49,18 @@ const Section: FC = () => {
   );
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
-  const { data } = useQuery<{ core_comments: Comment[] }>(getComments, {
+  const commentVars: addCommentVars = {
     variables: {
       section_version_id: displayedVersion?.id || -1,
     },
-  });
+  };
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const res = addComment!(commentVars);
+    console.log('res', res);
+  }, [displayedVersion]);
 
   useEffect(() => {
     setDisplayedVersion(section?.versions?.find((v) => v.id === Number(versionId)));
@@ -208,8 +212,8 @@ const Section: FC = () => {
         <Card variant="elevation" elevation={0}>
           <CardContent>
             <Container maxWidth="sm">
-              {data &&
-                data.core_comments.map((comment: Comment) => {
+              {comments &&
+                comments.core_comments.map((comment: Comment) => {
                   return (
                     <Stack
                       key={comment.id}
