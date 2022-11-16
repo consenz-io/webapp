@@ -62,56 +62,26 @@ export function clamp(value: number, min: number, max: number) {
 }
 
 export function calcTimeAgoFromDate(stringDate: string) {
-  const date = new Date(stringDate);
-  const currentDate = new Date();
-
-  const currentYear = currentDate.getFullYear();
-  const givenYear = date.getFullYear();
-
-  const currentMonth = currentDate.getMonth() + 1;
-  const givenMonth = date.getMonth() + 1;
-
-  const currentDay = currentDate.getDay();
-  const givenDay = date.getDay();
-
-  const givenHour = date.getHours();
-  const currentHour = currentDate.getHours();
-
-  const givenMinutes = date.getMinutes();
-  const currentMinutes = currentDate.getMinutes();
-
-  const givenSecs = date.getSeconds();
-  const currentSecs = currentDate.getSeconds();
-
-  const yearsDiff = currentYear - givenYear;
-  console.log('yearsDiff', yearsDiff);
-  if (yearsDiff > 0) {
-    return `${yearsDiff} years ago`;
+  const seconds = Math.floor((new Date().getTime() - new Date(stringDate).getTime()) / 1000);
+  let interval = seconds / (60 * 60 * 24 * 365);
+  if (interval > 1) {
+    return `${Math.floor(interval)} years ago`;
   }
-  const monthDiff = currentMonth - givenMonth;
-  console.log('monthDiff', monthDiff);
-  if (currentMonth - givenMonth > 0) {
-    return `${monthDiff} months ago`;
+  interval = seconds / (60 * 60 * 24 * 30);
+  if (interval > 1) {
+    return `${Math.floor(interval)} months ago`;
   }
-
-  const daysDiff = currentDay - givenDay;
-  console.log('daysDiff', daysDiff);
-  if (daysDiff > 0) {
-    return `${daysDiff} days ago`;
+  interval = seconds / (60 * 60 * 24);
+  if (interval > 1) {
+    return `${Math.floor(interval)} days ago`;
   }
-
-  const hoursDiff = currentHour - givenHour;
-  if (hoursDiff > 0) {
-    return `${hoursDiff} hours ago`;
+  interval = seconds / (60 * 60);
+  if (interval > 1) {
+    return `${Math.floor(interval)} hours ago`;
   }
-
-  const minDiff = currentMinutes - givenMinutes;
-  if (minDiff > 0) {
-    return `${minDiff} minutes ago`;
+  interval = seconds / 60;
+  if (interval > 1) {
+    return `${Math.floor(interval)} minutes ago`;
   }
-
-  const secDiff = currentSecs - givenSecs;
-  if (secDiff > 0) {
-    return `${secDiff} seconds ago`;
-  }
+  return `${Math.floor(seconds)} seconds ago`;
 }

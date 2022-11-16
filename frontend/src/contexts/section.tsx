@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { createContext, FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IFCProps, Section } from 'types';
+// import { section as sectionQuery, getComments } from 'utils/queries';
 import { section as sectionQuery } from 'utils/queries';
 import { addSectionVersion as insertSectionVersionMutation } from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
@@ -13,9 +14,16 @@ export interface addVersionVars {
   };
 }
 
+// export interface addCommentVars {
+//   variables: {
+//     section_version_id: number;
+//   };
+// }
+
 interface SectionState {
   section?: Section;
   addVersion?: (variables: addVersionVars) => void;
+  // addComment: (variables: addCommentVars) => void;
 }
 
 const SectionContext = createContext<SectionState>({});

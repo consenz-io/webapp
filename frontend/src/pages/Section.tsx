@@ -56,7 +56,6 @@ const Section: FC = () => {
     },
   });
 
-  console.log('data', data);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -207,11 +206,16 @@ const Section: FC = () => {
       {displayedVersion && (
         <Card variant="elevation" elevation={0}>
           <CardContent>
-            {data &&
-              data.core_comments.map((comment: Comment) => {
-                return (
-                  <Container key={comment.id} maxWidth="sm" sx={{ marginBottom: '2rem' }}>
-                    <Stack direction="row" spacing={4}>
+            <Container maxWidth="sm">
+              {data &&
+                data.core_comments.map((comment: Comment) => {
+                  return (
+                    <Stack
+                      key={comment.id}
+                      direction="row"
+                      spacing={4}
+                      sx={{ marginBottom: '2rem' }}
+                    >
                       <Stack alignItems="center" paddingTop={1}>
                         <BtnCapital className="capital">
                           {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
@@ -231,9 +235,9 @@ const Section: FC = () => {
                         <Stack direction="row">{comment.content}</Stack>
                       </Stack>
                     </Stack>
-                  </Container>
-                );
-              })}
+                  );
+                })}
+            </Container>
           </CardContent>
         </Card>
       )}
