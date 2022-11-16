@@ -137,6 +137,7 @@ const Section: FC = () => {
           }
         />
         <TextEditorPopup
+          key={displayedVersion?.id}
           isOpen={isTextPopupOpen}
           parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
           newVersionName={generateVersionName(section)}
