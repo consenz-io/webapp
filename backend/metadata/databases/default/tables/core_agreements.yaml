@@ -133,6 +133,7 @@ update_permissions:
 delete_permissions:
   - role: authenticated
     permission:
+      backend_only: false
       filter:
         group:
           group_users:
@@ -141,4 +142,5 @@ delete_permissions:
                 _eq: X-Hasura-User-Id
   - role: moderator
     permission:
+      backend_only: false
       filter: {}
