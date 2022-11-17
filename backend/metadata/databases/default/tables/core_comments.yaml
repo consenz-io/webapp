@@ -89,3 +89,25 @@ select_permissions:
                     user:
                       user_id:
                         _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: authenticated
+    permission:
+      backend_only: false
+      filter:
+        author:
+          user:
+            user_id:
+              _eq: X-Hasura-User-Id
+  - role: moderator
+    permission:
+      backend_only: false
+      filter:
+        section_version:
+          section:
+            chapter:
+              agreement:
+                group:
+                  group_users:
+                    user:
+                      user_id:
+                        _eq: X-Hasura-User-Id
