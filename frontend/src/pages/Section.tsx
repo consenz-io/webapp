@@ -33,7 +33,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
-import { inputBackgroundColor } from 'theme/theme';
+import { activeBtnColor, inputBackgroundColor } from 'theme/theme';
 
 const Section: FC = () => {
   const theme = useTheme();
@@ -252,7 +252,6 @@ const Section: FC = () => {
                       backgroundColor: 'transparent',
                       border: 'none',
                       color: `${textSecondaryColor}`,
-                      boxShadow: 'none',
                       fontSize: '1rem',
                       fontFamily: 'lato',
                       padding: '1rem',
@@ -269,7 +268,9 @@ const Section: FC = () => {
                 >
                   <Typography
                     color={
-                      newComment === '' || txtAreaEl.current?.value === '' ? 'gray' : '#c49eff'
+                      newComment === '' || txtAreaEl.current?.value === ''
+                        ? textSecondaryColor
+                        : activeBtnColor
                     }
                   >
                     {t(StringBank.PUBLISH)}
