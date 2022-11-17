@@ -16,6 +16,7 @@ select_permissions:
     permission:
       columns:
         - full_name
+        - id
       filter: {}
   - role: moderator
     permission:
