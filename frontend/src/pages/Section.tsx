@@ -213,37 +213,36 @@ const Section: FC = () => {
         <Card variant="elevation" elevation={0}>
           <CardContent>
             <Container maxWidth="sm">
-              {comments &&
-                comments.core_comments.map((comment: Comment) => {
-                  return (
-                    <Stack
-                      key={comment.id}
-                      direction="row"
-                      spacing={4}
-                      sx={{ marginBottom: '2rem' }}
-                      justifyContent="center"
-                    >
-                      <Stack alignItems="center" paddingTop={1}>
-                        <BtnCapital className="capital">
-                          {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
-                        </BtnCapital>
-                      </Stack>
-                      <Stack>
-                        <Stack direction="row" spacing={2}>
-                          <Box>
-                            <Typography>{comment.author.full_name}</Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant="caption">
-                              {calcTimeAgoFromDate(comment.created_at)}
-                            </Typography>
-                          </Box>
-                        </Stack>
-                        <Stack direction="row">{comment.content}</Stack>
-                      </Stack>
+              {comments?.core_comments.map((comment: Comment) => {
+                return (
+                  <Stack
+                    key={comment.id}
+                    direction="row"
+                    spacing={4}
+                    marginBottom={4}
+                    justifyContent="center"
+                  >
+                    <Stack alignItems="center" paddingTop={1}>
+                      <BtnCapital className="capital">
+                        {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+                      </BtnCapital>
                     </Stack>
-                  );
-                })}
+                    <Stack>
+                      <Stack direction="row" spacing={2}>
+                        <Box>
+                          <Typography>{comment.author.full_name}</Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="caption">
+                            {calcTimeAgoFromDate(comment.created_at)}
+                          </Typography>
+                        </Box>
+                      </Stack>
+                      <Stack direction="row">{comment.content}</Stack>
+                    </Stack>
+                  </Stack>
+                );
+              })}
             </Container>
           </CardContent>
         </Card>
