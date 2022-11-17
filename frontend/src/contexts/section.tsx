@@ -17,7 +17,6 @@ export interface AddCommentVars {
   variables: {
     content: string;
     sectionVersionId: number;
-    authorId: number;
   };
 }
 

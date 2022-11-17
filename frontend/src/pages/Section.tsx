@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Appbar, ContentEditor, SvgIcon, TextEditorPopup } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
-import { FC, useContext, useEffect, useState, useRef } from 'react';
+import { FC, useContext, useEffect, useState, useRef, ChangeEvent } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
 import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
@@ -87,7 +87,6 @@ const Section: FC = () => {
       addComment({
         variables: {
           content: newComment,
-          authorId: displayedVersion?.author?.id,
           sectionVersionId: displayedVersion.id,
         },
       });
@@ -96,6 +95,17 @@ const Section: FC = () => {
       if (txtAreaEl.current) {
         txtAreaEl.current.value = '';
       }
+    }
+    return;
+  }
+
+  function handelOnChangeText(data: ChangeEvent<HTMLTextAreaElement>) {
+    const commentText = data.target.value;
+    if (commentText !== '') {
+      setNewComment(commentText);
+    } else {
+      data.target.value = '';
+      setNewComment('');
     }
     return;
   }
@@ -235,22 +245,13 @@ const Section: FC = () => {
                   <TextareaAutosize
                     ref={txtAreaEl}
                     placeholder={t(StringBank.ADD_COMMENT_IN_SECTION)}
-                    onChange={(data) => {
-                      const commentText = data.target.value;
-                      if (commentText !== '') {
-                        setNewComment(commentText);
-                      } else {
-                        data.target.value = '';
-                        setNewComment('');
-                      }
-                      return;
-                    }}
+                    onChange={handelOnChangeText}
                     style={{
                       width: '100%',
                       height: '100%',
                       backgroundColor: 'transparent',
                       border: 'none',
-                      color: '#adb2b8',
+                      color: `${textSecondaryColor}`,
                       boxShadow: 'none',
                       fontSize: '1rem',
                       fontFamily: 'lato',
