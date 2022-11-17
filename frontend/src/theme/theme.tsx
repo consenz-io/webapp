@@ -71,6 +71,16 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
     },
     components: {
       MuiTextField: {
+        variants: [
+          {
+            props: { multiline: true },
+            style: {
+              '& fieldset': {
+                border: 'none',
+              },
+            },
+          },
+        ],
         styleOverrides: {
           root: {
             backgroundColor: inputBackgroundColor,
