@@ -63,17 +63,22 @@ const Section: FC = () => {
     return `${t(StringBank.VERSION)} ${versionNum}`;
   }
 
-  function handleComplete(editorContent: JSONContent) {
+  async function handleComplete(editorContent: JSONContent) {
     if (!section || !addVersion) {
       return;
     }
-    addVersion({
+    const {
+      data: {
+        insert_core_section_versions_one: { id },
+      },
+    } = await addVersion({
       variables: {
         content: editorContent,
         sectionId: section.id,
       },
     });
     setIsTextPopupOpen(false);
+    navigate(`../section/${section.id}/${id}`);
   }
 
   return (
