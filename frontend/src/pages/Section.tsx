@@ -69,7 +69,7 @@ const Section: FC = () => {
     }
     const {
       data: {
-        insert_core_section_versions_one: { id },
+        insert_core_section_versions_one: { id: versionId },
       },
     } = await addVersion({
       variables: {
@@ -78,7 +78,7 @@ const Section: FC = () => {
       },
     });
     setIsTextPopupOpen(false);
-    navigate(`../section/${section.id}/${id}`);
+    navigate(`../section/${section.id}/${versionId}`);
   }
 
   return (
