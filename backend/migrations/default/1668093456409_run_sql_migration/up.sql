@@ -22,10 +22,11 @@ returns trigger as $$
     begin
         inserted_chapter_id=NEW.chapter_id;
         select * from core.chapter_to_agreement(inserted_chapter_id) into inserted_agreement_id;
+        inserted_agreement_id := core.chapter_to_agreement(inserted_chapter_id);
         FOR rec IN
             select * from core.sections
         LOOP
-        select * from core.chapter_to_agreement(rec.chapter.id) into row_agreement_id;
+        row_agreement_id := (core.chapter_to_agreement(rec.chapter_id));
         update core.sections
         set index = rec.index +1
         where id = rec.id and rec.index >= NEW.index and id != NEW.id and row_agreement_id=inserted_agreement_id;
