@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Appbar, ContentEditor, SvgIcon, TextEditorPopup } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState, useRef } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
 import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
@@ -23,6 +23,7 @@ import {
   Container,
   useTheme,
   Button,
+  TextareaAutosize,
 } from '@mui/material';
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
@@ -46,7 +47,7 @@ const Section: FC = () => {
   const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const [newComment, setNewComment] = useState<string>('');
-
+  const txtAreaEl = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -81,16 +82,22 @@ const Section: FC = () => {
     setIsTextPopupOpen(false);
   }
 
-  function extractContentText(content: JSONContent) {
-    try {
-      const text = content!.content![0].content![0].text;
-      if (typeof text === 'string') {
-        return text;
+  function handelAddComment() {
+    if (newComment !== '' && addComment && displayedVersion?.author) {
+      addComment({
+        variables: {
+          content: newComment,
+          authorId: displayedVersion?.author?.id,
+          sectionVersionId: displayedVersion.id,
+        },
+      });
+      setNewComment('');
+      setIsCommentSnackbarVisible(true);
+      if (txtAreaEl.current) {
+        txtAreaEl.current.value = '';
       }
-      return '';
-    } catch (error) {
-      return '';
     }
+    return;
   }
 
   return (
@@ -221,48 +228,51 @@ const Section: FC = () => {
                   sx={{
                     borderRadius: '4px',
                     backgroundColor: inputBackgroundColor,
+                    width: '31rem',
+                    height: '7rem',
                   }}
-                  width="36rem"
-                  height="7rem"
-                  paddingX={2}
                 >
-                  <ContentEditor
+                  <TextareaAutosize
+                    ref={txtAreaEl}
                     placeholder={t(StringBank.ADD_COMMENT_IN_SECTION)}
-                    content={newComment}
-                    onChange={(content: JSONContent) => {
-                      const text = extractContentText(content);
-                      if (!content || !text) {
+                    onChange={(data) => {
+                      const commentText = data.target.value;
+                      if (commentText !== '') {
+                        setNewComment(commentText);
+                      } else {
+                        data.target.value = '';
                         setNewComment('');
-                        return;
                       }
-                      if (text && text !== newComment) {
-                        setNewComment(text);
-                      }
+                      return;
                     }}
-                  ></ContentEditor>
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: '#adb2b8',
+                      boxShadow: 'none',
+                      fontSize: '1rem',
+                      fontFamily: 'lato',
+                      padding: '1rem',
+                    }}
+                  />
                 </Box>
               </Stack>
               <Stack direction="row" justifyContent="end">
                 <Button
-                  disabled={newComment === ''}
+                  disabled={newComment === '' || txtAreaEl.current?.value === ''}
                   variant="text"
                   sx={{ paddingX: 0 }}
-                  onClick={() => {
-                    if (newComment !== '' && addComment && displayedVersion?.author) {
-                      addComment({
-                        variables: {
-                          content: newComment,
-                          authorId: displayedVersion?.author?.id,
-                          sectionVersionId: displayedVersion.id,
-                        },
-                      });
-                      setNewComment('');
-                      setIsCommentSnackbarVisible(true);
-                    }
-                    return;
-                  }}
+                  onClick={handelAddComment}
                 >
-                  <Typography color={newComment === '' ? 'gray' : '#c49eff'}>Publish</Typography>
+                  <Typography
+                    color={
+                      newComment === '' || txtAreaEl.current?.value === '' ? 'gray' : '#c49eff'
+                    }
+                  >
+                    {t(StringBank.PUBLISH)}
+                  </Typography>
                 </Button>
               </Stack>
             </Container>

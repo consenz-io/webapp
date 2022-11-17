@@ -3,7 +3,7 @@ import { createContext, FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IFCProps, Section } from 'types';
 import { section as sectionQuery } from 'utils/queries';
-import { addSectionVersion as insertSectionVersionMutation, AddComment } from 'utils/mutations';
+import { addSectionVersion as insertSectionVersionMutation, addComment } from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
 
 export interface addVersionVars {
@@ -13,7 +13,7 @@ export interface addVersionVars {
   };
 }
 
-export interface addCommnetVars {
+export interface AddCommentVars {
   variables: {
     content: string;
     sectionVersionId: number;
@@ -24,14 +24,14 @@ export interface addCommnetVars {
 interface SectionState {
   section?: Section;
   addVersion?: (variables: addVersionVars) => void;
-  addComment?: (variables: addCommnetVars) => void;
+  addComment?: (variables: AddCommentVars) => void;
 }
 
 const SectionContext = createContext<SectionState>({});
 
 const SectionProvider: FC<IFCProps> = ({ children }) => {
   const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
-  const [addComment] = useMutation(AddComment);
+  const [addCommentFn] = useMutation(addComment);
   const { sectionId } = useParams();
   const { data, startPolling, stopPolling } = useQuery<{
     core_sections: Section[];
@@ -49,7 +49,7 @@ const SectionProvider: FC<IFCProps> = ({ children }) => {
   const state: SectionState = {
     section: data?.core_sections[0],
     addVersion,
-    addComment,
+    addComment: addCommentFn,
   };
   return <SectionContext.Provider value={state}>{children}</SectionContext.Provider>;
 };

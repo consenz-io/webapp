@@ -97,11 +97,9 @@ export const addSectionVersion = gql`
   }
 `;
 
-export const AddComment = gql`
-  mutation addComment($authorId: Int!, $content: String!, $sectionVersionId: Int!) {
-    insert_core_comments_one(
-      object: { author_id: $authorId, content: $content, section_version_id: $sectionVersionId }
-    ) {
+export const addComment = gql`
+  mutation addComment($content: String!, $sectionVersionId: Int!) {
+    insert_core_comments_one(object: { content: $content, section_version_id: $sectionVersionId }) {
       id
     }
   }
