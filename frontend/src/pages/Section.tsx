@@ -14,6 +14,7 @@ import {
   Card,
   CardContent,
   Chip,
+  Container,
   IconButton,
   LinearProgress,
   Snackbar,
@@ -25,15 +26,22 @@ import {
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
 import { useTranslation } from 'react-i18next';
-import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
+import {
+  calcTimeAgoFromDate,
+  getRemainingSupporters,
+  getVersionProgress,
+  getVoteColor,
+} from 'utils/functions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
+import { addCommentVars } from 'contexts/section';
+import { Comment } from 'types/entities';
 
 const Section: FC = () => {
   const theme = useTheme();
-  const { section, addVersion } = useContext(SectionContext);
+  const { section, addVersion, addComment, comments } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
@@ -41,8 +49,19 @@ const Section: FC = () => {
   );
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
+  const commentVars: addCommentVars = {
+    variables: {
+      section_version_id: displayedVersion?.id || -1,
+    },
+  };
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (commentVars.variables.section_version_id !== -1) {
+      addComment!(commentVars);
+    }
+  }, [displayedVersion]);
 
   useEffect(() => {
     setDisplayedVersion(section?.versions?.find((v) => v.id === Number(versionId)));
@@ -187,6 +206,44 @@ const Section: FC = () => {
                 />
               </Tooltip>
             </Stack>
+          </CardContent>
+        </Card>
+      )}
+      {displayedVersion && (
+        <Card variant="elevation" elevation={0}>
+          <CardContent>
+            <Container maxWidth="sm">
+              {comments?.core_comments.map((comment: Comment) => {
+                return (
+                  <Stack
+                    key={comment.id}
+                    direction="row"
+                    spacing={4}
+                    marginBottom={4}
+                    justifyContent="center"
+                  >
+                    <Stack alignItems="center" paddingTop={1}>
+                      <BtnCapital className="capital">
+                        {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+                      </BtnCapital>
+                    </Stack>
+                    <Stack>
+                      <Stack direction="row" spacing={2}>
+                        <Box>
+                          <Typography>{comment.author.full_name}</Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="caption">
+                            {calcTimeAgoFromDate(comment.created_at)}
+                          </Typography>
+                        </Box>
+                      </Stack>
+                      <Stack direction="row">{comment.content}</Stack>
+                    </Stack>
+                  </Stack>
+                );
+              })}
+            </Container>
           </CardContent>
         </Card>
       )}
