@@ -27,6 +27,7 @@ export const en: Record<StringBank, string> = {
   CATEGORIES: 'Categories',
   CATEGORY_EMPTY_MESSAGE: "Maybe you'd like to create one",
   COMING_SOON: 'Coming Soon',
+  CONFIRM_COMMENT_DELETE: 'Please write the word "comment"in order to confirm deleting it.',
   CONTINUE: 'Continue',
   CREATE: 'Create',
   CREATE_FIRST_AGREEMENT: 'Create your first agreement',

@@ -31,6 +31,7 @@ export const he: Partial<Record<StringBank, string>> = {
   בקשו ממנהל הקבוצה שלכן הזמנה על מנת להשתתף
   
   ותהנו!`,
+  CONFIRM_COMMENT_DELETE: 'אנא רשמו "תגובה" כדי לאשר את המחיקה',
   VIEW_CURRENT_DRAFT: 'צפייה בגרסא הנוכחית',
   INSERT_NEW_VERSION: 'אנא הזינו הצעה חדשה',
   INSERT_NEW_SECTION_SHORT: 'אנא הזינו חלק חדש',

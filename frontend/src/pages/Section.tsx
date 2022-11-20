@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Appbar, ContentEditor, SvgIcon, TextEditorPopup } from 'components';
+import { Appbar, ContentEditor, Dialog, SvgIcon, TextEditorPopup } from 'components';
 import { AgreementContext, AuthContext, SectionContext } from 'contexts';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
@@ -44,18 +44,37 @@ const Section: FC = () => {
   const { role } = useContext(AuthContext);
   console.log('role', role);
   const theme = useTheme();
+  const [openDialogState, setOpenDialogState] = useState(false);
   const { section, addVersion, addComment, comments, deleteComment } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
     section?.versions?.find((v) => v.id === Number(versionId))
   );
+  const { t } = useTranslation();
+  const baseDelDialogContent = t(StringBank.CONFIRM_COMMENT_DELETE);
+  const [currentContent, setDelPopContent] = useState<string>(baseDelDialogContent);
+  const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const commentVars: addCommentVars = {
     variables: {
       section_version_id: displayedVersion?.id || -1,
     },
+  };
+
+  const handelDeleteComment = (input: string, id: number) => {
+    if (input !== 'comment') {
+      setDelPopContent(
+        `${currentContent}\nThe inputed value: ${input} does not match the word "comment"`
+      );
+      setTimeout(() => {
+        setDelPopContent(baseDelDialogContent);
+      }, 4000);
+    } else {
+      onDeleteComment(id);
+      setOpenDialogState(false);
+    }
   };
 
   const navigate = useNavigate();
@@ -69,7 +88,6 @@ const Section: FC = () => {
   useEffect(() => {
     setDisplayedVersion(section?.versions?.find((v) => v.id === Number(versionId)));
   }, [section, versionId]);
-  const { t } = useTranslation();
 
   function handleShare() {
     navigator.clipboard.writeText(window.location.href);
@@ -98,15 +116,23 @@ const Section: FC = () => {
     setIsTextPopupOpen(false);
   }
 
-  function handelDeleteComment(commentId: number) {
+  function onDeleteComment(commentId: number) {
     if (deleteComment) {
       deleteComment({
         variables: {
           id: commentId,
         },
       });
+      setCommentIdToDel(-1);
     }
   }
+
+  const handleClickOpenDialog = () => {
+    setOpenDialogState(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialogState(false);
+  };
 
   return (
     <>
@@ -267,7 +293,9 @@ const Section: FC = () => {
                             size="small"
                             onClick={() => {
                               console.log('deleteing comment');
-                              handelDeleteComment(comment.id);
+                              setCommentIdToDel(comment.id);
+                              handleClickOpenDialog();
+                              // handelDeleteComment(comment.id);
                             }}
                           >
                             <SvgIcon htmlColor={textSecondaryColor}>
@@ -291,6 +319,19 @@ const Section: FC = () => {
         autoHideDuration={4000}
         onClose={() => setIsSnackbarVisible(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      />
+      <Dialog
+        openDialogState={openDialogState}
+        title={t(StringBank.DELETE_AGREEMENT)}
+        content={currentContent}
+        cancelFunction={handleCloseDialog}
+        finishFunction={(input: string) => {
+          handelDeleteComment(input, commentIdToDel);
+        }}
+        cancelBtnText={t(StringBank.CANCEL)}
+        finishBtnText={t(StringBank.DELETE)}
+        placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
+        doneBtnVariant="delete"
       />
     </>
   );
