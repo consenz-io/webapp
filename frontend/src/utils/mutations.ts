@@ -96,3 +96,11 @@ export const addSectionVersion = gql`
     }
   }
 `;
+
+export const deleteComment = gql`
+  mutation deleteComment($id: Int!) {
+    delete_core_comments(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;
