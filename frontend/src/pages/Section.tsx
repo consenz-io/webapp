@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Appbar, ContentEditor, SvgIcon, TextEditorPopup } from 'components';
-import { AgreementContext, SectionContext } from 'contexts';
+import { AgreementContext, AuthContext, SectionContext } from 'contexts';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
 import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
@@ -9,6 +9,7 @@ import { ReactComponent as LinkIcon } from 'assets/icons/link.svg';
 import { ReactComponent as LikeIcon } from 'assets/icons/like.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
+import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
 import {
   Box,
   Card,
@@ -40,8 +41,10 @@ import { addCommentVars } from 'contexts/section';
 import { Comment } from 'types/entities';
 
 const Section: FC = () => {
+  const { role } = useContext(AuthContext);
+  console.log('role', role);
   const theme = useTheme();
-  const { section, addVersion, addComment, comments } = useContext(SectionContext);
+  const { section, addVersion, addComment, comments, deleteComment } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
@@ -93,6 +96,16 @@ const Section: FC = () => {
       },
     });
     setIsTextPopupOpen(false);
+  }
+
+  function handelDeleteComment(commentId: number) {
+    if (deleteComment) {
+      deleteComment({
+        variables: {
+          id: commentId,
+        },
+      });
+    }
   }
 
   return (
@@ -166,11 +179,23 @@ const Section: FC = () => {
                   {displayedVersion?.created_at?.toLocaleDateString(navigator.language)}
                 </Typography>
               </Stack>
-              <IconButton size="small" onClick={handleShare}>
-                <SvgIcon htmlColor={textSecondaryColor}>
-                  <LinkIcon />
-                </SvgIcon>
-              </IconButton>
+              <Stack direction="row">
+                <IconButton size="small" onClick={handleShare}>
+                  <SvgIcon htmlColor={textSecondaryColor}>
+                    <LinkIcon />
+                  </SvgIcon>
+                </IconButton>
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    console.log('deleteing ');
+                  }}
+                >
+                  <SvgIcon htmlColor={textSecondaryColor}>
+                    <TrashIcon />
+                  </SvgIcon>
+                </IconButton>
+              </Stack>
             </Stack>
             <Box paddingY={4}>
               <ContentEditor readonly content={displayedVersion?.content} />
@@ -209,8 +234,8 @@ const Section: FC = () => {
           </CardContent>
         </Card>
       )}
-      {displayedVersion && (
-        <Card variant="elevation" elevation={0}>
+      {displayedVersion && comments && comments.core_comments.length > 0 && (
+        <Card variant="elevation" elevation={0} sx={{ marginTop: '1rem' }}>
           <CardContent>
             <Container maxWidth="sm">
               {comments?.core_comments.map((comment: Comment) => {
@@ -236,6 +261,19 @@ const Section: FC = () => {
                           <Typography variant="caption">
                             {calcTimeAgoFromDate(comment.created_at)}
                           </Typography>
+                        </Box>
+                        <Box>
+                          <IconButton
+                            size="small"
+                            onClick={() => {
+                              console.log('deleteing comment');
+                              handelDeleteComment(comment.id);
+                            }}
+                          >
+                            <SvgIcon htmlColor={textSecondaryColor}>
+                              <TrashIcon />
+                            </SvgIcon>
+                          </IconButton>
                         </Box>
                       </Stack>
                       <Stack direction="row">{comment.content}</Stack>
