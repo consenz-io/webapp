@@ -104,3 +104,11 @@ export const deleteComment = gql`
     }
   }
 `;
+
+export const deleteSectionVersion = gql`
+  mutation deleteSectionVersion($id: Int!) {
+    delete_core_section_versions(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;

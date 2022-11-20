@@ -5,6 +5,7 @@ import { IFCProps, Section } from 'types';
 import {
   addSectionVersion as insertSectionVersionMutation,
   deleteComment as deleteCommentMutation,
+  deleteSectionVersion as deleteSVtMutation,
 } from 'utils/mutations';
 import { section as sectionQuery, getComments } from 'utils/queries';
 import { JSONContent } from '@tiptap/react';
@@ -33,6 +34,7 @@ interface SectionState {
   deleteComment?: (variables: delCommentsVars) => void;
   addComment?: (variables: addCommentVars) => unknown;
   comments?: { core_comments: any[] };
+  deleteSectionVersion?: (variables: delCommentsVars) => void;
 }
 
 const SectionContext = createContext<SectionState>({});
@@ -40,6 +42,9 @@ const SectionContext = createContext<SectionState>({});
 const SectionProvider: FC<IFCProps> = ({ children }) => {
   const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
   const [deleteComment] = useMutation(deleteCommentMutation, {
+    refetchQueries: ['section', 'getComments'],
+  });
+  const [deleteSectionVersion] = useMutation(deleteSVtMutation, {
     refetchQueries: ['section', 'getComments'],
   });
   const [addComment, { data: comments }] = useLazyQuery(getComments);
@@ -66,6 +71,7 @@ const SectionProvider: FC<IFCProps> = ({ children }) => {
       return comments;
     },
     comments,
+    deleteSectionVersion,
   };
   return <SectionContext.Provider value={state}>{children}</SectionContext.Provider>;
 };

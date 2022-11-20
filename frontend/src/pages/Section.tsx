@@ -45,7 +45,8 @@ const Section: FC = () => {
   console.log('role', role);
   const theme = useTheme();
   const [openDialogState, setOpenDialogState] = useState(false);
-  const { section, addVersion, addComment, comments, deleteComment } = useContext(SectionContext);
+  const { section, addVersion, addComment, comments, deleteComment, deleteSectionVersion } =
+    useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
@@ -214,7 +215,10 @@ const Section: FC = () => {
                 <IconButton
                   size="small"
                   onClick={() => {
-                    console.log('deleteing ');
+                    console.log('deleteing sectio nversion');
+                    if (deleteSectionVersion && displayedVersion) {
+                      deleteSectionVersion({ variables: { id: displayedVersion.id } });
+                    }
                   }}
                 >
                   <SvgIcon htmlColor={textSecondaryColor}>
