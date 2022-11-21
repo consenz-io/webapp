@@ -228,8 +228,11 @@ const Section: FC = () => {
                   }}
                   size="small"
                   onClick={() => {
-                    console.log('deleteing sectio nversion');
-                    if (deleteSectionVersion && displayedVersion) {
+                    if (
+                      deleteSectionVersion &&
+                      displayedVersion &&
+                      checkAuthorOrModerator(displayedVersion.id)
+                    ) {
                       deleteSectionVersion({ variables: { id: displayedVersion.id } });
                     }
                   }}
@@ -314,7 +317,6 @@ const Section: FC = () => {
                         <Button
                           sx={{ paddingX: 0, minWidth: 0 }}
                           onClick={() => {
-                            console.log('deleteing comment');
                             setCommentIdToDel(comment.id);
                             handleClickOpenDialog();
                           }}

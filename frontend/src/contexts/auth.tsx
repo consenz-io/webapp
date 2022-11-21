@@ -25,7 +25,6 @@ const AuthProvider = ({ children }: IFCProps) => {
       })
       .catch(loginWithRedirect);
     getIdTokenClaims().then((idClaims) => {
-      console.log('idClaims', idClaims);
       if (idClaims) {
         setUserRole(idClaims.role || userRole || '');
       }
