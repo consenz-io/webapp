@@ -36,12 +36,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
-import { addCommentVars } from 'contexts/section';
 import { Comment } from 'types/entities';
 
 const Section: FC = () => {
   const theme = useTheme();
-  const { section, addVersion, addComment, comments } = useContext(SectionContext);
+  const { section, addVersion, fetchComments, comments } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
@@ -49,19 +48,16 @@ const Section: FC = () => {
   );
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
-  const commentVars: addCommentVars = {
-    variables: {
-      section_version_id: displayedVersion?.id || -1,
-    },
-  };
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (commentVars.variables.section_version_id !== -1) {
-      addComment!(commentVars);
+    const section_version_id = displayedVersion?.id;
+    if (section_version_id) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      fetchComments!(section_version_id);
     }
-  }, [displayedVersion]);
+  }, [fetchComments, displayedVersion]);
 
   useEffect(() => {
     setDisplayedVersion(section?.versions?.find((v) => v.id === Number(versionId)));
