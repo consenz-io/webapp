@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Appbar, ContentEditor, Dialog, SvgIcon, TextEditorPopup } from 'components';
-import { AgreementContext, AuthContext, SectionContext } from 'contexts';
+import { AgreementContext, AuthContext, DataContext, SectionContext } from 'contexts';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
 import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
@@ -12,6 +12,7 @@ import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
 import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Chip,
@@ -42,11 +43,13 @@ import { Comment } from 'types/entities';
 
 const Section: FC = () => {
   const { role } = useContext(AuthContext);
-  console.log('role', role);
+  const { user } = useContext(DataContext);
+
   const theme = useTheme();
   const [openDialogState, setOpenDialogState] = useState(false);
   const { section, addVersion, addComment, comments, deleteComment, deleteSectionVersion } =
     useContext(SectionContext);
+
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
@@ -126,6 +129,10 @@ const Section: FC = () => {
       });
       setCommentIdToDel(-1);
     }
+  }
+
+  function checkAuthorOrModerator(authorId: number) {
+    return role === 'moderator' || (user && user.id === authorId);
   }
 
   const handleClickOpenDialog = () => {
@@ -213,6 +220,12 @@ const Section: FC = () => {
                   </SvgIcon>
                 </IconButton>
                 <IconButton
+                  sx={{
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    display: checkAuthorOrModerator(displayedVersion!.author!.id)
+                      ? 'inline'
+                      : 'none',
+                  }}
                   size="small"
                   onClick={() => {
                     console.log('deleteing sectio nversion');
@@ -292,23 +305,23 @@ const Section: FC = () => {
                             {calcTimeAgoFromDate(comment.created_at)}
                           </Typography>
                         </Box>
-                        <Box>
-                          <IconButton
-                            size="small"
-                            onClick={() => {
-                              console.log('deleteing comment');
-                              setCommentIdToDel(comment.id);
-                              handleClickOpenDialog();
-                              // handelDeleteComment(comment.id);
-                            }}
-                          >
-                            <SvgIcon htmlColor={textSecondaryColor}>
-                              <TrashIcon />
-                            </SvgIcon>
-                          </IconButton>
-                        </Box>
                       </Stack>
                       <Stack direction="row">{comment.content}</Stack>
+                      <Stack
+                        direction="row"
+                        display={checkAuthorOrModerator(comment.author.id) ? 'block' : 'none'}
+                      >
+                        <Button
+                          sx={{ paddingX: 0, minWidth: 0 }}
+                          onClick={() => {
+                            console.log('deleteing comment');
+                            setCommentIdToDel(comment.id);
+                            handleClickOpenDialog();
+                          }}
+                        >
+                          <Typography variant="caption">{t(StringBank.DELETE)} </Typography>
+                        </Button>
+                      </Stack>
                     </Stack>
                   </Stack>
                 );
