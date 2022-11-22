@@ -60,3 +60,28 @@ export function getRemainingSupporters(version: Version) {
 export function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
+
+export function calcTimeAgoFromDate(stringDate: string) {
+  const seconds = Math.floor((new Date().getTime() - new Date(stringDate).getTime()) / 1000);
+  let interval = seconds / (60 * 60 * 24 * 365);
+  if (interval > 1) {
+    return `${Math.floor(interval)} years ago`;
+  }
+  interval = seconds / (60 * 60 * 24 * 30);
+  if (interval > 1) {
+    return `${Math.floor(interval)} months ago`;
+  }
+  interval = seconds / (60 * 60 * 24);
+  if (interval > 1) {
+    return `${Math.floor(interval)} days ago`;
+  }
+  interval = seconds / (60 * 60);
+  if (interval > 1) {
+    return `${Math.floor(interval)} hours ago`;
+  }
+  interval = seconds / 60;
+  if (interval > 1) {
+    return `${Math.floor(interval)} minutes ago`;
+  }
+  return `${Math.floor(seconds)} seconds ago`;
+}
