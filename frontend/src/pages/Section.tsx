@@ -36,14 +36,12 @@ const Section: FC = () => {
     section?.versions?.find((v) => v.id === Number(versionId))
   );
   const { t } = useTranslation();
-  const [dialogContent, setDialogContent] = useState<string>('');
-  console.log('setDialogContent', setDialogContent);
   const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
 
-  const handelDeleteComment = () => {
+  const handleDeleteComment = () => {
     onDeleteComment(commentIdToDel);
     setOpenDialogState(false);
   };
@@ -96,7 +94,7 @@ const Section: FC = () => {
     setOpenDialogState(false);
   };
 
-  function handelAddComment() {
+  function handleAddComment() {
     if (!newComment || !addComment || !displayedVersion) {
       return;
     }
@@ -149,7 +147,14 @@ const Section: FC = () => {
           }
         />
       </Stack>
-      {displayedVersion && <DisplaySection displayedVersion={displayedVersion} />}
+      {displayedVersion && (
+        <DisplaySection
+          setDisplayedVersion={setDisplayedVersion}
+          sectionVersions={section?.versions || []}
+          displayedVersion={displayedVersion}
+          initialVersionId={versionId}
+        />
+      )}
       {displayedVersion && (
         <Card variant="elevation" elevation={0} sx={{ marginTop: 1 }}>
           <CardContent>
@@ -173,7 +178,7 @@ const Section: FC = () => {
                 <Button
                   disabled={!newComment}
                   sx={{ paddingX: 0, marginY: 1 }}
-                  onClick={handelAddComment}
+                  onClick={handleAddComment}
                 >
                   {t(StringBank.PUBLISH)}
                 </Button>
@@ -193,9 +198,9 @@ const Section: FC = () => {
       <Dialog
         openDialogState={openDialogState}
         title={t(StringBank.DELETE_AGREEMENT)}
-        content={dialogContent}
+        content={''}
         cancelFunction={handleCloseDialog}
-        finishFunction={handelDeleteComment}
+        finishFunction={handleDeleteComment}
         isTextBox={false}
         cancelBtnText={t(StringBank.CANCEL)}
         finishBtnText={t(StringBank.DELETE)}

@@ -10,7 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { SvgIcon } from 'components';
-import { FC, useContext, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from 'react';
 import { BtnCapital } from './DropDownMenu/style';
 import { ReactComponent as LinkIcon } from 'assets/icons/link.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
@@ -23,15 +23,29 @@ import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
 import { getVoteColor, getRemainingSupporters, getVersionProgress } from 'utils/functions';
 interface DisplayProns {
   displayedVersion: Version;
+  sectionVersions: Version[];
+  setDisplayedVersion: Dispatch<SetStateAction<Version | undefined>>;
+  initialVersionId: string | undefined;
 }
 import { StringBank } from 'strings';
 import { AgreementContext } from 'contexts';
 
-const DisplaySection: FC<DisplayProns> = ({ displayedVersion }) => {
+const DisplaySection: FC<DisplayProns> = ({
+  sectionVersions,
+  displayedVersion,
+  initialVersionId,
+  setDisplayedVersion,
+}) => {
   const theme = useTheme();
   const { vote } = useContext(AgreementContext);
   const { t } = useTranslation();
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [currentVersionIndex, setCurrentVersionIndex] = useState<number>(-1);
+
+  useEffect(() => {
+    const currentIndex = sectionVersions.findIndex((v) => v.id === Number(initialVersionId));
+    setCurrentVersionIndex(currentIndex);
+  }, [displayedVersion]);
 
   function getIconColor(voteType: 'up' | 'down'): string {
     return getVoteColor(theme, voteType, displayedVersion?.my_vote);
@@ -39,6 +53,28 @@ const DisplaySection: FC<DisplayProns> = ({ displayedVersion }) => {
   function handleShare() {
     navigator.clipboard.writeText(window.location.href);
     setIsSnackbarVisible(true);
+    setTimeout(() => {
+      setIsSnackbarVisible(false);
+    }, 5000);
+  }
+
+  function changeDisplayedVersion(type: 'right' | 'left') {
+    switch (type) {
+      case 'right':
+        if (currentVersionIndex < sectionVersions.length) {
+          const newVersion = sectionVersions[currentVersionIndex + 1];
+          setCurrentVersionIndex(currentVersionIndex + 1);
+          setDisplayedVersion(newVersion);
+        }
+        break;
+      case 'left':
+        if (currentVersionIndex > 0) {
+          const newVersion = sectionVersions[currentVersionIndex - 1];
+          setCurrentVersionIndex(currentVersionIndex - 1);
+          setDisplayedVersion(newVersion);
+        }
+        break;
+    }
   }
 
   return (
@@ -64,13 +100,25 @@ const DisplaySection: FC<DisplayProns> = ({ displayedVersion }) => {
             </IconButton>
           </Stack>
           <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <IconButton sx={{ transform: 'rotate(180deg)' }}>
+            <IconButton
+              disabled={currentVersionIndex <= 0}
+              sx={{ transform: 'rotate(180deg)' }}
+              onClick={() => {
+                changeDisplayedVersion('left');
+              }}
+              color="primary"
+            >
               <SvgIcon sx={{ margin: 'auto' }}>
                 <ArrowLogo />
               </SvgIcon>
             </IconButton>
             <ContentEditor readonly content={displayedVersion?.content} />
-            <IconButton>
+            <IconButton
+              disabled={currentVersionIndex >= sectionVersions.length}
+              onClick={() => {
+                changeDisplayedVersion('right');
+              }}
+            >
               <SvgIcon>
                 <ArrowLogo />
               </SvgIcon>
