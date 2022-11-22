@@ -36,7 +36,7 @@ import {
 } from 'utils/functions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
-import { Section as SectionType } from 'types';
+import { Section as SectionType, Version } from 'types';
 import { JSONContent } from '@tiptap/react';
 
 const Section: FC = () => {
@@ -44,7 +44,7 @@ const Section: FC = () => {
   const { section, addVersion, fetchComments, comments, addComment } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
-  const [displayedVersion, setDisplayedVersion] = useState(
+  const [displayedVersion, setDisplayedVersion] = useState<Version | undefined>(
     section?.versions?.find((v) => v.id === Number(versionId))
   );
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
@@ -80,17 +80,14 @@ const Section: FC = () => {
     return `${t(StringBank.VERSION)} ${versionNum}`;
   }
 
-  function handleComplete(editorContent: JSONContent) {
+  async function handleComplete(editorContent: JSONContent) {
     if (!section || !addVersion) {
       return;
     }
-    addVersion({
-      variables: {
-        content: editorContent,
-        sectionId: section.id,
-      },
-    });
+    const newVersion = await addVersion(editorContent);
+    await vote(newVersion, 'up');
     setIsTextPopupOpen(false);
+    navigate(`../section/${section.id}/${newVersion.id}`);
   }
 
   function handelAddComment() {

@@ -1,4 +1,3 @@
-import { FetchResult } from '@apollo/client';
 import { Agreement, Category, User, LocalChapter } from './entities';
 
 export interface IAuthContext {
@@ -31,7 +30,7 @@ export interface IGroupContext {
     name: string,
     rationale: string,
     chapters: LocalChapter[]
-  ) => Promise<FetchResult>;
+  ) => Promise<Agreement>;
   addAgreementData: unknown;
   addAgreementError: unknown;
   addAgreementLoading: boolean;
