@@ -32,6 +32,7 @@ export const he: Partial<Record<StringBank, string>> = {
   
   ותהנו!`,
   CONFIRM_COMMENT_DELETE: 'אנא רשמו "תגובה" כדי לאשר את המחיקה',
+  CONFIRM_SECTION_VERSION_DELETE: 'הפעולה המבוקשת תמחוק את ההצעה ואת ההערות שעליה. אתם בטוחים?',
   VIEW_CURRENT_DRAFT: 'צפייה בגרסא הנוכחית',
   INSERT_NEW_VERSION: 'אנא הזינו הצעה חדשה',
   INSERT_NEW_SECTION_SHORT: 'אנא הזינו חלק חדש',

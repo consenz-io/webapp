@@ -56,8 +56,7 @@ const Section: FC = () => {
     section?.versions?.find((v) => v.id === Number(versionId))
   );
   const { t } = useTranslation();
-  const baseDelDialogContent = t(StringBank.CONFIRM_COMMENT_DELETE);
-  const [currentContent, setDelPopContent] = useState<string>(baseDelDialogContent);
+  const [dialogContent, setDialogContent] = useState<string>('');
   const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
@@ -67,18 +66,9 @@ const Section: FC = () => {
     },
   };
 
-  const handelDeleteComment = (input: string, id: number) => {
-    if (input !== 'comment') {
-      setDelPopContent(
-        `${currentContent}\nThe inputed value: ${input} does not match the word "comment"`
-      );
-      setTimeout(() => {
-        setDelPopContent(baseDelDialogContent);
-      }, 4000);
-    } else {
-      onDeleteComment(id);
-      setOpenDialogState(false);
-    }
+  const handelDeleteComment = () => {
+    onDeleteComment(commentIdToDel);
+    setOpenDialogState(false);
   };
 
   const navigate = useNavigate();
@@ -233,6 +223,7 @@ const Section: FC = () => {
                       displayedVersion &&
                       checkAuthorOrModerator(displayedVersion.id)
                     ) {
+                      setDialogContent(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
                       deleteSectionVersion({ variables: { id: displayedVersion.id } });
                     }
                   }}
@@ -317,6 +308,7 @@ const Section: FC = () => {
                         <Button
                           sx={{ paddingX: 0, minWidth: 0 }}
                           onClick={() => {
+                            setDialogContent(t(StringBank.CONFIRM_COMMENT_DELETE));
                             setCommentIdToDel(comment.id);
                             handleClickOpenDialog();
                           }}
@@ -342,11 +334,10 @@ const Section: FC = () => {
       <Dialog
         openDialogState={openDialogState}
         title={t(StringBank.DELETE_AGREEMENT)}
-        content={currentContent}
+        content={dialogContent}
         cancelFunction={handleCloseDialog}
-        finishFunction={(input: string) => {
-          handelDeleteComment(input, commentIdToDel);
-        }}
+        finishFunction={handelDeleteComment}
+        isTextBox={false}
         cancelBtnText={t(StringBank.CANCEL)}
         finishBtnText={t(StringBank.DELETE)}
         placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
