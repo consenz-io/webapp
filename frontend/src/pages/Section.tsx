@@ -16,14 +16,16 @@ import {
   Card,
   CardContent,
   Chip,
-  Container,
   IconButton,
   LinearProgress,
   Snackbar,
   Stack,
   Tooltip,
   Typography,
+  Container,
   useTheme,
+  TextField,
+  Link,
 } from '@mui/material';
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
@@ -38,8 +40,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
-import { addCommentVars } from 'contexts/section';
-import { Comment } from 'types/entities';
 
 const Section: FC = () => {
   const { role } = useContext(AuthContext);
@@ -47,9 +47,15 @@ const Section: FC = () => {
 
   const theme = useTheme();
   const [openDialogState, setOpenDialogState] = useState(false);
-  const { section, addVersion, addComment, comments, deleteComment, deleteSectionVersion } =
-    useContext(SectionContext);
-
+  const {
+    section,
+    addVersion,
+    fetchComments,
+    comments,
+    addComment,
+    deleteComment,
+    deleteSectionVersion,
+  } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
@@ -59,25 +65,24 @@ const Section: FC = () => {
   const [dialogContent, setDialogContent] = useState<string>('');
   const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
-  const commentVars: addCommentVars = {
-    variables: {
-      section_version_id: displayedVersion?.id || -1,
-    },
-  };
 
   const handelDeleteComment = () => {
     onDeleteComment(commentIdToDel);
     setOpenDialogState(false);
   };
 
+  const [newComment, setNewComment] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (commentVars.variables.section_version_id !== -1) {
-      addComment!(commentVars);
+    const section_version_id = displayedVersion?.id;
+    if (section_version_id) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      fetchComments!(section_version_id);
     }
-  }, [displayedVersion]);
+  }, [fetchComments, displayedVersion]);
 
   useEffect(() => {
     setDisplayedVersion(section?.versions?.find((v) => v.id === Number(versionId)));
@@ -131,6 +136,15 @@ const Section: FC = () => {
   const handleCloseDialog = () => {
     setOpenDialogState(false);
   };
+
+  function handelAddComment() {
+    if (!newComment || !addComment || !displayedVersion) {
+      return;
+    }
+    addComment(newComment, displayedVersion.id);
+    setNewComment('');
+    setIsCommentSnackbarVisible(true);
+  }
 
   return (
     <>
@@ -209,29 +223,25 @@ const Section: FC = () => {
                     <LinkIcon />
                   </SvgIcon>
                 </IconButton>
-                <IconButton
-                  sx={{
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    display: checkAuthorOrModerator(displayedVersion!.author!.id)
-                      ? 'inline'
-                      : 'none',
-                  }}
-                  size="small"
-                  onClick={() => {
-                    if (
-                      deleteSectionVersion &&
-                      displayedVersion &&
-                      checkAuthorOrModerator(displayedVersion.id)
-                    ) {
-                      setDialogContent(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
-                      deleteSectionVersion({ variables: { id: displayedVersion.id } });
-                    }
-                  }}
-                >
-                  <SvgIcon htmlColor={textSecondaryColor}>
-                    <TrashIcon />
-                  </SvgIcon>
-                </IconButton>
+                {checkAuthorOrModerator(displayedVersion?.author?.id ?? -1) && (
+                  <IconButton
+                    size="small"
+                    onClick={() => {
+                      if (
+                        deleteSectionVersion &&
+                        displayedVersion &&
+                        checkAuthorOrModerator(displayedVersion.id)
+                      ) {
+                        setDialogContent(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
+                        deleteSectionVersion({ variables: { id: displayedVersion.id } });
+                      }
+                    }}
+                  >
+                    <SvgIcon htmlColor={textSecondaryColor}>
+                      <TrashIcon />
+                    </SvgIcon>
+                  </IconButton>
+                )}
               </Stack>
             </Stack>
             <Box paddingY={4}>
@@ -271,55 +281,69 @@ const Section: FC = () => {
           </CardContent>
         </Card>
       )}
-      {displayedVersion && comments && comments.core_comments.length > 0 && (
-        <Card variant="elevation" elevation={0} sx={{ marginTop: '1rem' }}>
+      {displayedVersion && (
+        <Card variant="elevation" elevation={0} sx={{ marginTop: 1 }}>
           <CardContent>
             <Container maxWidth="sm">
-              {comments?.core_comments.map((comment: Comment) => {
-                return (
-                  <Stack
-                    key={comment.id}
-                    direction="row"
-                    spacing={4}
-                    marginBottom={4}
-                    justifyContent="center"
-                  >
-                    <Stack alignItems="center" paddingTop={1}>
-                      <BtnCapital className="capital">
-                        {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
-                      </BtnCapital>
+              <Stack direction="row" spacing={4}>
+                <Box sx={{ paddingTop: 0.5 }}>
+                  <BtnCapital className="capital" color="main">
+                    {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+                  </BtnCapital>
+                </Box>
+                <TextField
+                  placeholder={t(StringBank.ADD_COMMENT_IN_SECTION)}
+                  value={newComment}
+                  onChange={(data) => setNewComment(data.target.value)}
+                  minRows={3}
+                  multiline
+                  fullWidth
+                />
+              </Stack>
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  disabled={!newComment}
+                  sx={{ paddingX: 0, marginY: 1 }}
+                  onClick={handelAddComment}
+                >
+                  {t(StringBank.PUBLISH)}
+                </Button>
+              </Stack>
+              {comments?.map((comment) => (
+                <Stack key={comment.id} direction="row" spacing={4} marginBottom={4}>
+                  <Stack alignItems="center" paddingTop={1}>
+                    <BtnCapital className="capital">
+                      {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+                    </BtnCapital>
+                  </Stack>
+                  <Stack>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <Typography>{comment.author.full_name}</Typography>
+                      <Typography variant="caption">
+                        {calcTimeAgoFromDate(comment.created_at)}
+                      </Typography>
                     </Stack>
-                    <Stack>
-                      <Stack direction="row" spacing={2}>
-                        <Box>
-                          <Typography>{comment.author.full_name}</Typography>
-                        </Box>
-                        <Box>
-                          <Typography variant="caption">
-                            {calcTimeAgoFromDate(comment.created_at)}
-                          </Typography>
-                        </Box>
-                      </Stack>
-                      <Stack direction="row">{comment.content}</Stack>
-                      <Stack
-                        direction="row"
-                        display={checkAuthorOrModerator(comment.author.id) ? 'block' : 'none'}
-                      >
-                        <Button
-                          sx={{ paddingX: 0, minWidth: 0 }}
+                    <Typography>{comment.content}</Typography>
+                    {checkAuthorOrModerator(comment.author.id) && (
+                      <Stack direction="row">
+                        <Link
+                          component="button"
+                          variant="caption"
+                          underline="hover"
+                          color={textSecondaryColor}
                           onClick={() => {
                             setDialogContent(t(StringBank.CONFIRM_COMMENT_DELETE));
                             setCommentIdToDel(comment.id);
                             handleClickOpenDialog();
                           }}
                         >
-                          <Typography variant="caption">{t(StringBank.DELETE)} </Typography>
-                        </Button>
+                          {t(StringBank.DELETE)}
+                        </Link>
                       </Stack>
-                    </Stack>
+                    )}
                   </Stack>
-                );
-              })}
+                </Stack>
+              ))}
             </Container>
           </CardContent>
         </Card>
@@ -342,6 +366,13 @@ const Section: FC = () => {
         finishBtnText={t(StringBank.DELETE)}
         placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
         doneBtnVariant="delete"
+      />
+      <Snackbar
+        open={isCommentSnackbarVisible}
+        message={t(StringBank.COMMNET_POSTED)}
+        autoHideDuration={4000}
+        onClose={() => setIsCommentSnackbarVisible(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       />
     </>
   );
