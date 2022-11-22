@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Appbar, Dialog, SvgIcon, TextEditorPopup, CommentsList } from 'components';
+import { Appbar, Dialog, SvgIcon, TextEditorPopup, CommentsList, AddCommentBox } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
 import { DisplaySection } from 'components';
 import { FC, useContext, useEffect, useState } from 'react';
@@ -7,19 +7,8 @@ import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
 import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
 import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
-import {
-  Box,
-  Card,
-  CardContent,
-  Chip,
-  Snackbar,
-  Stack,
-  Container,
-  Button,
-  TextField,
-} from '@mui/material';
+import { Card, CardContent, Chip, Stack, Container } from '@mui/material';
 import { StringBank } from 'strings';
-import { BtnCapital } from 'components/DropDownMenu/style';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
@@ -28,7 +17,7 @@ import { JSONContent } from '@tiptap/react';
 
 const Section: FC = () => {
   const [openDialogState, setOpenDialogState] = useState(false);
-  const { section, addVersion, fetchComments, comments, addComment, deleteComment } =
+  const { section, addVersion, fetchComments, comments, deleteComment } =
     useContext(SectionContext);
   const { agreement } = useContext(AgreementContext);
   const { versionId } = useParams();
@@ -37,8 +26,6 @@ const Section: FC = () => {
   );
   const { t } = useTranslation();
   const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
-  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
-  const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
 
   const handleDeleteComment = () => {
@@ -46,7 +33,6 @@ const Section: FC = () => {
     setOpenDialogState(false);
   };
 
-  const [newComment, setNewComment] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -93,15 +79,6 @@ const Section: FC = () => {
   const handleCloseDialog = () => {
     setOpenDialogState(false);
   };
-
-  function handleAddComment() {
-    if (!newComment || !addComment || !displayedVersion) {
-      return;
-    }
-    addComment(newComment, displayedVersion.id);
-    setNewComment('');
-    setIsCommentSnackbarVisible(true);
-  }
 
   return (
     <>
@@ -159,42 +136,12 @@ const Section: FC = () => {
         <Card variant="elevation" elevation={0} sx={{ marginTop: 1 }}>
           <CardContent>
             <Container maxWidth="sm">
-              <Stack direction="row" spacing={4}>
-                <Box sx={{ paddingTop: 0.5 }}>
-                  <BtnCapital className="capital" color="main">
-                    {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
-                  </BtnCapital>
-                </Box>
-                <TextField
-                  placeholder={t(StringBank.ADD_COMMENT_IN_SECTION)}
-                  value={newComment}
-                  onChange={(data) => setNewComment(data.target.value)}
-                  minRows={3}
-                  multiline
-                  fullWidth
-                />
-              </Stack>
-              <Stack direction="row" justifyContent="end">
-                <Button
-                  disabled={!newComment}
-                  sx={{ paddingX: 0, marginY: 1 }}
-                  onClick={handleAddComment}
-                >
-                  {t(StringBank.PUBLISH)}
-                </Button>
-              </Stack>
+              <AddCommentBox displayedVersion={displayedVersion} />
               {comments && <CommentsList comments={comments} displayedVersion={displayedVersion} />}
             </Container>
           </CardContent>
         </Card>
       )}
-      <Snackbar
-        open={isSnackbarVisible}
-        message={t(StringBank.URL_COPIED_SUCCESSFULLY)}
-        autoHideDuration={4000}
-        onClose={() => setIsSnackbarVisible(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      />
       <Dialog
         openDialogState={openDialogState}
         title={t(StringBank.DELETE_AGREEMENT)}
@@ -206,13 +153,6 @@ const Section: FC = () => {
         finishBtnText={t(StringBank.DELETE)}
         placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
         doneBtnVariant="delete"
-      />
-      <Snackbar
-        open={isCommentSnackbarVisible}
-        message={t(StringBank.COMMNET_POSTED)}
-        autoHideDuration={4000}
-        onClose={() => setIsCommentSnackbarVisible(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       />
       <TextEditorPopup
         key={displayedVersion?.id}

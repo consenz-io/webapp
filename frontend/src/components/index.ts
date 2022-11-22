@@ -14,6 +14,7 @@ import { ClickableCard } from './ClickableCard';
 import TextEditorPopup from './TextEditorPopup';
 import DisplaySection from './DispalySection';
 import CommentsList from './CommentsList';
+import AddCommentBox from './AddCommnetBox';
 
 export {
   AgreementCard,
@@ -32,4 +33,5 @@ export {
   DisplaySection,
   TextEditorPopup,
   CommentsList,
+  AddCommentBox,
 };
