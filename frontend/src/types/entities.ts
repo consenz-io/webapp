@@ -58,6 +58,16 @@ export interface User {
   displayName?: string;
 }
 
+export interface Comment {
+  id: number;
+  author: {
+    full_name: string;
+    id: number;
+  };
+  content: string;
+  created_at: string;
+}
+
 export type LocalChapter = {
   name: string;
   sections: { content?: JSONContent }[];
