@@ -97,6 +97,21 @@ export const addSectionVersion = gql`
   }
 `;
 
+export const deleteComment = gql`
+  mutation deleteComment($id: Int!) {
+    delete_core_comments(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;
+
+export const deleteSectionVersion = gql`
+  mutation deleteSectionVersion($id: Int!) {
+    delete_core_section_versions(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;
 export const addComment = gql`
   mutation addComment($content: String!, $sectionVersionId: Int!) {
     insert_core_comments_one(object: { content: $content, section_version_id: $sectionVersionId }) {

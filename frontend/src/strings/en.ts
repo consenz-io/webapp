@@ -28,6 +28,9 @@ export const en: Record<StringBank, string> = {
   CATEGORIES: 'Categories',
   CATEGORY_EMPTY_MESSAGE: "Maybe you'd like to create one",
   COMING_SOON: 'Coming Soon',
+  CONFIRM_COMMENT_DELETE: 'This action will delete the comment. Are you sure?',
+  CONFIRM_SECTION_VERSION_DELETE: `This action will delete the section and all of it's comments.
+  This cannot be undone. Are you sure?`,
   CONTINUE: 'Continue',
   COMMNET_POSTED: 'Comment was posted successfully',
   CREATE: 'Create',

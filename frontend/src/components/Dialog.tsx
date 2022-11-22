@@ -22,6 +22,7 @@ interface DialogProps {
   cancelBtnText: string;
   finishBtnText: string;
   placeHolderText: string;
+  isTextBox: boolean;
   doneBtnColor?:
     | 'primary'
     | 'inherit'
@@ -85,6 +86,7 @@ export default function Dialog(props: DialogProps) {
         </Typography>
       )}
       <TextField
+        sx={{ display: props.isTextBox ? 'block' : 'none' }}
         onChange={(e) => {
           setInputValue(e.target.value);
         }}

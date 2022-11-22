@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Appbar, SvgIcon, TextEditorPopup, DisplaySection, CommentsList } from 'components';
+import { Appbar, Dialog, SvgIcon, TextEditorPopup, CommentsList } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
+import { DisplaySection } from 'components';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
 import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
@@ -26,15 +27,27 @@ import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
 
 const Section: FC = () => {
-  const { section, addVersion, fetchComments, comments, addComment } = useContext(SectionContext);
+  const [openDialogState, setOpenDialogState] = useState(false);
+  const { section, addVersion, fetchComments, comments, addComment, deleteComment } =
+    useContext(SectionContext);
   const { agreement } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
     section?.versions?.find((v) => v.id === Number(versionId))
   );
+  const { t } = useTranslation();
+  const [dialogContent, setDialogContent] = useState<string>('');
+  console.log('setDialogContent', setDialogContent);
+  const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
+
+  const handelDeleteComment = () => {
+    onDeleteComment(commentIdToDel);
+    setOpenDialogState(false);
+  };
+
   const [newComment, setNewComment] = useState<string>('');
   const navigate = useNavigate();
 
@@ -49,7 +62,6 @@ const Section: FC = () => {
   useEffect(() => {
     setDisplayedVersion(section?.versions?.find((v) => v.id === Number(versionId)));
   }, [section, versionId]);
-  const { t } = useTranslation();
 
   function generateVersionName(section: SectionType | undefined): string {
     const versionNum = (section?.versions?.length ?? NaN) + 1;
@@ -69,13 +81,28 @@ const Section: FC = () => {
     setIsTextPopupOpen(false);
   }
 
-  function handelAddComment() {
-    if (newComment !== '' && addComment && displayedVersion?.author) {
-      addComment(newComment, displayedVersion.id);
-      setNewComment('');
-      setIsCommentSnackbarVisible(true);
+  function onDeleteComment(commentId: number) {
+    if (deleteComment) {
+      deleteComment({
+        variables: {
+          id: commentId,
+        },
+      });
+      setCommentIdToDel(-1);
     }
-    return;
+  }
+
+  const handleCloseDialog = () => {
+    setOpenDialogState(false);
+  };
+
+  function handelAddComment() {
+    if (!newComment || !addComment || !displayedVersion) {
+      return;
+    }
+    addComment(newComment, displayedVersion.id);
+    setNewComment('');
+    setIsCommentSnackbarVisible(true);
   }
 
   return (
@@ -174,6 +201,18 @@ const Section: FC = () => {
         autoHideDuration={4000}
         onClose={() => setIsSnackbarVisible(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      />
+      <Dialog
+        openDialogState={openDialogState}
+        title={t(StringBank.DELETE_AGREEMENT)}
+        content={dialogContent}
+        cancelFunction={handleCloseDialog}
+        finishFunction={handelDeleteComment}
+        isTextBox={false}
+        cancelBtnText={t(StringBank.CANCEL)}
+        finishBtnText={t(StringBank.DELETE)}
+        placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
+        doneBtnVariant="delete"
       />
       <Snackbar
         open={isCommentSnackbarVisible}

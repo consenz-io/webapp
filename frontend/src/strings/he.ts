@@ -34,6 +34,8 @@ export const he: Partial<Record<StringBank, string>> = {
   בקשו ממנהל הקבוצה שלכן הזמנה על מנת להשתתף
   
   ותהנו!`,
+  CONFIRM_COMMENT_DELETE: 'אנא רשמו "תגובה" כדי לאשר את המחיקה',
+  CONFIRM_SECTION_VERSION_DELETE: 'הפעולה המבוקשת תמחוק את ההצעה ואת ההערות שעליה. אתם בטוחים?',
   PUBLISH: 'פרסום',
   VIEW_CURRENT_DRAFT: 'צפייה בגרסה הנוכחית',
   INSERT_NEW_VERSION: 'אנא הזינו הצעה לסעיף חדש',
