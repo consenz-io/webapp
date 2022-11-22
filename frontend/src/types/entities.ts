@@ -47,7 +47,8 @@ export interface Version {
   threshold: number;
   upvotes: number;
   author?: {
-    full_name?: string;
+    full_name: string;
+    id: number;
   };
 }
 
@@ -56,6 +57,16 @@ export interface User {
   email: string;
   groups?: Group[];
   displayName?: string;
+}
+
+export interface Comment {
+  id: number;
+  author: {
+    full_name: string;
+    id: number;
+  };
+  content: string;
+  created_at: string;
 }
 
 export type LocalChapter = {

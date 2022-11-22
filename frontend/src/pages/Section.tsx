@@ -20,12 +20,20 @@ import {
   Stack,
   Tooltip,
   Typography,
+  Container,
   useTheme,
+  Button,
+  TextField,
 } from '@mui/material';
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
 import { useTranslation } from 'react-i18next';
-import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
+import {
+  calcTimeAgoFromDate,
+  getRemainingSupporters,
+  getVersionProgress,
+  getVoteColor,
+} from 'utils/functions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType, Version } from 'types';
@@ -33,15 +41,25 @@ import { JSONContent } from '@tiptap/react';
 
 const Section: FC = () => {
   const theme = useTheme();
-  const { section, addVersion } = useContext(SectionContext);
+  const { section, addVersion, fetchComments, comments, addComment } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState<Version | undefined>(
     section?.versions?.find((v) => v.id === Number(versionId))
   );
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
+  const [newComment, setNewComment] = useState<string>('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const section_version_id = displayedVersion?.id;
+    if (section_version_id) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      fetchComments!(section_version_id);
+    }
+  }, [fetchComments, displayedVersion]);
 
   useEffect(() => {
     setDisplayedVersion(section?.versions?.find((v) => v.id === Number(versionId)));
@@ -77,6 +95,15 @@ const Section: FC = () => {
     await vote(newVersion, 'up');
     setIsTextPopupOpen(false);
     navigate(`../section/${section.id}/${newVersion.id}`);
+  }
+
+  function handelAddComment() {
+    if (newComment !== '' && addComment && displayedVersion?.author) {
+      addComment(newComment, displayedVersion.id);
+      setNewComment('');
+      setIsCommentSnackbarVisible(true);
+    }
+    return;
   }
 
   return (
@@ -193,11 +220,72 @@ const Section: FC = () => {
           </CardContent>
         </Card>
       )}
+      {displayedVersion && (
+        <Card variant="elevation" elevation={0} sx={{ marginTop: 1 }}>
+          <CardContent>
+            <Container maxWidth="sm">
+              <Stack direction="row" spacing={4}>
+                <Box sx={{ paddingTop: 0.5 }}>
+                  <BtnCapital className="capital" color="main">
+                    {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+                  </BtnCapital>
+                </Box>
+                <TextField
+                  placeholder={t(StringBank.ADD_COMMENT_IN_SECTION)}
+                  value={newComment}
+                  onChange={(data) => setNewComment(data.target.value)}
+                  minRows={3}
+                  multiline
+                  fullWidth
+                />
+              </Stack>
+              <Stack direction="row" justifyContent="end">
+                <Button
+                  disabled={!newComment}
+                  sx={{ paddingX: 0, marginY: 1 }}
+                  onClick={handelAddComment}
+                >
+                  {t(StringBank.PUBLISH)}
+                </Button>
+              </Stack>
+              {comments?.map((comment) => (
+                <Stack key={comment.id} direction="row" spacing={4} marginBottom={4}>
+                  <Stack alignItems="center" paddingTop={1}>
+                    <BtnCapital className="capital">
+                      {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+                    </BtnCapital>
+                  </Stack>
+                  <Stack>
+                    <Stack direction="row" spacing={2}>
+                      <Box>
+                        <Typography>{comment.author.full_name}</Typography>
+                      </Box>
+                      <Box>
+                        <Typography variant="caption">
+                          {calcTimeAgoFromDate(comment.created_at)}
+                        </Typography>
+                      </Box>
+                    </Stack>
+                    <Stack direction="row">{comment.content}</Stack>
+                  </Stack>
+                </Stack>
+              ))}
+            </Container>
+          </CardContent>
+        </Card>
+      )}
       <Snackbar
         open={isSnackbarVisible}
         message={t(StringBank.URL_COPIED_SUCCESSFULLY)}
         autoHideDuration={4000}
         onClose={() => setIsSnackbarVisible(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      />
+      <Snackbar
+        open={isCommentSnackbarVisible}
+        message={t(StringBank.COMMNET_POSTED)}
+        autoHideDuration={4000}
+        onClose={() => setIsCommentSnackbarVisible(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       />
     </>
