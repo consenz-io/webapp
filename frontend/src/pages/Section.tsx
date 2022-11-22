@@ -28,7 +28,7 @@ import { useTranslation } from 'react-i18next';
 import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
-import { Section as SectionType } from 'types';
+import { Section as SectionType, Version } from 'types';
 import { JSONContent } from '@tiptap/react';
 
 const Section: FC = () => {
@@ -36,12 +36,11 @@ const Section: FC = () => {
   const { section, addVersion } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
-  const [displayedVersion, setDisplayedVersion] = useState(
+  const [displayedVersion, setDisplayedVersion] = useState<Version | undefined>(
     section?.versions?.find((v) => v.id === Number(versionId))
   );
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,17 +67,16 @@ const Section: FC = () => {
       return;
     }
     const {
-      data: {
-        insert_core_section_versions_one: { id: versionId },
-      },
+      data: { insert_core_section_versions_one: newVersion },
     } = await addVersion({
       variables: {
         content: editorContent,
         sectionId: section.id,
       },
     });
+    await vote(newVersion, 'up');
     setIsTextPopupOpen(false);
-    navigate(`../section/${section.id}/${versionId}`);
+    navigate(`../section/${section.id}/${newVersion.id}`);
   }
 
   return (

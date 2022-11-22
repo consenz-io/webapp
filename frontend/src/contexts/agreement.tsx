@@ -67,6 +67,7 @@ const AgreementProvider: FC = () => {
 
   async function vote(version: Version, type: 'up' | 'down') {
     if (!version.my_vote) {
+      console.log({ version });
       return insertVote({
         variables: {
           userId,

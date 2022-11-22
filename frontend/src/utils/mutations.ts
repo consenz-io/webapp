@@ -36,6 +36,14 @@ export const addAgreement = gql`
       group_id
       name
       rationale
+      chapters {
+        id
+        sections {
+          versions {
+            id
+          }
+        }
+      }
     }
   }
 `;
@@ -93,6 +101,15 @@ export const addSectionVersion = gql`
   mutation AddSectionVersion($sectionId: Int!, $content: json!) {
     insert_core_section_versions_one(object: { section_id: $sectionId, content: $content }) {
       id
+      content
+      created_at
+      downvotes
+      my_vote
+      threshold
+      upvotes
+      author {
+        full_name
+      }
     }
   }
 `;

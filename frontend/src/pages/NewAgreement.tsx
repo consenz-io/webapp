@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { useState, useContext } from 'react';
 import { Button, Stack, Container, SvgIcon } from '@mui/material';
 import { GroupContext } from 'contexts/group';
-import { LocalChapter } from 'types';
+import { Chapter, LocalChapter, Section, Version } from 'types';
 import {
   AgreementContent,
   AgreementCreatedSuccessfully,
@@ -16,6 +16,7 @@ import { Appbar } from 'components';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
 import { textSecondaryColor } from 'theme';
+import { AgreementContext } from 'contexts';
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -27,6 +28,7 @@ function initChapters(): LocalChapter[] {
 
 const NewAgreement: FC = () => {
   const { t } = useTranslation();
+  const { vote } = useContext(AgreementContext);
   const { addAgreement, addAgreementError, addAgreementLoading } = useContext(GroupContext);
   const [agreementName, setAgreementName] = useState<string>(
     localStorage.getItem('agreementName') || ''
@@ -72,6 +74,12 @@ const NewAgreement: FC = () => {
     if (step === 3) {
       const agreementData = await addAgreement(categoryId, agreementName, rationale, chapters);
       setAgreementId(agreementData.data?.insert_core_agreements_one?.id);
+      const responseChapters = agreementData.data?.insert_core_agreements_one?.chapters;
+      const responseSections = responseChapters.flatMap((chapter: Chapter) => chapter.sections);
+      const responseVersions = responseSections.flatMap((section: Section) => section.versions);
+      await Promise.all(
+        responseVersions.map(async (version: Version) => await vote(version, 'up'))
+      );
       clearAgreementLocally();
     }
     setStep(step + 1);
