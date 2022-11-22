@@ -28,7 +28,12 @@ import {
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
 import { useTranslation } from 'react-i18next';
-import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
+import {
+  calcTimeAgoFromDate,
+  getRemainingSupporters,
+  getVersionProgress,
+  getVoteColor,
+} from 'utils/functions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
@@ -36,7 +41,7 @@ import { JSONContent } from '@tiptap/react';
 
 const Section: FC = () => {
   const theme = useTheme();
-  const { section, addVersion, addComment } = useContext(SectionContext);
+  const { section, addVersion, fetchComments, comments, addComment } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
@@ -47,6 +52,14 @@ const Section: FC = () => {
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const [newComment, setNewComment] = useState<string>('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const section_version_id = displayedVersion?.id;
+    if (section_version_id) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      fetchComments!(section_version_id);
+    }
+  }, [fetchComments, displayedVersion]);
 
   useEffect(() => {
     setDisplayedVersion(section?.versions?.find((v) => v.id === Number(versionId)));
@@ -82,12 +95,7 @@ const Section: FC = () => {
 
   function handelAddComment() {
     if (newComment !== '' && addComment && displayedVersion?.author) {
-      addComment({
-        variables: {
-          content: newComment,
-          sectionVersionId: displayedVersion.id,
-        },
-      });
+      addComment(newComment, displayedVersion.id);
       setNewComment('');
       setIsCommentSnackbarVisible(true);
     }
@@ -236,6 +244,28 @@ const Section: FC = () => {
                   {t(StringBank.PUBLISH)}
                 </Button>
               </Stack>
+              {comments?.map((comment) => (
+                <Stack key={comment.id} direction="row" spacing={4} marginBottom={4}>
+                  <Stack alignItems="center" paddingTop={1}>
+                    <BtnCapital className="capital">
+                      {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+                    </BtnCapital>
+                  </Stack>
+                  <Stack>
+                    <Stack direction="row" spacing={2}>
+                      <Box>
+                        <Typography>{comment.author.full_name}</Typography>
+                      </Box>
+                      <Box>
+                        <Typography variant="caption">
+                          {calcTimeAgoFromDate(comment.created_at)}
+                        </Typography>
+                      </Box>
+                    </Stack>
+                    <Stack direction="row">{comment.content}</Stack>
+                  </Stack>
+                </Stack>
+              ))}
             </Container>
           </CardContent>
         </Card>

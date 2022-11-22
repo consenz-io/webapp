@@ -96,3 +96,20 @@ export const section = gql`
     }
   }
 `;
+
+export const comments = gql`
+  query comments($section_version_id: Int!) {
+    core_comments(
+      where: { section_version_id: { _eq: $section_version_id } }
+      order_by: { created_at: asc }
+    ) {
+      id
+      author {
+        id
+        full_name
+      }
+      created_at
+      content
+    }
+  }
+`;

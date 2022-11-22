@@ -1,10 +1,14 @@
-import { useMutation, useQuery } from '@apollo/client';
-import { createContext, FC, useEffect } from 'react';
+import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
+import { createContext, FC, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IFCProps, Section } from 'types';
-import { section as sectionQuery } from 'utils/queries';
-import { addSectionVersion as insertSectionVersionMutation, addComment } from 'utils/mutations';
+import { section as sectionQuery, comments as commentsQuery } from 'utils/queries';
+import {
+  addComment as addCommentMutation,
+  addSectionVersion as insertSectionVersionMutation,
+} from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
+import { Comment } from 'types/entities';
 
 export interface addVersionVars {
   variables: {
@@ -19,18 +23,26 @@ export interface AddCommentVars {
     sectionVersionId: number;
   };
 }
+export interface fetchCommentsVars {
+  variables: {
+    section_version_id: number;
+  };
+}
 
 interface SectionState {
   section?: Section;
   addVersion?: (variables: addVersionVars) => void;
-  addComment?: (variables: AddCommentVars) => void;
+  addComment?: (content: string, versionId: number) => void;
+  fetchComments?: (sectionVersionId: number) => unknown;
+  comments?: Comment[];
 }
 
 const SectionContext = createContext<SectionState>({});
 
 const SectionProvider: FC<IFCProps> = ({ children }) => {
   const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
-  const [addCommentFn] = useMutation(addComment);
+  const [addComment] = useMutation(addCommentMutation);
+  const [fetchComments, { data: comments }] = useLazyQuery(commentsQuery);
   const { sectionId } = useParams();
   const { data, startPolling, stopPolling } = useQuery<{
     core_sections: Section[];
@@ -48,7 +60,30 @@ const SectionProvider: FC<IFCProps> = ({ children }) => {
   const state: SectionState = {
     section: data?.core_sections[0],
     addVersion,
-    addComment: addCommentFn,
+    addComment: useCallback(
+      (content: string, sectionVersionId: number) => {
+        addComment({
+          variables: {
+            content,
+            sectionVersionId,
+          },
+          refetchQueries: ['comments'],
+        });
+      },
+      [addComment]
+    ),
+    fetchComments: useCallback(
+      (sectionVersionId: number) => {
+        fetchComments({
+          variables: {
+            section_version_id: sectionVersionId,
+          },
+        });
+        return comments;
+      },
+      [fetchComments, comments]
+    ),
+    comments: comments?.core_comments,
   };
   return <SectionContext.Provider value={state}>{children}</SectionContext.Provider>;
 };
