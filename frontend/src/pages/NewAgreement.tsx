@@ -33,7 +33,7 @@ const NewAgreement: FC = () => {
   const [agreementName, setAgreementName] = useState<string>(
     localStorage.getItem('agreementName') || ''
   );
-  const [createdAgreementId, setAgreementId] = useState<string>('');
+  const [createdAgreementId, setCreatedAgreementId] = useState<number>();
   const [step, setStep] = useState(Number(localStorage.getItem('step')) || 1);
   const [categoryId, setCategoryId] = useState<number | null>(
     Number(localStorage.getItem('categoryId')) || null
@@ -72,11 +72,12 @@ const NewAgreement: FC = () => {
 
   async function handleContinueClick() {
     if (step === 3) {
-      const agreementData = await addAgreement(categoryId, agreementName, rationale, chapters);
-      setAgreementId(agreementData.data?.insert_core_agreements_one?.id);
-      const responseChapters = agreementData.data?.insert_core_agreements_one?.chapters;
-      const responseSections = responseChapters.flatMap((chapter: Chapter) => chapter.sections);
-      const responseVersions = responseSections.flatMap((section: Section) => section.versions);
+      const agreement = await addAgreement(categoryId, agreementName, rationale, chapters);
+      setCreatedAgreementId(agreement?.id);
+      const responseChapters = agreement?.chapters;
+      const responseSections = responseChapters?.flatMap((chapter: Chapter) => chapter.sections);
+      const responseVersions =
+        responseSections?.flatMap((section: Section) => section.versions) ?? [];
       await Promise.all(
         responseVersions.map(async (version: Version) => await vote(version, 'up'))
       );
@@ -85,7 +86,7 @@ const NewAgreement: FC = () => {
     setStep(step + 1);
   }
 
-  if (step === 4) {
+  if (step === 4 && createdAgreementId) {
     return <AgreementCreatedSuccessfully agreementId={createdAgreementId} />;
   }
 

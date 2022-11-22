@@ -9,7 +9,7 @@ import { ReactComponent as CopyIcon } from 'assets/icons/copy.svg';
 import { SvgIcon } from 'components';
 import { textSecondaryColor } from 'theme';
 
-const AgreementCreatedSuccessfully: FC<{ agreementId: string }> = ({ agreementId }) => {
+const AgreementCreatedSuccessfully: FC<{ agreementId: number }> = ({ agreementId }) => {
   const { t } = useTranslation();
   const [isSnackbarOpen, setSnackbarOpen] = useState(false);
   const { slug: groupSlug } = useContext(GroupContext);
