@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
+import { useMutation, useQuery, useLazyQuery, FetchResult } from '@apollo/client';
 import { createContext, FC, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IFCProps, Section } from 'types';
@@ -31,7 +31,7 @@ export interface fetchCommentsVars {
 
 interface SectionState {
   section?: Section;
-  addVersion?: (variables: addVersionVars) => any;
+  addVersion?: (variables: addVersionVars) => Promise<FetchResult<void>>;
   addComment?: (content: string, versionId: number) => void;
   fetchComments?: (sectionVersionId: number) => unknown;
   comments?: Comment[];
