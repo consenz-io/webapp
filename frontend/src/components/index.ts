@@ -12,6 +12,7 @@ import SvgIcon from './SvgIcon';
 import SectionCard from './SectionCard';
 import { ClickableCard } from './ClickableCard';
 import TextEditorPopup from './TextEditorPopup';
+import DisplaySection from './DispalySection';
 
 export {
   AgreementCard,
@@ -27,5 +28,6 @@ export {
   SidebarController,
   SidebarLayout,
   SvgIcon,
+  DisplaySection,
   TextEditorPopup,
 };
