@@ -84,14 +84,7 @@ const Section: FC = () => {
     if (!section || !addVersion) {
       return;
     }
-    const {
-      data: { insert_core_section_versions_one: newVersion },
-    } = await addVersion({
-      variables: {
-        content: editorContent,
-        sectionId: section.id,
-      },
-    });
+    const newVersion = await addVersion(editorContent);
     await vote(newVersion, 'up');
     setIsTextPopupOpen(false);
     navigate(`../section/${section.id}/${newVersion.id}`);

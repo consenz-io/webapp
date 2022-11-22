@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useLazyQuery, FetchResult } from '@apollo/client';
+import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import { createContext, FC, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IFCProps, Section } from 'types';
@@ -8,7 +8,7 @@ import {
   addSectionVersion as insertSectionVersionMutation,
 } from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
-import { Comment } from 'types/entities';
+import { Comment, Version } from 'types/entities';
 
 export interface addVersionVars {
   variables: {
@@ -31,7 +31,7 @@ export interface fetchCommentsVars {
 
 interface SectionState {
   section?: Section;
-  addVersion?: (variables: addVersionVars) => Promise<FetchResult<void>>;
+  addVersion?: (content: JSONContent) => Promise<Version>;
   addComment?: (content: string, versionId: number) => void;
   fetchComments?: (sectionVersionId: number) => unknown;
   comments?: Comment[];
@@ -59,7 +59,13 @@ const SectionProvider: FC<IFCProps> = ({ children }) => {
 
   const state: SectionState = {
     section: data?.core_sections[0],
-    addVersion,
+    addVersion: useCallback(
+      async (content: JSONContent) => {
+        const { data } = await addVersion({ variables: { content, sectionId: Number(sectionId) } });
+        return data?.insert_core_section_versions_one;
+      },
+      [addVersion, sectionId]
+    ),
     addComment: useCallback(
       (content: string, sectionVersionId: number) => {
         addComment({
