@@ -358,7 +358,7 @@ const Section: FC = () => {
       />
       <Dialog
         openDialogState={openDialogState}
-        title={t(StringBank.DELETE_AGREEMENT)}
+        title={t(StringBank.DELETE_COMMNET)}
         content={dialogContent}
         cancelFunction={handleCloseDialog}
         finishFunction={handelDeleteComment}

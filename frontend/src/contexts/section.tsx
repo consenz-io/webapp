@@ -51,10 +51,10 @@ const SectionContext = createContext<SectionState>({});
 const SectionProvider: FC<IFCProps> = ({ children }) => {
   const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
   const [deleteComment] = useMutation(deleteCommentMutation, {
-    refetchQueries: ['section', 'getComments'],
+    refetchQueries: ['section', 'comments'],
   });
   const [deleteSectionVersion] = useMutation(deleteSVtMutation, {
-    refetchQueries: ['section', 'getComments'],
+    refetchQueries: ['section', 'comments'],
   });
   const [addComment] = useMutation(addCommentMutation);
   const [fetchComments, { data: comments }] = useLazyQuery(commentsQuery);
