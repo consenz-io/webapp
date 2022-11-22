@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Appbar, SvgIcon, TextEditorPopup, DisplaySection } from 'components';
+import { Appbar, SvgIcon, TextEditorPopup, DisplaySection, CommentsList } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
@@ -13,7 +13,6 @@ import {
   Chip,
   Snackbar,
   Stack,
-  Typography,
   Container,
   Button,
   TextField,
@@ -21,7 +20,6 @@ import {
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
 import { useTranslation } from 'react-i18next';
-import { calcTimeAgoFromDate } from 'utils/functions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
@@ -165,28 +163,7 @@ const Section: FC = () => {
                   {t(StringBank.PUBLISH)}
                 </Button>
               </Stack>
-              {comments?.map((comment) => (
-                <Stack key={comment.id} direction="row" spacing={4} marginBottom={4}>
-                  <Stack alignItems="center" paddingTop={1}>
-                    <BtnCapital className="capital">
-                      {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
-                    </BtnCapital>
-                  </Stack>
-                  <Stack>
-                    <Stack direction="row" spacing={2}>
-                      <Box>
-                        <Typography>{comment.author.full_name}</Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant="caption">
-                          {calcTimeAgoFromDate(comment.created_at)}
-                        </Typography>
-                      </Box>
-                    </Stack>
-                    <Stack direction="row">{comment.content}</Stack>
-                  </Stack>
-                </Stack>
-              ))}
+              {comments && <CommentsList comments={comments} displayedVersion={displayedVersion} />}
             </Container>
           </CardContent>
         </Card>

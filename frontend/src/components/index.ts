@@ -13,6 +13,7 @@ import SectionCard from './SectionCard';
 import { ClickableCard } from './ClickableCard';
 import TextEditorPopup from './TextEditorPopup';
 import DisplaySection from './DispalySection';
+import CommentsList from './CommentsList';
 
 export {
   AgreementCard,
@@ -30,4 +31,5 @@ export {
   SvgIcon,
   DisplaySection,
   TextEditorPopup,
+  CommentsList,
 };
