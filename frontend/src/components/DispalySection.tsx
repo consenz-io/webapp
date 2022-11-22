@@ -10,7 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { SvgIcon } from 'components';
-import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 import { BtnCapital } from './DropDownMenu/style';
 import { ReactComponent as LinkIcon } from 'assets/icons/link.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import ContentEditor from './ContentEditor';
 import { Version } from 'types/entities';
 import { textSecondaryColor } from 'theme';
-import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
+import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-left.svg';
 import { getVoteColor, getRemainingSupporters, getVersionProgress } from 'utils/functions';
 interface DisplayProns {
   displayedVersion: Version;
@@ -33,19 +33,15 @@ import { AgreementContext } from 'contexts';
 const DisplaySection: FC<DisplayProns> = ({
   sectionVersions,
   displayedVersion,
-  initialVersionId,
   setDisplayedVersion,
 }) => {
   const theme = useTheme();
   const { vote } = useContext(AgreementContext);
   const { t } = useTranslation();
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
-  const [currentVersionIndex, setCurrentVersionIndex] = useState<number>(-1);
-
-  useEffect(() => {
-    const currentIndex = sectionVersions.findIndex((v) => v.id === Number(initialVersionId));
-    setCurrentVersionIndex(currentIndex);
-  }, [displayedVersion]);
+  const [currentVersionIndex, setCurrentVersionIndex] = useState<number>(
+    sectionVersions.findIndex((v) => v.id === displayedVersion.id)
+  );
 
   function getIconColor(voteType: 'up' | 'down'): string {
     return getVoteColor(theme, voteType, displayedVersion?.my_vote);
@@ -61,10 +57,12 @@ const DisplaySection: FC<DisplayProns> = ({
   function changeDisplayedVersion(type: 'right' | 'left') {
     switch (type) {
       case 'right':
-        if (currentVersionIndex < sectionVersions.length) {
+        if (currentVersionIndex <= sectionVersions.length) {
           const newVersion = sectionVersions[currentVersionIndex + 1];
-          setCurrentVersionIndex(currentVersionIndex + 1);
-          setDisplayedVersion(newVersion);
+          if (newVersion) {
+            setCurrentVersionIndex(currentVersionIndex + 1);
+            setDisplayedVersion(newVersion);
+          }
         }
         break;
       case 'left':
@@ -101,7 +99,7 @@ const DisplaySection: FC<DisplayProns> = ({
           </Stack>
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             <IconButton
-              disabled={currentVersionIndex <= 0}
+              disabled={currentVersionIndex - 1 < 0}
               sx={{ transform: 'rotate(180deg)' }}
               onClick={() => {
                 changeDisplayedVersion('left');
@@ -114,7 +112,7 @@ const DisplaySection: FC<DisplayProns> = ({
             </IconButton>
             <ContentEditor readonly content={displayedVersion?.content} />
             <IconButton
-              disabled={currentVersionIndex >= sectionVersions.length}
+              disabled={currentVersionIndex + 1 >= sectionVersions.length}
               onClick={() => {
                 changeDisplayedVersion('right');
               }}

@@ -38,7 +38,7 @@ export interface fetchCommentsVars {
 
 interface SectionState {
   section?: Section;
-  addVersion?: (variables: addVersionVars) => void;
+  addVersion?: (editorContent: JSONContent) => void;
   deleteComment?: (variables: delCommentsVars) => void;
   deleteSectionVersion?: (variables: delCommentsVars) => void;
   addComment?: (content: string, versionId: number) => void;
@@ -51,10 +51,10 @@ const SectionContext = createContext<SectionState>({});
 const SectionProvider: FC<IFCProps> = ({ children }) => {
   const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
   const [deleteComment] = useMutation(deleteCommentMutation, {
-    refetchQueries: ['section', 'getComments'],
+    refetchQueries: ['section', 'comments'],
   });
   const [deleteSectionVersion] = useMutation(deleteSVtMutation, {
-    refetchQueries: ['section', 'getComments'],
+    refetchQueries: ['section', 'comments'],
   });
   const [addComment] = useMutation(addCommentMutation);
   const [fetchComments, { data: comments }] = useLazyQuery(commentsQuery);
@@ -74,9 +74,15 @@ const SectionProvider: FC<IFCProps> = ({ children }) => {
 
   const state: SectionState = {
     section: data?.core_sections[0],
-    addVersion,
     deleteComment,
     deleteSectionVersion,
+    addVersion: useCallback(
+      async (content: JSONContent) => {
+        const { data } = await addVersion({ variables: { content, sectionId: Number(sectionId) } });
+        return data?.insert_core_section_versions_one;
+      },
+      [addVersion, sectionId]
+    ),
     addComment: useCallback(
       (content: string, sectionVersionId: number) => {
         addComment({

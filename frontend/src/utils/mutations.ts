@@ -36,6 +36,14 @@ export const addAgreement = gql`
       group_id
       name
       rationale
+      chapters {
+        id
+        sections {
+          versions {
+            id
+          }
+        }
+      }
     }
   }
 `;

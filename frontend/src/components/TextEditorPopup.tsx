@@ -11,7 +11,7 @@ import {
 import ContentEditor from './ContentEditor';
 import { textSecondaryColor } from 'theme';
 import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
-import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
+import { ReactComponent as ArrowIcon } from 'assets/icons/chevron-left.svg';
 import { JSONContent } from '@tiptap/react';
 import { useState } from 'react';
 import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
@@ -76,7 +76,7 @@ const TextEditorPopup = (props: DialogProps) => {
             </Typography>
             {newVersionName && (
               <>
-                <ArrowLogo />
+                <ArrowIcon />
                 <Typography variant="h3" color="white">
                   {newVersionName}
                 </Typography>

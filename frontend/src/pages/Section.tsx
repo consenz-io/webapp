@@ -56,12 +56,7 @@ const Section: FC = () => {
     if (!section || !addVersion) {
       return;
     }
-    addVersion({
-      variables: {
-        content: editorContent,
-        sectionId: section.id,
-      },
-    });
+    addVersion(editorContent);
     setIsTextPopupOpen(false);
   }
 
