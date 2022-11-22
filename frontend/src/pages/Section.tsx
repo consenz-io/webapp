@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Appbar, ContentEditor, SvgIcon, TextEditorPopup } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
-import { FC, useContext, useEffect, useState, useRef, ChangeEvent } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
 import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
@@ -23,7 +23,7 @@ import {
   Container,
   useTheme,
   Button,
-  TextareaAutosize,
+  TextField,
 } from '@mui/material';
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
@@ -33,7 +33,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
-import { activeBtnColor, inputBackgroundColor } from 'theme/theme';
 
 const Section: FC = () => {
   const theme = useTheme();
@@ -47,7 +46,6 @@ const Section: FC = () => {
   const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const [newComment, setNewComment] = useState<string>('');
-  const txtAreaEl = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,20 +90,6 @@ const Section: FC = () => {
       });
       setNewComment('');
       setIsCommentSnackbarVisible(true);
-      if (txtAreaEl.current) {
-        txtAreaEl.current.value = '';
-      }
-    }
-    return;
-  }
-
-  function handelOnChangeText(data: ChangeEvent<HTMLTextAreaElement>) {
-    const commentText = data.target.value;
-    if (commentText !== '') {
-      setNewComment(commentText);
-    } else {
-      data.target.value = '';
-      setNewComment('');
     }
     return;
   }
@@ -234,47 +218,22 @@ const Section: FC = () => {
                     {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
                   </BtnCapital>
                 </Box>
-                <Box
-                  sx={{
-                    borderRadius: '4px',
-                    backgroundColor: inputBackgroundColor,
-                    width: '31rem',
-                    height: '7rem',
-                  }}
-                >
-                  <TextareaAutosize
-                    ref={txtAreaEl}
-                    placeholder={t(StringBank.ADD_COMMENT_IN_SECTION)}
-                    onChange={handelOnChangeText}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      color: `${textSecondaryColor}`,
-                      fontSize: '1rem',
-                      fontFamily: 'lato',
-                      padding: '1rem',
-                    }}
-                  />
-                </Box>
+                <TextField
+                  placeholder={t(StringBank.ADD_COMMENT_IN_SECTION)}
+                  value={newComment}
+                  onChange={(data) => setNewComment(data.target.value)}
+                  minRows={3}
+                  multiline
+                  fullWidth
+                />
               </Stack>
               <Stack direction="row" justifyContent="end">
                 <Button
-                  disabled={newComment === '' || txtAreaEl.current?.value === ''}
-                  variant="text"
-                  sx={{ paddingX: 0 }}
+                  disabled={!newComment}
+                  sx={{ paddingX: 0, marginY: 1 }}
                   onClick={handelAddComment}
                 >
-                  <Typography
-                    color={
-                      newComment === '' || txtAreaEl.current?.value === ''
-                        ? textSecondaryColor
-                        : activeBtnColor
-                    }
-                  >
-                    {t(StringBank.PUBLISH)}
-                  </Typography>
+                  {t(StringBank.PUBLISH)}
                 </Button>
               </Stack>
             </Container>
