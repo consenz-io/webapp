@@ -96,3 +96,11 @@ export const addSectionVersion = gql`
     }
   }
 `;
+
+export const addComment = gql`
+  mutation addComment($content: String!, $sectionVersionId: Int!) {
+    insert_core_comments_one(object: { content: $content, section_version_id: $sectionVersionId }) {
+      id
+    }
+  }
+`;

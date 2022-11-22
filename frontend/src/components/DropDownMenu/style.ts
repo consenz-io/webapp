@@ -141,7 +141,7 @@ export const DropDownMenuItem = styled(MenuItem)<Props>`
   }
 `;
 
-export const BtnCapital = styled.span`
+export const BtnCapital = styled.span<Props>`
   text-transform: uppercase;
   font-size: 1.25rem;
   color: white;
@@ -153,7 +153,12 @@ export const BtnCapital = styled.span`
     position: absolute;
     width: 2rem;
     height: 2rem;
-    background-color: ${(props) => props.theme.palette.background.capital};
+    background-color: ${(props) => {
+      if (props.color === 'main') {
+        return props.theme.palette.primary.main;
+      }
+      return props.theme.palette.background.capital;
+    }};
     border-radius: 50%;
     left: 50%;
     top: 50%;

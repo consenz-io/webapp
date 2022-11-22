@@ -8,6 +8,7 @@ export const he: Partial<Record<StringBank, string>> = {
   ADD_NEW_CATEGORY: 'הוספת קטגוריה',
   ADD_RATIONALE_HEADER: 'להוסיף היגיון',
   ADD_RATIONALE_PARAGRAPH: `למה זקוקים להסכם הזה? מה הרקע ליצירתו? מה אלה הצרכים והבעיות שהוא נועד להשיב? ...`,
+  ADD_COMMENT_IN_SECTION: 'הוספת הערה על ההצעה הנוכחית',
   AGREEMENT_NAME_FIELD: 'כותרת ההסכם',
   AGREEMENT_LAST_UPDATED: 'עדכון אחרון: {{date}}',
   ALL_AGREEMENTS: 'כל ההסכמים',
@@ -18,6 +19,7 @@ export const he: Partial<Record<StringBank, string>> = {
   CANCEL: 'ביטול',
   CATEGORY_EMPTY_MESSAGE: 'אולי תרצו ליצור אחד',
   CONTINUE: 'להמשיך',
+  COMMNET_POSTED: 'הערה נשלחה בהצלחה',
   CURRENT_VERSION: 'הגרסה הנוכחית',
   GOTO_HOMEPAGE_TITLE: 'לעבור לדף הבית',
   LOGOUT: 'יציאה',
@@ -31,6 +33,7 @@ export const he: Partial<Record<StringBank, string>> = {
   בקשו ממנהל הקבוצה שלכן הזמנה על מנת להשתתף
   
   ותהנו!`,
+  PUBLISH: 'פרסום',
   VIEW_CURRENT_DRAFT: 'צפייה בגרסא הנוכחית',
   INSERT_NEW_VERSION: 'אנא הזינו הצעה חדשה',
   INSERT_NEW_SECTION_SHORT: 'אנא הזינו חלק חדש',

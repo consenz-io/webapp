@@ -6,6 +6,7 @@ export const en: Record<StringBank, string> = {
   ADD_RATIONALE_PARAGRAPH: `Why is this agreement needed? What's the background behind its creation? What needs or problems is it meant to answer?`,
   ADD_SECTION: 'Add Section',
   ADD_VERSION: 'Add Version',
+  ADD_COMMENT_IN_SECTION: 'Add a commnet regarding the section',
   AGREEMENT_NAME_FIELD: 'Agreement Name',
   AGREEMENT_PARTICIPANTS: '{{count}} participants',
   AGREEMENT_PROCESS_RULES: 'Agreement Process Rules',
@@ -28,6 +29,7 @@ export const en: Record<StringBank, string> = {
   CATEGORY_EMPTY_MESSAGE: "Maybe you'd like to create one",
   COMING_SOON: 'Coming Soon',
   CONTINUE: 'Continue',
+  COMMNET_POSTED: 'Comment was posted successfully',
   CREATE: 'Create',
   CREATE_FIRST_AGREEMENT: 'Create your first agreement',
   CURRENT_VERSION: 'Current Version',
@@ -47,6 +49,7 @@ export const en: Record<StringBank, string> = {
   NO_SECTIONS_TITLE: 'No Sections were approved yet.',
   NO_SECTIONS_PARAGRAPH:
     'Go to the agreement discussion page and vote for the sections that you would like to see here',
+  PUBLISH: 'Publish',
   PUBLISH_AGREEMENT: 'Publish Agreement',
   RATIONALE: 'Rationale',
   READ_MORE: 'Read More',

@@ -47,7 +47,8 @@ export interface Version {
   threshold: number;
   upvotes: number;
   author?: {
-    full_name?: string;
+    full_name: string;
+    id: number;
   };
 }
 

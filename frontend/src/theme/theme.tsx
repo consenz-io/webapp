@@ -29,6 +29,7 @@ export const successColor = '#24ebd3';
 export const errorColor = '#ff5a82';
 export const inputBackgroundColor = '#333842';
 export const secondaryDarkColor = '#3f4550';
+export const activeBtnColor = '#c49eff';
 
 export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOptions = (
   mode,
@@ -71,6 +72,16 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
     },
     components: {
       MuiTextField: {
+        variants: [
+          {
+            props: { multiline: true },
+            style: {
+              '& fieldset': {
+                border: 'none',
+              },
+            },
+          },
+        ],
         styleOverrides: {
           root: {
             backgroundColor: inputBackgroundColor,
