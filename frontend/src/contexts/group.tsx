@@ -87,11 +87,11 @@ const GroupProvider: FC = () => {
     currentCategory,
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
     deleteAgreement: (id: number) => deleteAgreementFn({ variables: { id } }),
-    addAgreement: (categoryId, name, rationale, chapters) => {
+    addAgreement: async (categoryId, name, rationale, chapters) => {
       const allNonEmptySections = chapters
         .flatMap((chapter) => chapter.sections)
         .filter((section) => section.content);
-      return addAgreement({
+      const { data } = await addAgreement({
         variables: {
           groupId: currentGroup?.id,
           name,
@@ -113,6 +113,7 @@ const GroupProvider: FC = () => {
             })),
         },
       });
+      return data?.insert_core_agreements_one;
     },
     addAgreementData,
     addAgreementLoading,

@@ -47,19 +47,21 @@ const RoutesProvider: FC = () => {
               <Route path="active-agreements" element={<AllAgreements />} />
               <Route path="archive" element={<AllArchievedAgreements />} />
               <Route path="cat/:categoryId" element={<CategoryAgreements />} />
-              <Route path="new-agreement" element={<NewAgreement />} />
-              <Route path="agreement" element={<AgreementProvider />}>
-                <Route path=":agreementId">
-                  <Route path="" element={<Agreement />} />
-                  <Route
-                    path="section/:sectionId/:versionId"
-                    element={
-                      <SectionProvider>
-                        <Section />
-                      </SectionProvider>
-                    }
-                  />
-                  <Route path="draft" element={<Draft />} />
+              <Route element={<AgreementProvider />}>
+                <Route path="new-agreement" element={<NewAgreement />} />
+                <Route path="agreement">
+                  <Route path=":agreementId">
+                    <Route path="" element={<Agreement />} />
+                    <Route
+                      path="section/:sectionId/:versionId"
+                      element={
+                        <SectionProvider>
+                          <Section />
+                        </SectionProvider>
+                      }
+                    />
+                    <Route path="draft" element={<Draft />} />
+                  </Route>
                 </Route>
               </Route>
             </Route>
