@@ -148,18 +148,6 @@ const Section: FC = () => {
             </SvgIcon>
           }
         />
-        <TextEditorPopup
-          key={displayedVersion?.id}
-          isOpen={isTextPopupOpen}
-          parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
-          newVersionName={generateVersionName(section)}
-          onComplete={handleComplete}
-          onCancel={setIsTextPopupOpen}
-          completeBtnText={t(StringBank.ADD_VERSION)}
-          cancelBtnText={t(StringBank.CANCEL)}
-          initialContent={displayedVersion?.content}
-          editorPlaceholder={t(StringBank.INSERT_NEW_VERSION)}
-        />
       </Stack>
       {displayedVersion && <DisplaySection displayedVersion={displayedVersion} />}
       {displayedVersion && (
@@ -220,6 +208,18 @@ const Section: FC = () => {
         autoHideDuration={4000}
         onClose={() => setIsCommentSnackbarVisible(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      />
+      <TextEditorPopup
+        key={displayedVersion?.id}
+        isOpen={isTextPopupOpen}
+        parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
+        newVersionName={generateVersionName(section)}
+        onComplete={handleComplete}
+        onCancel={setIsTextPopupOpen}
+        completeBtnText={t(StringBank.ADD_VERSION)}
+        cancelBtnText={t(StringBank.CANCEL)}
+        initialContent={displayedVersion?.content}
+        editorPlaceholder={t(StringBank.INSERT_NEW_VERSION)}
       />
     </>
   );

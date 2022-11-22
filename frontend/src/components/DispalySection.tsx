@@ -1,5 +1,4 @@
 import {
-  Box,
   Card,
   CardContent,
   IconButton,
@@ -20,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import ContentEditor from './ContentEditor';
 import { Version } from 'types/entities';
 import { textSecondaryColor } from 'theme';
+import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
 import { getVoteColor, getRemainingSupporters, getVersionProgress } from 'utils/functions';
 interface DisplayProns {
   displayedVersion: Version;
@@ -63,9 +63,19 @@ const DisplaySection: FC<DisplayProns> = ({ displayedVersion }) => {
               </SvgIcon>
             </IconButton>
           </Stack>
-          <Box paddingY={4}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <IconButton sx={{ transform: 'rotate(180deg)' }}>
+              <SvgIcon sx={{ margin: 'auto' }}>
+                <ArrowLogo />
+              </SvgIcon>
+            </IconButton>
             <ContentEditor readonly content={displayedVersion?.content} />
-          </Box>
+            <IconButton>
+              <SvgIcon>
+                <ArrowLogo />
+              </SvgIcon>
+            </IconButton>
+          </Stack>
           <Stack spacing={1} direction="row" alignItems="center">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
               <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'up')}>
