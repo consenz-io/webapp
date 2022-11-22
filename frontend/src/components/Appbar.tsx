@@ -12,7 +12,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import styled from 'styled-components';
-import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-down.svg';
+import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-left.svg';
 import { backgroundBorderColor } from 'theme';
 import { Link } from 'react-router-dom';
 
@@ -71,7 +71,7 @@ const Appbar: FC<AppbarProps> = (props) => {
               direction="row"
               justifyContent="center"
               alignItems="center"
-              spacing={1}
+              gap={1}
               component={breadcrumb.link ? Link : Stack}
               to={breadcrumb.link ?? ''}
               key={i}

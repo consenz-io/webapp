@@ -120,7 +120,7 @@ const Section: FC = () => {
           },
         ]}
       />
-      <Stack direction="row" spacing={1} marginY={2}>
+      <Stack direction="row" gap={1} marginY={2}>
         {section?.versions.map((version, i) => (
           <Chip
             deleteIcon={<CheckCircleIcon />}
@@ -159,7 +159,7 @@ const Section: FC = () => {
         <Card variant="elevation" elevation={0}>
           <CardContent sx={{ paddingX: 3 }}>
             <Stack direction="row" justifyContent="space-between">
-              <Stack direction="row" alignItems="center" spacing={2}>
+              <Stack direction="row" alignItems="center" gap={2}>
                 <BtnCapital className="capital">
                   {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
                 </BtnCapital>
@@ -179,8 +179,8 @@ const Section: FC = () => {
             <Box paddingY={4}>
               <ContentEditor readonly content={displayedVersion?.content} />
             </Box>
-            <Stack spacing={1} direction="row" alignItems="center">
-              <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+            <Stack gap={1} direction="row" alignItems="center">
+              <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
                 <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'up')}>
                   <SvgIcon htmlColor={getIconColor('up')}>
                     <LikeIcon />
@@ -188,7 +188,7 @@ const Section: FC = () => {
                 </IconButton>
                 <Typography color={getIconColor('up')}>{displayedVersion?.upvotes}</Typography>
               </Stack>
-              <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+              <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
                 <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'down')}>
                   <SvgIcon htmlColor={getIconColor('down')}>
                     <DislikeIcon />
@@ -217,7 +217,7 @@ const Section: FC = () => {
         <Card variant="elevation" elevation={0} sx={{ marginTop: 1 }}>
           <CardContent>
             <Container maxWidth="sm">
-              <Stack direction="row" spacing={4}>
+              <Stack direction="row" gap={4}>
                 <Box sx={{ paddingTop: 0.5 }}>
                   <BtnCapital className="capital" color="main">
                     {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
@@ -242,14 +242,14 @@ const Section: FC = () => {
                 </Button>
               </Stack>
               {comments?.map((comment) => (
-                <Stack key={comment.id} direction="row" spacing={4} marginBottom={4}>
+                <Stack key={comment.id} direction="row" gap={4} marginBottom={4}>
                   <Stack alignItems="center" paddingTop={1}>
                     <BtnCapital className="capital">
                       {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
                     </BtnCapital>
                   </Stack>
                   <Stack>
-                    <Stack direction="row" spacing={2}>
+                    <Stack direction="row" gap={2}>
                       <Box>
                         <Typography>{comment.author.full_name}</Typography>
                       </Box>
