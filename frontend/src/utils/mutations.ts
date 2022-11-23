@@ -10,6 +10,9 @@ export const addSection = gql`
       object: { chapter_id: $chapterId, index: $sectionIndex, versions: { data: $versions } }
     ) {
       id
+      versions {
+        id
+      }
     }
   }
 `;
