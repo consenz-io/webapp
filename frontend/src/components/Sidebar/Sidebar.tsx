@@ -66,6 +66,11 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
     },
   ]);
 
+  function handleFeedback(e: any) {
+    e.preventDefault();
+    window.location.href = 'mailto:info@consenz.io';
+  }
+
   const content = (
     <>
       <SC.LogoContainer>
@@ -119,7 +124,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           ))}
         </List>
       </SC.Content>
-      <Button sx={{ paddingLeft: 1 }}>
+      <Button sx={{ paddingLeft: 1 }} onClick={handleFeedback}>
         <Stack direction="row" alignItems="center" justifyContent="flex-start" width="100%" gap={1}>
           <SvgIcon htmlColor={textSecondaryColor}>
             <FeedbackIcon />
