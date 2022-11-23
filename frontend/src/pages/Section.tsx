@@ -10,6 +10,7 @@ import { ReactComponent as LinkIcon } from 'assets/icons/link.svg';
 import { ReactComponent as LikeIcon } from 'assets/icons/like.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
+import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
 import {
   Box,
   Button,
@@ -47,8 +48,15 @@ const Section: FC = () => {
 
   const theme = useTheme();
   const [openDialogState, setOpenDialogState] = useState(false);
-  const { section, addVersion, fetchComments, comments, addComment, deleteComment } =
-    useContext(SectionContext);
+  const {
+    section,
+    addVersion,
+    fetchComments,
+    comments,
+    addComment,
+    deleteComment,
+    deleteSectionVersion,
+  } = useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState<Version | undefined>(
@@ -123,6 +131,12 @@ const Section: FC = () => {
     addComment(newComment, displayedVersion.id);
     setNewComment('');
     setIsCommentSnackbarVisible(true);
+  }
+
+  function handleDelSectionVersion() {
+    if (displayedVersion) {
+      deleteSectionVersion!(displayedVersion.id);
+    }
   }
 
   return (
@@ -200,6 +214,15 @@ const Section: FC = () => {
                 <IconButton size="small" onClick={handleShare}>
                   <SvgIcon htmlColor={textSecondaryColor}>
                     <LinkIcon />
+                  </SvgIcon>
+                </IconButton>
+                <IconButton
+                  size="small"
+                  onClick={handleDelSectionVersion}
+                  disabled={comments ? comments.length > 0 : false}
+                >
+                  <SvgIcon htmlColor={textSecondaryColor}>
+                    <TrashIcon />
                   </SvgIcon>
                 </IconButton>
               </Stack>
