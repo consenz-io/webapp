@@ -217,7 +217,7 @@ const Section: FC = () => {
                   </SvgIcon>
                 </IconButton>
                 {displayedVersion?.author?.id &&
-                  checkAuthorOrModerator(displayedVersion?.author?.id) && (
+                  checkAuthorOrModerator(displayedVersion.author.id) && (
                     <IconButton
                       size="small"
                       onClick={handleDelSectionVersion}
