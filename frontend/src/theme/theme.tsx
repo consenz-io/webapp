@@ -154,7 +154,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
           root: {
             margin: '2px 4px',
             borderRadius: 8,
-            '&&:hover': {
+            '&:hover': {
               backgroundColor: `${inputBackgroundColor} !important`,
             },
           },
