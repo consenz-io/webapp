@@ -61,7 +61,8 @@ const Section: FC = () => {
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
 
   const handleDeleteComment = () => {
-    onDeleteComment(commentIdToDel);
+    deleteComment!(commentIdToDel);
+    setCommentIdToDel(-1);
     setOpenDialogState(false);
   };
 
@@ -102,11 +103,6 @@ const Section: FC = () => {
     await vote(newVersion, 'up');
     setIsTextPopupOpen(false);
     navigate(`../section/${section.id}/${newVersion.id}`);
-  }
-
-  function onDeleteComment(commentId: number) {
-    deleteComment!(commentId);
-    setCommentIdToDel(-1);
   }
 
   function checkAuthorOrModerator(authorId: number) {
