@@ -192,7 +192,7 @@ const Agreement: FC = () => {
         isOpen={isTextPopupOpen}
         parentSection={t(StringBank.NEW_SECTION)}
         onComplete={handleComplete}
-        onCancel={setIsTextPopupOpen}
+        onCancel={() => setIsTextPopupOpen(false)}
         completeBtnText={t(StringBank.ADD_SECTION)}
         cancelBtnText={t(StringBank.CANCEL)}
         editorPlaceholder={t(StringBank.INSERT_NEW_SECTION_SHORT)}
