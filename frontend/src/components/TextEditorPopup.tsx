@@ -13,41 +13,36 @@ import { textSecondaryColor } from 'theme';
 import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
 import { ReactComponent as ArrowIcon } from 'assets/icons/chevron-left.svg';
 import { JSONContent } from '@tiptap/react';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
+import { isJsonContentEmpty } from 'utils/functions';
 
 interface DialogProps {
   isOpen: boolean;
   parentSection?: string;
   newVersionName?: string;
-  onCancel: (val: boolean) => unknown;
-  onComplete: (...args: any[]) => unknown;
+  onCancel: () => void;
+  onComplete: (content: JSONContent) => void;
   completeBtnText: string;
   cancelBtnText: string;
   editorPlaceholder?: string;
   initialContent?: JSONContent;
 }
 
-const TextEditorPopup = (props: DialogProps) => {
+const TextEditorPopup: FC<DialogProps> = ({
+  onCancel,
+  onComplete,
+  isOpen,
+  initialContent,
+  parentSection,
+  newVersionName,
+  completeBtnText,
+  cancelBtnText,
+}) => {
   const { t } = useTranslation();
-  const [newTextContent, setnewTextContent] = useState(props.initialContent);
-  const {
-    onCancel,
-    onComplete,
-    isOpen,
-    parentSection,
-    newVersionName,
-    completeBtnText,
-    cancelBtnText,
-  } = props;
-
-  const checkContent = () => {
-    if (newTextContent && newTextContent.content && 'content' in newTextContent.content[0]) {
-      return false;
-    }
-  };
+  const [newTextContent, setNewTextContent] = useState(initialContent);
 
   return (
     <Dialog
@@ -64,9 +59,7 @@ const TextEditorPopup = (props: DialogProps) => {
         },
       }}
       open={isOpen}
-      onClose={() => {
-        onCancel(false);
-      }}
+      onClose={onCancel}
     >
       <Stack spacing={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -83,7 +76,7 @@ const TextEditorPopup = (props: DialogProps) => {
               </>
             )}
           </Stack>
-          <IconButton edge="end" onClick={() => onCancel(false)}>
+          <IconButton edge="end" onClick={onCancel}>
             <SvgIcon htmlColor={textSecondaryColor}>
               <Xbtn />
             </SvgIcon>
@@ -98,29 +91,20 @@ const TextEditorPopup = (props: DialogProps) => {
           paddingX={2}
         >
           <ContentEditor
-            content={newTextContent}
+            content={initialContent}
             placeholder={t(StringBank.INSERT_NEW_VERSION)}
-            onChange={(newValue: JSONContent) => {
-              setnewTextContent(newValue);
-            }}
-          ></ContentEditor>
+            onChange={setNewTextContent}
+          />
         </Box>
         <DialogActions sx={{ padding: 0 }}>
-          <Button
-            variant="contained"
-            onClick={() => {
-              onCancel(false);
-            }}
-          >
+          <Button variant="contained" onClick={onCancel}>
             {cancelBtnText}
           </Button>
           <Button
-            disabled={checkContent()}
+            disabled={isJsonContentEmpty(newTextContent)}
             color="primary"
             variant="contained"
-            onClick={() => {
-              onComplete(newTextContent);
-            }}
+            onClick={() => onComplete(newTextContent ?? {})}
           >
             {completeBtnText}
           </Button>
