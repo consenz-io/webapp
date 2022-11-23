@@ -61,6 +61,7 @@ const Section: FC = () => {
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
 
   const handleDeleteComment = () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     deleteComment!(commentIdToDel);
     setCommentIdToDel(-1);
     setOpenDialogState(false);
