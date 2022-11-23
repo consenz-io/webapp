@@ -174,7 +174,7 @@ const Section: FC = () => {
           parentSection={`${t(StringBank.SECTION)} ${section?.index}`}
           newVersionName={generateVersionName(section)}
           onComplete={handleComplete}
-          onCancel={setIsTextPopupOpen}
+          onCancel={() => setIsTextPopupOpen(false)}
           completeBtnText={t(StringBank.ADD_VERSION)}
           cancelBtnText={t(StringBank.CANCEL)}
           initialContent={displayedVersion?.content}
