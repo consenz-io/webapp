@@ -38,7 +38,7 @@ import {
   getVoteColor,
 } from 'utils/functions';
 import { useNavigate, useParams } from 'react-router-dom';
-import { textSecondaryColor } from 'theme';
+import { backgroundBorderColor, textSecondaryColor } from 'theme';
 import { Section as SectionType, Version } from 'types';
 import { JSONContent } from '@tiptap/react';
 
@@ -216,15 +216,24 @@ const Section: FC = () => {
                     <LinkIcon />
                   </SvgIcon>
                 </IconButton>
-                <IconButton
-                  size="small"
-                  onClick={handleDelSectionVersion}
-                  disabled={comments ? comments.length > 0 : false}
-                >
-                  <SvgIcon htmlColor={textSecondaryColor}>
-                    <TrashIcon />
-                  </SvgIcon>
-                </IconButton>
+                {displayedVersion?.author?.id &&
+                  checkAuthorOrModerator(displayedVersion?.author?.id) && (
+                    <IconButton
+                      size="small"
+                      onClick={handleDelSectionVersion}
+                      disabled={comments ? comments.length > 0 : false}
+                    >
+                      <SvgIcon
+                        htmlColor={
+                          comments && comments.length > 0
+                            ? backgroundBorderColor
+                            : textSecondaryColor
+                        }
+                      >
+                        <TrashIcon />
+                      </SvgIcon>
+                    </IconButton>
+                  )}
               </Stack>
             </Stack>
             <Box paddingY={4}>
