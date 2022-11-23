@@ -184,6 +184,14 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         },
         variants: [{ props: { variant: 'category' }, style: { borderRadius: 4 } }],
       },
+      MuiIconButton: {
+        variants: [
+          {
+            props: { size: 'small' },
+            style: { borderRadius: 4 },
+          },
+        ],
+      },
       MuiButton: {
         defaultProps: {
           disableElevation: true,

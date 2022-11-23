@@ -16,6 +16,7 @@ import { ClickableCard } from './ClickableCard';
 import SvgIcon from './SvgIcon';
 import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
 import { useNavigate } from 'react-router-dom';
+import { successColor } from 'theme/theme';
 
 interface Props {
   section: Section;
@@ -91,7 +92,7 @@ const SectionCard: FC<Props> = ({ section }) => {
             </Typography>
             {isCurrentVersionDisplayed && (
               <Tooltip title={t(StringBank.CURRENT_VERSION)} arrow placement="top">
-                <SvgIcon htmlColor="#24ebd3">
+                <SvgIcon htmlColor={successColor}>
                   <CheckCircleIcon />
                 </SvgIcon>
               </Tooltip>

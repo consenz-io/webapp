@@ -6,6 +6,8 @@ import { section as sectionQuery, comments as commentsQuery } from 'utils/querie
 import {
   addComment as addCommentMutation,
   addSectionVersion as insertSectionVersionMutation,
+  deleteComment as deleteCommentMutation,
+  deleteSectionVersion as deleteSVtMutation,
 } from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
 import { Comment, Version } from 'types/entities';
@@ -16,7 +18,6 @@ export interface addVersionVars {
     sectionId: number;
   };
 }
-
 export interface AddCommentVars {
   variables: {
     content: string;
@@ -31,6 +32,8 @@ export interface fetchCommentsVars {
 
 interface SectionState {
   section?: Section;
+  deleteComment?: (commentId: number) => void;
+  deleteSectionVersion?: (sectionVersionId: number) => void;
   addVersion?: (content: JSONContent) => Promise<Version>;
   addComment?: (content: string, versionId: number) => void;
   fetchComments?: (sectionVersionId: number) => unknown;
@@ -41,6 +44,12 @@ const SectionContext = createContext<SectionState>({});
 
 const SectionProvider: FC<IFCProps> = ({ children }) => {
   const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
+  const [deleteComment] = useMutation(deleteCommentMutation, {
+    refetchQueries: ['section', 'comments'],
+  });
+  const [deleteSectionVersion] = useMutation(deleteSVtMutation, {
+    refetchQueries: ['section', 'comments'],
+  });
   const [addComment] = useMutation(addCommentMutation);
   const [fetchComments, { data: comments }] = useLazyQuery(commentsQuery);
   const { sectionId } = useParams();
@@ -59,6 +68,20 @@ const SectionProvider: FC<IFCProps> = ({ children }) => {
 
   const state: SectionState = {
     section: data?.core_sections[0],
+    deleteComment: (commentId: number) => {
+      deleteComment({
+        variables: {
+          id: commentId,
+        },
+      });
+    },
+    deleteSectionVersion: (sectionVersionId: number) => {
+      deleteSectionVersion({
+        variables: {
+          id: sectionVersionId,
+        },
+      });
+    },
     addVersion: useCallback(
       async (content: JSONContent) => {
         const { data } = await addVersion({ variables: { content, sectionId: Number(sectionId) } });
