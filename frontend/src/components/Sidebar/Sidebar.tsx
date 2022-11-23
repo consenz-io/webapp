@@ -20,6 +20,9 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { GroupContext } from 'contexts/group';
 import { generateColorFromString } from 'utils/functions';
 import CircleIcon from '@mui/icons-material/Circle';
+import { ReactComponent as FeedbackIcon } from 'assets/icons/message-square.svg';
+import SvgIcon from '../SvgIcon';
+import { textSecondaryColor } from 'theme/theme';
 
 interface SidebarItem {
   name: string;
@@ -108,7 +111,10 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           ))}
         </List>
       </SC.Content>
-      <Stack>
+      <Stack direction="row">
+        <SvgIcon htmlColor={textSecondaryColor}>
+          <FeedbackIcon />
+        </SvgIcon>
         <Typography>{t(StringBank.FEEDBACK)}</Typography>
       </Stack>
       <DropDownMenu
