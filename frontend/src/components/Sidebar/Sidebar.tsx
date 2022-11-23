@@ -14,7 +14,15 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { ColorModeAndDirectionContext } from '../../theme';
 import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
-import { List, ListItemIcon, ListItemText, ListSubheader, Stack, Typography } from '@mui/material';
+import {
+  Button,
+  List,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+  Stack,
+  Typography,
+} from '@mui/material';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { GroupContext } from 'contexts/group';
@@ -111,12 +119,14 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           ))}
         </List>
       </SC.Content>
-      <Stack direction="row">
-        <SvgIcon htmlColor={textSecondaryColor}>
-          <FeedbackIcon />
-        </SvgIcon>
-        <Typography>{t(StringBank.FEEDBACK)}</Typography>
-      </Stack>
+      <Button sx={{ paddingLeft: 1 }}>
+        <Stack direction="row" alignItems="center" justifyContent="flex-start" width="100%" gap={1}>
+          <SvgIcon htmlColor={textSecondaryColor}>
+            <FeedbackIcon />
+          </SvgIcon>
+          <Typography>{t(StringBank.FEEDBACK)}</Typography>
+        </Stack>
+      </Button>
       <DropDownMenu
         name="user"
         menuItems={userMenuItems}
