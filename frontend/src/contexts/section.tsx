@@ -10,18 +10,12 @@ import {
   deleteSectionVersion as deleteSVtMutation,
 } from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
-import { Comment } from 'types/entities';
+import { Comment, Version } from 'types/entities';
 
 export interface addVersionVars {
   variables: {
     content: JSONContent;
     sectionId: number;
-  };
-}
-
-export interface delCommentsVars {
-  variables: {
-    id: number;
   };
 }
 export interface AddCommentVars {
@@ -38,9 +32,9 @@ export interface fetchCommentsVars {
 
 interface SectionState {
   section?: Section;
-  addVersion?: (editorContent: JSONContent) => void;
-  deleteComment?: (variables: delCommentsVars) => void;
-  deleteSectionVersion?: (variables: delCommentsVars) => void;
+  deleteComment?: (commentId: number) => void;
+  deleteSectionVersion?: (sectionVersionId: number) => void;
+  addVersion?: (content: JSONContent) => Promise<Version>;
   addComment?: (content: string, versionId: number) => void;
   fetchComments?: (sectionVersionId: number) => unknown;
   comments?: Comment[];
@@ -74,8 +68,20 @@ const SectionProvider: FC<IFCProps> = ({ children }) => {
 
   const state: SectionState = {
     section: data?.core_sections[0],
-    deleteComment,
-    deleteSectionVersion,
+    deleteComment: (commentId: number) => {
+      deleteComment({
+        variables: {
+          id: commentId,
+        },
+      });
+    },
+    deleteSectionVersion: (sectionVersionId: number) => {
+      deleteSectionVersion({
+        variables: {
+          id: sectionVersionId,
+        },
+      });
+    },
     addVersion: useCallback(
       async (content: JSONContent) => {
         const { data } = await addVersion({ variables: { content, sectionId: Number(sectionId) } });

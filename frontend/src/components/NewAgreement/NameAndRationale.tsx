@@ -146,7 +146,7 @@ function NameAndRationale({
         cancelBtnText={t(StringBank.CANCEL)}
         finishBtnText={t(StringBank.CREATE)}
         placeHolderText={t(StringBank.ADD_NEW_CATEGORY)}
-        isTextBox={true}
+        isTextBox
       />
     </>
   );
