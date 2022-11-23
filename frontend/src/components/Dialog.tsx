@@ -22,7 +22,7 @@ interface DialogProps {
   cancelBtnText: string;
   finishBtnText: string;
   placeHolderText: string;
-  isTextBox: boolean;
+  isTextBox?: boolean;
   doneBtnColor?:
     | 'primary'
     | 'inherit'

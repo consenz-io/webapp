@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Appbar, ContentEditor, Dialog, SvgIcon, TextEditorPopup } from 'components';
 import { AgreementContext, AuthContext, DataContext, SectionContext } from 'contexts';
@@ -61,7 +62,6 @@ const Section: FC = () => {
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
 
   const handleDeleteComment = () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     deleteComment!(commentIdToDel);
     setCommentIdToDel(-1);
     setOpenDialogState(false);
@@ -73,7 +73,6 @@ const Section: FC = () => {
   useEffect(() => {
     const section_version_id = displayedVersion?.id;
     if (section_version_id) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       fetchComments!(section_version_id);
     }
   }, [fetchComments, displayedVersion]);
@@ -326,7 +325,6 @@ const Section: FC = () => {
         content={dialogContent}
         cancelFunction={handleCloseDialog}
         finishFunction={handleDeleteComment}
-        isTextBox={false}
         cancelBtnText={t(StringBank.CANCEL)}
         finishBtnText={t(StringBank.DELETE)}
         placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
