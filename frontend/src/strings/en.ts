@@ -37,6 +37,7 @@ export const en: Record<StringBank, string> = {
   CATEGORY_AGREMENTS: '{{category}} category - active Agreements',
   DELETE: 'Delete',
   DELETE_AGREEMENT: 'Delete Agreement',
+  FEEDBACK: 'Provide Feedback',
   GROUP_AGREEMENTS: "{{group}}'s Agreements",
   INSERT_NEW_SECTION: '+ Insert new section (Ctrl/Cmd+Enter)',
   INSERT_NEW_SECTION_SHORT: 'Insert new section...',

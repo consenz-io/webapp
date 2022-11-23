@@ -14,7 +14,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { ColorModeAndDirectionContext } from '../../theme';
 import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
-import { List, ListItemIcon, ListItemText, ListSubheader, Typography } from '@mui/material';
+import { List, ListItemIcon, ListItemText, ListSubheader, Stack, Typography } from '@mui/material';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { GroupContext } from 'contexts/group';
@@ -108,6 +108,9 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           ))}
         </List>
       </SC.Content>
+      <Stack>
+        <Typography>{t(StringBank.FEEDBACK)}</Typography>
+      </Stack>
       <DropDownMenu
         name="user"
         menuItems={userMenuItems}
