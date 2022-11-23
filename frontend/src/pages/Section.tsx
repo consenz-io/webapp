@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Appbar, Dialog, SvgIcon, TextEditorPopup, CommentsList, AddCommentBox } from 'components';
 import { AgreementContext, SectionContext } from 'contexts';
@@ -29,7 +30,8 @@ const Section: FC = () => {
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
 
   const handleDeleteComment = () => {
-    onDeleteComment(commentIdToDel);
+    deleteComment!(commentIdToDel);
+    setCommentIdToDel(-1);
     setOpenDialogState(false);
   };
 
@@ -38,7 +40,6 @@ const Section: FC = () => {
   useEffect(() => {
     const section_version_id = displayedVersion?.id;
     if (section_version_id) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       fetchComments!(section_version_id);
     }
   }, [fetchComments, displayedVersion]);
@@ -59,18 +60,6 @@ const Section: FC = () => {
     addVersion(editorContent);
     setIsTextPopupOpen(false);
   }
-
-  function onDeleteComment(commentId: number) {
-    if (deleteComment) {
-      deleteComment({
-        variables: {
-          id: commentId,
-        },
-      });
-      setCommentIdToDel(-1);
-    }
-  }
-
   const handleCloseDialog = () => {
     setOpenDialogState(false);
   };
