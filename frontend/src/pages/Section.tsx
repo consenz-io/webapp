@@ -9,7 +9,6 @@ import { ReactComponent as LinkIcon } from 'assets/icons/link.svg';
 import { ReactComponent as LikeIcon } from 'assets/icons/like.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
-import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
 import {
   Box,
   Button,
@@ -47,15 +46,8 @@ const Section: FC = () => {
 
   const theme = useTheme();
   const [openDialogState, setOpenDialogState] = useState(false);
-  const {
-    section,
-    addVersion,
-    fetchComments,
-    comments,
-    addComment,
-    deleteComment,
-    deleteSectionVersion,
-  } = useContext(SectionContext);
+  const { section, addVersion, fetchComments, comments, addComment, deleteComment } =
+    useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState<Version | undefined>(
@@ -68,7 +60,7 @@ const Section: FC = () => {
   const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
 
-  const handelDeleteComment = () => {
+  const handleDeleteComment = () => {
     onDeleteComment(commentIdToDel);
     setOpenDialogState(false);
   };
@@ -113,14 +105,8 @@ const Section: FC = () => {
   }
 
   function onDeleteComment(commentId: number) {
-    if (deleteComment) {
-      deleteComment({
-        variables: {
-          id: commentId,
-        },
-      });
-      setCommentIdToDel(-1);
-    }
+    deleteComment!(commentId);
+    setCommentIdToDel(-1);
   }
 
   function checkAuthorOrModerator(authorId: number) {
@@ -134,7 +120,7 @@ const Section: FC = () => {
     setOpenDialogState(false);
   };
 
-  function handelAddComment() {
+  function handleAddComment() {
     if (!newComment || !addComment || !displayedVersion) {
       return;
     }
@@ -220,25 +206,6 @@ const Section: FC = () => {
                     <LinkIcon />
                   </SvgIcon>
                 </IconButton>
-                {checkAuthorOrModerator(displayedVersion?.author?.id ?? -1) && (
-                  <IconButton
-                    size="small"
-                    onClick={() => {
-                      if (
-                        deleteSectionVersion &&
-                        displayedVersion &&
-                        checkAuthorOrModerator(displayedVersion.id)
-                      ) {
-                        setDialogContent(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
-                        deleteSectionVersion({ variables: { id: displayedVersion.id } });
-                      }
-                    }}
-                  >
-                    <SvgIcon htmlColor={textSecondaryColor}>
-                      <TrashIcon />
-                    </SvgIcon>
-                  </IconButton>
-                )}
               </Stack>
             </Stack>
             <Box paddingY={4}>
@@ -301,7 +268,7 @@ const Section: FC = () => {
                 <Button
                   disabled={!newComment}
                   sx={{ paddingX: 0, marginY: 1 }}
-                  onClick={handelAddComment}
+                  onClick={handleAddComment}
                 >
                   {t(StringBank.PUBLISH)}
                 </Button>
@@ -361,7 +328,7 @@ const Section: FC = () => {
         title={t(StringBank.DELETE_COMMNET)}
         content={dialogContent}
         cancelFunction={handleCloseDialog}
-        finishFunction={handelDeleteComment}
+        finishFunction={handleDeleteComment}
         isTextBox={false}
         cancelBtnText={t(StringBank.CANCEL)}
         finishBtnText={t(StringBank.DELETE)}
