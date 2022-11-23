@@ -15,7 +15,7 @@ import { ColorModeAndDirectionContext } from '../../theme';
 import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
 import {
-  Button,
+  ButtonBase,
   List,
   ListItemIcon,
   ListItemText,
@@ -66,9 +66,9 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
     },
   ]);
 
-  function handleFeedback(e: any) {
+  function handleFeedback(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    window.location.href = 'mailto:info@consenz.io';
+    window.location.href = 'mailto:info@consenz.io?subject=Feedback for Consenz';
   }
 
   const content = (
@@ -124,14 +124,14 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           ))}
         </List>
       </SC.Content>
-      <Button sx={{ paddingLeft: 1 }} onClick={handleFeedback}>
+      <ButtonBase sx={{ margin: 1 }} onClick={handleFeedback} disableRipple>
         <Stack direction="row" alignItems="center" justifyContent="flex-start" width="100%" gap={1}>
           <SvgIcon htmlColor={textSecondaryColor}>
             <FeedbackIcon />
           </SvgIcon>
           <Typography>{t(StringBank.FEEDBACK)}</Typography>
         </Stack>
-      </Button>
+      </ButtonBase>
       <DropDownMenu
         name="user"
         menuItems={userMenuItems}
