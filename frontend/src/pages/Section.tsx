@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Appbar, ContentEditor, SvgIcon, TextEditorPopup } from 'components';
-import { AgreementContext, SectionContext } from 'contexts';
+import { Appbar, ContentEditor, Dialog, SvgIcon, TextEditorPopup } from 'components';
+import { AgreementContext, AuthContext, DataContext, SectionContext } from 'contexts';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
 import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
@@ -11,6 +12,7 @@ import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
 import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Chip,
@@ -22,8 +24,8 @@ import {
   Typography,
   Container,
   useTheme,
-  Button,
   TextField,
+  Link,
 } from '@mui/material';
 import { StringBank } from 'strings';
 import { BtnCapital } from 'components/DropDownMenu/style';
@@ -40,23 +42,37 @@ import { Section as SectionType, Version } from 'types';
 import { JSONContent } from '@tiptap/react';
 
 const Section: FC = () => {
+  const { role } = useContext(AuthContext);
+  const { user } = useContext(DataContext);
+
   const theme = useTheme();
-  const { section, addVersion, fetchComments, comments, addComment } = useContext(SectionContext);
+  const [openDialogState, setOpenDialogState] = useState(false);
+  const { section, addVersion, fetchComments, comments, addComment, deleteComment } =
+    useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState<Version | undefined>(
     section?.versions?.find((v) => v.id === Number(versionId))
   );
+  const { t } = useTranslation();
+  const [dialogContent, setDialogContent] = useState<string>('');
+  const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
+
+  const handleDeleteComment = () => {
+    deleteComment!(commentIdToDel);
+    setCommentIdToDel(-1);
+    setOpenDialogState(false);
+  };
+
   const [newComment, setNewComment] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const section_version_id = displayedVersion?.id;
     if (section_version_id) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       fetchComments!(section_version_id);
     }
   }, [fetchComments, displayedVersion]);
@@ -64,7 +80,6 @@ const Section: FC = () => {
   useEffect(() => {
     setDisplayedVersion(section?.versions?.find((v) => v.id === Number(versionId)));
   }, [section, versionId]);
-  const { t } = useTranslation();
 
   function handleShare() {
     navigator.clipboard.writeText(window.location.href);
@@ -90,13 +105,24 @@ const Section: FC = () => {
     navigate(`../section/${section.id}/${newVersion.id}`);
   }
 
-  function handelAddComment() {
-    if (newComment !== '' && addComment && displayedVersion?.author) {
-      addComment(newComment, displayedVersion.id);
-      setNewComment('');
-      setIsCommentSnackbarVisible(true);
+  function checkAuthorOrModerator(authorId: number) {
+    return role === 'moderator' || (user && user.id === authorId);
+  }
+
+  const handleClickOpenDialog = () => {
+    setOpenDialogState(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialogState(false);
+  };
+
+  function handleAddComment() {
+    if (!newComment || !addComment || !displayedVersion) {
+      return;
     }
-    return;
+    addComment(newComment, displayedVersion.id);
+    setNewComment('');
+    setIsCommentSnackbarVisible(true);
   }
 
   return (
@@ -170,11 +196,13 @@ const Section: FC = () => {
                   {displayedVersion?.created_at?.toLocaleDateString(navigator.language)}
                 </Typography>
               </Stack>
-              <IconButton size="small" onClick={handleShare}>
-                <SvgIcon htmlColor={textSecondaryColor}>
-                  <LinkIcon />
-                </SvgIcon>
-              </IconButton>
+              <Stack direction="row">
+                <IconButton size="small" onClick={handleShare}>
+                  <SvgIcon htmlColor={textSecondaryColor}>
+                    <LinkIcon />
+                  </SvgIcon>
+                </IconButton>
+              </Stack>
             </Stack>
             <Box paddingY={4}>
               <ContentEditor readonly content={displayedVersion?.content} />
@@ -236,7 +264,7 @@ const Section: FC = () => {
                 <Button
                   disabled={!newComment}
                   sx={{ paddingX: 0, marginY: 1 }}
-                  onClick={handelAddComment}
+                  onClick={handleAddComment}
                 >
                   {t(StringBank.PUBLISH)}
                 </Button>
@@ -259,7 +287,24 @@ const Section: FC = () => {
                         </Typography>
                       </Box>
                     </Stack>
-                    <Stack direction="row">{comment.content}</Stack>
+                    <Typography>{comment.content}</Typography>
+                    {checkAuthorOrModerator(comment.author.id) && (
+                      <Stack direction="row">
+                        <Link
+                          component="button"
+                          variant="caption"
+                          underline="hover"
+                          color={textSecondaryColor}
+                          onClick={() => {
+                            setDialogContent(t(StringBank.CONFIRM_COMMENT_DELETE));
+                            setCommentIdToDel(comment.id);
+                            handleClickOpenDialog();
+                          }}
+                        >
+                          {t(StringBank.DELETE)}
+                        </Link>
+                      </Stack>
+                    )}
                   </Stack>
                 </Stack>
               ))}
@@ -273,6 +318,17 @@ const Section: FC = () => {
         autoHideDuration={4000}
         onClose={() => setIsSnackbarVisible(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      />
+      <Dialog
+        openDialogState={openDialogState}
+        title={t(StringBank.DELETE_COMMNET)}
+        content={dialogContent}
+        cancelFunction={handleCloseDialog}
+        finishFunction={handleDeleteComment}
+        cancelBtnText={t(StringBank.CANCEL)}
+        finishBtnText={t(StringBank.DELETE)}
+        placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
+        doneBtnVariant="delete"
       />
       <Snackbar
         open={isCommentSnackbarVisible}

@@ -173,6 +173,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
         finishBtnText={t(StringBank.DELETE)}
         placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
         doneBtnVariant="delete"
+        isTextBox
       />
     </>
   );

@@ -22,6 +22,7 @@ interface DialogProps {
   cancelBtnText: string;
   finishBtnText: string;
   placeHolderText: string;
+  isTextBox?: boolean;
   doneBtnColor?:
     | 'primary'
     | 'inherit'
@@ -84,12 +85,14 @@ export default function Dialog(props: DialogProps) {
           {props.content}
         </Typography>
       )}
-      <TextField
-        onChange={(e) => {
-          setInputValue(e.target.value);
-        }}
-        placeholder={props.placeHolderText}
-      />
+      {props.isTextBox && (
+        <TextField
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
+          placeholder={props.placeHolderText}
+        />
+      )}
       <DialogActions sx={{ padding: 0 }}>
         <Button onClick={props.cancelFunction}>{props.cancelBtnText}</Button>
         <Button

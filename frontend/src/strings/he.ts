@@ -23,6 +23,7 @@ export const he: Partial<Record<StringBank, string>> = {
   COMMNET_POSTED: 'הערה נשלחה בהצלחה',
   CURRENT_VERSION: 'הגרסה הנוכחית',
   FEEDBACK: 'העבירו משוב',
+  DELETE_COMMNET: 'מחק הערה',
   GOTO_HOMEPAGE_TITLE: 'לעבור לדף הבית',
   LOGOUT: 'יציאה',
   NEW_AGREEMENT: 'הסכם חדש',
@@ -35,6 +36,8 @@ export const he: Partial<Record<StringBank, string>> = {
   בקשו ממנהל הקבוצה שלכן הזמנה על מנת להשתתף
   
   ותהנו!`,
+  CONFIRM_COMMENT_DELETE: 'אנא רשמו "תגובה" כדי לאשר את המחיקה',
+  CONFIRM_SECTION_VERSION_DELETE: 'הפעולה המבוקשת תמחוק את ההצעה ואת ההערות שעליה. אתם בטוחים?',
   PUBLISH: 'פרסום',
   VIEW_CURRENT_DRAFT: 'צפייה בגרסה הנוכחית',
   INSERT_NEW_VERSION: 'אנא הזינו הצעה לסעיף חדש',
