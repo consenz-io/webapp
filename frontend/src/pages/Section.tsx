@@ -209,7 +209,10 @@ const Section: FC = () => {
             </Box>
             <Stack gap={1} direction="row" alignItems="center">
               <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
-                <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'up')}>
+                <IconButton
+                  onClick={() => displayedVersion && vote(displayedVersion, 'up')}
+                  size="small"
+                >
                   <SvgIcon htmlColor={getIconColor('up')}>
                     <LikeIcon />
                   </SvgIcon>
@@ -217,7 +220,10 @@ const Section: FC = () => {
                 <Typography color={getIconColor('up')}>{displayedVersion?.upvotes}</Typography>
               </Stack>
               <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
-                <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'down')}>
+                <IconButton
+                  onClick={() => displayedVersion && vote(displayedVersion, 'down')}
+                  size="small"
+                >
                   <SvgIcon htmlColor={getIconColor('down')}>
                     <DislikeIcon />
                   </SvgIcon>
