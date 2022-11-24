@@ -31,7 +31,8 @@ export const he: Partial<Record<StringBank, string>> = {
   CATEGORY_EMPTY_MESSAGE: 'אולי תרצו ליצור אחד',
   COMING_SOON: 'מגיע בקרוב',
   COMMNET_POSTED: 'הערה נשלחה בהצלחה',
-  CONFIRM_COMMENT_DELETE: 'אנא רשמו "תגובה" כדי לאשר את המחיקה',
+  CONFIRM_COMMENT_DELETE:
+    'מחיקת ההערה הינה פעולה בלתי הפיכה. האם אתם בטוחים שברצונכם למחוק את ההערה?',
   CONFIRM_SECTION_VERSION_DELETE: 'הפעולה המבוקשת תמחוק את ההצעה ואת ההערות שעליה. אתם בטוחים?',
   CONTINUE: 'להמשיך',
   CREATE: 'יצירה',

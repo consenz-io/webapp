@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-left.svg';
 import { backgroundBorderColor } from 'theme';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export interface Action {
   icon: JSX.Element;
@@ -54,6 +55,7 @@ const AppbarContainer = styled(Stack)`
 `;
 
 const Appbar: FC<AppbarProps> = (props) => {
+  const { i18n } = useTranslation();
   return (
     <AppbarContainer
       direction="row"
@@ -63,7 +65,9 @@ const Appbar: FC<AppbarProps> = (props) => {
     >
       {props.breadcrumbs?.length && (
         <Breadcrumbs
-          separator={<ArrowLogo fontSize="1rem" />}
+          separator={
+            <ArrowLogo fontSize="1rem" transform={i18n.language === 'en' ? '' : 'rotate(180)'} />
+          }
           sx={{ flexBasis: 'calc(100%/3)', flexGrow: 1 }}
         >
           {props.breadcrumbs.map((breadcrumb, i) => (
@@ -100,7 +104,7 @@ const Appbar: FC<AppbarProps> = (props) => {
                 sx={{ padding: '0 1rem' }}
               >
                 <StepButton sx={{ padding: '0', margin: '0' }} disableRipple>
-                  <StepLabel>{step}</StepLabel>
+                  <StepLabel StepIconProps={{ sx: { paddingX: '1rem' } }}>{step}</StepLabel>
                 </StepButton>
               </Step>
             ))}
