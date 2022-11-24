@@ -2,12 +2,12 @@ import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import { createContext, FC, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IFCProps, Section } from 'types';
-import { section as sectionQuery, comments as commentsQuery } from 'utils/queries';
+import { sectionQuery, commentsQuery } from 'utils/queries';
 import {
-  addComment as addCommentMutation,
-  addSectionVersion as insertSectionVersionMutation,
-  deleteComment as deleteCommentMutation,
-  deleteSectionVersion as deleteSVtMutation,
+  addCommentMutation,
+  addSectionVersionMutation,
+  deleteCommentMutation,
+  deleteSectionVersionMutation,
 } from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
 import { Comment, Version } from 'types/entities';
@@ -43,11 +43,11 @@ interface SectionState {
 const SectionContext = createContext<SectionState>({});
 
 const SectionProvider: FC<IFCProps> = ({ children }) => {
-  const [addVersion] = useMutation(insertSectionVersionMutation, { refetchQueries: ['section'] });
+  const [addVersion] = useMutation(addSectionVersionMutation, { refetchQueries: ['section'] });
   const [deleteComment] = useMutation(deleteCommentMutation, {
     refetchQueries: ['section', 'comments'],
   });
-  const [deleteSectionVersion] = useMutation(deleteSVtMutation, {
+  const [deleteSectionVersion] = useMutation(deleteSectionVersionMutation, {
     refetchQueries: ['section', 'comments'],
   });
   const [addComment] = useMutation(addCommentMutation);

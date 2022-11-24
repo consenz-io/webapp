@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-export const addSection = gql`
-  mutation AddSection(
+export const addSectionMutation = gql`
+  mutation addSection(
     $chapterId: Int!
     $sectionIndex: Int!
     $versions: [core_section_versions_insert_input!]!
@@ -17,7 +17,7 @@ export const addSection = gql`
   }
 `;
 
-export const addAgreement = gql`
+export const addAgreementMutation = gql`
   mutation addAgreement(
     $categoryId: Int
     $groupId: Int!
@@ -69,7 +69,7 @@ export const deleteAgreementMutation = gql`
   }
 `;
 
-export const insertVote = gql`
+export const insertVoteMutation = gql`
   mutation insertVote($userId: Int!, $versionId: Int!, $type: String!) {
     insert_core_votes(objects: { user_id: $userId, version_id: $versionId, type: $type }) {
       returning {
@@ -81,7 +81,7 @@ export const insertVote = gql`
   }
 `;
 
-export const updateVote = gql`
+export const updateVoteMutation = gql`
   mutation updateVote($userId: Int!, $versionId: Int!, $type: String!) {
     update_core_votes_by_pk(
       pk_columns: { user_id: $userId, version_id: $versionId }
@@ -92,7 +92,7 @@ export const updateVote = gql`
   }
 `;
 
-export const deleteVote = gql`
+export const deleteVoteMutation = gql`
   mutation deleteVote($userId: Int!, $versionId: Int!) {
     delete_core_votes_by_pk(user_id: $userId, version_id: $versionId) {
       type
@@ -100,7 +100,7 @@ export const deleteVote = gql`
   }
 `;
 
-export const addSectionVersion = gql`
+export const addSectionVersionMutation = gql`
   mutation AddSectionVersion($sectionId: Int!, $content: json!) {
     insert_core_section_versions_one(object: { section_id: $sectionId, content: $content }) {
       id
@@ -108,7 +108,7 @@ export const addSectionVersion = gql`
   }
 `;
 
-export const deleteComment = gql`
+export const deleteCommentMutation = gql`
   mutation deleteComment($id: Int!) {
     delete_core_comments(where: { id: { _eq: $id } }) {
       affected_rows
@@ -116,14 +116,14 @@ export const deleteComment = gql`
   }
 `;
 
-export const deleteSectionVersion = gql`
+export const deleteSectionVersionMutation = gql`
   mutation deleteSectionVersion($id: Int!) {
     delete_core_section_versions(where: { id: { _eq: $id } }) {
       affected_rows
     }
   }
 `;
-export const addComment = gql`
+export const addCommentMutation = gql`
   mutation addComment($content: String!, $sectionVersionId: Int!) {
     insert_core_comments_one(object: { content: $content, section_version_id: $sectionVersionId }) {
       id

@@ -2,14 +2,10 @@ import { FetchResult, useMutation, useQuery } from '@apollo/client';
 import { createContext, FC, useCallback, useContext, useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { Agreement, Section, Version } from 'types';
-import {
-  insertVote as insertVoteMutation,
-  updateVote as updateVoteMutation,
-  deleteVote as deleteVoteMutation,
-} from 'utils/mutations';
+import { insertVoteMutation, updateVoteMutation, deleteVoteMutation } from 'utils/mutations';
 import { agreementQuery } from 'utils/queries';
 import { DataContext } from 'contexts/data';
-import { addSection as insertSectionMutation } from 'utils/mutations';
+import { addSectionMutation as insertSectionMutation } from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
 
 export interface AddSectionVariables {

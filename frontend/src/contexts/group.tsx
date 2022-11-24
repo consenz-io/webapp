@@ -6,7 +6,7 @@ import { Agreement, Category } from 'types';
 import { deleteAgreementMutation } from 'utils/mutations';
 import { agreementsQuery } from 'utils/queries';
 import { DataContext } from './data';
-import { addAgreement as addAgreementMutation } from 'utils/mutations';
+import { addAgreementMutation } from 'utils/mutations';
 import { isJsonContentEmpty } from 'utils/functions';
 
 const GroupContext = createContext<IGroupContext>({} as IGroupContext);
