@@ -79,80 +79,108 @@ const DisplaySection: FC<DisplayProns> = ({
     <>
       <Card variant="elevation" elevation={0}>
         <CardContent sx={{ paddingX: 3 }}>
-          <Stack direction="row" justifyContent="space-between">
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <BtnCapital className="capital">
-                {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
-              </BtnCapital>
-              <Typography variant="h6">
-                {displayedVersion?.author?.full_name || t(StringBank.ANONYMOUS)}
-              </Typography>
-              <Typography variant="caption">
-                {displayedVersion?.created_at?.toLocaleDateString(navigator.language)}
-              </Typography>
-            </Stack>
-            <IconButton size="small" onClick={handleShare}>
-              <SvgIcon htmlColor={textSecondaryColor}>
-                <LinkIcon />
-              </SvgIcon>
-            </IconButton>
-          </Stack>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <IconButton
-              disabled={currentVersionIndex - 1 < 0}
-              sx={{ transform: 'rotate(180deg)' }}
-              onClick={() => {
-                changeDisplayedVersion('left');
-              }}
-              color="primary"
-            >
-              <SvgIcon sx={{ margin: 'auto' }}>
-                <ArrowLogo />
-              </SvgIcon>
-            </IconButton>
-            <ContentEditor readonly content={displayedVersion?.content} />
-            <IconButton
-              disabled={currentVersionIndex + 1 >= sectionVersions.length}
-              onClick={() => {
-                changeDisplayedVersion('right');
-              }}
-            >
-              <SvgIcon>
-                <ArrowLogo />
-              </SvgIcon>
-            </IconButton>
-          </Stack>
-          <Stack spacing={1} direction="row" alignItems="center">
-            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'up')}>
-                <SvgIcon htmlColor={getIconColor('up')}>
-                  <LikeIcon />
+          <Stack>
+            <Stack id="title" direction="row" justifyContent="space-between">
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <BtnCapital className="capital">
+                  {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+                </BtnCapital>
+                <Typography variant="h6">
+                  {displayedVersion?.author?.full_name || t(StringBank.ANONYMOUS)}
+                </Typography>
+                <Typography variant="caption">
+                  {displayedVersion?.created_at?.toLocaleDateString(navigator.language)}
+                </Typography>
+              </Stack>
+              <IconButton size="small" onClick={handleShare}>
+                <SvgIcon htmlColor={textSecondaryColor}>
+                  <LinkIcon />
                 </SvgIcon>
               </IconButton>
-              <Typography color={getIconColor('up')}>{displayedVersion?.upvotes}</Typography>
             </Stack>
-            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton onClick={() => displayedVersion && vote(displayedVersion, 'down')}>
-                <SvgIcon htmlColor={getIconColor('down')}>
-                  <DislikeIcon />
+            <Stack direction="row" justifyContent="space-between" alignItems="center" gap={3}>
+              <IconButton
+                disabled={currentVersionIndex - 1 < 0}
+                sx={{ transform: 'rotate(180deg)', height: 'fit-content' }}
+                onClick={() => {
+                  changeDisplayedVersion('left');
+                }}
+                color="primary"
+              >
+                <SvgIcon sx={{ margin: 'auto' }}>
+                  <ArrowLogo />
                 </SvgIcon>
               </IconButton>
-              <Typography color={getIconColor('down')}>{displayedVersion?.downvotes}</Typography>
+              <Stack id="contentNVotingColoumn" minWidth="80%" justifyContent="center">
+                <Stack
+                  id="content"
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <ContentEditor readonly content={displayedVersion?.content} />
+                </Stack>
+                <Stack id="voting" direction="row">
+                  <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+                    <IconButton
+                      onClick={() => displayedVersion && vote(displayedVersion, 'up')}
+                      edge="start"
+                    >
+                      <SvgIcon htmlColor={getIconColor('up')}>
+                        <LikeIcon />
+                      </SvgIcon>
+                    </IconButton>
+                    <Typography color={getIconColor('up')}>{displayedVersion?.upvotes}</Typography>
+                  </Stack>
+                  <Stack direction="row" width="100%" alignItems="center" spacing={0.5}>
+                    <Stack
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center"
+                      spacing={0.5}
+                    >
+                      <IconButton
+                        onClick={() => displayedVersion && vote(displayedVersion, 'down')}
+                      >
+                        <SvgIcon htmlColor={getIconColor('down')}>
+                          <DislikeIcon />
+                        </SvgIcon>
+                      </IconButton>
+                      <Typography color={getIconColor('down')}>
+                        {displayedVersion?.downvotes}
+                      </Typography>
+                    </Stack>
+                    <Tooltip
+                      title={t(StringBank.REMAINING_SUPPORTERS, {
+                        count: getRemainingSupporters(displayedVersion),
+                      })}
+                      arrow
+                      placement="top"
+                    >
+                      <LinearProgress
+                        variant="determinate"
+                        value={getVersionProgress(displayedVersion)}
+                        sx={{ flexGrow: 1 }}
+                      />
+                    </Tooltip>
+                  </Stack>
+                </Stack>
+              </Stack>
+              <IconButton
+                disabled={currentVersionIndex + 1 >= sectionVersions.length}
+                onClick={() => {
+                  changeDisplayedVersion('right');
+                }}
+                sx={{ height: 'fit-content' }}
+              >
+                <SvgIcon>
+                  <ArrowLogo />
+                </SvgIcon>
+              </IconButton>
             </Stack>
-            <Tooltip
-              title={t(StringBank.REMAINING_SUPPORTERS, {
-                count: getRemainingSupporters(displayedVersion),
-              })}
-              arrow
-              placement="top"
-            >
-              <LinearProgress
-                variant="determinate"
-                value={getVersionProgress(displayedVersion)}
-                sx={{ flexGrow: 1 }}
-              />
-            </Tooltip>
           </Stack>
+
+          <Stack spacing={1} direction="row" alignItems="center"></Stack>
         </CardContent>
       </Card>
       <Snackbar
