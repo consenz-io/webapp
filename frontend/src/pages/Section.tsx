@@ -221,7 +221,7 @@ const Section: FC = () => {
                     <IconButton
                       size="small"
                       onClick={handleDelSectionVersion}
-                      disabled={comments ? comments.length > 0 : false}
+                      disabled={!!comments?.length}
                     >
                       <SvgIcon
                         htmlColor={
