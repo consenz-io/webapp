@@ -225,7 +225,7 @@ const Section: FC = () => {
                     >
                       <SvgIcon
                         htmlColor={
-                          comments && comments.length > 0
+                          comments?.length
                             ? backgroundBorderColor
                             : textSecondaryColor
                         }
