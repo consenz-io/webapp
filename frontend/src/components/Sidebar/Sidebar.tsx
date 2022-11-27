@@ -14,12 +14,23 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { ColorModeAndDirectionContext } from '../../theme';
 import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
-import { List, ListItemIcon, ListItemText, ListSubheader, Typography } from '@mui/material';
+import {
+  ButtonBase,
+  List,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+  Stack,
+  Typography,
+} from '@mui/material';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { GroupContext } from 'contexts/group';
 import { generateColorFromString } from 'utils/functions';
 import CircleIcon from '@mui/icons-material/Circle';
+import { ReactComponent as FeedbackIcon } from 'assets/icons/message-square.svg';
+import SvgIcon from '../SvgIcon';
+import { textSecondaryColor } from 'theme/theme';
 
 interface SidebarItem {
   name: string;
@@ -54,6 +65,11 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
       action: logout,
     },
   ]);
+
+  function handleFeedback(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    window.location.href = 'mailto:info@consenz.io?subject=Feedback for Consenz';
+  }
 
   const content = (
     <>
@@ -108,6 +124,14 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           ))}
         </List>
       </SC.Content>
+      <ButtonBase sx={{ margin: 1 }} onClick={handleFeedback} disableRipple>
+        <Stack direction="row" alignItems="center" justifyContent="flex-start" width="100%" gap={1}>
+          <SvgIcon htmlColor={textSecondaryColor}>
+            <FeedbackIcon />
+          </SvgIcon>
+          <Typography>{t(StringBank.FEEDBACK)}</Typography>
+        </Stack>
+      </ButtonBase>
       <DropDownMenu
         name="user"
         menuItems={userMenuItems}

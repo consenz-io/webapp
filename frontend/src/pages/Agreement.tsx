@@ -34,9 +34,8 @@ const Agreement: FC = () => {
   const { groupSlug, agreementId } = useParams();
   const { categories, slug } = useContext(GroupContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
-  const [currentChapterId, setCurrentChapterId] = useState<number>(-1);
-  const [currentSectionIndex, setCurrentSectionIndex] = useState<number>(-1);
-  const { agreement, categoryName, addSection } = useContext(AgreementContext);
+  const { agreement, categoryName, addSection, vote, setCurrentChapterId, setCurrentSectionIndex } =
+    useContext(AgreementContext);
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
     {
@@ -51,14 +50,9 @@ const Agreement: FC = () => {
     },
   ];
 
-  function handleComplete(editorContent: JSONContent) {
-    addSection({
-      chapterId: currentChapterId,
-      sectionIndex: currentSectionIndex,
-      versions: {
-        content: editorContent,
-      },
-    });
+  async function handleComplete(editorContent: JSONContent) {
+    const { versions } = await addSection(editorContent);
+    await vote(versions[0], 'up');
     setIsTextPopupOpen(false);
   }
 
@@ -192,7 +186,7 @@ const Agreement: FC = () => {
         isOpen={isTextPopupOpen}
         parentSection={t(StringBank.NEW_SECTION)}
         onComplete={handleComplete}
-        onCancel={setIsTextPopupOpen}
+        onCancel={() => setIsTextPopupOpen(false)}
         completeBtnText={t(StringBank.ADD_SECTION)}
         cancelBtnText={t(StringBank.CANCEL)}
         editorPlaceholder={t(StringBank.INSERT_NEW_SECTION_SHORT)}

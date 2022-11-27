@@ -72,7 +72,7 @@ export const agreementQuery = gql`
   }
 `;
 
-export const section = gql`
+export const sectionQuery = gql`
   query section($sectionId: Int!) {
     core_sections(where: { id: { _eq: $sectionId } }) {
       id
@@ -97,7 +97,7 @@ export const section = gql`
   }
 `;
 
-export const comments = gql`
+export const commentsQuery = gql`
   query comments($section_version_id: Int!) {
     core_comments(
       where: { section_version_id: { _eq: $section_version_id } }
