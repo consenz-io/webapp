@@ -24,3 +24,9 @@ select_permissions:
         - full_name
         - id
       filter: {}
+  - role: public
+    permission:
+      columns:
+        - id
+        - full_name
+      filter: {}

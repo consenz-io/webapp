@@ -125,6 +125,23 @@ select_permissions:
         - my_vote
         - upvotes
       filter: {}
+  - role: public
+    permission:
+      columns:
+        - author_id
+        - id
+        - section_id
+        - threshold
+        - content
+        - consensus
+        - status
+        - created_at
+        - updated_at
+      computed_fields:
+        - downvotes
+        - my_vote
+        - upvotes
+      filter: {}
 update_permissions:
   - role: authenticated
     permission:

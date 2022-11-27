@@ -75,6 +75,16 @@ select_permissions:
         - index
         - updated_at
       filter: {}
+  - role: public
+    permission:
+      columns:
+        - chapter_id
+        - current_version_id
+        - id
+        - index
+        - created_at
+        - updated_at
+      filter: {}
 update_permissions:
   - role: authenticated
     permission:

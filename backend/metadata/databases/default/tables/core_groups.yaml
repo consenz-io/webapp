@@ -44,3 +44,11 @@ select_permissions:
         - slug
         - created_at
       filter: {}
+  - role: public
+    permission:
+      columns:
+        - id
+        - name
+        - slug
+        - created_at
+      filter: {}
