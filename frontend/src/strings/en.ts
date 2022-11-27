@@ -1,7 +1,7 @@
 import { StringBank } from './bank';
 
 export const en: Record<StringBank, string> = {
-  ADD_COMMENT_IN_SECTION: 'Add a commnet regarding the section',
+  ADD_COMMENT_IN_SECTION: 'Add a comment regarding the section',
   ADD_NEW_CATEGORY: 'New Category',
   ADD_RATIONALE_HEADER: 'Add Rationale:',
   ADD_RATIONALE_PARAGRAPH:
@@ -16,7 +16,7 @@ export const en: Record<StringBank, string> = {
   AGREEMENT_PROCESS_RULES: 'Agreement Process Rules',
   AGREEMENT_PROCESS_RULES_DESCRIPTION:
     'Set rules for accepting changes to the agreement by adding and approving new sections and approving sections improvements versions',
-  AGREEMENT_PUBLIHSED_SUCCESSFULLY: 'Your agreement has been succesfully published',
+  AGREEMENT_PUBLISHED_SUCCESSFULLY: 'Your agreement has been successfully published',
   AGREEMENT_UPDATED_AT: 'Updated at: {{date}}',
   ALL_AGREEMENTS: 'All Agreements',
   ANONYMOUS: 'Anonymous',
@@ -27,10 +27,10 @@ export const en: Record<StringBank, string> = {
   CANCEL: 'Cancel',
   CATEGORIES: 'Categories',
   CATEGORY: 'Category',
-  CATEGORY_AGREMENTS: '{{category}} category - active Agreements',
+  CATEGORY_AGREEMENTS: '{{category}} category - active Agreements',
   CATEGORY_EMPTY_MESSAGE: "Maybe you'd like to create one",
   COMING_SOON: 'Coming Soon',
-  COMMNET_POSTED: 'Comment was posted successfully',
+  COMMENT_POSTED: 'Comment was posted successfully',
   CONFIRM_COMMENT_DELETE: 'This action will delete the comment. Are you sure?',
   CONFIRM_SECTION_VERSION_DELETE:
     "This action will delete the section and all of it's comments.\n  This cannot be undone. Are you sure?",
@@ -40,7 +40,7 @@ export const en: Record<StringBank, string> = {
   CURRENT_VERSION: 'Current Version',
   DELETE: 'Delete',
   DELETE_AGREEMENT: 'Delete Agreement',
-  DELETE_COMMNET: 'Delete Comment',
+  DELETE_COMMENT: 'Delete Comment',
   FEEDBACK: 'Provide Feedback',
   GOTO_HOMEPAGE_TITLE: 'Go to consenz homepage',
   GROUP_AGREEMENTS: "{{group}}'s Agreements",
@@ -73,7 +73,7 @@ export const en: Record<StringBank, string> = {
   SECTIONS: 'Sections',
   SHARE_AGREEMENT: 'Share This Agreement',
   TIME_LIMITED: 'Time Limited',
-  TIME_LIMITED_DESCRIPTION: 'For how long the aggremment version will stand for a vote?',
+  TIME_LIMITED_DESCRIPTION: 'For how long the agreement version will stand for a vote?',
   UNARCHIVE: 'Unarchive',
   UNCATEGORIZED: 'General',
   URL_COPIED_SUCCESSFULLY: 'URL Copied successfully',

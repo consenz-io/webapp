@@ -327,7 +327,7 @@ const Section: FC = () => {
       />
       <Dialog
         openDialogState={openDialogState}
-        title={t(StringBank.DELETE_COMMNET)}
+        title={t(StringBank.DELETE_COMMENT)}
         content={dialogContent}
         cancelFunction={handleCloseDialog}
         finishFunction={handleDeleteComment}
@@ -338,7 +338,7 @@ const Section: FC = () => {
       />
       <Snackbar
         open={isCommentSnackbarVisible}
-        message={t(StringBank.COMMNET_POSTED)}
+        message={t(StringBank.COMMENT_POSTED)}
         autoHideDuration={4000}
         onClose={() => setIsCommentSnackbarVisible(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
