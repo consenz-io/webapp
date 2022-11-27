@@ -1,15 +1,11 @@
 import { FetchResult, useMutation, useQuery } from '@apollo/client';
-import { createContext, FC, useContext, useEffect } from 'react';
+import { createContext, FC, useCallback, useContext, useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { Agreement, Version } from 'types';
-import {
-  insertVote as insertVoteMutation,
-  updateVote as updateVoteMutation,
-  deleteVote as deleteVoteMutation,
-} from 'utils/mutations';
+import { Agreement, Section, Version } from 'types';
+import { insertVoteMutation, updateVoteMutation, deleteVoteMutation } from 'utils/mutations';
 import { agreementQuery } from 'utils/queries';
 import { DataContext } from 'contexts/data';
-import { addSection as insertSectionMutation } from 'utils/mutations';
+import { addSectionMutation as insertSectionMutation } from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
 
 export interface AddSectionVariables {
@@ -27,7 +23,9 @@ interface IAgreementContext {
   agreementTitle: string;
   categoryName: string;
   vote: (version: Version, type: 'up' | 'down') => Promise<FetchResult<void>>;
-  addSection: (variables: AddSectionVariables) => void;
+  addSection: (content: JSONContent) => Promise<Section>;
+  setCurrentChapterId: (currentChapterId: number) => void;
+  setCurrentSectionIndex: (currentSectionIndex: number) => void;
 }
 
 const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);
@@ -36,6 +34,8 @@ const AgreementProvider: FC = () => {
   const { agreementId } = useParams();
   const { user } = useContext(DataContext);
   const userId = user?.id;
+  const [currentChapterId, setCurrentChapterId] = useState<number>(-1);
+  const [currentSectionIndex, setCurrentSectionIndex] = useState<number>(-1);
   const { data, startPolling, stopPolling } = useQuery<{
     core_agreements: Agreement[];
   }>(agreementQuery, {
@@ -99,9 +99,21 @@ const AgreementProvider: FC = () => {
     agreementTitle: agreement?.name || '',
     agreement: agreement,
     vote,
-    addSection(variables) {
-      addSection({ variables });
-    },
+    addSection: useCallback(
+      async (content: JSONContent) => {
+        const { data } = await addSection({
+          variables: {
+            chapterId: currentChapterId,
+            sectionIndex: currentSectionIndex,
+            versions: { content },
+          },
+        });
+        return data?.insert_core_sections_one;
+      },
+      [addSection, currentChapterId, currentSectionIndex]
+    ),
+    setCurrentChapterId,
+    setCurrentSectionIndex,
   };
   return (
     <AgreementContext.Provider value={state}>

@@ -101,7 +101,7 @@ const SectionCard: FC<Props> = ({ section }) => {
           <ContentEditor content={displayedVersion.content} readonly />
           <Stack gap={2} direction="row" alignItems="center">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton onClick={(e) => handleVote('up', e)}>
+              <IconButton onClick={(e) => handleVote('up', e)} size="small">
                 <SvgIcon htmlColor={checkIconColor('up')}>
                   <LikeIcon />
                 </SvgIcon>
@@ -109,7 +109,7 @@ const SectionCard: FC<Props> = ({ section }) => {
               <Typography color={checkIconColor('up')}>{displayedVersion.upvotes}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-              <IconButton onClick={(e) => handleVote('down', e)}>
+              <IconButton onClick={(e) => handleVote('down', e)} size="small">
                 <SvgIcon htmlColor={checkIconColor('down')}>
                   <DislikeIcon />
                 </SvgIcon>
