@@ -104,7 +104,7 @@ const Appbar: FC<AppbarProps> = (props) => {
                 sx={{ padding: '0 1rem' }}
               >
                 <StepButton sx={{ padding: '0', margin: '0' }} disableRipple>
-                  <StepLabel StepIconProps={{ sx: { paddingX: '1rem' } }}>{step}</StepLabel>
+                  <StepLabel StepIconProps={{ sx: { paddingX: 1 } }}>{step}</StepLabel>
                 </StepButton>
               </Step>
             ))}
