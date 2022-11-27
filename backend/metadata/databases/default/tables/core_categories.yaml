@@ -64,3 +64,12 @@ select_permissions:
             user:
               user_id:
                 _eq: X-Hasura-User-Id
+  - role: public
+    permission:
+      columns:
+        - group_id
+        - id
+        - name
+        - created_at
+        - updated_at
+      filter: {}
