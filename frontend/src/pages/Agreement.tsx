@@ -61,7 +61,7 @@ const Agreement: FC = () => {
       <Appbar breadcrumbs={breadcrumsProps} />
       <Stack spacing={4} paddingX={2} paddingY={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Stack direction="row" alignItems="end">
+          <Stack direction="row" alignItems="end" gap={0.5}>
             <Typography variant="h1" marginRight={2}>
               {agreement?.name}
             </Typography>

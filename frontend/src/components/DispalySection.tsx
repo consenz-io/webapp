@@ -46,6 +46,7 @@ const DisplaySection: FC<DisplayProns> = ({
   function getIconColor(voteType: 'up' | 'down'): string {
     return getVoteColor(theme, voteType, displayedVersion?.my_vote);
   }
+
   function handleShare() {
     navigator.clipboard.writeText(window.location.href);
     setIsSnackbarVisible(true);
