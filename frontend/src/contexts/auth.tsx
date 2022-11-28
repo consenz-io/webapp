@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useEffect, useState } from 'react';
 import { IAuthContext, IFCProps } from 'types';
@@ -21,15 +22,23 @@ const AuthProvider = ({ children }: IFCProps) => {
     }
     getAccessTokenSilently()
       .then((token) => {
+        console.log('token', token);
         setJwt(token);
       })
-      .catch(loginWithRedirect);
+      // .catch(loginWithRedirect);
+      .catch(() => {
+        console.log('not logged');
+        setJwt('');
+        loginWithRedirect();
+        // window.location.replace(window.location.origin);
+        return;
+      });
     getIdTokenClaims().then((idClaims) => {
       if (idClaims) {
         setUserRole(idClaims.role || userRole || '');
       }
     });
-  }, [getAccessTokenSilently, isLoading, loginWithRedirect, getIdTokenClaims, userRole]);
+  }, [isLoading, loginWithRedirect, getIdTokenClaims, userRole]);
 
   function logout(): void {
     setJwt(undefined);
