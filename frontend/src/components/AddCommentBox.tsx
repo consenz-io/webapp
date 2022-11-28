@@ -52,7 +52,7 @@ const AddCommentBox: FC<AddCommentBoxProps> = ({ displayedVersion }) => {
       </Stack>
       <Snackbar
         open={isSnackbarVisible}
-        message={t(StringBank.COMMNET_POSTED)}
+        message={t(StringBank.COMMENT_POSTED)}
         autoHideDuration={4000}
         onClose={() => {
           setIsSnackbarVisible(false);

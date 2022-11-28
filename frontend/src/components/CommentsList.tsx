@@ -82,7 +82,7 @@ const CommentsList: FC<CommentsListProps> = ({ comments, displayedVersion }) => 
       ))}
       <Dialog
         openDialogState={openDialogState}
-        title={t(StringBank.DELETE_COMMNET)}
+        title={t(StringBank.DELETE_COMMENT)}
         content={dialogContent}
         cancelFunction={handleCloseDialog}
         finishFunction={handelDeleteComment}
