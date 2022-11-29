@@ -40,6 +40,7 @@ const AuthProvider = ({ children }: IFCProps) => {
     jwt,
     logout,
     role: userRole,
+    loginWithRedirect,
   };
   return <AuthContext.Provider value={authContextState}>{children}</AuthContext.Provider>;
 };

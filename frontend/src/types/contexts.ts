@@ -4,6 +4,7 @@ export interface IAuthContext {
   jwt?: string;
   logout: () => void;
   role?: string;
+  loginWithRedirect?: () => unknown;
 }
 
 export interface IDataContext {

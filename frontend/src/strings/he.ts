@@ -47,6 +47,7 @@ export const he: Partial<Record<StringBank, string>> = {
   INSERT_NEW_SECTION: '+ הוספת חלק חדש (Ctrl/Cmd+Enter)',
   INSERT_NEW_SECTION_SHORT: 'אנא הזינו חלק חדש',
   INSERT_NEW_VERSION: 'אנא הזינו הצעה לסעיף חדש',
+  LOGIN: 'הרשמה',
   LOGOUT: 'יציאה',
   NEW_AGREEMENT: 'הסכם חדש',
   NEW_CHAPTER: 'פרק חדש',

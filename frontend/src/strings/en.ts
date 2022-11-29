@@ -47,6 +47,7 @@ export const en: Record<StringBank, string> = {
   INSERT_NEW_SECTION: '+ Insert new section (Ctrl/Cmd+Enter)',
   INSERT_NEW_SECTION_SHORT: 'Insert new section...',
   INSERT_NEW_VERSION: 'Insert new version...',
+  LOGIN: 'Log in',
   LOGOUT: 'Log Out',
   NEW_AGREEMENT: 'New Agreement',
   NEW_CHAPTER: 'New Chapter',

@@ -15,6 +15,7 @@ import { ColorModeAndDirectionContext } from '../../theme';
 import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
 import {
+  Button,
   ButtonBase,
   List,
   ListItemIcon,
@@ -53,7 +54,7 @@ const sidebarItems: SidebarItem[] = [
 
 const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { user } = useContext(DataContext);
-  const { logout } = useContext(AuthContext);
+  const { logout, jwt, loginWithRedirect } = useContext(AuthContext);
   const { isMobile } = useResponsive();
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
@@ -69,6 +70,33 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   function handleFeedback(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     window.location.href = 'mailto:info@consenz.io?subject=Feedback for Consenz';
+  }
+
+  function loadMenu() {
+    if (jwt) {
+      return (
+        <DropDownMenu
+          name="user"
+          menuItems={userMenuItems}
+          buttonText={user?.displayName || ''}
+          btnCapital={user?.displayName?.charAt(0)}
+          endIcon={isRTL ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
+        />
+      );
+    }
+    return (
+      <Button
+        variant="contained"
+        size="large"
+        color="primary"
+        onClick={() => {
+          console.log('loginWithRedirect', loginWithRedirect);
+        }}
+        sx={{ margin: '1rem' }}
+      >
+        {t(StringBank.LOGIN)}
+      </Button>
+    );
   }
 
   const content = (
@@ -132,13 +160,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           <Typography>{t(StringBank.FEEDBACK)}</Typography>
         </Stack>
       </ButtonBase>
-      <DropDownMenu
-        name="user"
-        menuItems={userMenuItems}
-        buttonText={user?.displayName || ''}
-        btnCapital={user?.displayName?.charAt(0)}
-        endIcon={isRTL ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
-      />
+      {loadMenu()}
     </>
   );
 
