@@ -122,7 +122,7 @@ const SectionCard: FC<Props> = ({ section }) => {
                   <CommentIcon />
                 </SvgIcon>
               </IconButton>
-              <Typography>{5}</Typography>
+              <Typography>{displayedVersion.comment_count}</Typography>
             </Stack>
             <Tooltip
               title={t(StringBank.REMAINING_SUPPORTERS, {
