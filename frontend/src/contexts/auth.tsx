@@ -17,6 +17,9 @@ const AuthProvider = ({ children }: IFCProps) => {
   } = useAuth0();
 
   useEffect(() => {
+    console.log('start log checking');
+    console.log('isLoading', isLoading);
+
     if (isLoading) {
       return;
     }
@@ -28,8 +31,8 @@ const AuthProvider = ({ children }: IFCProps) => {
       // .catch(loginWithRedirect);
       .catch(() => {
         console.log('not logged');
-        setJwt('');
-        loginWithRedirect();
+        setJwt(undefined);
+        // loginWithRedirect();
         // window.location.replace(window.location.origin);
         return;
       });

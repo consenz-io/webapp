@@ -8,7 +8,7 @@ import {
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { IDataContext, IFCProps, User, Group } from 'types';
-import { apiUrl } from 'utils/constants';
+import { apiUrl, publicEmail } from 'utils/constants';
 import { AuthContext } from './auth';
 
 const DataContext = createContext<IDataContext>({});
@@ -47,21 +47,23 @@ const DataProvider = ({ children }: IFCProps) => {
   const { user: userAuth0 } = useAuth0();
 
   useEffect(() => {
+    const headers: { Authorization?: string } = {};
     if (jwt) {
-      setApolloClient(
-        new ApolloClient({
-          uri: apiUrl,
-          cache: apolloCache,
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        })
-      );
+      headers.Authorization = `Bearer ${jwt}`;
     }
+    setApolloClient(
+      new ApolloClient({
+        uri: apiUrl,
+        cache: apolloCache,
+        headers,
+      })
+    );
   }, [jwt]);
 
   useEffect(() => {
+    const headers: { Authorization?: string } = {};
     if (jwt) {
+      headers.Authorization = `Bearer ${jwt}`;
       apolloClient
         .query({
           query: gql`
@@ -79,14 +81,13 @@ const DataProvider = ({ children }: IFCProps) => {
               }
             }
           `,
-          variables: { email: userAuth0?.email },
+          variables: { email: userAuth0?.email || publicEmail },
           context: {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
+            headers,
           },
         })
         .then(({ data }) => {
+          console.log('data', data);
           const user = data.core_users[0];
           setUser({
             id: user.id,
