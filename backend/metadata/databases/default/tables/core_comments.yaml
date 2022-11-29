@@ -89,6 +89,15 @@ select_permissions:
                     user:
                       user_id:
                         _eq: X-Hasura-User-Id
+  - role: public
+    permission:
+      columns:
+        - author_id
+        - id
+        - section_version_id
+        - content
+        - created_at
+      filter: {}
 delete_permissions:
   - role: authenticated
     permission:

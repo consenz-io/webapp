@@ -99,6 +99,22 @@ select_permissions:
         - threshold
         - users
       filter: {}
+  - role: public
+    permission:
+      columns:
+        - is_archived
+        - category_id
+        - group_id
+        - id
+        - name
+        - rationale
+        - created_at
+        - updated_at
+      computed_fields:
+        - consensus
+        - threshold
+        - users
+      filter: {}
 update_permissions:
   - role: authenticated
     permission:
