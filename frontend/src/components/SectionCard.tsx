@@ -71,7 +71,11 @@ const SectionCard: FC<Props> = ({ section }) => {
     >
       <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
         <IconButton onClick={backwardsVersion} disabled={versionIndex === 0}>
-          {isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
+          {isRTL ? (
+            <ArrowForwardIosIcon fontSize="small" />
+          ) : (
+            <ArrowBackIosNewIcon fontSize="small" />
+          )}
         </IconButton>
         <Stack paddingTop={4} paddingBottom={2} flexGrow={1}>
           <Stack direction="row" spacing={2} alignItems="center">
@@ -143,7 +147,11 @@ const SectionCard: FC<Props> = ({ section }) => {
           disabled={versionIndex === section.versions.length - 1}
           onClick={forwardVersion}
         >
-          {isRTL ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
+          {isRTL ? (
+            <ArrowBackIosNewIcon fontSize="small" />
+          ) : (
+            <ArrowForwardIosIcon fontSize="small" />
+          )}
         </IconButton>
       </Stack>
     </ClickableCard>
