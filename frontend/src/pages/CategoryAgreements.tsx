@@ -76,7 +76,7 @@ const CategoryAgreements = () => {
     <Stack justifyContent="start" height="100%" padding={{ sm: 2 }} spacing={2}>
       <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
         <Typography variant="h2">
-          {t(StringBank.CATEGORY_AGREMENTS, {
+          {t(StringBank.CATEGORY_AGREEMENTS, {
             category: category.name.toUpperCase(),
           })}
         </Typography>
