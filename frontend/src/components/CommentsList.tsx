@@ -44,17 +44,19 @@ const CommentsList: FC<CommentsListProps> = ({ comments, displayedVersion }) => 
   return (
     <>
       {comments?.map((comment) => (
-        <Stack key={comment.id} direction="row" spacing={4} marginBottom={4}>
+        <Stack key={comment.id} direction="row" gap={4} marginBottom={4}>
           <Stack alignItems="center" paddingTop={1}>
-            <BtnCapital className="capital">
+            <BtnCapital className="capital" large>
               {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
             </BtnCapital>
           </Stack>
           <Stack>
             <Stack direction="row" spacing={2}>
-              <Box>
-                <Typography>{comment.author.full_name}</Typography>
-              </Box>
+              {comment.author.full_name && (
+                <Box>
+                  <Typography>{comment.author.full_name}</Typography>
+                </Box>
+              )}
               <Box>
                 <Typography variant="caption">{calcTimeAgoFromDate(comment.created_at)}</Typography>
               </Box>

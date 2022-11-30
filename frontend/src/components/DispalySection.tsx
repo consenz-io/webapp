@@ -82,106 +82,108 @@ const DisplaySection: FC<DisplayProns> = ({
     <>
       <Card variant="elevation" elevation={0}>
         <CardContent sx={{ paddingX: 3 }}>
-          <Stack>
-            <Stack id="title" direction="row" justifyContent="space-between">
-              <Stack direction="row" alignItems="center" spacing={2}>
-                <BtnCapital className="capital">
-                  {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
-                </BtnCapital>
-                <Typography variant="h6">
-                  {displayedVersion?.author?.full_name || t(StringBank.ANONYMOUS)}
-                </Typography>
-                <Typography variant="caption">
-                  {displayedVersion?.created_at?.toLocaleDateString(navigator.language)}
-                </Typography>
+          <Stack
+            id="title"
+            direction="row"
+            justifyContent="space-between"
+            sx={{ marginLeft: isRTL ? '0' : '0.6rem', marginRight: isRTL ? '0.6rem' : '0' }}
+            marginBottom={2}
+          >
+            <Stack direction="row" alignItems="center" gap={2.5}>
+              <BtnCapital className="capital">
+                {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+              </BtnCapital>
+              <Typography variant="h6">
+                {displayedVersion?.author?.full_name || t(StringBank.ANONYMOUS)}
+              </Typography>
+              <Typography variant="caption">
+                {displayedVersion?.created_at?.toLocaleDateString(navigator.language)}
+              </Typography>
+            </Stack>
+            <IconButton size="small" onClick={handleShare}>
+              <SvgIcon htmlColor={textSecondaryColor}>
+                <LinkIcon />
+              </SvgIcon>
+            </IconButton>
+          </Stack>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            marginBottom={3}
+          >
+            <IconButton
+              onClick={() => changeDisplayedVersion('left')}
+              disabled={currentVersionIndex - 1 < 0}
+            >
+              {isRTL ? (
+                <ArrowForwardIosIcon sx={{ fontSize: '1rem' }} />
+              ) : (
+                <ArrowBackIosNewIcon sx={{ fontSize: '1rem' }} />
+              )}
+            </IconButton>
+            <Stack id="contentNVotingColoumn" width="85%" justifyContent="center">
+              <Stack
+                id="content"
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <ContentEditor readonly content={displayedVersion?.content} />
               </Stack>
-              <IconButton size="small" onClick={handleShare}>
-                <SvgIcon htmlColor={textSecondaryColor}>
-                  <LinkIcon />
+            </Stack>
+            <IconButton
+              disabled={currentVersionIndex + 1 >= sectionVersions.length}
+              onClick={() => {
+                changeDisplayedVersion('right');
+              }}
+            >
+              {isRTL ? (
+                <ArrowBackIosNewIcon sx={{ fontSize: '1rem' }} />
+              ) : (
+                <ArrowForwardIosIcon sx={{ fontSize: '1rem' }} />
+              )}
+            </IconButton>
+          </Stack>
+          <Stack id="voting" direction="row" gap={2} maxWidth="85%" marginX="auto">
+            <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
+              <IconButton
+                onClick={() => displayedVersion && vote(displayedVersion, 'up')}
+                size="small"
+              >
+                <SvgIcon htmlColor={getIconColor('up')}>
+                  <LikeIcon />
                 </SvgIcon>
               </IconButton>
+              <Typography color={getIconColor('up')}>{displayedVersion?.upvotes}</Typography>
             </Stack>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" gap={3}>
+            <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
               <IconButton
-                onClick={() => changeDisplayedVersion('left')}
-                disabled={currentVersionIndex - 1 < 0}
+                onClick={() => displayedVersion && vote(displayedVersion, 'down')}
+                size="small"
               >
-                {isRTL ? (
-                  <ArrowForwardIosIcon fontSize="small" />
-                ) : (
-                  <ArrowBackIosNewIcon fontSize="small" />
-                )}
+                <SvgIcon htmlColor={getIconColor('down')}>
+                  <DislikeIcon />
+                </SvgIcon>
               </IconButton>
-              <Stack id="contentNVotingColoumn" minWidth="80%" justifyContent="center">
-                <Stack
-                  id="content"
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <ContentEditor readonly content={displayedVersion?.content} />
-                </Stack>
-                <Stack id="voting" direction="row">
-                  <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
-                    <IconButton
-                      onClick={() => displayedVersion && vote(displayedVersion, 'up')}
-                      edge="start"
-                    >
-                      <SvgIcon htmlColor={getIconColor('up')}>
-                        <LikeIcon />
-                      </SvgIcon>
-                    </IconButton>
-                    <Typography color={getIconColor('up')}>{displayedVersion?.upvotes}</Typography>
-                  </Stack>
-                  <Stack direction="row" width="100%" alignItems="center" spacing={0.5}>
-                    <Stack
-                      direction="row"
-                      justifyContent="center"
-                      alignItems="center"
-                      spacing={0.5}
-                    >
-                      <IconButton
-                        onClick={() => displayedVersion && vote(displayedVersion, 'down')}
-                      >
-                        <SvgIcon htmlColor={getIconColor('down')}>
-                          <DislikeIcon />
-                        </SvgIcon>
-                      </IconButton>
-                      <Typography color={getIconColor('down')}>
-                        {displayedVersion?.downvotes}
-                      </Typography>
-                    </Stack>
-                    <Tooltip
-                      title={t(StringBank.REMAINING_SUPPORTERS, {
-                        count: getRemainingSupporters(displayedVersion),
-                      })}
-                      arrow
-                      placement="top"
-                    >
-                      <LinearProgress
-                        variant="determinate"
-                        value={getVersionProgress(displayedVersion)}
-                        sx={{ flexGrow: 1 }}
-                      />
-                    </Tooltip>
-                  </Stack>
-                </Stack>
-              </Stack>
-              <IconButton
-                disabled={currentVersionIndex + 1 >= sectionVersions.length}
-                onClick={() => {
-                  changeDisplayedVersion('right');
-                }}
+              <Typography color={getIconColor('down')}>{displayedVersion?.downvotes}</Typography>
+            </Stack>
+            <Stack direction="row" width="100%" alignItems="center">
+              <Tooltip
+                title={t(StringBank.REMAINING_SUPPORTERS, {
+                  count: getRemainingSupporters(displayedVersion),
+                })}
+                arrow
+                placement="top"
               >
-                {isRTL ? (
-                  <ArrowBackIosNewIcon fontSize="small" />
-                ) : (
-                  <ArrowForwardIosIcon fontSize="small" />
-                )}
-              </IconButton>
+                <LinearProgress
+                  variant="determinate"
+                  value={getVersionProgress(displayedVersion)}
+                  sx={{ flexGrow: 1 }}
+                />
+              </Tooltip>
             </Stack>
           </Stack>
-          <Stack spacing={1} direction="row" alignItems="center"></Stack>
         </CardContent>
       </Card>
       <Snackbar

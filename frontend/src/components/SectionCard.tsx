@@ -104,7 +104,7 @@ const SectionCard: FC<Props> = ({ section }) => {
           </Stack>
           <ContentEditor content={displayedVersion.content} readonly />
           <Stack gap={2} direction="row" alignItems="center">
-            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+            <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
               <IconButton onClick={(e) => handleVote('up', e)} size="small">
                 <SvgIcon htmlColor={checkIconColor('up')}>
                   <LikeIcon />
@@ -112,7 +112,7 @@ const SectionCard: FC<Props> = ({ section }) => {
               </IconButton>
               <Typography color={checkIconColor('up')}>{displayedVersion.upvotes}</Typography>
             </Stack>
-            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+            <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
               <IconButton onClick={(e) => handleVote('down', e)} size="small">
                 <SvgIcon htmlColor={checkIconColor('down')}>
                   <DislikeIcon />
@@ -120,7 +120,7 @@ const SectionCard: FC<Props> = ({ section }) => {
               </IconButton>
               <Typography color={checkIconColor('down')}>{displayedVersion.downvotes}</Typography>
             </Stack>
-            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+            <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
               <IconButton size="small">
                 <SvgIcon htmlColor={theme.palette.text.primary}>
                   <CommentIcon />

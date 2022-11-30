@@ -8,6 +8,7 @@ import { VariantType } from 'types';
 interface Props {
   stylevariant?: VariantType;
   bgcolor?: string;
+  large?: boolean;
 }
 
 export const DropDownMenuButton = styled(Button)<Props>`
@@ -143,7 +144,7 @@ export const DropDownMenuItem = styled(MenuItem)<Props>`
 
 export const BtnCapital = styled.span<Props>`
   text-transform: uppercase;
-  font-size: 1.25rem;
+  font-size: ${(props) => (props.large ? '1.25rem' : '1rem')};
   color: white;
   font-weight: 500;
   z-index: 1;
@@ -151,8 +152,8 @@ export const BtnCapital = styled.span<Props>`
   &:before {
     content: '';
     position: absolute;
-    width: 2rem;
-    height: 2rem;
+    width: ${(props) => (props.large ? '2.5rem' : '2rem')};
+    height: ${(props) => (props.large ? '2.5rem' : '2rem')};
     background-color: ${(props) => {
       if (props.color === 'main') {
         return props.theme.palette.primary.main;

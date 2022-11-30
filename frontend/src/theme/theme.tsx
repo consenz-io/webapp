@@ -85,7 +85,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         styleOverrides: {
           root: {
             backgroundColor: inputBackgroundColor,
-            borderRadius: '8px',
+            borderRadius: '4px',
           },
         },
       },
@@ -138,7 +138,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         },
         styleOverrides: {
           root: {
-            borderRadius: '8px',
+            borderRadius: '4px',
           },
         },
       },
