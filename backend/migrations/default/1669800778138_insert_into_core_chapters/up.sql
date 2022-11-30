@@ -1,0 +1,1 @@
+INSERT INTO "core"."chapters"("id", "created_at", "updated_at", "name", "agreement_id", "index") VALUES (117, E'2022-11-30T09:32:58.054039+00:00', E'2022-11-30T09:32:58.054039+00:00', E'Chapter 1', 152, -1);
