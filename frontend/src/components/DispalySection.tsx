@@ -10,7 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { SvgIcon } from 'components';
-import { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 import { BtnCapital } from './DropDownMenu/style';
 import { ReactComponent as LinkIcon } from 'assets/icons/link.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
@@ -18,8 +18,7 @@ import { ReactComponent as LikeIcon } from 'assets/icons/like.svg';
 import { useTranslation } from 'react-i18next';
 import ContentEditor from './ContentEditor';
 import { Version } from 'types/entities';
-import { textSecondaryColor } from 'theme';
-import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-left.svg';
+import { ColorModeAndDirectionContext, textSecondaryColor } from 'theme';
 import { getVoteColor, getRemainingSupporters, getVersionProgress } from 'utils/functions';
 interface DisplayProns {
   displayedVersion: Version;
@@ -29,6 +28,8 @@ interface DisplayProns {
 }
 import { StringBank } from 'strings';
 import { AgreementContext } from 'contexts';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const DisplaySection: FC<DisplayProns> = ({
   sectionVersions,
@@ -37,6 +38,7 @@ const DisplaySection: FC<DisplayProns> = ({
 }) => {
   const theme = useTheme();
   const { vote } = useContext(AgreementContext);
+  const { isRTL } = useContext(ColorModeAndDirectionContext);
   const { t } = useTranslation();
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [currentVersionIndex, setCurrentVersionIndex] = useState<number>(
@@ -101,16 +103,14 @@ const DisplaySection: FC<DisplayProns> = ({
             </Stack>
             <Stack direction="row" justifyContent="space-between" alignItems="center" gap={3}>
               <IconButton
+                onClick={() => changeDisplayedVersion('left')}
                 disabled={currentVersionIndex - 1 < 0}
-                sx={{ transform: 'rotate(180deg)', height: 'fit-content' }}
-                onClick={() => {
-                  changeDisplayedVersion('left');
-                }}
-                color="primary"
               >
-                <SvgIcon sx={{ margin: 'auto' }}>
-                  <ArrowLogo />
-                </SvgIcon>
+                {isRTL ? (
+                  <ArrowForwardIosIcon fontSize="small" />
+                ) : (
+                  <ArrowBackIosNewIcon fontSize="small" />
+                )}
               </IconButton>
               <Stack id="contentNVotingColoumn" minWidth="80%" justifyContent="center">
                 <Stack
@@ -172,15 +172,15 @@ const DisplaySection: FC<DisplayProns> = ({
                 onClick={() => {
                   changeDisplayedVersion('right');
                 }}
-                sx={{ height: 'fit-content' }}
               >
-                <SvgIcon>
-                  <ArrowLogo />
-                </SvgIcon>
+                {isRTL ? (
+                  <ArrowBackIosNewIcon fontSize="small" />
+                ) : (
+                  <ArrowForwardIosIcon fontSize="small" />
+                )}
               </IconButton>
             </Stack>
           </Stack>
-
           <Stack spacing={1} direction="row" alignItems="center"></Stack>
         </CardContent>
       </Card>
