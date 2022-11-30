@@ -28,14 +28,14 @@ const AuthProvider = ({ children }: IFCProps) => {
         console.log('token', token);
         setJwt(token);
       })
-      // .catch(loginWithRedirect);
-      .catch(() => {
-        console.log('not logged');
-        setJwt(undefined);
-        // loginWithRedirect();
-        // window.location.replace(window.location.origin);
-        return;
-      });
+      .catch(loginWithRedirect);
+    // .catch(() => {
+    //   console.log('not logged');
+    //   setJwt(undefined);
+    //   loginWithRedirect();
+    //   // window.location.replace(window.location.origin);
+    //   return;
+    // });
     getIdTokenClaims().then((idClaims) => {
       if (idClaims) {
         setUserRole(idClaims.role || userRole || '');

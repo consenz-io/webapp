@@ -86,13 +86,13 @@ const App: FC = () => {
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
           <StyledThemeProvider theme={theme}>
-            <AuthProvider>
-              <DataProvider>
-                <Box>
-                  <RoutesProvider />
-                </Box>
-              </DataProvider>
-            </AuthProvider>
+            {/* <AuthProvider> */}
+            <DataProvider>
+              <Box>
+                <RoutesProvider />
+              </Box>
+            </DataProvider>
+            {/* </AuthProvider> */}
           </StyledThemeProvider>
         </MuiThemeProvider>
       </ColorModeAndDirectionContext.Provider>

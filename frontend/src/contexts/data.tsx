@@ -10,6 +10,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { IDataContext, IFCProps, User, Group } from 'types';
 import { apiUrl, publicEmail } from 'utils/constants';
 import { AuthContext } from './auth';
+import { fetchPublicUser } from '../utils/queries';
 
 const DataContext = createContext<IDataContext>({});
 const apolloCache = new InMemoryCache({
@@ -87,7 +88,6 @@ const DataProvider = ({ children }: IFCProps) => {
           },
         })
         .then(({ data }) => {
-          console.log('data', data);
           const user = data.core_users[0];
           setUser({
             id: user.id,
@@ -96,6 +96,17 @@ const DataProvider = ({ children }: IFCProps) => {
             displayName: userAuth0?.given_name || userAuth0?.nickname,
           });
         });
+    } else {
+      apolloClient.query({ query: fetchPublicUser }).then(({ data }) => {
+        const publicUser = data.core_users[0];
+        // set public user
+        setUser({
+          id: publicUser.id,
+          email: publicUser.email,
+          groups: publicUser.user_groups.map(({ group }: { group: Group }) => group),
+          displayName: publicUser.full_name,
+        });
+      });
     }
   }, [apolloClient, jwt, userAuth0?.email, userAuth0?.given_name, userAuth0?.nickname]);
   const state: IDataContext = {

@@ -113,3 +113,21 @@ export const commentsQuery = gql`
     }
   }
 `;
+
+export const fetchPublicUser = gql`
+  query getPublicUser {
+    core_users(where: { email: { _eq: "public@mail.com" } }) {
+      id
+      email
+      user_id
+      full_name
+      user_groups {
+        group {
+          name
+          slug
+          id
+        }
+      }
+    }
+  }
+`;
