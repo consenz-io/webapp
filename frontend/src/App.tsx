@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { AuthProvider, RoutesProvider } from './contexts';
 import './App.css';

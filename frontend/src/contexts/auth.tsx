@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useEffect, useState } from 'react';
 import { IAuthContext, IFCProps } from 'types';

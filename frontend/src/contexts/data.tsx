@@ -2,7 +2,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache, NormalizedCacheObject } fr
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { IDataContext, IFCProps, User, Group } from 'types';
-import { apiUrl, publicEmail } from 'utils/constants';
+import { apiUrl } from 'utils/constants';
 import { AuthContext } from './auth';
 import { fetchPublicUser, fetchUser } from '../utils/queries';
 
@@ -62,7 +62,7 @@ const DataProvider = ({ children }: IFCProps) => {
       apolloClient
         .query({
           query: fetchUser,
-          variables: { email: userAuth0?.email || publicEmail },
+          variables: { email: userAuth0?.email },
           context: {
             headers,
           },

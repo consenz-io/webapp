@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import AddIcon from '@mui/icons-material/Add';
 import img from '../assets/Group_120.png';
 import { useTranslation } from 'react-i18next';
