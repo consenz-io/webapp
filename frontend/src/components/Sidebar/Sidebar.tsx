@@ -31,6 +31,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import { ReactComponent as FeedbackIcon } from 'assets/icons/message-square.svg';
 import SvgIcon from '../SvgIcon';
 import { textSecondaryColor } from 'theme/theme';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface SidebarItem {
   name: string;
@@ -53,9 +54,10 @@ const sidebarItems: SidebarItem[] = [
 
 const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { user } = useContext(DataContext);
-  const { logout } = useContext(AuthContext);
   const { isMobile } = useResponsive();
   const { t } = useTranslation();
+  const { jwt } = useContext(AuthContext);
+  const { logout } = useAuth0();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const navigate = useNavigate();
   const { slug: groupSlug, categories } = useContext(GroupContext);
@@ -68,7 +70,11 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
 
   function handleFeedback(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    window.location.href = 'mailto:info@consenz.io?subject=Feedback for Consenz';
+    if (jwt) {
+      window.location.href = 'mailto:info@consenz.io?subject=Feedback for Consenz';
+    } else {
+      logout();
+    }
   }
 
   const content = (

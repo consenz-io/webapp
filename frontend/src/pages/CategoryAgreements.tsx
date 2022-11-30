@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { GroupContext } from 'contexts/group';
 import styled from 'styled-components';
 import { generateColorFromString } from 'utils/functions';
+import { AuthContext } from 'contexts';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Span = styled.span`
   && {
@@ -29,8 +31,14 @@ const CategoryAgreements = () => {
   const { t } = useTranslation();
   const { slug, currentCategory, activeAgreements: agreements } = useContext(GroupContext);
   const category = currentCategory || { id: 0, name: t(StringBank.UNCATEGORIZED) };
+  const { jwt } = useContext(AuthContext);
+  const { logout } = useAuth0();
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
-    navigate(`/${slug}/new-agreement`);
+    if (jwt) {
+      navigate(`/${slug}/new-agreement`);
+    } else {
+      logout();
+    }
   };
 
   if (!agreements?.length) {

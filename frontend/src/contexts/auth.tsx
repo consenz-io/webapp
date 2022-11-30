@@ -17,25 +17,14 @@ const AuthProvider = ({ children }: IFCProps) => {
   } = useAuth0();
 
   useEffect(() => {
-    console.log('start log checking');
-    console.log('isLoading', isLoading);
-
     if (isLoading) {
       return;
     }
     getAccessTokenSilently()
       .then((token) => {
-        console.log('token', token);
         setJwt(token);
       })
       .catch(loginWithRedirect);
-    // .catch(() => {
-    //   console.log('not logged');
-    //   setJwt(undefined);
-    //   loginWithRedirect();
-    //   // window.location.replace(window.location.origin);
-    //   return;
-    // });
     getIdTokenClaims().then((idClaims) => {
       if (idClaims) {
         setUserRole(idClaims.role || userRole || '');

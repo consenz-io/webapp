@@ -40,11 +40,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType, Version } from 'types';
 import { JSONContent } from '@tiptap/react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Section: FC = () => {
   const { role } = useContext(AuthContext);
   const { user } = useContext(DataContext);
-
+  const { jwt } = useContext(AuthContext);
+  const { logout } = useAuth0();
   const theme = useTheme();
   const [openDialogState, setOpenDialogState] = useState(false);
   const { section, addVersion, fetchComments, comments, addComment, deleteComment } =
@@ -120,9 +122,13 @@ const Section: FC = () => {
     if (!newComment || !addComment || !displayedVersion) {
       return;
     }
-    addComment(newComment, displayedVersion.id);
-    setNewComment('');
-    setIsCommentSnackbarVisible(true);
+    if (jwt) {
+      addComment(newComment, displayedVersion.id);
+      setNewComment('');
+      setIsCommentSnackbarVisible(true);
+    } else {
+      logout();
+    }
   }
 
   return (
@@ -160,7 +166,11 @@ const Section: FC = () => {
         <Chip
           sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
           onClick={() => {
-            setIsTextPopupOpen(true);
+            if (jwt) {
+              setIsTextPopupOpen(true);
+            } else {
+              logout();
+            }
           }}
           label={
             <SvgIcon htmlColor={textSecondaryColor} width="24px">

@@ -131,3 +131,19 @@ export const fetchPublicUser = gql`
     }
   }
 `;
+
+export const fetchUser = gql`
+  query user($email: String!) {
+    core_users(where: { email: { _eq: $email } }) {
+      id
+      email
+      user_groups {
+        group {
+          name
+          slug
+          id
+        }
+      }
+    }
+  }
+`;

@@ -1,16 +1,10 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  gql,
-  InMemoryCache,
-  NormalizedCacheObject,
-} from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { IDataContext, IFCProps, User, Group } from 'types';
 import { apiUrl, publicEmail } from 'utils/constants';
 import { AuthContext } from './auth';
-import { fetchPublicUser } from '../utils/queries';
+import { fetchPublicUser, fetchUser } from '../utils/queries';
 
 const DataContext = createContext<IDataContext>({});
 const apolloCache = new InMemoryCache({
@@ -67,21 +61,7 @@ const DataProvider = ({ children }: IFCProps) => {
       headers.Authorization = `Bearer ${jwt}`;
       apolloClient
         .query({
-          query: gql`
-            query user($email: String!) {
-              core_users(where: { email: { _eq: $email } }) {
-                id
-                email
-                user_groups {
-                  group {
-                    name
-                    slug
-                    id
-                  }
-                }
-              }
-            }
-          `,
+          query: fetchUser,
           variables: { email: userAuth0?.email || publicEmail },
           context: {
             headers,
