@@ -1,1 +1,0 @@
-INSERT INTO "core"."agreements"("id", "created_at", "updated_at", "group_id", "name", "category_id", "rationale", "is_archived") VALUES (152, E'2022-11-30T09:32:34.774901+00:00', E'2022-11-30T09:32:34.774901+00:00', 2, E'Example Agreement', 5, E'This is example agreement to showcase Consenz', false);

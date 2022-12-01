@@ -1,1 +1,0 @@
-INSERT INTO "core"."sections"("id", "created_at", "updated_at", "index", "chapter_id", "current_version_id") VALUES (232, E'2022-11-30T09:08:55.616876+00:00', E'2022-11-30T09:08:55.616876+00:00', 2, 116, null);
