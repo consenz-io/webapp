@@ -64,6 +64,7 @@ const Section: FC = () => {
   );
   const { t } = useTranslation();
   const [dialogContent, setDialogContent] = useState<string>('');
+  const [dialogTitle, setDialogTitle] = useState<string>('');
   const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
@@ -135,6 +136,7 @@ const Section: FC = () => {
 
   function handleDelSectionVersion() {
     if (displayedVersion) {
+      setDialogTitle(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
       deleteSectionVersion!(displayedVersion.id);
     }
   }
@@ -224,11 +226,7 @@ const Section: FC = () => {
                       disabled={!!comments?.length}
                     >
                       <SvgIcon
-                        htmlColor={
-                          comments?.length
-                            ? backgroundBorderColor
-                            : textSecondaryColor
-                        }
+                        htmlColor={comments?.length ? backgroundBorderColor : textSecondaryColor}
                       >
                         <TrashIcon />
                       </SvgIcon>
@@ -334,6 +332,7 @@ const Section: FC = () => {
                           underline="hover"
                           color={textSecondaryColor}
                           onClick={() => {
+                            setDialogTitle(t(StringBank.DELETE_COMMNET));
                             setDialogContent(t(StringBank.CONFIRM_COMMENT_DELETE));
                             setCommentIdToDel(comment.id);
                             handleClickOpenDialog();
@@ -359,7 +358,7 @@ const Section: FC = () => {
       />
       <Dialog
         openDialogState={openDialogState}
-        title={t(StringBank.DELETE_COMMNET)}
+        title={dialogTitle}
         content={dialogContent}
         cancelFunction={handleCloseDialog}
         finishFunction={handleDeleteComment}
