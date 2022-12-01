@@ -29,7 +29,8 @@ export const en: Record<StringBank, string> = {
   CATEGORY_EMPTY_MESSAGE: "Maybe you'd like to create one",
   COMING_SOON: 'Coming Soon',
   CONFIRM_COMMENT_DELETE: 'This action will delete the comment. Are you sure?',
-  CONFIRM_SECTION_VERSION_DELETE: `This action will delete the section and all of it's comments.
+  CONFIRM_SECTION_VERSION_DELETE: `
+  This action will delete the section and all of it's comments.
   This cannot be undone. Are you sure?`,
   CONTINUE: 'Continue',
   COMMNET_POSTED: 'Comment was posted successfully',
@@ -42,6 +43,7 @@ export const en: Record<StringBank, string> = {
   DELETE_AGREEMENT: 'Delete Agreement',
   FEEDBACK: 'Provide Feedback',
   DELETE_COMMNET: 'Delete Comment',
+  DELETE_SECTION_VERSION: 'Delete This Section Version',
   GROUP_AGREEMENTS: "{{group}}'s Agreements",
   INSERT_NEW_SECTION: '+ Insert new section (Ctrl/Cmd+Enter)',
   INSERT_NEW_SECTION_SHORT: 'Insert new section...',

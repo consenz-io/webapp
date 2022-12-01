@@ -24,6 +24,7 @@ export const he: Partial<Record<StringBank, string>> = {
   CURRENT_VERSION: 'הגרסה הנוכחית',
   FEEDBACK: 'העבירו משוב',
   DELETE_COMMNET: 'מחק הערה',
+  DELETE_SECTION_VERSION: 'מחק גרסה של חלק זה',
   GOTO_HOMEPAGE_TITLE: 'לעבור לדף הבית',
   LOGOUT: 'יציאה',
   NEW_AGREEMENT: 'הסכם חדש',

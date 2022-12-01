@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Appbar, ContentEditor, Dialog, SvgIcon, TextEditorPopup } from 'components';
@@ -65,6 +66,7 @@ const Section: FC = () => {
   const { t } = useTranslation();
   const [dialogContent, setDialogContent] = useState<string>('');
   const [dialogTitle, setDialogTitle] = useState<string>('');
+  const [dialogFinishFN, setDialogFinishFN] = useState<any>();
   const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [isCommentSnackbarVisible, setIsCommentSnackbarVisible] = useState(false);
@@ -136,9 +138,9 @@ const Section: FC = () => {
 
   function handleDelSectionVersion() {
     if (displayedVersion) {
-      setDialogTitle(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
       deleteSectionVersion!(displayedVersion.id);
     }
+    setOpenDialogState(false);
   }
 
   return (
@@ -222,7 +224,14 @@ const Section: FC = () => {
                   checkAuthorOrModerator(displayedVersion.author.id) && (
                     <IconButton
                       size="small"
-                      onClick={handleDelSectionVersion}
+                      onClick={() => {
+                        setDialogTitle(t(StringBank.DELETE_SECTION_VERSION));
+                        setDialogContent(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
+                        setDialogFinishFN(() => {
+                          return handleDelSectionVersion;
+                        });
+                        setOpenDialogState(true);
+                      }}
                       disabled={!!comments?.length}
                     >
                       <SvgIcon
@@ -335,6 +344,9 @@ const Section: FC = () => {
                             setDialogTitle(t(StringBank.DELETE_COMMNET));
                             setDialogContent(t(StringBank.CONFIRM_COMMENT_DELETE));
                             setCommentIdToDel(comment.id);
+                            setDialogFinishFN(() => {
+                              return handleDeleteComment;
+                            });
                             handleClickOpenDialog();
                           }}
                         >
@@ -361,10 +373,9 @@ const Section: FC = () => {
         title={dialogTitle}
         content={dialogContent}
         cancelFunction={handleCloseDialog}
-        finishFunction={handleDeleteComment}
+        finishFunction={dialogFinishFN}
         cancelBtnText={t(StringBank.CANCEL)}
         finishBtnText={t(StringBank.DELETE)}
-        placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
         doneBtnVariant="delete"
       />
       <Snackbar

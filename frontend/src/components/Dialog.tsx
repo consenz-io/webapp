@@ -21,7 +21,7 @@ interface DialogProps {
   finishFunction: (val: string) => void;
   cancelBtnText: string;
   finishBtnText: string;
-  placeHolderText: string;
+  placeHolderText?: string;
   isTextBox?: boolean;
   doneBtnColor?:
     | 'primary'
