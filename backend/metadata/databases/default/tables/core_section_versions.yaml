@@ -31,6 +31,11 @@ array_relationships:
           name: comments
           schema: core
 computed_fields:
+  - name: comment_count
+    definition:
+      function:
+        name: section_versions_comment_count
+        schema: core
   - name: downvotes
     definition:
       function:
@@ -98,6 +103,7 @@ select_permissions:
         - threshold
         - updated_at
       computed_fields:
+        - comment_count
         - downvotes
         - my_vote
         - upvotes
@@ -119,6 +125,23 @@ select_permissions:
         - id
         - section_id
         - threshold
+        - updated_at
+      computed_fields:
+        - downvotes
+        - my_vote
+        - upvotes
+      filter: {}
+  - role: public
+    permission:
+      columns:
+        - author_id
+        - id
+        - section_id
+        - threshold
+        - content
+        - consensus
+        - status
+        - created_at
         - updated_at
       computed_fields:
         - downvotes

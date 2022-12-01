@@ -71,7 +71,11 @@ const SectionCard: FC<Props> = ({ section }) => {
     >
       <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
         <IconButton onClick={backwardsVersion} disabled={versionIndex === 0}>
-          {isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
+          {isRTL ? (
+            <ArrowForwardIosIcon fontSize="small" />
+          ) : (
+            <ArrowBackIosNewIcon fontSize="small" />
+          )}
         </IconButton>
         <Stack paddingTop={4} paddingBottom={2} flexGrow={1}>
           <Stack direction="row" spacing={2} alignItems="center">
@@ -100,7 +104,7 @@ const SectionCard: FC<Props> = ({ section }) => {
           </Stack>
           <ContentEditor content={displayedVersion.content} readonly />
           <Stack gap={2} direction="row" alignItems="center">
-            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+            <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
               <IconButton onClick={(e) => handleVote('up', e)} size="small">
                 <SvgIcon htmlColor={checkIconColor('up')}>
                   <LikeIcon />
@@ -108,7 +112,7 @@ const SectionCard: FC<Props> = ({ section }) => {
               </IconButton>
               <Typography color={checkIconColor('up')}>{displayedVersion.upvotes}</Typography>
             </Stack>
-            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+            <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
               <IconButton onClick={(e) => handleVote('down', e)} size="small">
                 <SvgIcon htmlColor={checkIconColor('down')}>
                   <DislikeIcon />
@@ -116,13 +120,13 @@ const SectionCard: FC<Props> = ({ section }) => {
               </IconButton>
               <Typography color={checkIconColor('down')}>{displayedVersion.downvotes}</Typography>
             </Stack>
-            <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5}>
+            <Stack direction="row" justifyContent="center" alignItems="center" gap={0.5}>
               <IconButton size="small">
                 <SvgIcon htmlColor={theme.palette.text.primary}>
                   <CommentIcon />
                 </SvgIcon>
               </IconButton>
-              <Typography>{5}</Typography>
+              <Typography>{displayedVersion.comment_count}</Typography>
             </Stack>
             <Tooltip
               title={t(StringBank.REMAINING_SUPPORTERS, {
@@ -143,7 +147,11 @@ const SectionCard: FC<Props> = ({ section }) => {
           disabled={versionIndex === section.versions.length - 1}
           onClick={forwardVersion}
         >
-          {isRTL ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
+          {isRTL ? (
+            <ArrowBackIosNewIcon fontSize="small" />
+          ) : (
+            <ArrowForwardIosIcon fontSize="small" />
+          )}
         </IconButton>
       </Stack>
     </ClickableCard>

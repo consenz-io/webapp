@@ -61,6 +61,7 @@ export const agreementQuery = gql`
             my_vote
             threshold
             upvotes
+            comment_count
           }
         }
       }

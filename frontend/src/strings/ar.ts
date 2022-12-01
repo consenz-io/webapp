@@ -11,7 +11,7 @@ export const ar: Partial<Record<StringBank, string>> = {
   AGREEMENT_APPROVAL_RULES_DESCRIPTION: 'عين قواعد لتغيير حالة الاتفاقية الى "متفق عليها"',
   AGREEMENT_PROCESS_RULES_DESCRIPTION:
     'عيّن قواعد لقبول التغييرات على الاتفاقية عن طريق إضافة أقسام جديدة والموافقة عليها والموافقة على إصدارات تحسين الأقسام',
-  AGREEMENT_PUBLIHSED_SUCCESSFULLY: 'تم نشر اتفاقيتك بنجاح',
+  AGREEMENT_PUBLISHED_SUCCESSFULLY: 'تم نشر اتفاقيتك بنجاح',
   AGREEMENT_UPDATED_AT: '{{date}} :اخر حتلنة',
   AGREEMENT_LAST_UPDATED: 'آخر تحديث: {{date}}',
   ALL_AGREEMENTS: 'كل الاتفاقيات',
@@ -28,7 +28,7 @@ export const ar: Partial<Record<StringBank, string>> = {
   CURRENT_VERSION: 'الإصدار الحالي',
   GOTO_HOMEPAGE_TITLE: 'الى صفحة البيت',
   GROUP_AGREEMENTS: '{{group}}:عدد الاتفاقيات في مجموعة',
-  CATEGORY_AGREMENTS: '{{category}} الاتفاقيات الفعالة - فئة',
+  CATEGORY_AGREEMENTS: '{{category}} الاتفاقيات الفعالة - فئة',
   INSERT_NEW_SECTION: ' (Ctrl/Cmd+Enter) أضافة فقرة جديدة +',
   LOGOUT: 'خروج',
   NEW_AGREEMENT: 'اتفاقية جديدة',
