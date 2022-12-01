@@ -50,6 +50,7 @@ export interface Version {
     full_name: string;
     id: number;
   };
+  comment_count: number;
 }
 
 export interface User {

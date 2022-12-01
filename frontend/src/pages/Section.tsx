@@ -8,7 +8,7 @@ import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
 import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
 import { ReactComponent as PlusIcon } from 'assets/icons/plus.svg';
-import { Card, CardContent, Chip, Stack, Container } from '@mui/material';
+import { Card, CardContent, Chip, Stack, Grid } from '@mui/material';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -92,7 +92,7 @@ const Section: FC = () => {
           },
         ]}
       />
-      <Stack direction="row" spacing={1} marginY={2}>
+      <Stack direction="row" gap={1} marginY={2}>
         {section?.versions.map((version, i) => (
           <Chip
             deleteIcon={<CheckCircleIcon />}
@@ -128,12 +128,16 @@ const Section: FC = () => {
         />
       )}
       {displayedVersion && (
-        <Card variant="elevation" elevation={0} sx={{ marginTop: 1 }}>
-          <CardContent>
-            <Container maxWidth="sm">
-              <AddCommentBox displayedVersion={displayedVersion} />
-              {comments && <CommentsList comments={comments} displayedVersion={displayedVersion} />}
-            </Container>
+        <Card variant="elevation" elevation={0} sx={{ marginTop: 0.75 }}>
+          <CardContent sx={{ padding: 5 }}>
+            <Grid container justifyContent="center">
+              <Grid item xs={7}>
+                <AddCommentBox displayedVersion={displayedVersion} />
+                {comments && (
+                  <CommentsList comments={comments} displayedVersion={displayedVersion} />
+                )}
+              </Grid>
+            </Grid>
           </CardContent>
         </Card>
       )}
