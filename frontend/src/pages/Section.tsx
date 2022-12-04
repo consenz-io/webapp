@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { Appbar, Dialog, SvgIcon, TextEditorPopup, CommentsList, AddCommentBox } from 'components';
 import { AgreementContext, SectionContext, AuthContext } from 'contexts';
 import { DisplaySection } from 'components';
@@ -47,7 +45,7 @@ const Section: FC = () => {
   useEffect(() => {
     const section_version_id = displayedVersion?.id;
     if (section_version_id) {
-      fetchComments!(section_version_id);
+      fetchComments(section_version_id);
     }
   }, [fetchComments, displayedVersion]);
 
@@ -96,6 +94,7 @@ const Section: FC = () => {
         {section?.versions.map((version, i) => (
           <Chip
             deleteIcon={<CheckCircleIcon />}
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             onDelete={version.id === section.current_version?.id ? () => {} : undefined}
             onClick={() => navigate(`../section/${section.id}/${version.id}`)}
             label={`${t(StringBank.VERSION)} ${i + 1}`}
@@ -150,7 +149,6 @@ const Section: FC = () => {
         isTextBox={false}
         cancelBtnText={t(StringBank.CANCEL)}
         finishBtnText={t(StringBank.DELETE)}
-        placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
         doneBtnVariant="delete"
       />
       <TextEditorPopup

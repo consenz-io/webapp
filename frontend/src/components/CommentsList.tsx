@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { FC, useContext, useState } from 'react';
 import { Comment, Version } from 'types/entities';
 import { Box, Link, Stack, Typography } from '@mui/material';
@@ -28,7 +27,7 @@ const CommentsList: FC<CommentsListProps> = ({ comments, displayedVersion }) => 
     return role === 'moderator' || (user && user.id === authorId);
   }
   function onDeleteComment(commentId: number) {
-    deleteComment!(commentId);
+    deleteComment(commentId);
     setCommentIdToDel(-1);
   }
   const handleClickOpenDialog = () => {

@@ -9,16 +9,17 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { SvgIcon } from 'components';
+import { SvgIcon, Dialog } from 'components';
 import React, { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 import { BtnCapital } from './DropDownMenu/style';
 import { ReactComponent as LinkIcon } from 'assets/icons/link.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
+import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
 import { ReactComponent as LikeIcon } from 'assets/icons/like.svg';
 import { useTranslation } from 'react-i18next';
 import ContentEditor from './ContentEditor';
 import { Version } from 'types/entities';
-import { ColorModeAndDirectionContext, textSecondaryColor } from 'theme';
+import { backgroundBorderColor, ColorModeAndDirectionContext, textSecondaryColor } from 'theme';
 import { getVoteColor, getRemainingSupporters, getVersionProgress } from 'utils/functions';
 interface DisplayProns {
   displayedVersion: Version;
@@ -27,7 +28,7 @@ interface DisplayProns {
   initialVersionId: string | undefined;
 }
 import { StringBank } from 'strings';
-import { AgreementContext } from 'contexts';
+import { AgreementContext, AuthContext, DataContext, SectionContext } from 'contexts';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
@@ -38,15 +39,39 @@ const DisplaySection: FC<DisplayProns> = ({
 }) => {
   const theme = useTheme();
   const { vote } = useContext(AgreementContext);
+  const { role } = useContext(AuthContext);
+  const { user } = useContext(DataContext);
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const { t } = useTranslation();
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [currentVersionIndex, setCurrentVersionIndex] = useState<number>(
     sectionVersions.findIndex((v) => v.id === displayedVersion.id)
   );
+  const { deleteSectionVersion, comments } = useContext(SectionContext);
+  const [dialogContent, setDialogContent] = useState<string>('');
+  const [dialogTitle, setDialogTitle] = useState<string>('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogFinishFN, setDialogFinishFN] = useState<(val: string) => void>(() =>
+    setIsDialogOpen(false)
+  );
 
   function getIconColor(voteType: 'up' | 'down'): string {
     return getVoteColor(theme, voteType, displayedVersion?.my_vote);
+  }
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+  };
+
+  function handleDelSectionVersion() {
+    if (displayedVersion) {
+      deleteSectionVersion?.(displayedVersion.id);
+    }
+    setIsDialogOpen(false);
+  }
+
+  function checkAuthorOrModerator(authorId: number) {
+    return role === 'moderator' || (user && user.id === authorId);
   }
 
   function handleShare() {
@@ -100,11 +125,34 @@ const DisplaySection: FC<DisplayProns> = ({
                 {displayedVersion?.created_at?.toLocaleDateString(navigator.language)}
               </Typography>
             </Stack>
-            <IconButton size="small" onClick={handleShare}>
-              <SvgIcon htmlColor={textSecondaryColor}>
-                <LinkIcon />
-              </SvgIcon>
-            </IconButton>
+            <Stack direction="row" alignItems="center" gap={1}>
+              <IconButton size="small" onClick={handleShare}>
+                <SvgIcon htmlColor={textSecondaryColor}>
+                  <LinkIcon />
+                </SvgIcon>
+              </IconButton>
+
+              {checkAuthorOrModerator(displayedVersion.author?.id || -1) && (
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    setDialogTitle(t(StringBank.DELETE_SECTION_VERSION));
+                    setDialogContent(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
+                    setDialogFinishFN(() => {
+                      return handleDelSectionVersion;
+                    });
+                    setIsDialogOpen(true);
+                  }}
+                  disabled={!!comments?.length}
+                >
+                  <SvgIcon
+                    htmlColor={comments?.length ? backgroundBorderColor : textSecondaryColor}
+                  >
+                    <TrashIcon />
+                  </SvgIcon>
+                </IconButton>
+              )}
+            </Stack>
           </Stack>
           <Stack
             direction="row"
@@ -186,6 +234,16 @@ const DisplaySection: FC<DisplayProns> = ({
           </Stack>
         </CardContent>
       </Card>
+      <Dialog
+        openDialogState={isDialogOpen}
+        title={dialogTitle}
+        content={dialogContent}
+        cancelFunction={handleCloseDialog}
+        finishFunction={dialogFinishFN}
+        cancelBtnText={t(StringBank.CANCEL)}
+        finishBtnText={t(StringBank.DELETE)}
+        doneBtnVariant="delete"
+      />
       <Snackbar
         open={isSnackbarVisible}
         message={t(StringBank.URL_COPIED_SUCCESSFULLY)}
