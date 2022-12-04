@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION trgfunc_delete_section_row()
+CREATE OR REPLACE FUNCTION core.trgfunc_delete_section_row()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -31,4 +31,4 @@ CREATE TRIGGER trg_delete_version
   AFTER DELETE 
   ON core.section_versions
   FOR EACH ROW
-  EXECUTE PROCEDURE trgfunc_delete_section_row();
+  EXECUTE PROCEDURE core.trgfunc_delete_section_row();
