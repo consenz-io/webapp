@@ -50,8 +50,10 @@ const DisplaySection: FC<DisplayProns> = ({
   const { deleteSectionVersion, comments } = useContext(SectionContext);
   const [dialogContent, setDialogContent] = useState<string>('');
   const [dialogTitle, setDialogTitle] = useState<string>('');
-  const [dialogFinishFN, setDialogFinishFN] = useState<any>();
   const [openDialogState, setOpenDialogState] = useState(false);
+  const [dialogFinishFN, setDialogFinishFN] = useState<(val: string) => void>(() =>
+    setOpenDialogState(false)
+  );
 
   function getIconColor(voteType: 'up' | 'down'): string {
     return getVoteColor(theme, voteType, displayedVersion?.my_vote);
@@ -63,7 +65,7 @@ const DisplaySection: FC<DisplayProns> = ({
 
   function handleDelSectionVersion() {
     if (displayedVersion) {
-      deleteSectionVersion!(displayedVersion.id);
+      deleteSectionVersion?.(displayedVersion.id);
     }
     setOpenDialogState(false);
   }
