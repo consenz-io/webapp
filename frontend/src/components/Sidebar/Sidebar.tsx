@@ -91,6 +91,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
         color="primary"
         onClick={() => {
           console.log('loginWithRedirect', loginWithRedirect);
+          loginWithRedirect!();
         }}
         sx={{ margin: '1rem' }}
       >
