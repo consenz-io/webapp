@@ -79,6 +79,7 @@ const DataProvider = ({ children }: IFCProps) => {
     } else {
       apolloClient.query({ query: fetchPublicUser }).then(({ data }) => {
         const publicUser = data.core_users[0];
+        console.log('publicUser', publicUser);
         // set public user
         setUser({
           id: publicUser.id,
