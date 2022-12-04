@@ -32,15 +32,15 @@ export interface fetchCommentsVars {
 
 interface SectionState {
   section?: Section;
-  deleteComment?: (commentId: number) => void;
-  deleteSectionVersion?: (sectionVersionId: number) => void;
-  addVersion?: (content: JSONContent) => Promise<Version>;
-  addComment?: (content: string, versionId: number) => void;
-  fetchComments?: (sectionVersionId: number) => unknown;
+  deleteComment: (commentId: number) => void;
+  deleteSectionVersion: (sectionVersionId: number) => void;
+  addVersion: (content: JSONContent) => Promise<Version>;
+  addComment: (content: string, versionId: number) => void;
+  fetchComments: (sectionVersionId: number) => unknown;
   comments?: Comment[];
 }
 
-const SectionContext = createContext<SectionState>({});
+const SectionContext = createContext<SectionState>({} as SectionState);
 
 const SectionProvider: FC<IFCProps> = ({ children }) => {
   const [addVersion] = useMutation(addSectionVersionMutation, { refetchQueries: ['section'] });
