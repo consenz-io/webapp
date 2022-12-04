@@ -32,9 +32,8 @@ export const en: Record<StringBank, string> = {
   COMING_SOON: 'Coming Soon',
   COMMENT_POSTED: 'Comment was posted successfully',
   CONFIRM_COMMENT_DELETE: 'This action will delete the comment. Are you sure?',
-  CONFIRM_SECTION_VERSION_DELETE: `
-  This action will delete the section and all of it's comments.
-  This cannot be undone. Are you sure?`,
+  CONFIRM_SECTION_VERSION_DELETE: `This action will delete the section and all of it's comments. This cannot be undone. 
+Are you sure?`,
   CONTINUE: 'Continue',
   CREATE: 'Create',
   CREATE_FIRST_AGREEMENT: 'Create your first agreement',

@@ -50,9 +50,9 @@ const DisplaySection: FC<DisplayProns> = ({
   const { deleteSectionVersion, comments } = useContext(SectionContext);
   const [dialogContent, setDialogContent] = useState<string>('');
   const [dialogTitle, setDialogTitle] = useState<string>('');
-  const [openDialogState, setOpenDialogState] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogFinishFN, setDialogFinishFN] = useState<(val: string) => void>(() =>
-    setOpenDialogState(false)
+    setIsDialogOpen(false)
   );
 
   function getIconColor(voteType: 'up' | 'down'): string {
@@ -60,14 +60,14 @@ const DisplaySection: FC<DisplayProns> = ({
   }
 
   const handleCloseDialog = () => {
-    setOpenDialogState(false);
+    setIsDialogOpen(false);
   };
 
   function handleDelSectionVersion() {
     if (displayedVersion) {
       deleteSectionVersion?.(displayedVersion.id);
     }
-    setOpenDialogState(false);
+    setIsDialogOpen(false);
   }
 
   function checkAuthorOrModerator(authorId: number) {
@@ -125,29 +125,34 @@ const DisplaySection: FC<DisplayProns> = ({
                 {displayedVersion?.created_at?.toLocaleDateString(navigator.language)}
               </Typography>
             </Stack>
-            <IconButton size="small" onClick={handleShare}>
-              <SvgIcon htmlColor={textSecondaryColor}>
-                <LinkIcon />
-              </SvgIcon>
-            </IconButton>
-            {checkAuthorOrModerator(displayedVersion.author?.id || -1) && (
-              <IconButton
-                size="small"
-                onClick={() => {
-                  setDialogTitle(t(StringBank.DELETE_SECTION_VERSION));
-                  setDialogContent(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
-                  setDialogFinishFN(() => {
-                    return handleDelSectionVersion;
-                  });
-                  setOpenDialogState(true);
-                }}
-                disabled={!!comments?.length}
-              >
-                <SvgIcon htmlColor={comments?.length ? backgroundBorderColor : textSecondaryColor}>
-                  <TrashIcon />
+            <Stack direction="row" alignItems="center" gap={1}>
+              <IconButton size="small" onClick={handleShare}>
+                <SvgIcon htmlColor={textSecondaryColor}>
+                  <LinkIcon />
                 </SvgIcon>
               </IconButton>
-            )}
+
+              {checkAuthorOrModerator(displayedVersion.author?.id || -1) && (
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    setDialogTitle(t(StringBank.DELETE_SECTION_VERSION));
+                    setDialogContent(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
+                    setDialogFinishFN(() => {
+                      return handleDelSectionVersion;
+                    });
+                    setIsDialogOpen(true);
+                  }}
+                  disabled={!!comments?.length}
+                >
+                  <SvgIcon
+                    htmlColor={comments?.length ? backgroundBorderColor : textSecondaryColor}
+                  >
+                    <TrashIcon />
+                  </SvgIcon>
+                </IconButton>
+              )}
+            </Stack>
           </Stack>
           <Stack
             direction="row"
@@ -230,7 +235,7 @@ const DisplaySection: FC<DisplayProns> = ({
         </CardContent>
       </Card>
       <Dialog
-        openDialogState={openDialogState}
+        openDialogState={isDialogOpen}
         title={dialogTitle}
         content={dialogContent}
         cancelFunction={handleCloseDialog}
