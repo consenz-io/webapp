@@ -1,0 +1,9 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- CREATE OR REPLACE FUNCTION core.section_versions_comment_count(section_versions_row core.section_versions)
+--  RETURNS bigint
+--  LANGUAGE sql
+--  STABLE
+-- AS $function$
+--     SELECT COUNT(*) FROM core.comments WHERE section_version_id = section_versions_row.id
+-- $function$;

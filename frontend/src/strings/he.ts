@@ -41,6 +41,7 @@ export const he: Partial<Record<StringBank, string>> = {
   DELETE: 'מחיקה',
   DELETE_AGREEMENT: 'מחיקת הסכם',
   DELETE_COMMENT: 'מחק הערה',
+  DELETE_SECTION_VERSION: 'מחק גרסה של חלק זה',
   FEEDBACK: 'העבירו משוב',
   GOTO_HOMEPAGE_TITLE: 'לעבור לדף הבית',
   GROUP_AGREEMENTS: 'ההסכמים של {{group}}',

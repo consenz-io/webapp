@@ -31,6 +31,11 @@ array_relationships:
           name: comments
           schema: core
 computed_fields:
+  - name: comment_count
+    definition:
+      function:
+        name: section_versions_comment_count
+        schema: core
   - name: downvotes
     definition:
       function:
@@ -98,6 +103,7 @@ select_permissions:
         - threshold
         - updated_at
       computed_fields:
+        - comment_count
         - downvotes
         - my_vote
         - upvotes
@@ -121,6 +127,7 @@ select_permissions:
         - threshold
         - updated_at
       computed_fields:
+        - comment_count
         - downvotes
         - my_vote
         - upvotes
@@ -166,7 +173,6 @@ update_permissions:
 delete_permissions:
   - role: authenticated
     permission:
-      backend_only: false
       filter:
         author:
           user:
@@ -174,7 +180,6 @@ delete_permissions:
               _eq: X-Hasura-User-Id
   - role: moderator
     permission:
-      backend_only: false
       filter:
         section:
           chapter:
