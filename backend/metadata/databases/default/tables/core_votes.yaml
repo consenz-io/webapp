@@ -50,13 +50,6 @@ select_permissions:
         user:
           user_id:
             _eq: X-Hasura-User-Id
-  - role: public
-    permission:
-      columns:
-        - user_id
-        - version_id
-        - type
-      filter: {}
 update_permissions:
   - role: authenticated
     permission:
