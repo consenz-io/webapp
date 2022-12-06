@@ -23,10 +23,3 @@ select_permissions:
         - id
         - user_id
       filter: {}
-  - role: public
-    permission:
-      columns:
-        - group_id
-        - id
-        - user_id
-      filter: {}
