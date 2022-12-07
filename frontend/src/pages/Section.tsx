@@ -18,7 +18,7 @@ const Section: FC = () => {
   const [openDialogState, setOpenDialogState] = useState(false);
   const { section, addVersion, fetchComments, comments, deleteComment } =
     useContext(SectionContext);
-  const { agreement } = useContext(AgreementContext);
+  const { agreement, vote } = useContext(AgreementContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
     section?.versions?.find((v) => v.id === Number(versionId))
@@ -51,13 +51,16 @@ const Section: FC = () => {
     return `${t(StringBank.VERSION)} ${versionNum}`;
   }
 
-  function handleComplete(editorContent: JSONContent) {
+  async function handleComplete(editorContent: JSONContent) {
     if (!section || !addVersion) {
       return;
     }
-    addVersion(editorContent);
+    const newVersion = await addVersion(editorContent);
+    await vote(newVersion, 'up');
     setIsTextPopupOpen(false);
+    navigate(`../section/${section.id}/${newVersion.id}`);
   }
+
   const handleCloseDialog = () => {
     setOpenDialogState(false);
   };
