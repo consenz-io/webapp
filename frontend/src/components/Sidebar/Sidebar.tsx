@@ -16,7 +16,6 @@ import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
 import {
   ButtonBase,
-  Container,
   List,
   ListItemIcon,
   ListItemText,
@@ -31,8 +30,7 @@ import { generateColorFromString } from 'utils/functions';
 import CircleIcon from '@mui/icons-material/Circle';
 import { ReactComponent as FeedbackIcon } from 'assets/icons/message-square.svg';
 import SvgIcon from '../SvgIcon';
-import { activeBtnColor, textSecondaryColor } from 'theme/theme';
-import { useAuth0 } from '@auth0/auth0-react';
+import { textSecondaryColor } from 'theme/theme';
 
 interface SidebarItem {
   name: string;
@@ -57,15 +55,14 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { user } = useContext(DataContext);
   const { isMobile } = useResponsive();
   const { t } = useTranslation();
-  const { jwt } = useContext(AuthContext);
-  const { logout } = useAuth0();
+  const { jwt, logout, loginWithRedirect } = useContext(AuthContext);
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const navigate = useNavigate();
   const { slug: groupSlug, categories } = useContext(GroupContext);
   const [userMenuItems] = useState<MenuItem[]>([
     {
       text: jwt ? t(StringBank.LOGOUT) : t(StringBank.LOGIN),
-      action: logout,
+      action: jwt ? logout : loginWithRedirect,
     },
   ]);
 
@@ -131,7 +128,6 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           ))}
         </List>
       </SC.Content>
-      {!jwt && <Container sx={{ backgroundColor: activeBtnColor }}>{t(StringBank.DEMO)}</Container>}
       <ButtonBase sx={{ margin: 1 }} onClick={handleFeedback} disableRipple>
         <Stack direction="row" alignItems="center" justifyContent="flex-start" width="100%" gap={1}>
           <SvgIcon htmlColor={textSecondaryColor}>

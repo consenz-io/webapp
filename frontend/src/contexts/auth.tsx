@@ -1,8 +1,17 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useEffect, useState } from 'react';
-import { IAuthContext, IFCProps } from 'types';
+import { IFCProps } from 'types';
 
-const AuthContext = createContext<IAuthContext>({ logout: () => ({}) });
+interface AuthContext {
+  jwt?: string;
+  loginWithRedirect: () => void;
+  logout: () => void;
+  role?: string;
+}
+const AuthContext = createContext<AuthContext>({
+  logout: () => ({}),
+  loginWithRedirect: () => ({}),
+});
 
 const AuthProvider = ({ children }: IFCProps) => {
   const [jwt, setJwt] = useState<string>();
@@ -11,8 +20,8 @@ const AuthProvider = ({ children }: IFCProps) => {
     getAccessTokenSilently,
     isLoading,
     logout: logoutAuth0,
-    loginWithRedirect,
     getIdTokenClaims,
+    loginWithRedirect,
   } = useAuth0();
 
   useEffect(() => {
@@ -27,15 +36,16 @@ const AuthProvider = ({ children }: IFCProps) => {
         setUserRole(idClaims.role || userRole || '');
       }
     });
-  }, [isLoading, loginWithRedirect, getIdTokenClaims, userRole]);
+  }, [getAccessTokenSilently, isLoading, getIdTokenClaims, userRole]);
 
   function logout(): void {
     setJwt(undefined);
     logoutAuth0({ returnTo: window.location.origin });
   }
 
-  const authContextState: IAuthContext = {
+  const authContextState: AuthContext = {
     jwt,
+    loginWithRedirect,
     logout,
     role: userRole,
   };

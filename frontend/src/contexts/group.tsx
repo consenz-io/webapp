@@ -1,21 +1,33 @@
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { createContext, FC, useContext } from 'react';
+import { createContext, FC } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { IGroupContext } from 'types';
+import { Group, IGroupContext } from 'types';
 import { Agreement, Category } from 'types';
 import { deleteAgreementMutation } from 'utils/mutations';
 import { agreementsQuery } from 'utils/queries';
-import { DataContext } from './data';
 import { addAgreementMutation } from 'utils/mutations';
 import { isJsonContentEmpty } from 'utils/functions';
 
 const GroupContext = createContext<IGroupContext>({} as IGroupContext);
 
 const GroupProvider: FC = () => {
-  const { user } = useContext(DataContext);
   const { groupSlug, categoryId } = useParams();
 
-  const currentGroup = user?.groups?.find((group) => group.slug === groupSlug);
+  const { data: groups } = useQuery<{ core_groups: Group[] }>(
+    gql`
+      query groups($slug: String!) {
+        core_groups(where: { slug: { _eq: $slug } }) {
+          id
+          name
+          slug
+          created_at
+        }
+      }
+    `,
+    { variables: { slug: groupSlug }, skip: !groupSlug }
+  );
+  const currentGroup = groups?.core_groups?.[0];
+
   const { data: activeAgreements } = useQuery<{
     core_agreements: Agreement[];
   }>(agreementsQuery(categoryId), {
