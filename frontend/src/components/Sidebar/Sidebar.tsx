@@ -53,7 +53,7 @@ const sidebarItems: SidebarItem[] = [
 
 const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { user } = useContext(DataContext);
-  const { logout } = useContext(AuthContext);
+  const { logout, jwt, loginWithRedirect } = useContext(AuthContext);
   const { isMobile } = useResponsive();
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
@@ -61,8 +61,8 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { slug: groupSlug, categories } = useContext(GroupContext);
   const [userMenuItems] = useState<MenuItem[]>([
     {
-      text: t(StringBank.LOGOUT),
-      action: logout,
+      text: jwt ? t(StringBank.LOGOUT) : t(StringBank.LOGIN),
+      action: jwt ? logout : loginWithRedirect,
     },
   ]);
 
