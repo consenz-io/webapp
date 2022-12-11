@@ -7,12 +7,18 @@ import { Button, Stack, Typography } from '@mui/material';
 import { AgreementCarousel } from 'components';
 import { GroupContext } from 'contexts/group';
 import { Box } from '@mui/system';
+import { AuthContext } from 'contexts';
 
 const AllArchievedAgreements = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { jwt, logout } = useContext(AuthContext);
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
-    navigate(`/${slug}/new-agreement`);
+    if (jwt) {
+      navigate(`/${slug}/new-agreement`);
+    } else {
+      logout();
+    }
   };
   const { archivedAgreements, name, slug } = useContext(GroupContext);
   if (!archivedAgreements.length) {

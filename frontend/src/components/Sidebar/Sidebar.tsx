@@ -16,6 +16,7 @@ import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
 import {
   ButtonBase,
+  Container,
   List,
   ListItemIcon,
   ListItemText,
@@ -30,7 +31,8 @@ import { generateColorFromString } from 'utils/functions';
 import CircleIcon from '@mui/icons-material/Circle';
 import { ReactComponent as FeedbackIcon } from 'assets/icons/message-square.svg';
 import SvgIcon from '../SvgIcon';
-import { textSecondaryColor } from 'theme/theme';
+import { activeBtnColor, textSecondaryColor } from 'theme/theme';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface SidebarItem {
   name: string;
@@ -53,22 +55,27 @@ const sidebarItems: SidebarItem[] = [
 
 const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { user } = useContext(DataContext);
-  const { logout } = useContext(AuthContext);
   const { isMobile } = useResponsive();
   const { t } = useTranslation();
+  const { jwt } = useContext(AuthContext);
+  const { logout } = useAuth0();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const navigate = useNavigate();
   const { slug: groupSlug, categories } = useContext(GroupContext);
   const [userMenuItems] = useState<MenuItem[]>([
     {
-      text: t(StringBank.LOGOUT),
+      text: jwt ? t(StringBank.LOGOUT) : t(StringBank.LOGIN),
       action: logout,
     },
   ]);
 
   function handleFeedback(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    window.location.href = 'mailto:info@consenz.io?subject=Feedback for Consenz';
+    if (jwt) {
+      window.location.href = 'mailto:info@consenz.io?subject=Feedback for Consenz';
+    } else {
+      logout();
+    }
   }
 
   const content = (
@@ -124,6 +131,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           ))}
         </List>
       </SC.Content>
+      {!jwt && <Container sx={{ backgroundColor: activeBtnColor }}>{t(StringBank.DEMO)}</Container>}
       <ButtonBase sx={{ margin: 1 }} onClick={handleFeedback} disableRipple>
         <Stack direction="row" alignItems="center" justifyContent="flex-start" width="100%" gap={1}>
           <SvgIcon htmlColor={textSecondaryColor}>

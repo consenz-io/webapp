@@ -1,5 +1,5 @@
 import { Appbar, Dialog, SvgIcon, TextEditorPopup, CommentsList, AddCommentBox } from 'components';
-import { AgreementContext, SectionContext } from 'contexts';
+import { AgreementContext, SectionContext, AuthContext } from 'contexts';
 import { DisplaySection } from 'components';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocIcon } from 'assets/icons/document.svg';
@@ -13,8 +13,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Section: FC = () => {
+  const { jwt } = useContext(AuthContext);
+  const { logout } = useAuth0();
   const [openDialogState, setOpenDialogState] = useState(false);
   const { section, addVersion, fetchComments, comments, deleteComment } =
     useContext(SectionContext);
@@ -28,9 +31,13 @@ const Section: FC = () => {
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
 
   const handleDeleteComment = () => {
-    deleteComment(commentIdToDel);
-    setCommentIdToDel(-1);
-    setOpenDialogState(false);
+    if (jwt) {
+      deleteComment!(commentIdToDel);
+      setCommentIdToDel(-1);
+      setOpenDialogState(false);
+    } else {
+      logout();
+    }
   };
 
   const navigate = useNavigate();
@@ -101,7 +108,11 @@ const Section: FC = () => {
         <Chip
           sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
           onClick={() => {
-            setIsTextPopupOpen(true);
+            if (jwt) {
+              setIsTextPopupOpen(true);
+            } else {
+              logout();
+            }
           }}
           label={
             <SvgIcon htmlColor={textSecondaryColor} width="24px">
