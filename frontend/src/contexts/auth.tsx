@@ -19,17 +19,15 @@ const AuthProvider = ({ children }: IFCProps) => {
     if (isLoading) {
       return;
     }
-    getAccessTokenSilently()
-      .then((token) => {
-        setJwt(token);
-      })
-      .catch(loginWithRedirect);
+    getAccessTokenSilently().then((token) => {
+      setJwt(token);
+    });
     getIdTokenClaims().then((idClaims) => {
       if (idClaims) {
         setUserRole(idClaims.role || userRole || '');
       }
     });
-  }, [getAccessTokenSilently, isLoading, loginWithRedirect, getIdTokenClaims, userRole]);
+  }, [isLoading, loginWithRedirect, getIdTokenClaims, userRole]);
 
   function logout(): void {
     setJwt(undefined);

@@ -7,6 +7,8 @@ import { FC, useContext } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 import { AgreementCarousel } from 'components';
 import { GroupContext } from 'contexts/group';
+import { AuthContext } from 'contexts';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface IProps {
   isArchive?: boolean;
@@ -15,13 +17,19 @@ interface IProps {
 const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { jwt } = useContext(AuthContext);
+  const { logout } = useAuth0();
 
   const { activeAgreements, archivedAgreements, name, slug } = useContext(GroupContext);
 
   const agreements = isArchive ? archivedAgreements : activeAgreements;
 
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
-    navigate(`/${slug}/new-agreement`);
+    if (jwt) {
+      navigate(`/${slug}/new-agreement`);
+    } else {
+      logout();
+    }
   };
 
   return (

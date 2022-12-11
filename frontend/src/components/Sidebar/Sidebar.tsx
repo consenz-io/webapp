@@ -15,8 +15,8 @@ import { ColorModeAndDirectionContext } from '../../theme';
 import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
 import {
-  Button,
   ButtonBase,
+  Container,
   List,
   ListItemIcon,
   ListItemText,
@@ -31,7 +31,8 @@ import { generateColorFromString } from 'utils/functions';
 import CircleIcon from '@mui/icons-material/Circle';
 import { ReactComponent as FeedbackIcon } from 'assets/icons/message-square.svg';
 import SvgIcon from '../SvgIcon';
-import { textSecondaryColor } from 'theme/theme';
+import { activeBtnColor, textSecondaryColor } from 'theme/theme';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface SidebarItem {
   name: string;
@@ -54,50 +55,27 @@ const sidebarItems: SidebarItem[] = [
 
 const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { user } = useContext(DataContext);
-  const { logout, jwt, loginWithRedirect } = useContext(AuthContext);
   const { isMobile } = useResponsive();
   const { t } = useTranslation();
+  const { jwt } = useContext(AuthContext);
+  const { logout } = useAuth0();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
   const navigate = useNavigate();
   const { slug: groupSlug, categories } = useContext(GroupContext);
   const [userMenuItems] = useState<MenuItem[]>([
     {
-      text: t(StringBank.LOGOUT),
+      text: jwt ? t(StringBank.LOGOUT) : t(StringBank.LOGIN),
       action: logout,
     },
   ]);
 
   function handleFeedback(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    window.location.href = 'mailto:info@consenz.io?subject=Feedback for Consenz';
-  }
-
-  function loadMenu() {
     if (jwt) {
-      return (
-        <DropDownMenu
-          name="user"
-          menuItems={userMenuItems}
-          buttonText={user?.displayName || ''}
-          btnCapital={user?.displayName?.charAt(0)}
-          endIcon={isRTL ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
-        />
-      );
+      window.location.href = 'mailto:info@consenz.io?subject=Feedback for Consenz';
+    } else {
+      logout();
     }
-    return (
-      <Button
-        variant="contained"
-        size="large"
-        color="primary"
-        onClick={() => {
-          console.log('loginWithRedirect', loginWithRedirect);
-          loginWithRedirect!();
-        }}
-        sx={{ margin: '1rem' }}
-      >
-        {t(StringBank.LOGIN)}
-      </Button>
-    );
   }
 
   const content = (
@@ -153,6 +131,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           ))}
         </List>
       </SC.Content>
+      {!jwt && <Container sx={{ backgroundColor: activeBtnColor }}>{t(StringBank.DEMO)}</Container>}
       <ButtonBase sx={{ margin: 1 }} onClick={handleFeedback} disableRipple>
         <Stack direction="row" alignItems="center" justifyContent="flex-start" width="100%" gap={1}>
           <SvgIcon htmlColor={textSecondaryColor}>
@@ -161,7 +140,13 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           <Typography>{t(StringBank.FEEDBACK)}</Typography>
         </Stack>
       </ButtonBase>
-      {loadMenu()}
+      <DropDownMenu
+        name="user"
+        menuItems={userMenuItems}
+        buttonText={user?.displayName || ''}
+        btnCapital={user?.displayName?.charAt(0)}
+        endIcon={isRTL ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
+      />
     </>
   );
 
