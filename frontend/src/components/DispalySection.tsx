@@ -247,9 +247,7 @@ const DisplaySection: FC<DisplayProns> = ({
       <Snackbar
         open={isSnackbarVisible}
         message={t(StringBank.URL_COPIED_SUCCESSFULLY)}
-        autoHideDuration={4000}
         onClose={() => setIsSnackbarVisible(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       />
     </>
   );
