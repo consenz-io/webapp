@@ -7,6 +7,7 @@ import { FC, useContext } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 import { AgreementCarousel } from 'components';
 import { GroupContext } from 'contexts/group';
+import { AuthContext } from 'contexts';
 
 interface IProps {
   isArchive?: boolean;
@@ -15,13 +16,18 @@ interface IProps {
 const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { jwt, loginWithRedirect } = useContext(AuthContext);
 
   const { activeAgreements, archivedAgreements, name, slug } = useContext(GroupContext);
 
   const agreements = isArchive ? archivedAgreements : activeAgreements;
 
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
-    navigate(`/${slug}/new-agreement`);
+    if (jwt) {
+      navigate(`/${slug}/new-agreement`);
+    } else {
+      loginWithRedirect();
+    }
   };
 
   return (

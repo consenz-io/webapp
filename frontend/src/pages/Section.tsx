@@ -13,12 +13,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
+import { AuthContext } from 'contexts';
 
 const Section: FC = () => {
   const [openDialogState, setOpenDialogState] = useState(false);
   const { section, addVersion, fetchComments, comments, deleteComment } =
     useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
+  const { jwt, loginWithRedirect } = useContext(AuthContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
     section?.versions?.find((v) => v.id === Number(versionId))
@@ -101,7 +103,11 @@ const Section: FC = () => {
         <Chip
           sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
           onClick={() => {
-            setIsTextPopupOpen(true);
+            if (jwt) {
+              setIsTextPopupOpen(true);
+            } else {
+              loginWithRedirect();
+            }
           }}
           label={
             <SvgIcon htmlColor={textSecondaryColor} width="24px">

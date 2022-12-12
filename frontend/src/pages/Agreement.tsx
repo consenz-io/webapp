@@ -28,11 +28,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
 import { JSONContent } from '@tiptap/react';
+import { AuthContext } from 'contexts';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
   const { groupSlug, agreementId } = useParams();
   const { categories, slug } = useContext(GroupContext);
+  const { jwt, loginWithRedirect } = useContext(AuthContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const { agreement, categoryName, addSection, vote, setCurrentChapterId, setCurrentSectionIndex } =
     useContext(AgreementContext);
@@ -136,9 +138,13 @@ const Agreement: FC = () => {
                   <Divider className="divider" textAlign="center" variant="fullWidth">
                     <IconButton
                       onClick={() => {
-                        setCurrentChapterId(chapter.id);
-                        setCurrentSectionIndex(chapter?.sections[0].index);
-                        setIsTextPopupOpen(true);
+                        if (jwt) {
+                          setCurrentChapterId(chapter.id);
+                          setCurrentSectionIndex(chapter?.sections[0].index);
+                          setIsTextPopupOpen(true);
+                        } else {
+                          loginWithRedirect();
+                        }
                       }}
                       sx={{
                         border: '1px solid gray',
@@ -157,9 +163,13 @@ const Agreement: FC = () => {
                       <Divider className="divider" textAlign="center" variant="fullWidth">
                         <IconButton
                           onClick={() => {
-                            setCurrentChapterId(chapter.id);
-                            setCurrentSectionIndex(section.index + 1);
-                            setIsTextPopupOpen(true);
+                            if (jwt) {
+                              setCurrentChapterId(chapter.id);
+                              setCurrentSectionIndex(section.index + 1);
+                              setIsTextPopupOpen(true);
+                            } else {
+                              loginWithRedirect();
+                            }
                           }}
                           sx={{
                             border: '1px solid gray',
