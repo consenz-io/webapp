@@ -13,8 +13,12 @@ import { textSecondaryColor } from 'theme';
 import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
 import { ReactComponent as ArrowIcon } from 'assets/icons/chevron-left.svg';
 import { JSONContent } from '@tiptap/react';
-import { FC, useState } from 'react';
-import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
+import { FC, useContext, useState } from 'react';
+import {
+  ColorModeAndDirectionContext,
+  inputBackgroundColor,
+  secondaryDarkColor,
+} from 'theme/theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import { isJsonContentEmpty } from 'utils/functions';
@@ -42,6 +46,7 @@ const TextEditorPopup: FC<DialogProps> = ({
   cancelBtnText,
 }) => {
   const { t } = useTranslation();
+  const { isRTL } = useContext(ColorModeAndDirectionContext);
   const [newTextContent, setNewTextContent] = useState(initialContent);
 
   return (
@@ -61,7 +66,7 @@ const TextEditorPopup: FC<DialogProps> = ({
       open={isOpen}
       onClose={onCancel}
     >
-      <Stack spacing={3}>
+      <Stack gap={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" color={textSecondaryColor}>
             <Typography variant="h3" color={newVersionName ? undefined : 'text.primary'}>
@@ -69,7 +74,7 @@ const TextEditorPopup: FC<DialogProps> = ({
             </Typography>
             {newVersionName && (
               <>
-                <ArrowIcon />
+                <ArrowIcon {...(isRTL && { transform: 'rotate(180)' })} />
                 <Typography variant="h3" color="white">
                   {newVersionName}
                 </Typography>

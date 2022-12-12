@@ -29,7 +29,7 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
       justifyContent={agreements?.length ? 'start' : 'space-between'}
       height="100%"
       padding={{ sm: 2 }}
-      spacing={2}
+      gap={2}
     >
       <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
         <Typography variant="h2">{t(StringBank.GROUP_AGREEMENTS, { group: name })}</Typography>

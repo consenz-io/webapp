@@ -59,7 +59,7 @@ const Agreement: FC = () => {
   return (
     <Stack>
       <Appbar breadcrumbs={breadcrumsProps} />
-      <Stack spacing={4} paddingX={2} paddingY={3}>
+      <Stack gap={4} paddingX={2} paddingY={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" alignItems="end" gap={1.5}>
             <Typography variant="h1">{agreement?.name}</Typography>
@@ -132,7 +132,7 @@ const Agreement: FC = () => {
                   padding: 0,
                 }}
               >
-                <Stack spacing={0}>
+                <Stack gap={0}>
                   <Divider className="divider" textAlign="center" variant="fullWidth">
                     <IconButton
                       onClick={() => {

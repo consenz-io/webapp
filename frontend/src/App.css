@@ -19,6 +19,10 @@ p {
   font-weight: 400;
 }
 
+.ProseMirror p[data-placeholder]::before {
+  float: inherit!important;
+}
+
 .ProseMirror-focused {
   outline: none;
 }
