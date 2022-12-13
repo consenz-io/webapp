@@ -57,7 +57,9 @@ const CommentsList: FC<CommentsListProps> = ({ comments, displayedVersion }) => 
                 </Box>
               )}
               <Box>
-                <Typography variant="caption">{calcTimeAgoFromDate(comment.created_at)}</Typography>
+                <Typography variant="caption">
+                  {calcTimeAgoFromDate(comment.created_at, t)}
+                </Typography>
               </Box>
             </Stack>
             <Stack direction="row">{comment.content}</Stack>

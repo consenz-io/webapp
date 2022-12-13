@@ -1,5 +1,7 @@
 import { Theme } from '@mui/material';
 import { JSONContent } from '@tiptap/react';
+import { TFunction } from 'react-i18next';
+import { StringBank } from 'strings';
 import { Version } from 'types';
 
 export function capitalize(str: string): string {
@@ -61,27 +63,30 @@ export function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
-export function calcTimeAgoFromDate(stringDate: string) {
+export function calcTimeAgoFromDate(
+  stringDate: string,
+  t: TFunction<'translation', undefined>
+): string {
   const seconds = Math.floor((new Date().getTime() - new Date(stringDate).getTime()) / 1000);
   let interval = seconds / (60 * 60 * 24 * 365);
   if (interval > 1) {
-    return `${Math.floor(interval)} years ago`;
+    return t('TIME_AGO_YEARS', { count: Math.floor(interval) });
   }
   interval = seconds / (60 * 60 * 24 * 30);
   if (interval > 1) {
-    return `${Math.floor(interval)} months ago`;
+    return t('TIME_AGO_MONTHS', { count: Math.floor(interval) });
   }
   interval = seconds / (60 * 60 * 24);
   if (interval > 1) {
-    return `${Math.floor(interval)} days ago`;
+    return t('TIME_AGO_DAYS', { count: Math.floor(interval) });
   }
   interval = seconds / (60 * 60);
   if (interval > 1) {
-    return `${Math.floor(interval)} hours ago`;
+    return t('TIME_AGO_HOURS', { count: Math.floor(interval) });
   }
   interval = seconds / 60;
   if (interval > 1) {
-    return `${Math.floor(interval)} minutes ago`;
+    return t('TIME_AGO_MINUTES', { count: Math.floor(interval) });
   }
-  return `${Math.floor(seconds)} seconds ago`;
+  return t(StringBank.TIME_AGO_SECONDS);
 }
