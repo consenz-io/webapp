@@ -182,10 +182,16 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         },
       },
       MuiChip: {
-        defaultProps: {
-          variant: 'category',
+        styleOverrides: {
+          root: {
+            borderRadius: 4,
+            flexDirection: 'row-reverse',
+          },
+          icon: {
+            marginInlineStart: -6,
+            marginInlineEnd: 5,
+          },
         },
-        variants: [{ props: { variant: 'category' }, style: { borderRadius: 4 } }],
       },
       MuiIconButton: {
         variants: [
@@ -235,6 +241,12 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
             marginInlineStart: '-4px',
             marginInlineEnd: '8px',
           },
+        },
+      },
+      MuiSnackbar: {
+        defaultProps: {
+          autoHideDuration: 4000,
+          anchorOrigin: { vertical: 'bottom', horizontal: isRTL ? 'left' : 'right' },
         },
       },
       MuiStepIcon: {
@@ -337,11 +349,14 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
   };
 };
 
-export const ColorModeAndDirectionContext = createContext({
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  toggleColorMode: () => {},
+export const ColorModeAndDirectionContext = createContext<{
+  toggleColorMode: () => void;
+  mode: ThemeModeType;
+  toggleDirection: () => void;
+  isRTL: boolean;
+}>({
+  toggleColorMode: () => ({}),
   mode: ThemeModeType.LIGHT,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  toggleDirection: () => {},
+  toggleDirection: () => ({}),
   isRTL: false,
 });

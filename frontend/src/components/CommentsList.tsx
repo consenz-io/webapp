@@ -50,14 +50,16 @@ const CommentsList: FC<CommentsListProps> = ({ comments, displayedVersion }) => 
             </BtnCapital>
           </Stack>
           <Stack>
-            <Stack direction="row" spacing={2}>
+            <Stack direction="row" gap={2}>
               {comment.author.full_name && (
                 <Box>
                   <Typography>{comment.author.full_name}</Typography>
                 </Box>
               )}
               <Box>
-                <Typography variant="caption">{calcTimeAgoFromDate(comment.created_at)}</Typography>
+                <Typography variant="caption">
+                  {calcTimeAgoFromDate(comment.created_at, t)}
+                </Typography>
               </Box>
             </Stack>
             <Stack direction="row">{comment.content}</Stack>

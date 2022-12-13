@@ -65,7 +65,7 @@ const CategoryAgreements = () => {
     );
   }
   return (
-    <Stack justifyContent="start" height="100%" padding={{ sm: 2 }} spacing={2}>
+    <Stack justifyContent="start" height="100%" padding={{ sm: 2 }} gap={2}>
       <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
         <Typography variant="h2">
           {t(StringBank.CATEGORY_AGREEMENTS, {
