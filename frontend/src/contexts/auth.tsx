@@ -32,12 +32,21 @@ const AuthProvider = ({ children }: IFCProps) => {
     getAccessTokenSilently().then((token) => {
       setJwt(token);
     });
-    getIdTokenClaims().then((idClaims) => {
-      if (idClaims) {
-        setUserRole(idClaims.role || userRole || '');
-      }
-    });
-  }, [getAccessTokenSilently, isLoading, getIdTokenClaims, userRole, isAuthenticated]);
+    getIdTokenClaims()
+      .then((idClaims) => {
+        if (idClaims) {
+          setUserRole(idClaims.role || userRole || '');
+        }
+      })
+      .catch(loginWithRedirect);
+  }, [
+    loginWithRedirect,
+    getAccessTokenSilently,
+    isLoading,
+    getIdTokenClaims,
+    userRole,
+    isAuthenticated,
+  ]);
 
   function logout(): void {
     setJwt(undefined);
