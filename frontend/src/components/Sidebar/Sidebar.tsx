@@ -17,6 +17,7 @@ import { AuthContext } from 'contexts';
 import {
   Button,
   ButtonBase,
+  Container,
   List,
   ListItemIcon,
   ListItemText,
@@ -72,25 +73,6 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
     window.location.href = 'mailto:info@consenz.io?subject=Feedback for Consenz';
   }
 
-  function menu() {
-    if (jwt) {
-      return (
-        <DropDownMenu
-          name="user"
-          menuItems={userMenuItems}
-          buttonText={user?.displayName || ''}
-          btnCapital={user?.displayName?.charAt(0)}
-          endIcon={isRTL ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
-        />
-      );
-    }
-    return (
-      <Button variant="contained" color="primary" onClick={loginWithRedirect}>
-        <Typography variant="body2">{t(StringBank.LOGIN)}</Typography>
-      </Button>
-    );
-  }
-
   const content = (
     <>
       <SC.LogoContainer>
@@ -144,15 +126,37 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           ))}
         </List>
       </SC.Content>
-      <ButtonBase sx={{ margin: 1 }} onClick={handleFeedback} disableRipple>
-        <Stack direction="row" alignItems="center" justifyContent="flex-start" width="100%" gap={1}>
-          <SvgIcon htmlColor={textSecondaryColor}>
-            <FeedbackIcon />
-          </SvgIcon>
-          <Typography>{t(StringBank.FEEDBACK)}</Typography>
-        </Stack>
-      </ButtonBase>
-      {menu()}
+      {jwt ? (
+        <>
+          <ButtonBase sx={{ margin: 1 }} onClick={handleFeedback} disableRipple>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-start"
+              width="100%"
+              gap={1}
+            >
+              <SvgIcon htmlColor={textSecondaryColor}>
+                <FeedbackIcon />
+              </SvgIcon>
+              <Typography>{t(StringBank.FEEDBACK)}</Typography>
+            </Stack>
+          </ButtonBase>
+          <DropDownMenu
+            name="user"
+            menuItems={userMenuItems}
+            buttonText={user?.displayName || ''}
+            btnCapital={user?.displayName?.charAt(0)}
+            endIcon={isRTL ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
+          />
+        </>
+      ) : (
+        <Container sx={{ padding: 2, borderTop: '1px solid rgba(248, 250, 252, 0.16)' }}>
+          <Button fullWidth={true} variant="contained" color="primary" onClick={loginWithRedirect}>
+            <Typography variant="body2">{t(StringBank.LOGIN)}</Typography>
+          </Button>
+        </Container>
+      )}
     </>
   );
 
