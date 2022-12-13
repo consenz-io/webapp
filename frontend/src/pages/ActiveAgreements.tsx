@@ -23,11 +23,11 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
   const agreements = isArchive ? archivedAgreements : activeAgreements;
 
   const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
-    if (jwt) {
-      navigate(`/${slug}/new-agreement`);
-    } else {
+    if (!jwt) {
       loginWithRedirect();
+      return;
     }
+    navigate(`/${slug}/new-agreement`);
   };
 
   return (

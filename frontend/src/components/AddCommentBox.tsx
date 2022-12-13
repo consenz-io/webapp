@@ -18,19 +18,19 @@ const AddCommentBox: FC<AddCommentBoxProps> = ({ displayedVersion }) => {
   const { jwt, loginWithRedirect } = useContext(AuthContext);
 
   function handleAddComment() {
-    if (jwt) {
-      if (!newComment || !addComment || !displayedVersion) {
-        return;
-      }
-      addComment(newComment, displayedVersion.id);
-      setNewComment('');
-      setIsSnackbarVisible(true);
-      setTimeout(() => {
-        setIsSnackbarVisible(false);
-      }, 3500);
-    } else {
+    if (!jwt) {
       loginWithRedirect();
+      return;
     }
+    if (!newComment || !addComment || !displayedVersion) {
+      return;
+    }
+    addComment(newComment, displayedVersion.id);
+    setNewComment('');
+    setIsSnackbarVisible(true);
+    setTimeout(() => {
+      setIsSnackbarVisible(false);
+    }, 3500);
   }
 
   return (
