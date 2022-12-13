@@ -87,7 +87,7 @@ function NameAndRationale({
 
   return (
     <>
-      <Stack direction="row" spacing={2} alignItems="center">
+      <Stack direction="row" gap={2} alignItems="center">
         <Span
           onBlur={(e) => onNameChange(e.target.textContent || '')}
           contentEditable
@@ -128,7 +128,7 @@ function NameAndRationale({
           />
         )}
       </Stack>
-      <Stack spacing={1}>
+      <Stack gap={1}>
         <Typography variant="h3">{t(StringBank.ADD_RATIONALE_HEADER)}</Typography>
         <InputBase
           value={rationale}

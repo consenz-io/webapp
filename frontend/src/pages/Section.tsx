@@ -91,9 +91,7 @@ const Section: FC = () => {
       <Stack direction="row" gap={1} marginY={2}>
         {section?.versions.map((version, i) => (
           <Chip
-            deleteIcon={<CheckCircleIcon />}
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            onDelete={version.id === section.current_version?.id ? () => {} : undefined}
+            {...(version.id === section.current_version?.id && { icon: <CheckCircleIcon /> })}
             onClick={() => navigate(`../section/${section.id}/${version.id}`)}
             label={`${t(StringBank.VERSION)} ${i + 1}`}
             key={version.id}

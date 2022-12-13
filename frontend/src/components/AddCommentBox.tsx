@@ -58,11 +58,9 @@ const AddCommentBox: FC<AddCommentBoxProps> = ({ displayedVersion }) => {
       <Snackbar
         open={isSnackbarVisible}
         message={t(StringBank.COMMENT_POSTED)}
-        autoHideDuration={4000}
         onClose={() => {
           setIsSnackbarVisible(false);
         }}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       />
     </>
   );
