@@ -28,9 +28,10 @@ select_permissions:
     permission:
       columns:
         - id
+        - created_at
         - name
         - slug
-        - created_at
+        - language
       filter:
         group_users:
           user:
@@ -39,16 +40,18 @@ select_permissions:
   - role: moderator
     permission:
       columns:
+        - created_at
         - id
+        - language
         - name
         - slug
-        - created_at
       filter: {}
   - role: public
     permission:
       columns:
+        - created_at
         - id
+        - language
         - name
         - slug
-        - created_at
       filter: {}
