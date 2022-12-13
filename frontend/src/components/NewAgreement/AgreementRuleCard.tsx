@@ -18,8 +18,8 @@ const AgreementRuleCard: FC<IProps> = ({ type, title, description, isEnabled, on
     <Card variant="elevation" elevation={0}>
       <Box padding={3}>
         <Stack direction="row" justifyContent="space-between">
-          <Stack spacing={2}>
-            <Stack direction="row" spacing={2} alignItems="center">
+          <Stack gap={2}>
+            <Stack direction="row" gap={2} alignItems="center">
               {type === 'boolean' && (
                 <Switch checked={isEnabled} onChange={(e, c) => onChange?.(c)} />
               )}

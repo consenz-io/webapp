@@ -69,7 +69,7 @@ const SectionCard: FC<Props> = ({ section }) => {
       sx={{ paddingX: 1, cursor: 'pointer' }}
       onClick={() => navigate(`section/${section.id}/${displayedVersion.id}`)}
     >
-      <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" gap={2}>
         <IconButton onClick={backwardsVersion} disabled={versionIndex === 0}>
           {isRTL ? (
             <ArrowForwardIosIcon fontSize="small" />
@@ -78,7 +78,7 @@ const SectionCard: FC<Props> = ({ section }) => {
           )}
         </IconButton>
         <Stack paddingTop={4} paddingBottom={2} flexGrow={1}>
-          <Stack direction="row" spacing={2} alignItems="center">
+          <Stack direction="row" gap={2} alignItems="center">
             <Typography
               variant="body2"
               sx={{

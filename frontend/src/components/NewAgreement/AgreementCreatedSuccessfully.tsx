@@ -49,13 +49,13 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: number }> = ({ agreementId
         <Typography>{t(StringBank.SHARE_AGREEMENT)}</Typography>
         <Stack
           direction="row"
-          spacing={2}
+          gap={2}
           alignItems="center"
           justifyContent="center"
           bgcolor="rgba(0,0,0,0.08)"
           borderRadius="4px"
           border="solid 1px #565d68"
-          padding="0 1rem"
+          paddingX={2}
         >
           <Typography
             variant="body2"
@@ -68,7 +68,8 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: number }> = ({ agreementId
             {agreementUrl}
           </Typography>
           <IconButton
-            sx={{ marginStart: '2rem', marginEnd: '1rem' }}
+            sx={{ paddingX: 0 }}
+            disableRipple
             onClick={() => {
               setSnackbarOpen(true);
               navigator.clipboard.writeText(agreementUrl);
@@ -81,9 +82,7 @@ const AgreementCreatedSuccessfully: FC<{ agreementId: number }> = ({ agreementId
           <Snackbar
             open={isSnackbarOpen}
             message={t(StringBank.URL_COPIED_SUCCESSFULLY)}
-            autoHideDuration={4000}
             onClose={() => setSnackbarOpen(false)}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           />
         </Stack>
       </Stack>
