@@ -1,6 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { IFCProps } from 'types';
 
 interface AuthContext {
@@ -16,7 +15,6 @@ const AuthContext = createContext<AuthContext>({
 
 const AuthProvider = ({ children }: IFCProps) => {
   const [jwt, setJwt] = useState<string>();
-  const navigate = useNavigate();
   const [userRole, setUserRole] = useState<string>('');
   const {
     getAccessTokenSilently,
@@ -62,11 +60,7 @@ const AuthProvider = ({ children }: IFCProps) => {
   const authContextState: AuthContext = {
     jwt,
     loginWithRedirect: () => {
-      const lastURl = sessionStorage.getItem('lastUrl');
-      if (lastURl) {
-        navigate(lastURl);
-        return;
-      }
+      sessionStorage.setItem('lastUrl', window.location.pathname);
       if (isAuthenticated || isLoading) {
         return;
       }
