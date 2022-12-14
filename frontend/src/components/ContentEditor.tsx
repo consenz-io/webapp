@@ -62,7 +62,9 @@ function ContentEditor({
     if (!content) {
       return;
     }
+    const { from, to } = editor?.state.selection ?? { from: 0, to: 0 };
     editor?.commands.setContent(content);
+    editor?.commands.setTextSelection({ from, to });
   }, [editor, content]);
 
   return (
