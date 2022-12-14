@@ -38,7 +38,10 @@ const AuthProvider = ({ children }: IFCProps) => {
           setUserRole(idClaims.role || userRole || '');
         }
       })
-      .catch(loginWithRedirect);
+      .catch(() => {
+        sessionStorage.setItem('lastUrl', window.location.pathname);
+        loginWithRedirect();
+      });
   }, [
     loginWithRedirect,
     getAccessTokenSilently,
@@ -50,7 +53,9 @@ const AuthProvider = ({ children }: IFCProps) => {
 
   function logout(): void {
     setJwt(undefined);
+    sessionStorage.setItem('lastUrl', window.location.pathname);
     logoutAuth0({ returnTo: window.location.origin });
+    window.location.href = sessionStorage.getItem('lastUrl') || '/';
   }
 
   const authContextState: AuthContext = {
@@ -59,6 +64,7 @@ const AuthProvider = ({ children }: IFCProps) => {
       if (isAuthenticated || isLoading) {
         return;
       }
+      sessionStorage.setItem('lastUrl', window.location.pathname);
       loginWithRedirect();
     },
     logout,
