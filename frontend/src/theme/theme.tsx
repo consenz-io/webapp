@@ -164,7 +164,7 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
         styleOverrides: {
           root: {
             borderRadius: 8,
-            height: 6,
+            height: 4,
             background: '#36393f',
           },
           bar: {
