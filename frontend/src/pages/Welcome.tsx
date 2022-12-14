@@ -6,7 +6,7 @@ import { AuthContext } from 'contexts';
 import { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
-import pointImg from '../assets/Hands_Point.png';
+import pointImg from '../assets/Hands_Point.svg';
 
 export const Welcome: FC = () => {
   const { t } = useTranslation();
@@ -28,7 +28,7 @@ export const Welcome: FC = () => {
           endIcon={<KeyboardArrowDown />}
         />
       </Stack>
-      <Stack alignItems="center" justifyContent="flex-end" flexGrow={4}>
+      <Stack alignItems="center" justifyContent="flex-end" flexGrow={1}>
         <Typography variant="h1" gutterBottom>
           {t(StringBank.WELCOME_HEADER)}
         </Typography>
