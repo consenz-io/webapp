@@ -63,8 +63,8 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { slug: groupSlug, categories } = useContext(GroupContext);
   const [userMenuItems] = useState<MenuItem[]>([
     {
-      text: jwt ? t(StringBank.LOGOUT) : t(StringBank.LOGIN),
-      action: jwt ? logout : loginWithRedirect,
+      text: t(StringBank.LOGOUT),
+      action: logout,
     },
   ]);
 

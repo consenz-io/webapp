@@ -55,7 +55,12 @@ const AuthProvider = ({ children }: IFCProps) => {
 
   const authContextState: AuthContext = {
     jwt,
-    loginWithRedirect,
+    loginWithRedirect: () => {
+      if (isAuthenticated || isLoading) {
+        return;
+      }
+      loginWithRedirect();
+    },
     logout,
     role: userRole,
   };
