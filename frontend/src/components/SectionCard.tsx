@@ -60,11 +60,11 @@ const SectionCard: FC<Props> = ({ section }) => {
 
   function handleVote(type: 'up' | 'down', e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
-    if (jwt) {
-      vote(displayedVersion, type);
-    } else {
+    if (!jwt) {
       loginWithRedirect();
+      return;
     }
+    vote(displayedVersion, type);
   }
 
   return (

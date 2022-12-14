@@ -101,11 +101,11 @@ const Section: FC = () => {
         <Chip
           sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
           onClick={() => {
-            if (jwt) {
-              setIsTextPopupOpen(true);
-            } else {
+            if (!jwt) {
               loginWithRedirect();
+              return;
             }
+            setIsTextPopupOpen(true);
           }}
           label={
             <SvgIcon htmlColor={textSecondaryColor} width="24px">

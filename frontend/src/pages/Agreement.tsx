@@ -138,13 +138,13 @@ const Agreement: FC = () => {
                   <Divider className="divider" textAlign="center" variant="fullWidth">
                     <IconButton
                       onClick={() => {
-                        if (jwt) {
-                          setCurrentChapterId(chapter.id);
-                          setCurrentSectionIndex(chapter?.sections[0].index);
-                          setIsTextPopupOpen(true);
-                        } else {
+                        if (!jwt) {
                           loginWithRedirect();
+                          return;
                         }
+                        setCurrentChapterId(chapter.id);
+                        setCurrentSectionIndex(chapter?.sections[0].index);
+                        setIsTextPopupOpen(true);
                       }}
                       sx={{
                         border: '1px solid gray',
@@ -163,13 +163,13 @@ const Agreement: FC = () => {
                       <Divider className="divider" textAlign="center" variant="fullWidth">
                         <IconButton
                           onClick={() => {
-                            if (jwt) {
-                              setCurrentChapterId(chapter.id);
-                              setCurrentSectionIndex(section.index + 1);
-                              setIsTextPopupOpen(true);
-                            } else {
+                            if (!jwt) {
                               loginWithRedirect();
+                              return;
                             }
+                            setCurrentChapterId(chapter.id);
+                            setCurrentSectionIndex(section.index + 1);
+                            setIsTextPopupOpen(true);
                           }}
                           sx={{
                             border: '1px solid gray',

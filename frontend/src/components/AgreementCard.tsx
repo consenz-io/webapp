@@ -76,11 +76,11 @@ const AgreementCard: FC<IAgreementCardProps> = ({
         text: t(isArchived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
         icon: <ArchiveIcon />,
         action: () => {
-          if (jwt) {
-            archiveAgreement(id, !isArchived);
-          } else {
+          if (!jwt) {
             loginWithRedirect();
+            return;
           }
+          archiveAgreement(id, !isArchived);
         },
       },
     ];
