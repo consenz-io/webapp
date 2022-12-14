@@ -18,7 +18,6 @@
 .env.test.local
 .env.production.local
 .idea
-/git-hooks
 
 npm-debug.log*
 yarn-debug.log*
