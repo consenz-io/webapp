@@ -55,15 +55,16 @@ const AuthProvider = ({ children }: IFCProps) => {
     setJwt(undefined);
     sessionStorage.setItem('lastUrl', window.location.pathname);
     logoutAuth0({ returnTo: window.location.origin });
+    window.location.href = sessionStorage.getItem('lastUrl') || '/';
   }
 
   const authContextState: AuthContext = {
     jwt,
     loginWithRedirect: () => {
-      sessionStorage.setItem('lastUrl', window.location.pathname);
       if (isAuthenticated || isLoading) {
         return;
       }
+      sessionStorage.setItem('lastUrl', window.location.pathname);
       loginWithRedirect();
     },
     logout,

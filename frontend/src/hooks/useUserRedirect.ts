@@ -9,9 +9,9 @@ const useUserRedirect = () => {
 
   useEffect(() => {
     if (user) {
-      const lastURl = sessionStorage.getItem('lastUrl');
-      if (lastURl) {
-        navigate(lastURl);
+      const lastUrl = sessionStorage.getItem('lastUrl');
+      if (lastUrl && lastUrl !== window.location.pathname) {
+        navigate(lastUrl);
         return;
       }
       if (user.groups?.length) {
