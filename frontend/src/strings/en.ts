@@ -50,6 +50,7 @@ Are you sure?`,
   INSERT_NEW_SECTION: '+ Insert new section (Ctrl/Cmd+Enter)',
   INSERT_NEW_SECTION_SHORT: 'Insert new section...',
   INSERT_NEW_VERSION: 'Insert new version...',
+  LOGIN: 'Log In',
   LOGOUT: 'Log Out',
   MINIMAL_MAJORITY_FOR_APPROVAL: 'Minimal Majority for Approval',
   MINIMAL_MAJORITY_FOR_APPROVAL_DESCRIPTION:

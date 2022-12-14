@@ -1,8 +1,17 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useEffect, useState } from 'react';
-import { IAuthContext, IFCProps } from 'types';
+import { IFCProps } from 'types';
 
-const AuthContext = createContext<IAuthContext>({ logout: () => ({}) });
+interface AuthContext {
+  jwt?: string;
+  loginWithRedirect: () => void;
+  logout: () => void;
+  role?: string;
+}
+const AuthContext = createContext<AuthContext>({
+  logout: () => ({}),
+  loginWithRedirect: () => ({}),
+});
 
 const AuthProvider = ({ children }: IFCProps) => {
   const [jwt, setJwt] = useState<string>();
@@ -11,28 +20,36 @@ const AuthProvider = ({ children }: IFCProps) => {
     getAccessTokenSilently,
     isLoading,
     logout: logoutAuth0,
-    loginWithRedirect,
     getIdTokenClaims,
+    loginWithRedirect,
+    isAuthenticated,
   } = useAuth0();
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading || !isAuthenticated) {
       return;
     }
-    getAccessTokenSilently()
-      .then((token) => {
-        setJwt(token);
+    getAccessTokenSilently().then((token) => {
+      setJwt(token);
+    });
+    getIdTokenClaims()
+      .then((idClaims) => {
+        if (idClaims) {
+          setUserRole(idClaims.role || userRole || '');
+        }
       })
       .catch(() => {
         sessionStorage.setItem('lastUrl', window.location.pathname);
         loginWithRedirect();
       });
-    getIdTokenClaims().then((idClaims) => {
-      if (idClaims) {
-        setUserRole(idClaims.role || userRole || '');
-      }
-    });
-  }, [getAccessTokenSilently, isLoading, loginWithRedirect, getIdTokenClaims, userRole]);
+  }, [
+    loginWithRedirect,
+    getAccessTokenSilently,
+    isLoading,
+    getIdTokenClaims,
+    userRole,
+    isAuthenticated,
+  ]);
 
   function logout(): void {
     setJwt(undefined);
@@ -40,8 +57,14 @@ const AuthProvider = ({ children }: IFCProps) => {
     logoutAuth0({ returnTo: window.location.origin });
   }
 
-  const authContextState: IAuthContext = {
+  const authContextState: AuthContext = {
     jwt,
+    loginWithRedirect: () => {
+      if (isAuthenticated || isLoading) {
+        return;
+      }
+      loginWithRedirect();
+    },
     logout,
     role: userRole,
   };

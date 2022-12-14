@@ -145,6 +145,7 @@ select_permissions:
         - created_at
         - updated_at
       computed_fields:
+        - comment_count
         - downvotes
         - my_vote
         - upvotes

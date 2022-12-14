@@ -21,18 +21,20 @@ import { Appbar, TextEditorPopup } from 'components';
 import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import SectionCard from 'components/SectionCard';
-import { Chapter } from 'types';
+import { Chapter, Section } from 'types';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
 import { JSONContent } from '@tiptap/react';
+import { AuthContext } from 'contexts';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
   const { groupSlug, agreementId } = useParams();
   const { categories, slug } = useContext(GroupContext);
+  const { jwt, loginWithRedirect } = useContext(AuthContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const { agreement, categoryName, addSection, vote, setCurrentChapterId, setCurrentSectionIndex } =
     useContext(AgreementContext);
@@ -54,6 +56,20 @@ const Agreement: FC = () => {
     const { versions } = await addSection(editorContent);
     await vote(versions[0], 'up');
     setIsTextPopupOpen(false);
+  }
+
+  function handleAddSection(chapter: Chapter, section: Section | null) {
+    if (!jwt) {
+      loginWithRedirect();
+      return;
+    }
+    setCurrentChapterId(chapter.id);
+    if (section) {
+      setCurrentSectionIndex(section.index + 1);
+    } else {
+      setCurrentSectionIndex(chapter?.sections[0].index);
+    }
+    setIsTextPopupOpen(true);
   }
 
   return (
@@ -136,9 +152,7 @@ const Agreement: FC = () => {
                   <Divider className="divider" textAlign="center" variant="fullWidth">
                     <IconButton
                       onClick={() => {
-                        setCurrentChapterId(chapter.id);
-                        setCurrentSectionIndex(chapter?.sections[0].index);
-                        setIsTextPopupOpen(true);
+                        handleAddSection(chapter, null);
                       }}
                       sx={{
                         border: '1px solid gray',
@@ -157,9 +171,7 @@ const Agreement: FC = () => {
                       <Divider className="divider" textAlign="center" variant="fullWidth">
                         <IconButton
                           onClick={() => {
-                            setCurrentChapterId(chapter.id);
-                            setCurrentSectionIndex(section.index + 1);
-                            setIsTextPopupOpen(true);
+                            handleAddSection(chapter, section);
                           }}
                           sx={{
                             border: '1px solid gray',

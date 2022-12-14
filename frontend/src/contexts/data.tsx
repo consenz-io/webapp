@@ -61,7 +61,10 @@ const DataProvider = ({ children }: IFCProps) => {
   }, [jwt]);
 
   useEffect(() => {
+    const headers: { Authorization?: string } = {};
+
     if (jwt) {
+      headers.Authorization = `Bearer ${jwt}`;
       apolloClient
         .query({
           query: gql`
@@ -81,9 +84,7 @@ const DataProvider = ({ children }: IFCProps) => {
           `,
           variables: { email: userAuth0?.email },
           context: {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
+            headers,
           },
         })
         .then(({ data }) => {
