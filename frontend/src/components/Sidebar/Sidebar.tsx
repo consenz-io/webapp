@@ -74,7 +74,10 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const content = (
     <>
       <SC.LogoContainer>
-        <Link to="/" title={t(StringBank.GOTO_HOMEPAGE_TITLE)}>
+        <Link
+          to={groupSlug ? `/${groupSlug}/active-agreements` : '/'}
+          title={t(StringBank.GOTO_HOMEPAGE_TITLE)}
+        >
           <Logo />
         </Link>
       </SC.LogoContainer>
