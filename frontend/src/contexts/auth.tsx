@@ -23,7 +23,10 @@ const AuthProvider = ({ children }: IFCProps) => {
       .then((token) => {
         setJwt(token);
       })
-      .catch(loginWithRedirect);
+      .catch(() => {
+        sessionStorage.setItem('lastUrl', window.location.pathname);
+        loginWithRedirect();
+      });
     getIdTokenClaims().then((idClaims) => {
       if (idClaims) {
         setUserRole(idClaims.role || userRole || '');
@@ -33,6 +36,7 @@ const AuthProvider = ({ children }: IFCProps) => {
 
   function logout(): void {
     setJwt(undefined);
+    sessionStorage.setItem('lastUrl', window.location.pathname);
     logoutAuth0({ returnTo: window.location.origin });
   }
 
