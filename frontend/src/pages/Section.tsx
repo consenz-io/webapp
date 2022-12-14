@@ -67,6 +67,14 @@ const Section: FC = () => {
     setOpenDialogState(false);
   };
 
+  function handleAddVersion() {
+    if (!jwt) {
+      loginWithRedirect();
+      return;
+    }
+    setIsTextPopupOpen(true);
+  }
+
   return (
     <>
       <Appbar
@@ -100,13 +108,7 @@ const Section: FC = () => {
         ))}
         <Chip
           sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
-          onClick={() => {
-            if (!jwt) {
-              loginWithRedirect();
-              return;
-            }
-            setIsTextPopupOpen(true);
-          }}
+          onClick={handleAddVersion}
           label={
             <SvgIcon htmlColor={textSecondaryColor} width="24px">
               <PlusIcon />
