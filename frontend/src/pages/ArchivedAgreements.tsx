@@ -7,13 +7,20 @@ import { Button, Stack, Typography } from '@mui/material';
 import { AgreementCarousel } from 'components';
 import { GroupContext } from 'contexts/group';
 import { Box } from '@mui/system';
+import { AuthContext } from 'contexts';
 
 const AllArchievedAgreements = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
-    navigate(`/${slug}/new-agreement`);
-  };
+  const { loginWithRedirect, jwt } = useContext(AuthContext);
+
+  function goToNewAgreement() {
+    const url = `/${slug}/new-agreement`;
+    if (jwt) {
+      return loginWithRedirect(url);
+    }
+    navigate(url);
+  }
   const { archivedAgreements, name, slug } = useContext(GroupContext);
   if (!archivedAgreements.length) {
     return (
@@ -40,11 +47,7 @@ const AllArchievedAgreements = () => {
     >
       <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
         <Typography variant="h2">{t(StringBank.GROUP_AGREEMENTS, { group: name })}</Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={(event) => handleMenuItemClick(event, slug)}
-        >
+        <Button variant="contained" startIcon={<AddIcon />} onClick={goToNewAgreement}>
           {t(StringBank.NEW_AGREEMENT)}
         </Button>
       </Stack>

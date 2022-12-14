@@ -22,12 +22,12 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
 
   const agreements = isArchive ? archivedAgreements : activeAgreements;
 
-  const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
+  const goToNewAgreement = (e: React.MouseEvent<HTMLElement>, slug = '') => {
+    const url = `/${slug}/new-agreement`;
     if (!jwt) {
-      loginWithRedirect();
-      return;
+      return loginWithRedirect(url);
     }
-    navigate(`/${slug}/new-agreement`);
+    navigate(url);
   };
 
   return (
@@ -42,7 +42,7 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          onClick={(event) => handleMenuItemClick(event, slug)}
+          onClick={(event) => goToNewAgreement(event, slug)}
         >
           {t(StringBank.NEW_AGREEMENT)}
         </Button>
@@ -60,7 +60,7 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            onClick={(event) => handleMenuItemClick(event, slug)}
+            onClick={(event) => goToNewAgreement(event, slug)}
           >
             {t(StringBank.NEW_AGREEMENT)}
           </Button>

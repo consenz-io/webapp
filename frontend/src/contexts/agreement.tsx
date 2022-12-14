@@ -7,6 +7,7 @@ import { agreementQuery } from 'utils/queries';
 import { DataContext } from 'contexts/data';
 import { addSectionMutation as insertSectionMutation } from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
+import { AuthContext } from './auth';
 
 export interface AddSectionVariables {
   chapterId: number;
@@ -33,6 +34,7 @@ const AgreementContext = createContext<IAgreementContext>({} as IAgreementContex
 const AgreementProvider: FC = () => {
   const { agreementId } = useParams();
   const { user } = useContext(DataContext);
+  const { jwt, loginWithRedirect } = useContext(AuthContext);
   const userId = user?.id;
   const [currentChapterId, setCurrentChapterId] = useState<number>(-1);
   const [currentSectionIndex, setCurrentSectionIndex] = useState<number>(-1);
@@ -66,6 +68,9 @@ const AgreementProvider: FC = () => {
   });
 
   async function vote(version: Version, type: 'up' | 'down') {
+    if (!jwt) {
+      loginWithRedirect();
+    }
     if (!version.my_vote) {
       return insertVote({
         variables: {

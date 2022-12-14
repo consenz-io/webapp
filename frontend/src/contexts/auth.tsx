@@ -4,7 +4,7 @@ import { IFCProps } from 'types';
 
 interface AuthContext {
   jwt?: string;
-  loginWithRedirect: () => void;
+  loginWithRedirect: (callbackUrl?: string) => void;
   logout: () => void;
   role?: string;
 }
@@ -60,12 +60,13 @@ const AuthProvider = ({ children }: IFCProps) => {
 
   const authContextState: AuthContext = {
     jwt,
-    loginWithRedirect: () => {
+    loginWithRedirect: (callbackUrl) => {
       if (isAuthenticated || isLoading) {
         return;
       }
-      sessionStorage.setItem('lastUrl', window.location.pathname);
+      sessionStorage.setItem('lastUrl', callbackUrl || window.location.pathname);
       loginWithRedirect();
+      window.location.href = sessionStorage.getItem('lastUrl') || '/';
     },
     logout,
     role: userRole,

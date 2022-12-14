@@ -155,7 +155,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
         </>
       ) : (
         <Container sx={{ padding: 2, borderTop: '1px solid rgba(248, 250, 252, 0.16)' }}>
-          <Button fullWidth={true} variant="contained" color="primary" onClick={loginWithRedirect}>
+          <Button fullWidth variant="contained" color="primary" onClick={() => loginWithRedirect()}>
             <Typography variant="body2">{t(StringBank.LOGIN)}</Typography>
           </Button>
         </Container>

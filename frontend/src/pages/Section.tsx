@@ -69,8 +69,7 @@ const Section: FC = () => {
 
   function handleAddVersion() {
     if (!jwt) {
-      loginWithRedirect();
-      return;
+      return loginWithRedirect();
     }
     setIsTextPopupOpen(true);
   }
