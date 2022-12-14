@@ -37,7 +37,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const { mode } = useContext(ColorModeAndDirectionContext);
-  const { role } = useContext(AuthContext);
+  const { role, jwt, loginWithRedirect } = useContext(AuthContext);
   const { archiveAgreement, slug, deleteAgreement } = useContext(GroupContext);
   const navigate = useNavigate();
   const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : backgroundBorderColor;
@@ -75,7 +75,13 @@ const AgreementCard: FC<IAgreementCardProps> = ({
       {
         text: t(isArchived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
         icon: <ArchiveIcon />,
-        action: () => archiveAgreement(id, !isArchived),
+        action: () => {
+          if (!jwt) {
+            loginWithRedirect();
+            return;
+          }
+          archiveAgreement(id, !isArchived);
+        },
       },
     ];
     if (role && role === 'moderator') {
