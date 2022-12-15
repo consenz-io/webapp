@@ -69,11 +69,7 @@ const CategoryAgreements = () => {
   return (
     <Stack justifyContent="start" height="100%" padding={{ sm: 2 }} gap={2}>
       <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
-        <Typography variant="h2">
-          {t(StringBank.CATEGORY_AGREEMENTS, {
-            category: category.name.toUpperCase(),
-          })}
-        </Typography>
+        <Typography variant="h2">{category.name.toUpperCase()}</Typography>
         <Button variant="contained" startIcon={<AddIcon />} onClick={goToNewAgreement}>
           {t(StringBank.NEW_AGREEMENT)}
         </Button>

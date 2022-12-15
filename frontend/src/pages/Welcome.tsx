@@ -11,7 +11,7 @@ import pointImg from '../assets/Hands_Point.svg';
 export const Welcome: FC = () => {
   const { t } = useTranslation();
   const { user } = useAuth0();
-  const { logout } = useContext(AuthContext);
+  const { logout, loginWithRedirect } = useContext(AuthContext);
 
   return (
     <Stack sx={{ backgroundColor: '#5320c9', height: '100vh' }}>
@@ -22,10 +22,16 @@ export const Welcome: FC = () => {
         <DropDownMenu
           isBorderHidden
           name="user"
-          menuItems={[{ text: t(StringBank.LOGOUT), action: logout }]}
-          buttonText={user?.given_name || user?.nickname || ''}
+          menuItems={[
+            {
+              text: user ? t(StringBank.LOGOUT) : t(StringBank.LOGIN),
+              action: user ? logout : loginWithRedirect,
+            },
+          ]}
+          buttonText={user?.given_name || user?.nickname || t(StringBank.ANONYMOUS)}
           btnCapital={user?.nickname?.charAt(0)}
           endIcon={<KeyboardArrowDown />}
+          hoverColor="transparent"
         />
       </Stack>
       <Stack alignItems="center" justifyContent="flex-end" flexGrow={1}>

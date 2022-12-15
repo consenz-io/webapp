@@ -29,7 +29,6 @@ export const en: Record<StringBank, string> = {
   CANCEL: 'Cancel',
   CATEGORIES: 'Categories',
   CATEGORY: 'Category',
-  CATEGORY_AGREEMENTS: '{{category}} category - active Agreements',
   CATEGORY_EMPTY_MESSAGE: "Maybe you'd like to create one",
   COMING_SOON: 'Coming Soon',
   COMMENT_POSTED: 'Comment was posted successfully',

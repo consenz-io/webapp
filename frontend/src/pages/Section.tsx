@@ -129,9 +129,7 @@ const Section: FC = () => {
             <Grid container justifyContent="center">
               <Grid item xs={7}>
                 <AddCommentBox displayedVersion={displayedVersion} />
-                {comments && (
-                  <CommentsList comments={comments} displayedVersion={displayedVersion} />
-                )}
+                {comments && <CommentsList comments={comments} />}
               </Grid>
             </Grid>
           </CardContent>

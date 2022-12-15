@@ -27,7 +27,6 @@ export const he: Partial<Record<StringBank, string>> = {
   CANCEL: 'ביטול',
   CATEGORIES: 'קטגוריות',
   CATEGORY: 'קטגוריה',
-  CATEGORY_AGREEMENTS: 'הסכמים פעילים בקטגוריה {{category}}',
   CATEGORY_EMPTY_MESSAGE: 'אולי תרצו ליצור אחד',
   COMING_SOON: 'מגיע בקרוב',
   COMMENT_POSTED: 'הערה נשלחה בהצלחה',
