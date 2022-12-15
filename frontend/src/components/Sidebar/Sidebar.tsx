@@ -6,7 +6,7 @@ import { Logo } from 'assets';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
-import { DropDownMenu, GroupsNav } from 'components';
+import { DropDownMenu, GroupsNav, SvgIcon } from 'components';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { DataContext } from '../../contexts/data';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -15,7 +15,9 @@ import { ColorModeAndDirectionContext } from '../../theme';
 import { MenuItem } from 'types';
 import { AuthContext } from 'contexts';
 import {
+  Button,
   ButtonBase,
+  Container,
   List,
   ListItemIcon,
   ListItemText,
@@ -23,13 +25,12 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
-import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import { ReactComponent as FilesIcon } from 'assets/icons/files.svg';
+import { ReactComponent as ArchiveIcon } from 'assets/icons/archive.svg';
 import { GroupContext } from 'contexts/group';
 import { generateColorFromString } from 'utils/functions';
 import CircleIcon from '@mui/icons-material/Circle';
 import { ReactComponent as FeedbackIcon } from 'assets/icons/message-square.svg';
-import SvgIcon from '../SvgIcon';
 import { textSecondaryColor } from 'theme/theme';
 
 interface SidebarItem {
@@ -42,18 +43,18 @@ const sidebarItems: SidebarItem[] = [
   {
     name: StringBank.ALL_AGREEMENTS,
     to: 'active-agreements',
-    icon: <ContentCopyOutlinedIcon />,
+    icon: <FilesIcon />,
   },
   {
     name: StringBank.ARCHIVE,
     to: 'archive',
-    icon: <Inventory2OutlinedIcon />,
+    icon: <ArchiveIcon />,
   },
 ];
 
 const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { user } = useContext(DataContext);
-  const { logout } = useContext(AuthContext);
+  const { logout, jwt, loginWithRedirect } = useContext(AuthContext);
   const { isMobile } = useResponsive();
   const { t } = useTranslation();
   const { isRTL } = useContext(ColorModeAndDirectionContext);
@@ -74,7 +75,10 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const content = (
     <>
       <SC.LogoContainer>
-        <Link to="/" title={t(StringBank.GOTO_HOMEPAGE_TITLE)}>
+        <Link
+          to={groupSlug ? `/${groupSlug}/active-agreements` : '/'}
+          title={t(StringBank.GOTO_HOMEPAGE_TITLE)}
+        >
           <Logo />
         </Link>
       </SC.LogoContainer>
@@ -87,7 +91,13 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
               onClick={() => navigate(`/${groupSlug}/${item.to}`)}
               selected={window.location.href.endsWith(item.to)}
             >
-              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemIcon>
+                <SvgIcon
+                  htmlColor={window.location.href.endsWith(item.to) ? '#fff' : textSecondaryColor}
+                >
+                  {item.icon}
+                </SvgIcon>
+              </ListItemIcon>
               <ListItemText>
                 <Typography variant="h6">{t(item.name)}</Typography>
               </ListItemText>
@@ -124,21 +134,37 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           ))}
         </List>
       </SC.Content>
-      <ButtonBase sx={{ margin: 1 }} onClick={handleFeedback} disableRipple>
-        <Stack direction="row" alignItems="center" justifyContent="flex-start" width="100%" gap={1}>
-          <SvgIcon htmlColor={textSecondaryColor}>
-            <FeedbackIcon />
-          </SvgIcon>
-          <Typography>{t(StringBank.FEEDBACK)}</Typography>
-        </Stack>
-      </ButtonBase>
-      <DropDownMenu
-        name="user"
-        menuItems={userMenuItems}
-        buttonText={user?.displayName || ''}
-        btnCapital={user?.displayName?.charAt(0)}
-        endIcon={isRTL ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
-      />
+      {jwt ? (
+        <>
+          <ButtonBase sx={{ margin: 1 }} onClick={handleFeedback} disableRipple>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-start"
+              width="100%"
+              gap={1}
+            >
+              <SvgIcon htmlColor={textSecondaryColor}>
+                <FeedbackIcon />
+              </SvgIcon>
+              <Typography>{t(StringBank.FEEDBACK)}</Typography>
+            </Stack>
+          </ButtonBase>
+          <DropDownMenu
+            name="user"
+            menuItems={userMenuItems}
+            buttonText={user?.displayName || ''}
+            btnCapital={user?.displayName?.charAt(0)}
+            endIcon={isRTL ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
+          />
+        </>
+      ) : (
+        <Container sx={{ padding: 2, borderTop: '1px solid rgba(248, 250, 252, 0.16)' }}>
+          <Button fullWidth variant="contained" color="primary" onClick={() => loginWithRedirect()}>
+            <Typography variant="body2">{t(StringBank.LOGIN)}</Typography>
+          </Button>
+        </Container>
+      )}
     </>
   );
 

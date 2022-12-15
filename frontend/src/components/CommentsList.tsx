@@ -1,5 +1,5 @@
 import { FC, useContext, useState } from 'react';
-import { Comment, Version } from 'types/entities';
+import { Comment } from 'types/entities';
 import { Box, Link, Stack, Typography } from '@mui/material';
 import { StringBank } from 'strings';
 import { BtnCapital } from './DropDownMenu/style';
@@ -11,10 +11,9 @@ import { textSecondaryColor } from 'theme';
 
 interface CommentsListProps {
   comments: Comment[];
-  displayedVersion: Version;
 }
 
-const CommentsList: FC<CommentsListProps> = ({ comments, displayedVersion }) => {
+const CommentsList: FC<CommentsListProps> = ({ comments }) => {
   const { t } = useTranslation();
   const [dialogContent, setDialogContent] = useState<string>('');
   const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
@@ -46,7 +45,7 @@ const CommentsList: FC<CommentsListProps> = ({ comments, displayedVersion }) => 
         <Stack key={comment.id} direction="row" gap={4} marginBottom={4}>
           <Stack alignItems="center" paddingTop={1}>
             <BtnCapital className="capital" large>
-              {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+              {comment.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
             </BtnCapital>
           </Stack>
           <Stack>

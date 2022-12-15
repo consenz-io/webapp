@@ -4,7 +4,7 @@ import { BtnCapital } from './DropDownMenu/style';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import { Version } from 'types';
-import { SectionContext } from 'contexts';
+import { AuthContext, DataContext, SectionContext } from 'contexts';
 
 interface AddCommentBoxProps {
   displayedVersion: Version;
@@ -15,8 +15,14 @@ const AddCommentBox: FC<AddCommentBoxProps> = ({ displayedVersion }) => {
   const [newComment, setNewComment] = useState<string>('');
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const { addComment } = useContext(SectionContext);
+  const { jwt, loginWithRedirect } = useContext(AuthContext);
+  const { user } = useContext(DataContext);
 
   function handleAddComment() {
+    if (!jwt) {
+      loginWithRedirect();
+      return;
+    }
     if (!newComment || !addComment || !displayedVersion) {
       return;
     }
@@ -33,7 +39,7 @@ const AddCommentBox: FC<AddCommentBoxProps> = ({ displayedVersion }) => {
       <Stack direction="row" gap={4}>
         <Box sx={{ paddingTop: 0.5 }}>
           <BtnCapital className="capital" color="main" large>
-            {displayedVersion?.author?.full_name?.[0] || t(StringBank.ANONYMOUS)[0]}
+            {user?.displayName?.[0] || t(StringBank.ANONYMOUS)[0]}
           </BtnCapital>
         </Box>
         <TextField

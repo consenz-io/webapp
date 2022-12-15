@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { GroupContext } from 'contexts/group';
 import styled from 'styled-components';
 import { generateColorFromString } from 'utils/functions';
+import { AuthContext } from 'contexts';
 
 const Span = styled.span`
   && {
@@ -27,11 +28,16 @@ const Span = styled.span`
 const CategoryAgreements = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { loginWithRedirect, jwt } = useContext(AuthContext);
   const { slug, currentCategory, activeAgreements: agreements } = useContext(GroupContext);
   const category = currentCategory || { id: 0, name: t(StringBank.UNCATEGORIZED) };
-  const handleMenuItemClick = (e: React.MouseEvent<HTMLElement>, slug = '') => {
+
+  function goToNewAgreement() {
+    if (!jwt) {
+      return loginWithRedirect(`/${slug}/new-agreement`);
+    }
     navigate(`/${slug}/new-agreement`);
-  };
+  }
 
   if (!agreements?.length) {
     return (
@@ -51,11 +57,7 @@ const CategoryAgreements = () => {
             </Typography>
           </Stack>
           <Stack direction="row" padding="1rem 0">
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={(event) => handleMenuItemClick(event, slug)}
-            >
+            <Button variant="contained" startIcon={<AddIcon />} onClick={goToNewAgreement}>
               {t(StringBank.NEW_AGREEMENT)}
             </Button>
           </Stack>
@@ -67,16 +69,8 @@ const CategoryAgreements = () => {
   return (
     <Stack justifyContent="start" height="100%" padding={{ sm: 2 }} gap={2}>
       <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
-        <Typography variant="h2">
-          {t(StringBank.CATEGORY_AGREEMENTS, {
-            category: category.name.toUpperCase(),
-          })}
-        </Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={(event) => handleMenuItemClick(event, slug)}
-        >
+        <Typography variant="h2">{category.name.toUpperCase()}</Typography>
+        <Button variant="contained" startIcon={<AddIcon />} onClick={goToNewAgreement}>
           {t(StringBank.NEW_AGREEMENT)}
         </Button>
       </Stack>

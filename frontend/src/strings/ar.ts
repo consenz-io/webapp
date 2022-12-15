@@ -28,7 +28,6 @@ export const ar: Partial<Record<StringBank, string>> = {
   CURRENT_VERSION: 'الإصدار الحالي',
   GOTO_HOMEPAGE_TITLE: 'الى صفحة البيت',
   GROUP_AGREEMENTS: '{{group}}:عدد الاتفاقيات في مجموعة',
-  CATEGORY_AGREEMENTS: '{{category}} الاتفاقيات الفعالة - فئة',
   INSERT_NEW_SECTION: ' (Ctrl/Cmd+Enter) أضافة فقرة جديدة +',
   LOGOUT: 'خروج',
   NEW_AGREEMENT: 'اتفاقية جديدة',
