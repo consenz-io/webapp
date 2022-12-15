@@ -18,22 +18,6 @@ const App: FC = () => {
 
   const rotateLanguage = useCallback(
     async (e: globalThis.KeyboardEvent) => {
-      if (e.key === '`') {
-        if (i18n.language === 'en') {
-          await i18n.changeLanguage('he');
-          setIsRTL(true);
-          return;
-        }
-        if (i18n.language === 'he') {
-          await i18n.changeLanguage('ar');
-          return;
-        }
-        if (i18n.language === 'ar') {
-          await i18n.changeLanguage('en');
-          setIsRTL(false);
-          return;
-        }
-      }
       if (e.key === '~') {
         setMode(mode === ThemeModeType.DARK ? ThemeModeType.LIGHT : ThemeModeType.DARK);
         await i18n.changeLanguage('en');
