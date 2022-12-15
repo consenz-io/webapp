@@ -43,17 +43,6 @@ const DataProvider = ({ children }: IFCProps) => {
   const { jwt } = useContext(AuthContext);
   const { user: userAuth0 } = useAuth0();
   const { i18n } = useTranslation();
-  async function setLanguage(language: string) {
-    await i18n.changeLanguage(language);
-    if (language === 'en') {
-      setIsRTL(false);
-      return;
-    }
-    if (language === 'ar' || language === 'he') {
-      setIsRTL(true);
-      return;
-    }
-  }
 
   useEffect(() => {
     if (jwt) {
@@ -72,6 +61,17 @@ const DataProvider = ({ children }: IFCProps) => {
     document.dir = isRTL ? 'rtl' : 'ltr';
   }, [isRTL]);
   useEffect(() => {
+    async function setLanguage(language: string) {
+      await i18n.changeLanguage(language);
+      if (language === 'en') {
+        setIsRTL(false);
+        return;
+      }
+      if (language === 'ar' || language === 'he') {
+        setIsRTL(true);
+        return;
+      }
+    }
     const headers: { Authorization?: string } = {};
 
     if (jwt) {
@@ -96,14 +96,7 @@ const DataProvider = ({ children }: IFCProps) => {
           });
         });
     }
-  }, [
-    apolloClient,
-    jwt,
-    userAuth0?.email,
-    userAuth0?.given_name,
-    userAuth0?.nickname,
-    setLanguage,
-  ]);
+  }, [apolloClient, jwt, userAuth0?.email, userAuth0?.given_name, userAuth0?.nickname, i18n]);
   const state: IDataContext = {
     user,
   };
