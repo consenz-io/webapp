@@ -122,6 +122,23 @@ export const groupsQuery = gql`
       name
       slug
       created_at
+      language
+    }
+  }
+`;
+export const userQuery = gql`
+  query user($email: String!) {
+    core_users(where: { email: { _eq: $email } }) {
+      id
+      email
+      user_groups {
+        group {
+          name
+          slug
+          id
+          language
+        }
+      }
     }
   }
 `;

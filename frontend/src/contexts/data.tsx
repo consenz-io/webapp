@@ -1,14 +1,10 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  gql,
-  InMemoryCache,
-  NormalizedCacheObject,
-} from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IDataContext, IFCProps, User, Group } from 'types';
 import { apiUrl } from 'utils/constants';
+import { userQuery } from 'utils/queries';
 import { AuthContext } from './auth';
 
 const DataContext = createContext<IDataContext>({});
@@ -37,6 +33,7 @@ const apolloCache = new InMemoryCache({
 
 const DataProvider = ({ children }: IFCProps) => {
   const [user, setUser] = useState<User>();
+  const [isRTL, setIsRTL] = useState(false);
   const [apolloClient, setApolloClient] = useState<ApolloClient<NormalizedCacheObject>>(
     new ApolloClient({
       uri: apiUrl,
@@ -45,6 +42,18 @@ const DataProvider = ({ children }: IFCProps) => {
   );
   const { jwt } = useContext(AuthContext);
   const { user: userAuth0 } = useAuth0();
+  const { i18n } = useTranslation();
+  async function setLanguage(language: string) {
+    await i18n.changeLanguage(language);
+    if (language === 'en') {
+      setIsRTL(false);
+      return;
+    }
+    if (language === 'ar' || language === 'he') {
+      setIsRTL(true);
+      return;
+    }
+  }
 
   useEffect(() => {
     if (jwt) {
@@ -59,7 +68,9 @@ const DataProvider = ({ children }: IFCProps) => {
       );
     }
   }, [jwt]);
-
+  useEffect(() => {
+    document.dir = isRTL ? 'rtl' : 'ltr';
+  }, [isRTL]);
   useEffect(() => {
     const headers: { Authorization?: string } = {};
 
@@ -67,21 +78,7 @@ const DataProvider = ({ children }: IFCProps) => {
       headers.Authorization = `Bearer ${jwt}`;
       apolloClient
         .query({
-          query: gql`
-            query user($email: String!) {
-              core_users(where: { email: { _eq: $email } }) {
-                id
-                email
-                user_groups {
-                  group {
-                    name
-                    slug
-                    id
-                  }
-                }
-              }
-            }
-          `,
+          query: userQuery,
           variables: { email: userAuth0?.email },
           context: {
             headers,
@@ -89,6 +86,8 @@ const DataProvider = ({ children }: IFCProps) => {
         })
         .then(({ data }) => {
           const user = data.core_users[0];
+          const language = user.user_groups[0].group.language;
+          setLanguage(language);
           setUser({
             id: user.id,
             email: user.email,
@@ -97,7 +96,14 @@ const DataProvider = ({ children }: IFCProps) => {
           });
         });
     }
-  }, [apolloClient, jwt, userAuth0?.email, userAuth0?.given_name, userAuth0?.nickname]);
+  }, [
+    apolloClient,
+    jwt,
+    userAuth0?.email,
+    userAuth0?.given_name,
+    userAuth0?.nickname,
+    setLanguage,
+  ]);
   const state: IDataContext = {
     user,
   };
