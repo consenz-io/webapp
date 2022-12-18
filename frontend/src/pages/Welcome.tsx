@@ -31,7 +31,7 @@ export const Welcome: FC = () => {
           buttonText={user?.given_name || user?.nickname || t(StringBank.ANONYMOUS)}
           btnCapital={user?.nickname?.charAt(0)}
           endIcon={<KeyboardArrowDown />}
-          hoverColor="transparent"
+          hovercolor="transparent"
         />
       </Stack>
       <Stack alignItems="center" justifyContent="flex-end" flexGrow={1}>
