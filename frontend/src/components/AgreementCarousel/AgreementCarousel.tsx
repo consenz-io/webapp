@@ -15,7 +15,7 @@ const AgreementCarousel: FC<{ agreements: Agreement[] }> = ({ agreements }) => {
         >
           <AgreementCard
             id={agreement.id}
-            participants={14}
+            participants={agreement.users}
             category={agreement.category?.name}
             title={agreement.name}
             updatedAt={agreement.updated_at}

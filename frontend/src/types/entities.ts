@@ -8,6 +8,7 @@ export interface Agreement {
   rationale: string;
   is_archived?: boolean;
   chapters?: Chapter[];
+  users: number;
 }
 
 export interface Category {
