@@ -1,16 +1,39 @@
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { createContext, FC } from 'react';
+import { createContext, FC, useContext, useEffect } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { Group, IGroupContext } from 'types';
+import { Group, LocalChapter } from 'types';
 import { Agreement, Category } from 'types';
 import { deleteAgreementMutation } from 'utils/mutations';
 import { agreementsQuery, groupsQuery } from 'utils/queries';
 import { addAgreementMutation } from 'utils/mutations';
 import { isJsonContentEmpty } from 'utils/functions';
+import { SettingsContext } from './settings';
 
-const GroupContext = createContext<IGroupContext>({} as IGroupContext);
+interface GroupContext {
+  slug: string;
+  name: string;
+  id: number;
+  activeAgreements: Agreement[];
+  archivedAgreements: Agreement[];
+  categories: Category[];
+  currentCategory?: Category;
+  archiveAgreement: (id: number, iArchived: boolean) => void;
+  deleteAgreement: (id: number) => void;
+  addAgreement: (
+    categoryId: number | null,
+    name: string,
+    rationale: string,
+    chapters: LocalChapter[]
+  ) => Promise<Agreement>;
+  addAgreementData: unknown;
+  addAgreementError: unknown;
+  addAgreementLoading: boolean;
+}
+
+const GroupContext = createContext<GroupContext>({} as GroupContext);
 
 const GroupProvider: FC = () => {
+  const { setLanguage } = useContext(SettingsContext);
   const { groupSlug, categoryId } = useParams();
 
   const { data: groups } = useQuery<{ core_groups: Group[] }>(groupsQuery, {
@@ -18,6 +41,11 @@ const GroupProvider: FC = () => {
     skip: !groupSlug,
   });
   const currentGroup = groups?.core_groups?.[0];
+  useEffect(() => {
+    if (currentGroup?.language) {
+      setLanguage(currentGroup.language);
+    }
+  }, [currentGroup, setLanguage]);
 
   const { data: activeAgreements } = useQuery<{
     core_agreements: Agreement[];
@@ -80,7 +108,7 @@ const GroupProvider: FC = () => {
     }
   );
 
-  const state: IGroupContext = {
+  const state: GroupContext = {
     slug: currentGroup?.slug || '',
     name: currentGroup?.name || '',
     id: currentGroup?.id || -1,

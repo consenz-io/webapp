@@ -11,9 +11,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { DataContext } from '../../contexts/data';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import { ColorModeAndDirectionContext } from '../../theme';
 import { MenuItem } from 'types';
-import { AuthContext } from 'contexts';
+import { AuthContext, SettingsContext } from 'contexts';
 import {
   Button,
   ButtonBase,
@@ -57,7 +56,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { logout, jwt, loginWithRedirect } = useContext(AuthContext);
   const { isMobile } = useResponsive();
   const { t } = useTranslation();
-  const { isRTL } = useContext(ColorModeAndDirectionContext);
+  const { isRTL } = useContext(SettingsContext);
   const navigate = useNavigate();
   const { slug: groupSlug, categories } = useContext(GroupContext);
   const [userMenuItems] = useState<MenuItem[]>([

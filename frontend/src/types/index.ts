@@ -10,4 +10,4 @@ export type {
   LocalChapter,
   Version,
 } from './entities';
-export type { IRoutingContext, IDataContext, IGroupContext } from './contexts';
+export type { IRoutingContext, IDataContext } from './contexts';

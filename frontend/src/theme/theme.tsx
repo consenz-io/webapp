@@ -1,5 +1,4 @@
 import { ThemeModeType } from 'types/misc';
-import { createContext } from 'react';
 import { ThemeOptions } from '@mui/material';
 import '@mui/material/styles/createPalette';
 
@@ -348,15 +347,3 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
     },
   };
 };
-
-export const ColorModeAndDirectionContext = createContext<{
-  toggleColorMode: () => void;
-  mode: ThemeModeType;
-  toggleDirection: () => void;
-  isRTL: boolean;
-}>({
-  toggleColorMode: () => ({}),
-  mode: ThemeModeType.LIGHT,
-  toggleDirection: () => ({}),
-  isRTL: false,
-});

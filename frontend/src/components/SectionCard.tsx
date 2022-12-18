@@ -8,7 +8,6 @@ import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
 import ContentEditor from 'components/ContentEditor';
 import { Section } from 'types/entities';
-import { ColorModeAndDirectionContext } from 'theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import { AgreementContext } from 'contexts/agreement';
@@ -17,7 +16,7 @@ import SvgIcon from './SvgIcon';
 import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
 import { useNavigate } from 'react-router-dom';
 import { successColor } from 'theme/theme';
-import { AuthContext } from 'contexts';
+import { AuthContext, SettingsContext } from 'contexts';
 interface Props {
   section: Section;
 }
@@ -25,7 +24,7 @@ interface Props {
 const SectionCard: FC<Props> = ({ section }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { isRTL } = useContext(ColorModeAndDirectionContext);
+  const { isRTL } = useContext(SettingsContext);
   const { jwt, loginWithRedirect } = useContext(AuthContext);
   const [versionIndex, setVersionIndex] = useState<number>(0);
   const { vote } = useContext(AgreementContext);

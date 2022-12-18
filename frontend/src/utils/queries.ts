@@ -122,6 +122,7 @@ export const groupsQuery = gql`
       name
       slug
       created_at
+      language
     }
   }
 `;

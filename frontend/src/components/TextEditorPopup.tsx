@@ -14,14 +14,11 @@ import { ReactComponent as Xbtn } from 'assets/icons/x-circle.svg';
 import { ReactComponent as ArrowIcon } from 'assets/icons/chevron-left.svg';
 import { JSONContent } from '@tiptap/react';
 import { FC, useContext, useState } from 'react';
-import {
-  ColorModeAndDirectionContext,
-  inputBackgroundColor,
-  secondaryDarkColor,
-} from 'theme/theme';
+import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import { isJsonContentEmpty } from 'utils/functions';
+import { SettingsContext } from 'contexts';
 
 interface DialogProps {
   isOpen: boolean;
@@ -46,7 +43,7 @@ const TextEditorPopup: FC<DialogProps> = ({
   cancelBtnText,
 }) => {
   const { t } = useTranslation();
-  const { isRTL } = useContext(ColorModeAndDirectionContext);
+  const { isRTL } = useContext(SettingsContext);
   const [newTextContent, setNewTextContent] = useState(initialContent);
 
   return (

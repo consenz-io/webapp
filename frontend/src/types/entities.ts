@@ -28,6 +28,7 @@ export interface Group {
   name: string;
   slug: string;
   color: string;
+  language: string;
 }
 
 export interface Section {

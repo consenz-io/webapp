@@ -13,8 +13,9 @@ import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import styled from 'styled-components';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-left.svg';
-import { backgroundBorderColor, ColorModeAndDirectionContext } from 'theme';
+import { backgroundBorderColor } from 'theme';
 import { Link } from 'react-router-dom';
+import { SettingsContext } from 'contexts';
 
 export interface Action {
   icon: JSX.Element;
@@ -54,7 +55,7 @@ const AppbarContainer = styled(Stack)`
 `;
 
 const Appbar: FC<AppbarProps> = (props) => {
-  const { isRTL } = useContext(ColorModeAndDirectionContext);
+  const { isRTL } = useContext(SettingsContext);
   return (
     <AppbarContainer
       direction="row"
