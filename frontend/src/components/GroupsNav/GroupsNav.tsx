@@ -1,18 +1,19 @@
 import * as SC from './style';
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { IFCProps } from './types';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DataContext } from 'contexts/data';
 import CircleIcon from '@mui/icons-material/Circle';
 import { generateColorFromString } from 'utils/functions';
+import { GroupContext } from 'contexts/group';
+import { Box, Typography } from '@mui/material';
+import { backgroundBorderColor } from 'theme';
 
 const GroupsNav: FC<IFCProps> = ({ name, menuItems, endIcon }) => {
-  const { user } = useContext(DataContext);
   const navigate = useNavigate();
   const { groupSlug } = useParams();
+  const { name: currentGroupName } = useContext(GroupContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const [currentGroupName, setCurrentGroupName] = useState<string>('');
 
   const handleClickListItem = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget); //TODO fix anchorEl error on console
@@ -23,14 +24,19 @@ const GroupsNav: FC<IFCProps> = ({ name, menuItems, endIcon }) => {
     navigate(`/${slug}/active-agreements`);
   };
 
-  useEffect(() => {
-    if (user) {
-      const group = user?.groups?.find((g) => g.slug === groupSlug);
-      if (group) {
-        setCurrentGroupName(group.name);
-      }
-    }
-  }, [groupSlug, user]);
+  if (!menuItems) {
+    return (
+      <Box
+        paddingX={2}
+        paddingY={1.5}
+        borderTop={1}
+        borderBottom={1}
+        borderColor={backgroundBorderColor}
+      >
+        <Typography variant="h6">{currentGroupName}</Typography>
+      </Box>
+    );
+  }
 
   return (
     <>

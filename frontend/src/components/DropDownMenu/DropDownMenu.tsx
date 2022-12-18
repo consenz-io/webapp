@@ -17,6 +17,7 @@ interface IProps {
   mainIcon?: ReactNode;
   styleVariant?: VariantType;
   bgColor?: string;
+  hovercolor?: string;
 }
 
 const DropDownMenu: FC<IProps> = ({
@@ -30,6 +31,7 @@ const DropDownMenu: FC<IProps> = ({
   value,
   styleVariant,
   bgColor,
+  hovercolor,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -85,6 +87,7 @@ const DropDownMenu: FC<IProps> = ({
           isBorderHidden={isBorderHidden}
           stylevariant={styleVariant}
           bgcolor={bgColor}
+          hovercolor={hovercolor}
         >
           {getButtonText()}
         </SC.DropDownMenuButton>

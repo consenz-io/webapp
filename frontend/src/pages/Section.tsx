@@ -13,12 +13,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
+import { AuthContext } from 'contexts';
 
 const Section: FC = () => {
   const [openDialogState, setOpenDialogState] = useState(false);
   const { section, addVersion, fetchComments, comments, deleteComment } =
     useContext(SectionContext);
   const { agreement, vote } = useContext(AgreementContext);
+  const { jwt, loginWithRedirect } = useContext(AuthContext);
   const { versionId } = useParams();
   const [displayedVersion, setDisplayedVersion] = useState(
     section?.versions?.find((v) => v.id === Number(versionId))
@@ -65,6 +67,13 @@ const Section: FC = () => {
     setOpenDialogState(false);
   };
 
+  function handleAddVersion() {
+    if (!jwt) {
+      return loginWithRedirect();
+    }
+    setIsTextPopupOpen(true);
+  }
+
   return (
     <>
       <Appbar
@@ -89,9 +98,7 @@ const Section: FC = () => {
       <Stack direction="row" gap={1} marginY={2}>
         {section?.versions.map((version, i) => (
           <Chip
-            deleteIcon={<CheckCircleIcon />}
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            onDelete={version.id === section.current_version?.id ? () => {} : undefined}
+            {...(version.id === section.current_version?.id && { icon: <CheckCircleIcon /> })}
             onClick={() => navigate(`../section/${section.id}/${version.id}`)}
             label={`${t(StringBank.VERSION)} ${i + 1}`}
             key={version.id}
@@ -100,9 +107,7 @@ const Section: FC = () => {
         ))}
         <Chip
           sx={{ '& .MuiChip-label': { paddingX: 0.5, display: 'flex' } }}
-          onClick={() => {
-            setIsTextPopupOpen(true);
-          }}
+          onClick={handleAddVersion}
           label={
             <SvgIcon htmlColor={textSecondaryColor} width="24px">
               <PlusIcon />
@@ -124,9 +129,7 @@ const Section: FC = () => {
             <Grid container justifyContent="center">
               <Grid item xs={7}>
                 <AddCommentBox displayedVersion={displayedVersion} />
-                {comments && (
-                  <CommentsList comments={comments} displayedVersion={displayedVersion} />
-                )}
+                {comments && <CommentsList comments={comments} />}
               </Grid>
             </Grid>
           </CardContent>

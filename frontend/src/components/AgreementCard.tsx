@@ -7,13 +7,13 @@ import { StringBank } from 'strings';
 import { generateColorFromString, truncateAfterWords } from 'utils/functions';
 import DropDownMenu from './DropDownMenu';
 import { GroupContext } from 'contexts/group';
-import { backgroundBorderColor, ColorModeAndDirectionContext } from 'theme';
+import { backgroundBorderColor } from 'theme';
 import { MenuItem, ThemeModeType, VariantType } from 'types';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
 import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
 import { ReactComponent as ArchiveIcon } from 'assets/icons/archive.svg';
-import { AuthContext } from 'contexts';
+import { AuthContext, SettingsContext } from 'contexts';
 import { ClickableCard, SvgIcon, Dialog } from '.';
 
 interface IAgreementCardProps {
@@ -36,11 +36,11 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   isArchived,
 }) => {
   const { t } = useTranslation();
-  const { mode } = useContext(ColorModeAndDirectionContext);
-  const { role } = useContext(AuthContext);
+  const { colorMode } = useContext(SettingsContext);
+  const { role, jwt, loginWithRedirect } = useContext(AuthContext);
   const { archiveAgreement, slug, deleteAgreement } = useContext(GroupContext);
   const navigate = useNavigate();
-  const cardBackgroundColor = mode === ThemeModeType.LIGHT ? '#E3E3E3' : backgroundBorderColor;
+  const cardBackgroundColor = colorMode === ThemeModeType.LIGHT ? '#E3E3E3' : backgroundBorderColor;
 
   const baseDelDialogContent = `Please write the name of the agreement: ${title} - to delete it.`;
   const [currentContent, setDelPopContent] = useState<string>(baseDelDialogContent);
@@ -75,7 +75,13 @@ const AgreementCard: FC<IAgreementCardProps> = ({
       {
         text: t(isArchived ? StringBank.UNARCHIVE : StringBank.ARCHIVE),
         icon: <ArchiveIcon />,
-        action: () => archiveAgreement(id, !isArchived),
+        action: () => {
+          if (!jwt) {
+            loginWithRedirect();
+            return;
+          }
+          archiveAgreement(id, !isArchived);
+        },
       },
     ];
     if (role && role === 'moderator') {

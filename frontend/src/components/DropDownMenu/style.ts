@@ -9,6 +9,7 @@ interface Props {
   stylevariant?: VariantType;
   bgcolor?: string;
   large?: boolean;
+  hovercolor?: string;
 }
 
 export const DropDownMenuButton = styled(Button)<Props>`
@@ -46,7 +47,7 @@ export const DropDownMenuButton = styled(Button)<Props>`
 
     &:hover,
     &[aria-expanded] {
-      background-color: ${(props) => props.theme.palette.background.active};
+      background-color: ${(props) => props.hovercolor || props.theme.palette.background.active};
     }
 
     ${(props) =>
@@ -59,7 +60,7 @@ export const DropDownMenuButton = styled(Button)<Props>`
          
          &:hover,
          &[aria-expanded] {
-            background-color: ${props.theme.palette.background.paper};
+            background-color: ${props.hovercolor || props.theme.palette.background.paper};
          }
       `}
 

@@ -1,8 +1,17 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useEffect, useState } from 'react';
-import { IAuthContext, IFCProps } from 'types';
+import { IFCProps } from 'types';
 
-const AuthContext = createContext<IAuthContext>({ logout: () => ({}) });
+interface AuthContext {
+  jwt?: string;
+  loginWithRedirect: (callbackUrl?: string) => void;
+  logout: () => void;
+  role?: string;
+}
+const AuthContext = createContext<AuthContext>({
+  logout: () => ({}),
+  loginWithRedirect: () => ({}),
+});
 
 const AuthProvider = ({ children }: IFCProps) => {
   const [jwt, setJwt] = useState<string>();
@@ -11,33 +20,54 @@ const AuthProvider = ({ children }: IFCProps) => {
     getAccessTokenSilently,
     isLoading,
     logout: logoutAuth0,
-    loginWithRedirect,
     getIdTokenClaims,
+    loginWithRedirect,
+    isAuthenticated,
   } = useAuth0();
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading || !isAuthenticated) {
       return;
     }
-    getAccessTokenSilently()
-      .then((token) => {
-        setJwt(token);
-      })
-      .catch(loginWithRedirect);
-    getIdTokenClaims().then((idClaims) => {
-      if (idClaims) {
-        setUserRole(idClaims.role || userRole || '');
-      }
+    getAccessTokenSilently().then((token) => {
+      setJwt(token);
     });
-  }, [getAccessTokenSilently, isLoading, loginWithRedirect, getIdTokenClaims, userRole]);
+    getIdTokenClaims()
+      .then((idClaims) => {
+        if (idClaims) {
+          setUserRole(idClaims.role || userRole || '');
+        }
+      })
+      .catch(() => {
+        sessionStorage.setItem('lastUrl', window.location.pathname);
+        loginWithRedirect();
+      });
+  }, [
+    loginWithRedirect,
+    getAccessTokenSilently,
+    isLoading,
+    getIdTokenClaims,
+    userRole,
+    isAuthenticated,
+  ]);
 
   function logout(): void {
     setJwt(undefined);
+    sessionStorage.setItem('lastUrl', window.location.pathname);
     logoutAuth0({ returnTo: window.location.origin });
+    window.location.href = sessionStorage.getItem('lastUrl') || '/';
   }
 
-  const authContextState: IAuthContext = {
+  const authContextState: AuthContext = {
     jwt,
+    loginWithRedirect: (callbackUrl) => {
+      if (isAuthenticated || isLoading) {
+        return;
+      }
+      sessionStorage.setItem('lastUrl', callbackUrl || window.location.pathname);
+      loginWithRedirect();
+      window.location.href = sessionStorage.getItem('lastUrl') || '/';
+    },
     logout,
     role: userRole,
   };

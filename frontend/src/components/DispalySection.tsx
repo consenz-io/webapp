@@ -19,7 +19,7 @@ import { ReactComponent as LikeIcon } from 'assets/icons/like.svg';
 import { useTranslation } from 'react-i18next';
 import ContentEditor from './ContentEditor';
 import { Version } from 'types/entities';
-import { backgroundBorderColor, ColorModeAndDirectionContext, textSecondaryColor } from 'theme';
+import { backgroundBorderColor, textSecondaryColor } from 'theme';
 import { getVoteColor, getRemainingSupporters, getVersionProgress } from 'utils/functions';
 interface DisplayProns {
   displayedVersion: Version;
@@ -28,7 +28,13 @@ interface DisplayProns {
   initialVersionId: string | undefined;
 }
 import { StringBank } from 'strings';
-import { AgreementContext, AuthContext, DataContext, SectionContext } from 'contexts';
+import {
+  AgreementContext,
+  AuthContext,
+  DataContext,
+  SectionContext,
+  SettingsContext,
+} from 'contexts';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
@@ -41,7 +47,7 @@ const DisplaySection: FC<DisplayProns> = ({
   const { vote } = useContext(AgreementContext);
   const { role } = useContext(AuthContext);
   const { user } = useContext(DataContext);
-  const { isRTL } = useContext(ColorModeAndDirectionContext);
+  const { isRTL } = useContext(SettingsContext);
   const { t } = useTranslation();
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const [currentVersionIndex, setCurrentVersionIndex] = useState<number>(
@@ -247,9 +253,7 @@ const DisplaySection: FC<DisplayProns> = ({
       <Snackbar
         open={isSnackbarVisible}
         message={t(StringBank.URL_COPIED_SUCCESSFULLY)}
-        autoHideDuration={4000}
         onClose={() => setIsSnackbarVisible(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       />
     </>
   );

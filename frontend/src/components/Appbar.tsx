@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import {
   Breadcrumbs,
   Button,
@@ -15,7 +15,7 @@ import styled from 'styled-components';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-left.svg';
 import { backgroundBorderColor } from 'theme';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { SettingsContext } from 'contexts';
 
 export interface Action {
   icon: JSX.Element;
@@ -55,7 +55,7 @@ const AppbarContainer = styled(Stack)`
 `;
 
 const Appbar: FC<AppbarProps> = (props) => {
-  const { i18n } = useTranslation();
+  const { isRTL } = useContext(SettingsContext);
   return (
     <AppbarContainer
       direction="row"
@@ -65,9 +65,7 @@ const Appbar: FC<AppbarProps> = (props) => {
     >
       {props.breadcrumbs?.length && (
         <Breadcrumbs
-          separator={
-            <ArrowLogo fontSize="1rem" transform={i18n.language === 'en' ? '' : 'rotate(180)'} />
-          }
+          separator={<ArrowLogo fontSize="1rem" {...(isRTL && { transform: 'rotate(180)' })} />}
           sx={{ flexBasis: 'calc(100%/3)', flexGrow: 1 }}
         >
           {props.breadcrumbs.map((breadcrumb, i) => (

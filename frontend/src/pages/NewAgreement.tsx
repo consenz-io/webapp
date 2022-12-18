@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
 import { FC } from 'react';
 import { useState, useContext } from 'react';
-import { Button, Stack, Container, SvgIcon } from '@mui/material';
+import { Button, Stack, Container, SvgIcon, Tooltip } from '@mui/material';
 import { GroupContext } from 'contexts/group';
 import { Chapter, LocalChapter, Section, Version } from 'types';
 import {
@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
 import { textSecondaryColor } from 'theme';
 import { AgreementContext } from 'contexts';
+import { isJsonContentEmpty } from 'utils/functions';
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -59,6 +60,18 @@ const NewAgreement: FC = () => {
     localStorage.removeItem('step');
   }
 
+  function getContinueTooltipTitle() {
+    if (isContinueEnabled()) {
+      return '';
+    }
+    if (step === 1) {
+      return t(StringBank.AGREEMENT_NAME_AND_RATIONALE_REQUIRED);
+    } else if (step === 2) {
+      return t(StringBank.AT_LEAST_ONE_SECTION_REQUIRED);
+    }
+    return '';
+  }
+
   function saveAgreementLocally() {
     localStorage.setItem('agreementName', agreementName);
     localStorage.setItem('categoryId', String(categoryId));
@@ -67,8 +80,22 @@ const NewAgreement: FC = () => {
     localStorage.setItem('step', String(step));
   }
 
-  const isContinueEnabled =
-    agreementName && rationale && !addAgreementLoading && !addAgreementError;
+  function isContinueEnabled(): boolean {
+    if (!agreementName || !rationale || addAgreementLoading || addAgreementError) {
+      return false;
+    }
+    if (
+      step === 2 &&
+      chapters?.every(
+        (chapter) =>
+          chapter.name === '' ||
+          chapter.sections.every((section) => isJsonContentEmpty(section.content))
+      )
+    ) {
+      return false;
+    }
+    return true;
+  }
 
   async function handleContinueClick() {
     if (step === 3) {
@@ -114,7 +141,7 @@ const NewAgreement: FC = () => {
     <>
       <Appbar stepper={stepsProps} breadcrumbs={breadcrumsProps} actions={actionsProps} />
       <Container maxWidth="md">
-        <Stack justifyContent="center" spacing={5} marginY={4}>
+        <Stack justifyContent="center" gap={5} marginY={4}>
           {step < 3 && (
             <NameAndRationale
               name={agreementName}
@@ -133,14 +160,18 @@ const NewAgreement: FC = () => {
             />
           )}
           <Stack flexDirection="row-reverse" alignItems="center" justifyContent="space-between">
-            <Button
-              variant="contained"
-              onClick={handleContinueClick}
-              disabled={!isContinueEnabled}
-              color={step === 3 ? 'primary' : 'secondary'}
-            >
-              {step === 3 ? t(StringBank.PUBLISH_AGREEMENT) : t(StringBank.CONTINUE)}
-            </Button>
+            <Tooltip title={getContinueTooltipTitle()} arrow placement="top">
+              <span>
+                <Button
+                  variant="contained"
+                  onClick={handleContinueClick}
+                  disabled={!isContinueEnabled()}
+                  color={step === 3 ? 'primary' : 'secondary'}
+                >
+                  {step === 3 ? t(StringBank.PUBLISH_AGREEMENT) : t(StringBank.CONTINUE)}
+                </Button>
+              </span>
+            </Tooltip>
             {step == 3 && (
               <Button variant="text" onClick={() => setStep(step - 1)}>
                 {t(StringBank.BACK)}

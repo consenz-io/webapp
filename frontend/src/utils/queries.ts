@@ -114,3 +114,15 @@ export const commentsQuery = gql`
     }
   }
 `;
+
+export const groupsQuery = gql`
+  query groups($slug: String!) {
+    core_groups(where: { slug: { _eq: $slug } }) {
+      id
+      name
+      slug
+      created_at
+      language
+    }
+  }
+`;

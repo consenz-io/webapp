@@ -84,7 +84,7 @@ const AgreementContent: FC<IProps> = ({ chapters, setChapters }) => {
     }
   }
   return (
-    <Stack justifyContent="center" spacing={1}>
+    <Stack justifyContent="center" gap={1}>
       <Divider />
       {chapters.map((chapter, i) => (
         <Stack key={i}>

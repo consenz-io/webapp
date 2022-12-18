@@ -8,7 +8,6 @@ import { ReactComponent as CommentIcon } from 'assets/icons/comment.svg';
 import { ReactComponent as CheckCircleIcon } from 'assets/icons/check-circle.svg';
 import ContentEditor from 'components/ContentEditor';
 import { Section } from 'types/entities';
-import { ColorModeAndDirectionContext } from 'theme';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import { AgreementContext } from 'contexts/agreement';
@@ -17,7 +16,7 @@ import SvgIcon from './SvgIcon';
 import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
 import { useNavigate } from 'react-router-dom';
 import { successColor } from 'theme/theme';
-
+import { AuthContext, SettingsContext } from 'contexts';
 interface Props {
   section: Section;
 }
@@ -25,7 +24,8 @@ interface Props {
 const SectionCard: FC<Props> = ({ section }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { isRTL } = useContext(ColorModeAndDirectionContext);
+  const { isRTL } = useContext(SettingsContext);
+  const { jwt, loginWithRedirect } = useContext(AuthContext);
   const [versionIndex, setVersionIndex] = useState<number>(0);
   const { vote } = useContext(AgreementContext);
   const displayedVersion = section.versions[versionIndex];
@@ -59,6 +59,10 @@ const SectionCard: FC<Props> = ({ section }) => {
 
   function handleVote(type: 'up' | 'down', e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
+    if (!jwt) {
+      loginWithRedirect();
+      return;
+    }
     vote(displayedVersion, type);
   }
 
@@ -69,7 +73,7 @@ const SectionCard: FC<Props> = ({ section }) => {
       sx={{ paddingX: 1, cursor: 'pointer' }}
       onClick={() => navigate(`section/${section.id}/${displayedVersion.id}`)}
     >
-      <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" gap={2}>
         <IconButton onClick={backwardsVersion} disabled={versionIndex === 0}>
           {isRTL ? (
             <ArrowForwardIosIcon fontSize="small" />
@@ -78,7 +82,7 @@ const SectionCard: FC<Props> = ({ section }) => {
           )}
         </IconButton>
         <Stack paddingTop={4} paddingBottom={2} flexGrow={1}>
-          <Stack direction="row" spacing={2} alignItems="center">
+          <Stack direction="row" gap={2} alignItems="center">
             <Typography
               variant="body2"
               sx={{
