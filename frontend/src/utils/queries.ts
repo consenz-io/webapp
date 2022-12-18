@@ -19,6 +19,7 @@ export function agreementsQuery(categoryId?: string | number) {
     ) {
       id
       name
+      users
       rationale
       updated_at
       is_archived
@@ -37,6 +38,7 @@ export const agreementQuery = gql`
       id
       name
       updated_at
+      users
       category {
         name
       }
