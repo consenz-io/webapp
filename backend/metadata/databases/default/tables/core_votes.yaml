@@ -12,9 +12,19 @@ insert_permissions:
   - role: authenticated
     permission:
       check:
-        user:
-          user_id:
-            _eq: X-Hasura-User-Id
+        _and:
+          - user:
+              user_id:
+                _eq: X-Hasura-User-Id
+          - suggestion:
+              section:
+                chapter:
+                  agreement:
+                    group:
+                      group_users:
+                        user:
+                          user_id:
+                            _eq: X-Hasura-User-Id
       columns:
         - version_id
         - type
@@ -22,9 +32,19 @@ insert_permissions:
   - role: moderator
     permission:
       check:
-        user:
-          user_id:
-            _eq: X-Hasura-User-Id
+        _and:
+          - user:
+              user_id:
+                _eq: X-Hasura-User-Id
+          - suggestion:
+              section:
+                chapter:
+                  agreement:
+                    group:
+                      group_users:
+                        user:
+                          user_id:
+                            _eq: X-Hasura-User-Id
       columns:
         - user_id
         - version_id
