@@ -34,15 +34,6 @@ select_permissions:
         - provider
         - updated_at
         - user_id
-      filter: {}
-  - role: public
-    permission:
-      columns:
-        - id
-        - email
-        - full_name
-        - provider
-        - user_id
-        - created_at
-        - updated_at
-      filter: {}
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id

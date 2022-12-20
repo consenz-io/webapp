@@ -77,12 +77,7 @@ select_permissions:
         - consensus
         - threshold
         - users
-      filter:
-        group:
-          group_users:
-            user:
-              user_id:
-                _eq: X-Hasura-User-Id
+      filter: {}
   - role: moderator
     permission:
       columns:

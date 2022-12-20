@@ -107,15 +107,7 @@ select_permissions:
         - downvotes
         - my_vote
         - upvotes
-      filter:
-        section:
-          chapter:
-            agreement:
-              group:
-                group_users:
-                  user:
-                    user_id:
-                      _eq: X-Hasura-User-Id
+      filter: {}
   - role: moderator
     permission:
       columns:

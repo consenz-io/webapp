@@ -57,14 +57,7 @@ select_permissions:
         - id
         - index
         - updated_at
-      filter:
-        chapter:
-          agreement:
-            group:
-              group_users:
-                user:
-                  user_id:
-                    _eq: X-Hasura-User-Id
+      filter: {}
   - role: moderator
     permission:
       columns:

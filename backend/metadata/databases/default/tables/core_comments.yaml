@@ -61,16 +61,7 @@ select_permissions:
         - created_at
         - id
         - section_version_id
-      filter:
-        section_version:
-          section:
-            chapter:
-              agreement:
-                group:
-                  group_users:
-                    user:
-                      user_id:
-                        _eq: X-Hasura-User-Id
+      filter: {}
   - role: moderator
     permission:
       columns:
@@ -79,16 +70,7 @@ select_permissions:
         - section_version_id
         - content
         - created_at
-      filter:
-        section_version:
-          section:
-            chapter:
-              agreement:
-                group:
-                  group_users:
-                    user:
-                      user_id:
-                        _eq: X-Hasura-User-Id
+      filter: {}
   - role: public
     permission:
       columns:

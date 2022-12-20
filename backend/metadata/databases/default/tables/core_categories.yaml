@@ -44,12 +44,7 @@ select_permissions:
         - name
         - created_at
         - updated_at
-      filter:
-        group:
-          group_users:
-            user:
-              user_id:
-                _eq: X-Hasura-User-Id
+      filter: {}
   - role: moderator
     permission:
       columns:
@@ -58,12 +53,7 @@ select_permissions:
         - name
         - created_at
         - updated_at
-      filter:
-        group:
-          group_users:
-            user:
-              user_id:
-                _eq: X-Hasura-User-Id
+      filter: {}
   - role: public
     permission:
       columns:
