@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { DataContext, RoutingContext } from 'contexts';
+import { UserContext, RoutingContext } from 'contexts';
 import * as router from 'react-router';
 import { Home } from 'pages';
 
@@ -17,20 +17,23 @@ describe('useUserRedirect', () => {
   });
 
   test("redirect existing user with at least one group to his first group's all agreements screen", async () => {
-    const dataState = {
+    const userState = {
       user: {
         id: 4,
         email: 'nadav@sofi.coop',
-        groups: [{ id: 2, name: 'test-group', slug: 'test-group', color: '#000000' }],
+        groups: [
+          { id: 2, name: 'test-group', slug: 'test-group', color: '#000000', language: 'en' },
+        ],
       },
+      joinGroup: jest.fn(),
     };
 
     render(
-      <DataContext.Provider value={dataState}>
+      <UserContext.Provider value={userState}>
         <RoutingContext.Provider value={routingState}>
           <Home />
         </RoutingContext.Provider>
-      </DataContext.Provider>
+      </UserContext.Provider>
     );
     expect(navigate).toHaveBeenCalledWith('/test-group/active-agreements');
   });
@@ -41,14 +44,15 @@ describe('useUserRedirect', () => {
         id: 4,
         email: 'nadav@sofi.coop',
       },
+      joinGroup: jest.fn(),
     };
 
     render(
-      <DataContext.Provider value={dataState}>
+      <UserContext.Provider value={dataState}>
         <RoutingContext.Provider value={routingState}>
           <Home />
         </RoutingContext.Provider>
-      </DataContext.Provider>
+      </UserContext.Provider>
     );
     expect(navigate).toHaveBeenCalledWith('/welcome');
   });

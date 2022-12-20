@@ -24,6 +24,11 @@ export interface IOutletContext {
   };
 }
 
+export interface PostLoginActions {
+  joinGroupId?: number;
+  redirectTo?: string;
+}
+
 export type ICategorySelectProps = {
   categoryId: number | null;
   onChange: (categoryId: number) => void;

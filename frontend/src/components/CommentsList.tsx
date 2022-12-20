@@ -6,7 +6,7 @@ import { BtnCapital } from './DropDownMenu/style';
 import { calcTimeAgoFromDate } from 'utils/functions';
 import { useTranslation } from 'react-i18next';
 import Dialog from './Dialog';
-import { AuthContext, DataContext, SectionContext } from 'contexts';
+import { AuthContext, UserContext, SectionContext } from 'contexts';
 import { textSecondaryColor } from 'theme';
 
 interface CommentsListProps {
@@ -20,7 +20,7 @@ const CommentsList: FC<CommentsListProps> = ({ comments }) => {
   const [openDialogState, setOpenDialogState] = useState(false);
   const { deleteComment } = useContext(SectionContext);
   const { role } = useContext(AuthContext);
-  const { user } = useContext(DataContext);
+  const { user } = useContext(UserContext);
 
   function checkAuthorOrModerator(authorId: number) {
     return role === 'moderator' || (user && user.id === authorId);

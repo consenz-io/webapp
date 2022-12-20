@@ -32,11 +32,7 @@ select_permissions:
         - name
         - slug
         - language
-      filter:
-        group_users:
-          user:
-            user_id:
-              _eq: X-Hasura-User-Id
+      filter: {}
   - role: moderator
     permission:
       columns:

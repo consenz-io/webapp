@@ -14,11 +14,13 @@ import { textSecondaryColor } from 'theme';
 import { Section as SectionType } from 'types';
 import { JSONContent } from '@tiptap/react';
 import { AuthContext } from 'contexts';
+import { GroupContext } from 'contexts/group';
 
 const Section: FC = () => {
   const [openDialogState, setOpenDialogState] = useState(false);
   const { section, addVersion, fetchComments, comments, deleteComment } =
     useContext(SectionContext);
+  const { id: groupId } = useContext(GroupContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { jwt, loginWithRedirect } = useContext(AuthContext);
   const { versionId } = useParams();
@@ -69,7 +71,10 @@ const Section: FC = () => {
 
   function handleAddVersion() {
     if (!jwt) {
-      return loginWithRedirect();
+      return loginWithRedirect({
+        redirectTo: window.location.pathname,
+        joinGroupId: groupId,
+      });
     }
     setIsTextPopupOpen(true);
   }

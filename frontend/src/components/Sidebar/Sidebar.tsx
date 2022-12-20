@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 import { DropDownMenu, GroupsNav, SvgIcon } from 'components';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { DataContext } from '../../contexts/data';
+import { UserContext } from '../../contexts/user';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { MenuItem } from 'types';
@@ -52,13 +52,13 @@ const sidebarItems: SidebarItem[] = [
 ];
 
 const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
-  const { user } = useContext(DataContext);
+  const { user } = useContext(UserContext);
   const { logout, jwt, loginWithRedirect } = useContext(AuthContext);
   const { isMobile } = useResponsive();
   const { t } = useTranslation();
   const { isRTL } = useContext(SettingsContext);
   const navigate = useNavigate();
-  const { slug: groupSlug, categories } = useContext(GroupContext);
+  const { slug: groupSlug, categories, id: groupId } = useContext(GroupContext);
   const [userMenuItems] = useState<MenuItem[]>([
     {
       text: t(StringBank.LOGOUT),
@@ -159,7 +159,17 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
         </>
       ) : (
         <Container sx={{ padding: 2, borderTop: '1px solid rgba(248, 250, 252, 0.16)' }}>
-          <Button fullWidth variant="contained" color="primary" onClick={() => loginWithRedirect()}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={() =>
+              loginWithRedirect({
+                redirectTo: window.location.pathname,
+                joinGroupId: groupId,
+              })
+            }
+          >
             <Typography variant="body2">{t(StringBank.LOGIN)}</Typography>
           </Button>
         </Container>

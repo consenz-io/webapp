@@ -7,11 +7,16 @@ import {
 } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { IDataContext, IFCProps, User, Group } from 'types';
+import { IFCProps, User, Group } from 'types';
 import { apiUrl } from 'utils/constants';
 import { AuthContext } from './auth';
 
-const DataContext = createContext<IDataContext>({});
+interface UserContextState {
+  user?: User | null;
+  joinGroup: (id: number) => void;
+}
+
+const UserContext = createContext<UserContextState>({} as UserContextState);
 const apolloCache = new InMemoryCache({
   typePolicies: {
     core_section_versions: {
@@ -35,7 +40,7 @@ const apolloCache = new InMemoryCache({
   },
 });
 
-const DataProvider = ({ children }: IFCProps) => {
+const UserProvider = ({ children }: IFCProps) => {
   const [user, setUser] = useState<User>();
   const [apolloClient, setApolloClient] = useState<ApolloClient<NormalizedCacheObject>>(
     new ApolloClient({
@@ -98,14 +103,27 @@ const DataProvider = ({ children }: IFCProps) => {
         });
     }
   }, [apolloClient, jwt, userAuth0?.email, userAuth0?.given_name, userAuth0?.nickname]);
-  const state: IDataContext = {
+
+  const state: UserContextState = {
     user,
+    joinGroup: (id: number) => {
+      apolloClient.mutate({
+        mutation: gql`
+          mutation joinGroup($userId: Int!, $groupId: Int!) {
+            insert_core_users_groups(objects: { user_id: $userId, group_id: $groupId }) {
+              affected_rows
+            }
+          }
+        `,
+        variables: { userId: user?.id, groupId: id },
+      });
+    },
   };
   return (
     <ApolloProvider client={apolloClient}>
-      <DataContext.Provider value={state}>{children}</DataContext.Provider>
+      <UserContext.Provider value={state}>{children}</UserContext.Provider>
     </ApolloProvider>
   );
 };
 
-export { DataProvider, DataContext };
+export { UserProvider, UserContext };

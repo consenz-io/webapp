@@ -31,7 +31,7 @@ import { StringBank } from 'strings';
 import {
   AgreementContext,
   AuthContext,
-  DataContext,
+  UserContext,
   SectionContext,
   SettingsContext,
 } from 'contexts';
@@ -46,7 +46,7 @@ const DisplaySection: FC<DisplayProns> = ({
   const theme = useTheme();
   const { vote } = useContext(AgreementContext);
   const { role } = useContext(AuthContext);
-  const { user } = useContext(DataContext);
+  const { user } = useContext(UserContext);
   const { isRTL } = useContext(SettingsContext);
   const { t } = useTranslation();
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);

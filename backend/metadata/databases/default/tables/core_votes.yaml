@@ -72,14 +72,12 @@ update_permissions:
 delete_permissions:
   - role: authenticated
     permission:
-      backend_only: false
       filter:
         user:
           user_id:
             _eq: X-Hasura-User-Id
   - role: moderator
     permission:
-      backend_only: false
       filter:
         user:
           user_id:

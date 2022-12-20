@@ -1,6 +1,6 @@
 import { createContext, FC } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { IFCProps, IRoutingContext } from 'types';
+import { IFCProps } from 'types';
 import {
   Agreement,
   Home,
@@ -20,7 +20,12 @@ import Draft from '../pages/Draft';
 const HOME_ROUTE = '/';
 const WELCOME_ROUTE = '/welcome';
 
-const RoutingContext = createContext<IRoutingContext>({
+interface RoutingState {
+  navigateToWelcome: () => void;
+  navigateToAllAgreements: (groupSlug: string | undefined) => void;
+}
+
+const RoutingContext = createContext<RoutingState>({
   navigateToAllAgreements: () => ({}),
   navigateToWelcome: () => ({}),
 });

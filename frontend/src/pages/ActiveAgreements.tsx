@@ -18,14 +18,20 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
   const { t } = useTranslation();
   const { jwt, loginWithRedirect } = useContext(AuthContext);
 
-  const { activeAgreements, archivedAgreements, name, slug } = useContext(GroupContext);
+  const {
+    activeAgreements,
+    archivedAgreements,
+    name,
+    slug,
+    id: groupId,
+  } = useContext(GroupContext);
 
   const agreements = isArchive ? archivedAgreements : activeAgreements;
 
   const goToNewAgreement = (e: React.MouseEvent<HTMLElement>, slug = '') => {
     const url = `/${slug}/new-agreement`;
     if (!jwt) {
-      return loginWithRedirect(url);
+      return loginWithRedirect({ redirectTo: url, joinGroupId: groupId });
     }
     navigate(url);
   };

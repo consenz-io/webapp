@@ -1,10 +1,11 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { createContext, useEffect, useState } from 'react';
 import { IFCProps } from 'types';
+import { PostLoginActions } from 'types/misc';
 
 interface AuthContext {
   jwt?: string;
-  loginWithRedirect: (callbackUrl?: string) => void;
+  loginWithRedirect: (postLoginActions?: PostLoginActions) => void;
   logout: () => void;
   role?: string;
 }
@@ -39,7 +40,6 @@ const AuthProvider = ({ children }: IFCProps) => {
         }
       })
       .catch(() => {
-        sessionStorage.setItem('lastUrl', window.location.pathname);
         loginWithRedirect();
       });
   }, [
@@ -53,20 +53,17 @@ const AuthProvider = ({ children }: IFCProps) => {
 
   function logout(): void {
     setJwt(undefined);
-    sessionStorage.setItem('lastUrl', window.location.pathname);
     logoutAuth0({ returnTo: window.location.origin });
-    window.location.href = sessionStorage.getItem('lastUrl') || '/';
   }
 
   const authContextState: AuthContext = {
     jwt,
-    loginWithRedirect: (callbackUrl) => {
+    loginWithRedirect: (postLoginActions) => {
       if (isAuthenticated || isLoading) {
         return;
       }
-      sessionStorage.setItem('lastUrl', callbackUrl || window.location.pathname);
+      sessionStorage.setItem('postLoginActions', JSON.stringify(postLoginActions || {}));
       loginWithRedirect();
-      window.location.href = sessionStorage.getItem('lastUrl') || '/';
     },
     logout,
     role: userRole,

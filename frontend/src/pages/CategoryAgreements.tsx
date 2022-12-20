@@ -33,10 +33,11 @@ const CategoryAgreements = () => {
   const category = currentCategory || { id: 0, name: t(StringBank.UNCATEGORIZED) };
 
   function goToNewAgreement() {
+    const url = `/${slug}/new-agreement`;
     if (!jwt) {
-      return loginWithRedirect(`/${slug}/new-agreement`);
+      return loginWithRedirect({ redirectTo: url });
     }
-    navigate(`/${slug}/new-agreement`);
+    navigate(url);
   }
 
   if (!agreements?.length) {

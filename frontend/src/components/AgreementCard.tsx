@@ -38,7 +38,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   const { t } = useTranslation();
   const { colorMode } = useContext(SettingsContext);
   const { role, jwt, loginWithRedirect } = useContext(AuthContext);
-  const { archiveAgreement, slug, deleteAgreement } = useContext(GroupContext);
+  const { archiveAgreement, slug, deleteAgreement, id: groupId } = useContext(GroupContext);
   const navigate = useNavigate();
   const cardBackgroundColor = colorMode === ThemeModeType.LIGHT ? '#E3E3E3' : backgroundBorderColor;
 
@@ -77,8 +77,10 @@ const AgreementCard: FC<IAgreementCardProps> = ({
         icon: <ArchiveIcon />,
         action: () => {
           if (!jwt) {
-            loginWithRedirect();
-            return;
+            return loginWithRedirect({
+              redirectTo: window.location.pathname,
+              joinGroupId: groupId,
+            });
           }
           archiveAgreement(id, !isArchived);
         },

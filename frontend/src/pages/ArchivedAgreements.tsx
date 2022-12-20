@@ -1,27 +1,15 @@
-import AddIcon from '@mui/icons-material/Add';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
-import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { Button, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { AgreementCarousel } from 'components';
 import { GroupContext } from 'contexts/group';
 import { Box } from '@mui/system';
-import { AuthContext } from 'contexts';
 
 const AllArchievedAgreements = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
-  const { loginWithRedirect, jwt } = useContext(AuthContext);
 
-  function goToNewAgreement() {
-    const url = `/${slug}/new-agreement`;
-    if (jwt) {
-      return loginWithRedirect(url);
-    }
-    navigate(url);
-  }
-  const { archivedAgreements, name, slug } = useContext(GroupContext);
+  const { archivedAgreements } = useContext(GroupContext);
   if (!archivedAgreements.length) {
     return (
       <Stack padding={{ sm: 2 }} height="100%" justifyContent="space-between">
@@ -46,10 +34,7 @@ const AllArchievedAgreements = () => {
       gap={2}
     >
       <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
-        <Typography variant="h2">{t(StringBank.GROUP_AGREEMENTS, { group: name })}</Typography>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={goToNewAgreement}>
-          {t(StringBank.NEW_AGREEMENT)}
-        </Button>
+        <Typography variant="h2">{t(StringBank.ARCHIVE)}</Typography>
       </Stack>
       <AgreementCarousel agreements={archivedAgreements} />
       <Stack />

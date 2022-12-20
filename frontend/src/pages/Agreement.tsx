@@ -33,7 +33,7 @@ import { AuthContext } from 'contexts';
 const Agreement: FC = () => {
   const { t } = useTranslation();
   const { groupSlug, agreementId } = useParams();
-  const { categories, slug } = useContext(GroupContext);
+  const { categories, slug, id: groupId } = useContext(GroupContext);
   const { jwt, loginWithRedirect } = useContext(AuthContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const { agreement, categoryName, addSection, vote, setCurrentChapterId, setCurrentSectionIndex } =
@@ -60,8 +60,10 @@ const Agreement: FC = () => {
 
   function handleAddSection(chapter: Chapter, section: Section | null) {
     if (!jwt) {
-      loginWithRedirect();
-      return;
+      return loginWithRedirect({
+        joinGroupId: groupId,
+        redirectTo: window.location.pathname,
+      });
     }
     setCurrentChapterId(chapter.id);
     if (section) {

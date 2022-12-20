@@ -16,7 +16,7 @@ import SvgIcon from './SvgIcon';
 import { getRemainingSupporters, getVersionProgress, getVoteColor } from 'utils/functions';
 import { useNavigate } from 'react-router-dom';
 import { successColor } from 'theme/theme';
-import { AuthContext, SettingsContext } from 'contexts';
+import { SettingsContext } from 'contexts';
 interface Props {
   section: Section;
 }
@@ -25,7 +25,6 @@ const SectionCard: FC<Props> = ({ section }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { isRTL } = useContext(SettingsContext);
-  const { jwt, loginWithRedirect } = useContext(AuthContext);
   const [versionIndex, setVersionIndex] = useState<number>(0);
   const { vote } = useContext(AgreementContext);
   const displayedVersion = section.versions[versionIndex];
@@ -59,10 +58,6 @@ const SectionCard: FC<Props> = ({ section }) => {
 
   function handleVote(type: 'up' | 'down', e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
-    if (!jwt) {
-      loginWithRedirect();
-      return;
-    }
     vote(displayedVersion, type);
   }
 

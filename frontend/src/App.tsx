@@ -3,7 +3,7 @@ import { AuthProvider, RoutesProvider, SettingsProvider } from './contexts';
 import './App.css';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { auth0ClientId, auth0Domain } from 'utils/constants';
-import { DataProvider } from 'contexts/data';
+import { UserProvider } from 'contexts/user';
 import { Box } from '@mui/material';
 
 const App: FC = () => {
@@ -18,11 +18,11 @@ const App: FC = () => {
         audience="hasura"
       >
         <AuthProvider>
-          <DataProvider>
+          <UserProvider>
             <Box>
               <RoutesProvider />
             </Box>
-          </DataProvider>
+          </UserProvider>
         </AuthProvider>
       </Auth0Provider>
     </SettingsProvider>

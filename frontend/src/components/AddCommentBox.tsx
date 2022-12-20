@@ -4,7 +4,8 @@ import { BtnCapital } from './DropDownMenu/style';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import { Version } from 'types';
-import { AuthContext, DataContext, SectionContext } from 'contexts';
+import { AuthContext, UserContext, SectionContext } from 'contexts';
+import { GroupContext } from 'contexts/group';
 
 interface AddCommentBoxProps {
   displayedVersion: Version;
@@ -16,12 +17,15 @@ const AddCommentBox: FC<AddCommentBoxProps> = ({ displayedVersion }) => {
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
   const { addComment } = useContext(SectionContext);
   const { jwt, loginWithRedirect } = useContext(AuthContext);
-  const { user } = useContext(DataContext);
+  const { user } = useContext(UserContext);
+  const { id: groupId } = useContext(GroupContext);
 
   function handleAddComment() {
     if (!jwt) {
-      loginWithRedirect();
-      return;
+      return loginWithRedirect({
+        redirectTo: window.location.pathname,
+        joinGroupId: groupId,
+      });
     }
     if (!newComment || !addComment || !displayedVersion) {
       return;
