@@ -2,7 +2,12 @@ import { FetchResult, useMutation, useQuery } from '@apollo/client';
 import { createContext, FC, useCallback, useContext, useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { Agreement, Section, Version } from 'types';
-import { insertVoteMutation, updateVoteMutation, deleteVoteMutation } from 'utils/mutations';
+import {
+  insertVoteMutation,
+  updateVoteMutation,
+  deleteVoteMutation,
+  updateAgreementMutation,
+} from 'utils/mutations';
 import { agreementQuery } from 'utils/queries';
 import { UserContext } from 'contexts/user';
 import { addSectionMutation as insertSectionMutation } from 'utils/mutations';
@@ -30,6 +35,7 @@ interface AgreementContextState {
   addSection: (content: JSONContent) => Promise<Section>;
   setCurrentChapterId: (currentChapterId: number) => void;
   setCurrentSectionIndex: (currentSectionIndex: number) => void;
+  updateAgreement: (agreement: Partial<Pick<Agreement, 'name' | 'rationale'>>) => void;
 }
 
 const AgreementContext = createContext<AgreementContextState>({} as AgreementContextState);
@@ -68,6 +74,10 @@ const AgreementProvider: FC = () => {
   });
 
   const [deleteVote] = useMutation(deleteVoteMutation, {
+    refetchQueries: ['agreement'],
+  });
+
+  const [updateAgreement] = useMutation(updateAgreementMutation, {
     refetchQueries: ['agreement'],
   });
 
@@ -127,6 +137,15 @@ const AgreementProvider: FC = () => {
     ),
     setCurrentChapterId,
     setCurrentSectionIndex,
+    updateAgreement: ({ name = agreement?.name, rationale = agreement?.rationale }) => {
+      updateAgreement({
+        variables: {
+          id: agreementId,
+          name,
+          rationale,
+        },
+      });
+    },
   };
   return (
     <AgreementContext.Provider value={state}>

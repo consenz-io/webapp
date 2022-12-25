@@ -131,6 +131,20 @@ export const getDesignTokens: (mode: ThemeModeType, isRTL: boolean) => ThemeOpti
           },
         },
       },
+      MuiTypography: {
+        variants: [
+          {
+            props: { contentEditable: true },
+            style: {
+              '&:hover, &:focus': {
+                outline: `1px solid ${backgroundBorderColor}`,
+                borderRadius: 8,
+                outlineOffset: 4,
+              },
+            },
+          },
+        ],
+      },
       MuiCard: {
         defaultProps: {
           variant: 'outlined',

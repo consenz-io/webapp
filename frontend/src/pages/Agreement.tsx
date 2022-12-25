@@ -16,7 +16,7 @@ import { FC, useContext, useState } from 'react';
 import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import PlusIcon from 'assets/icons/plus.svg';
-import { generateColorFromString } from 'utils/functions';
+import { debounce, generateColorFromString } from 'utils/functions';
 import { Appbar, TextEditorPopup } from 'components';
 import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
@@ -36,8 +36,16 @@ const Agreement: FC = () => {
   const { categories, slug, id: groupId } = useContext(GroupContext);
   const { jwt, loginWithRedirect } = useContext(AuthContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
-  const { agreement, categoryName, addSection, vote, setCurrentChapterId, setCurrentSectionIndex } =
-    useContext(AgreementContext);
+  const {
+    agreement,
+    categoryName,
+    canEditAgreement,
+    addSection,
+    vote,
+    setCurrentChapterId,
+    setCurrentSectionIndex,
+    updateAgreement,
+  } = useContext(AgreementContext);
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
     {
@@ -51,6 +59,10 @@ const Agreement: FC = () => {
       icon: DocLogo,
     },
   ];
+
+  function handleFieldUpdate(field: 'name' | 'rationale', value: string) {
+    debounce(() => updateAgreement({ [field]: value }), 1000);
+  }
 
   async function handleComplete(editorContent: JSONContent) {
     const { versions } = await addSection(editorContent);
@@ -80,7 +92,14 @@ const Agreement: FC = () => {
       <Stack gap={4} paddingX={2} paddingY={3}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" alignItems="end" gap={1.5}>
-            <Typography variant="h1">{agreement?.name}</Typography>
+            <Typography
+              variant="h1"
+              contentEditable={canEditAgreement}
+              suppressContentEditableWarning
+              onInput={({ currentTarget }) => handleFieldUpdate('name', currentTarget.innerText)}
+            >
+              {agreement?.name}
+            </Typography>
             {categoryName && (
               <Chip
                 label={categoryName}
@@ -104,7 +123,13 @@ const Agreement: FC = () => {
             </Typography>
           </Button>
         </Stack>
-        <Typography>{agreement?.rationale}</Typography>
+        <Typography
+          contentEditable={canEditAgreement}
+          suppressContentEditableWarning
+          onInput={({ currentTarget }) => handleFieldUpdate('rationale', currentTarget.innerText)}
+        >
+          {agreement?.rationale}
+        </Typography>
         <Box />
         <Stack>
           {agreement?.chapters?.map((chapter: Chapter) => (

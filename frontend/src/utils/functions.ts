@@ -90,3 +90,8 @@ export function calcTimeAgoFromDate(
   }
   return t(StringBank.TIME_AGO_SECONDS);
 }
+
+export function debounce(func: () => void, wait: number): void {
+  clearTimeout(Number(sessionStorage.getItem('timeout')));
+  sessionStorage.setItem('timeout', `${setTimeout(() => func(), wait)}`);
+}

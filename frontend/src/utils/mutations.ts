@@ -130,3 +130,16 @@ export const addCommentMutation = gql`
     }
   }
 `;
+
+export const updateAgreementMutation = gql`
+  mutation updateAgreement($id: Int!, $name: String, $rationale: String) {
+    update_core_agreements_by_pk(
+      pk_columns: { id: $id }
+      _set: { name: $name, rationale: $rationale }
+    ) {
+      id
+      name
+      rationale
+    }
+  }
+`;
