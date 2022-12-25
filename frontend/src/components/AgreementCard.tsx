@@ -15,6 +15,7 @@ import { ReactComponent as EyeIcon } from 'assets/icons/eye.svg';
 import { ReactComponent as ArchiveIcon } from 'assets/icons/archive.svg';
 import { AuthContext, SettingsContext } from 'contexts';
 import { ClickableCard, SvgIcon, Dialog } from '.';
+import { Role } from 'types/entities';
 
 interface IAgreementCardProps {
   id: number;
@@ -86,7 +87,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
         },
       },
     ];
-    if (role && role === 'moderator') {
+    if (role === Role.MODERATOR) {
       menuItems.push({
         text: 'Delete',
         icon: (

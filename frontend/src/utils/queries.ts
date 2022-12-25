@@ -39,6 +39,7 @@ export const agreementQuery = gql`
       name
       updated_at
       users
+      is_created_by_me
       category {
         name
       }

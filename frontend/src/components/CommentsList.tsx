@@ -1,5 +1,5 @@
 import { FC, useContext, useState } from 'react';
-import { Comment } from 'types/entities';
+import { Comment, Role } from 'types/entities';
 import { Box, Link, Stack, Typography } from '@mui/material';
 import { StringBank } from 'strings';
 import { BtnCapital } from './DropDownMenu/style';
@@ -23,7 +23,7 @@ const CommentsList: FC<CommentsListProps> = ({ comments }) => {
   const { user } = useContext(UserContext);
 
   function checkAuthorOrModerator(authorId: number) {
-    return role === 'moderator' || (user && user.id === authorId);
+    return role === Role.MODERATOR || (user && user.id === authorId);
   }
   function onDeleteComment(commentId: number) {
     deleteComment(commentId);

@@ -9,6 +9,7 @@ import { addSectionMutation as insertSectionMutation } from 'utils/mutations';
 import { JSONContent } from '@tiptap/react';
 import { AuthContext } from './auth';
 import { GroupContext } from './group';
+import { Role } from 'types/entities';
 
 export interface AddSectionVariables {
   chapterId: number;
@@ -18,24 +19,25 @@ export interface AddSectionVariables {
   };
 }
 
-interface IAgreementContext {
+interface AgreementContextState {
   agreementId: number;
   agreement: Agreement | undefined;
   rationale: string;
   agreementTitle: string;
   categoryName: string;
+  canEditAgreement: boolean;
   vote: (version: Version, type: 'up' | 'down') => Promise<FetchResult<void>>;
   addSection: (content: JSONContent) => Promise<Section>;
   setCurrentChapterId: (currentChapterId: number) => void;
   setCurrentSectionIndex: (currentSectionIndex: number) => void;
 }
 
-const AgreementContext = createContext<IAgreementContext>({} as IAgreementContext);
+const AgreementContext = createContext<AgreementContextState>({} as AgreementContextState);
 
 const AgreementProvider: FC = () => {
   const { agreementId } = useParams();
   const { user } = useContext(UserContext);
-  const { jwt, loginWithRedirect } = useContext(AuthContext);
+  const { jwt, loginWithRedirect, role } = useContext(AuthContext);
   const { id: groupId } = useContext(GroupContext);
   const userId = user?.id;
   const [currentChapterId, setCurrentChapterId] = useState<number>(-1);
@@ -102,9 +104,10 @@ const AgreementProvider: FC = () => {
     });
   }
 
-  const state: IAgreementContext = {
+  const state: AgreementContextState = {
     agreementId: agreement?.id || NaN,
     categoryName: agreement?.category?.name || '',
+    canEditAgreement: agreement?.is_created_by_me || role === Role.MODERATOR,
     rationale: agreement?.rationale || '',
     agreementTitle: agreement?.name || '',
     agreement: agreement,

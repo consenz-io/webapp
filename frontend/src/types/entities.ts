@@ -7,6 +7,7 @@ export interface Agreement {
   updated_at: Date;
   rationale: string;
   is_archived?: boolean;
+  is_created_by_me?: boolean;
   chapters?: Chapter[];
   users: number;
 }
@@ -76,3 +77,8 @@ export type LocalChapter = {
   name: string;
   sections: { content?: JSONContent }[];
 };
+
+export enum Role {
+  MODERATOR = 'moderator',
+  AUTHENTICATED = 'authenticated',
+}

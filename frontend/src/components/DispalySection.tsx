@@ -18,7 +18,7 @@ import { ReactComponent as TrashIcon } from 'assets/icons/trash-2.svg';
 import { ReactComponent as LikeIcon } from 'assets/icons/like.svg';
 import { useTranslation } from 'react-i18next';
 import ContentEditor from './ContentEditor';
-import { Version } from 'types/entities';
+import { Role, Version } from 'types/entities';
 import { backgroundBorderColor, textSecondaryColor } from 'theme';
 import { getVoteColor, getRemainingSupporters, getVersionProgress } from 'utils/functions';
 interface DisplayProns {
@@ -77,7 +77,7 @@ const DisplaySection: FC<DisplayProns> = ({
   }
 
   function checkAuthorOrModerator(authorId: number) {
-    return role === 'moderator' || (user && user.id === authorId);
+    return role === Role.MODERATOR || (user && user.id === authorId);
   }
 
   function handleShare() {
