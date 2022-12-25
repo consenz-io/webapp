@@ -23,6 +23,12 @@ computed_fields:
         name: agreement_consensus_average
         schema: core
     comment: Average of all section version consensus values for the agreement document.
+  - name: is_created_by_me
+    definition:
+      function:
+        name: is_agreement_author
+        schema: core
+      session_argument: hasura_session
   - name: threshold
     definition:
       function:
@@ -75,22 +81,24 @@ select_permissions:
         - updated_at
       computed_fields:
         - consensus
+        - is_created_by_me
         - threshold
         - users
       filter: {}
   - role: moderator
     permission:
       columns:
-        - is_archived
         - category_id
+        - created_at
         - group_id
         - id
+        - is_archived
         - name
         - rationale
-        - created_at
         - updated_at
       computed_fields:
         - consensus
+        - is_created_by_me
         - threshold
         - users
       filter: {}
