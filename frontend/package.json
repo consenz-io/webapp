@@ -31,7 +31,6 @@
     "react-dom": "^18.1.0",
     "react-i18next": "^11.17.2",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
     "styled-components": "^5.3.5",
     "typescript": "^4.7.2",
     "web-vitals": "^2.1.4",
@@ -90,6 +89,7 @@
     "jest-environment-jsdom": "^28.1.3",
     "jsdom": "^16.2.2",
     "prettier": "^2.7.1",
+    "react-scripts": "5.0.1",
     "ts-jest": "^28.0.7"
   }
 }
