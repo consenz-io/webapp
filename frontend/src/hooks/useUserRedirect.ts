@@ -15,7 +15,6 @@ const useUserRedirect = () => {
     const postLoginActions = JSON.parse(
       sessionStorage.getItem('postLoginActions') || '{}'
     ) as PostLoginActions;
-    console.log('postLoginActions', postLoginActions);
     if (
       postLoginActions?.joinGroupId &&
       !user.groups?.some((g) => g.id === postLoginActions.joinGroupId)
