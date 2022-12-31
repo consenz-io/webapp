@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { StringBank } from '../strings';
 import { FC } from 'react';
 import { useState, useContext } from 'react';
-import { Button, Stack, Container, SvgIcon, Tooltip } from '@mui/material';
+import { Button, Stack, Container, SvgIcon, Tooltip, LinearProgress } from '@mui/material';
 import { GroupContext } from 'contexts/group';
 import { Chapter, LocalChapter, Section, Version } from 'types';
 import {
@@ -143,6 +143,7 @@ const NewAgreement: FC = () => {
   return (
     <>
       <Appbar stepper={stepsProps} breadcrumbs={breadcrumsProps} actions={actionsProps} />
+      {isWaitingForAgreementMutation && <LinearProgress sx={{ marginX: -1 }} variant="query" />}
       <Container maxWidth="md">
         <Stack justifyContent="center" gap={5} marginY={4}>
           {step < 3 && (
