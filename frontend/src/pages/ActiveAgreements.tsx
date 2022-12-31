@@ -9,24 +9,12 @@ import { AgreementCarousel } from 'components';
 import { GroupContext } from 'contexts/group';
 import { AuthContext } from 'contexts';
 
-interface IProps {
-  isArchive?: boolean;
-}
-
-const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
+const AllAgreements: FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { jwt, loginWithRedirect } = useContext(AuthContext);
 
-  const {
-    activeAgreements,
-    archivedAgreements,
-    name,
-    slug,
-    id: groupId,
-  } = useContext(GroupContext);
-
-  const agreements = isArchive ? archivedAgreements : activeAgreements;
+  const { agreements, name, slug, id: groupId, isLoading } = useContext(GroupContext);
 
   const goToNewAgreement = (e: React.MouseEvent<HTMLElement>, slug = '') => {
     const url = `/${slug}/new-agreement`;
@@ -35,6 +23,10 @@ const AllAgreements: FC<IProps> = ({ isArchive = false }) => {
     }
     navigate(url);
   };
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <Stack

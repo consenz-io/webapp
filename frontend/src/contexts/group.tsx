@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { createContext, FC, useContext, useEffect } from 'react';
+import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { Group, LocalChapter } from 'types';
 import { Agreement, Category } from 'types';
@@ -13,8 +13,7 @@ interface GroupContext {
   slug: string;
   name: string;
   id: number;
-  activeAgreements: Agreement[];
-  archivedAgreements: Agreement[];
+  agreements: Agreement[];
   categories: Category[];
   currentCategory?: Category;
   archiveAgreement: (id: number, iArchived: boolean) => void;
@@ -27,14 +26,16 @@ interface GroupContext {
   ) => Promise<Agreement>;
   addAgreementData: unknown;
   addAgreementError: unknown;
-  addAgreementLoading: boolean;
+  isLoading: boolean;
 }
 
 const GroupContext = createContext<GroupContext>({} as GroupContext);
 
 const GroupProvider: FC = () => {
+  const [isBeforeLoading, setIsBeforeLoading] = useState(true);
   const { setLanguage } = useContext(SettingsContext);
   const { groupSlug, categoryId } = useParams();
+  const isArchive = location.pathname.endsWith('archive');
 
   const { data: groups } = useQuery<{ core_groups: Group[] }>(groupsQuery, {
     variables: { slug: groupSlug },
@@ -47,22 +48,20 @@ const GroupProvider: FC = () => {
     }
   }, [currentGroup, setLanguage]);
 
-  const { data: activeAgreements } = useQuery<{
+  const { data: agreements, loading: agreementsLoading } = useQuery<{
     core_agreements: Agreement[];
   }>(agreementsQuery(categoryId), {
     variables: {
       groupId: currentGroup?.id || -1,
-      isArchived: false,
+      isArchived: isArchive,
       categoryId,
     },
     skip: !currentGroup?.id,
-  });
-
-  const { data: archivedAgreements } = useQuery<{
-    core_agreements: Agreement[];
-  }>(agreementsQuery(), {
-    variables: { groupId: currentGroup?.id || -1, isArchived: true },
-    skip: !currentGroup?.id,
+    onCompleted: () => {
+      if (isBeforeLoading) {
+        setIsBeforeLoading(false);
+      }
+    },
   });
 
   const { data: categoriesData } = useQuery<{ core_categories: Category[] }>(
@@ -112,8 +111,7 @@ const GroupProvider: FC = () => {
     slug: currentGroup?.slug || '',
     name: currentGroup?.name || '',
     id: currentGroup?.id || -1,
-    activeAgreements: activeAgreements?.core_agreements || [],
-    archivedAgreements: archivedAgreements?.core_agreements || [],
+    agreements: agreements?.core_agreements || [],
     categories: categoriesData?.core_categories || [],
     currentCategory,
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
@@ -147,7 +145,7 @@ const GroupProvider: FC = () => {
       return data?.insert_core_agreements_one;
     },
     addAgreementData,
-    addAgreementLoading,
+    isLoading: isBeforeLoading || addAgreementLoading || agreementsLoading,
     addAgreementError,
   };
   return (

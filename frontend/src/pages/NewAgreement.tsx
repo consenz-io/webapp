@@ -30,7 +30,7 @@ function initChapters(): LocalChapter[] {
 const NewAgreement: FC = () => {
   const { t } = useTranslation();
   const { vote } = useContext(AgreementContext);
-  const { addAgreement, addAgreementError, addAgreementLoading } = useContext(GroupContext);
+  const { addAgreement, addAgreementError, isLoading } = useContext(GroupContext);
   const [agreementName, setAgreementName] = useState<string>(
     localStorage.getItem('agreementName') || ''
   );
@@ -81,7 +81,7 @@ const NewAgreement: FC = () => {
   }
 
   function isContinueEnabled(): boolean {
-    if (!agreementName || !rationale || addAgreementLoading || addAgreementError) {
+    if (!agreementName || !rationale || isLoading || addAgreementError) {
       return false;
     }
     if (

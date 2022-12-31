@@ -9,8 +9,13 @@ import { Box } from '@mui/system';
 const AllArchievedAgreements = () => {
   const { t } = useTranslation();
 
-  const { archivedAgreements } = useContext(GroupContext);
-  if (!archivedAgreements.length) {
+  const { agreements, isLoading } = useContext(GroupContext);
+
+  if (isLoading === undefined || isLoading) {
+    return null;
+  }
+
+  if (!agreements.length) {
     return (
       <Stack padding={{ sm: 2 }} height="100%" justifyContent="space-between">
         <Typography variant="h2">{t(StringBank.ARCHIVE)}</Typography>
@@ -28,7 +33,7 @@ const AllArchievedAgreements = () => {
   }
   return (
     <Stack
-      justifyContent={archivedAgreements?.length ? 'start' : 'space-between'}
+      justifyContent={agreements?.length ? 'start' : 'space-between'}
       height="100%"
       padding={{ sm: 2 }}
       gap={2}
@@ -36,7 +41,7 @@ const AllArchievedAgreements = () => {
       <Stack flexDirection="row" justifyContent="space-between" paddingX={1}>
         <Typography variant="h2">{t(StringBank.ARCHIVE)}</Typography>
       </Stack>
-      <AgreementCarousel agreements={archivedAgreements} />
+      <AgreementCarousel agreements={agreements} />
       <Stack />
     </Stack>
   );

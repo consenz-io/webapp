@@ -29,7 +29,7 @@ const CategoryAgreements = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { loginWithRedirect, jwt } = useContext(AuthContext);
-  const { slug, currentCategory, activeAgreements: agreements } = useContext(GroupContext);
+  const { slug, currentCategory, agreements, isLoading } = useContext(GroupContext);
   const category = currentCategory || { id: 0, name: t(StringBank.UNCATEGORIZED) };
 
   function goToNewAgreement() {
@@ -38,6 +38,10 @@ const CategoryAgreements = () => {
       return loginWithRedirect({ redirectTo: url });
     }
     navigate(url);
+  }
+
+  if (isLoading) {
+    return null;
   }
 
   if (!agreements?.length) {
