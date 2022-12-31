@@ -9,9 +9,9 @@ import { Box } from '@mui/system';
 const AllArchievedAgreements = () => {
   const { t } = useTranslation();
 
-  const { agreements, isLoading } = useContext(GroupContext);
+  const { agreements, isLoadingAgreements } = useContext(GroupContext);
 
-  if (isLoading === undefined || isLoading) {
+  if (isLoadingAgreements === undefined || isLoadingAgreements) {
     return null;
   }
 

@@ -26,7 +26,7 @@ interface GroupContext {
   ) => Promise<Agreement>;
   addAgreementData: unknown;
   addAgreementError: unknown;
-  isLoading: boolean;
+  isLoadingAgreements: boolean;
 }
 
 const GroupContext = createContext<GroupContext>({} as GroupContext);
@@ -81,10 +81,10 @@ const GroupProvider: FC = () => {
     refetchQueries: ['agreements'],
   });
 
-  const [
-    addAgreement,
-    { data: addAgreementData, loading: addAgreementLoading, error: addAgreementError },
-  ] = useMutation(addAgreementMutation, { refetchQueries: ['agreements'] });
+  const [addAgreement, { data: addAgreementData, error: addAgreementError }] = useMutation(
+    addAgreementMutation,
+    { refetchQueries: ['agreements'] }
+  );
 
   const [archiveAgreement] = useMutation(
     gql`
@@ -145,7 +145,7 @@ const GroupProvider: FC = () => {
       return data?.insert_core_agreements_one;
     },
     addAgreementData,
-    isLoading: isBeforeLoading || addAgreementLoading || agreementsLoading,
+    isLoadingAgreements: isBeforeLoading || agreementsLoading,
     addAgreementError,
   };
   return (

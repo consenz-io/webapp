@@ -30,10 +30,11 @@ function initChapters(): LocalChapter[] {
 const NewAgreement: FC = () => {
   const { t } = useTranslation();
   const { vote } = useContext(AgreementContext);
-  const { addAgreement, addAgreementError, isLoading } = useContext(GroupContext);
+  const { addAgreement, addAgreementError } = useContext(GroupContext);
   const [agreementName, setAgreementName] = useState<string>(
     localStorage.getItem('agreementName') || ''
   );
+  const [isWaitingForAgreementMutation, setIsWaitingForAgreementMutation] = useState(false);
   const [createdAgreementId, setCreatedAgreementId] = useState<number>();
   const [step, setStep] = useState(Number(localStorage.getItem('step')) || 1);
   const [categoryId, setCategoryId] = useState<number | null>(
@@ -81,7 +82,7 @@ const NewAgreement: FC = () => {
   }
 
   function isContinueEnabled(): boolean {
-    if (!agreementName || !rationale || isLoading || addAgreementError) {
+    if (!agreementName || !rationale || isWaitingForAgreementMutation || addAgreementError) {
       return false;
     }
     if (
@@ -99,6 +100,7 @@ const NewAgreement: FC = () => {
 
   async function handleContinueClick() {
     if (step === 3) {
+      setIsWaitingForAgreementMutation(true);
       const agreement = await addAgreement(categoryId, agreementName, rationale, chapters);
       setCreatedAgreementId(agreement?.id);
       const responseChapters = agreement?.chapters;
@@ -109,6 +111,7 @@ const NewAgreement: FC = () => {
         responseVersions.map(async (version: Version) => await vote(version, 'up'))
       );
       clearAgreementLocally();
+      setIsWaitingForAgreementMutation(false);
     }
     setStep(step + 1);
   }

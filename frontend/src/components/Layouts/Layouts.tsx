@@ -8,7 +8,7 @@ import { Logo } from 'assets';
 
 export const SidebarLayout: FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { isLoading } = useContext(GroupContext);
+  const { isLoadingAgreements } = useContext(GroupContext);
 
   const handleSidebarToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -18,7 +18,7 @@ export const SidebarLayout: FC = () => {
     <>
       <Sidebar mobileOpen={mobileOpen} handleSidebarToggle={handleSidebarToggle} />
       <SC.Wrapper>
-        {isLoading ? (
+        {isLoadingAgreements ? (
           <Container
             maxWidth="xs"
             sx={{

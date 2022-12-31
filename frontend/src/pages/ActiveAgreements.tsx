@@ -14,7 +14,7 @@ const AllAgreements: FC = () => {
   const { t } = useTranslation();
   const { jwt, loginWithRedirect } = useContext(AuthContext);
 
-  const { agreements, name, slug, id: groupId, isLoading } = useContext(GroupContext);
+  const { agreements, name, slug, id: groupId, isLoadingAgreements } = useContext(GroupContext);
 
   const goToNewAgreement = (e: React.MouseEvent<HTMLElement>, slug = '') => {
     const url = `/${slug}/new-agreement`;
@@ -24,7 +24,7 @@ const AllAgreements: FC = () => {
     navigate(url);
   };
 
-  if (isLoading) {
+  if (isLoadingAgreements) {
     return null;
   }
 
