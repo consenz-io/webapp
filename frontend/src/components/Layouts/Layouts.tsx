@@ -32,7 +32,7 @@ export const SidebarLayout: FC = () => {
             <Stack alignItems="center">
               <Logo />
             </Stack>
-            <LinearProgress />
+            <LinearProgress variant="query" />
           </Container>
         ) : (
           <Outlet context={{ sidebar: { mobileOpen, handleSidebarToggle } }} />
