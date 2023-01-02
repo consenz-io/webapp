@@ -13,6 +13,8 @@ import { truncateAfterWords } from 'utils/functions';
 
 export const SectionText = styled(ContentEditor)`
   color: ${(props) => props.theme.palette.text.draftText};
+  font-family: 'NotoSerif', serif;
+  font-weight: 400;
 `;
 
 const Draft: FC = () => {

@@ -18,6 +18,7 @@ import { ReactComponent as XLogo } from 'assets/icons/x-circle.svg';
 import { textSecondaryColor } from 'theme';
 import { AgreementContext } from 'contexts';
 import { isJsonContentEmpty } from 'utils/functions';
+import { SettingsContext } from '../contexts/settings';
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -28,6 +29,7 @@ function initChapters(): LocalChapter[] {
 }
 
 const NewAgreement: FC = () => {
+  const { isRTL } = useContext(SettingsContext);
   const { t } = useTranslation();
   const { vote } = useContext(AgreementContext);
   const { addAgreement, addAgreementError } = useContext(GroupContext);
@@ -143,7 +145,9 @@ const NewAgreement: FC = () => {
   return (
     <>
       <Appbar stepper={stepsProps} breadcrumbs={breadcrumsProps} actions={actionsProps} />
-      {isWaitingForAgreementMutation && <LinearProgress sx={{ marginX: -1 }} variant="query" />}
+      {isWaitingForAgreementMutation && (
+        <LinearProgress sx={{ marginX: -1 }} variant={isRTL ? 'query' : 'indeterminate'} />
+      )}
       <Container maxWidth="md">
         <Stack justifyContent="center" gap={5} marginY={4}>
           {step < 3 && (
