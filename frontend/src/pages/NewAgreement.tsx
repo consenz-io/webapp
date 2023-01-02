@@ -145,7 +145,9 @@ const NewAgreement: FC = () => {
   return (
     <>
       <Appbar stepper={stepsProps} breadcrumbs={breadcrumsProps} actions={actionsProps} />
-      {isWaitingForAgreementMutation && <LinearProgress sx={{ marginX: -1 }} variant={isRTL ? 'query' : 'indeterminate'} />}
+      {isWaitingForAgreementMutation && (
+        <LinearProgress sx={{ marginX: -1 }} variant={isRTL ? 'query' : 'indeterminate'} />
+      )}
       <Container maxWidth="md">
         <Stack justifyContent="center" gap={5} marginY={4}>
           {step < 3 && (
