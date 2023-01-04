@@ -60,6 +60,10 @@ const Agreement: FC = () => {
     },
   ];
 
+  if (agreement?.name) {
+    document.title = `${agreement.name}`;
+  }
+
   function handleFieldUpdate(field: 'name' | 'rationale', value: string) {
     debounce(() => updateAgreement({ [field]: value }), 1000);
   }
