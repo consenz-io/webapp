@@ -38,7 +38,7 @@ import {
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-const DisplaySection: FC<DisplayProns> = ({
+const DisplayedVersion: FC<DisplayProns> = ({
   sectionVersions,
   displayedVersion,
   setDisplayedVersion,
@@ -259,4 +259,4 @@ const DisplaySection: FC<DisplayProns> = ({
   );
 };
 
-export default DisplaySection;
+export default DisplayedVersion;

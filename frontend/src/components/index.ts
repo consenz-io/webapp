@@ -12,7 +12,7 @@ import SvgIcon from './SvgIcon';
 import SectionCard from './SectionCard';
 import { ClickableCard } from './ClickableCard';
 import TextEditorPopup from './TextEditorPopup';
-import DisplaySection from './DispalySection';
+import DisplayedVersion from './DisplayedVersion';
 import CommentsList from './CommentsList';
 import AddCommentBox from './AddCommentBox';
 
@@ -30,7 +30,7 @@ export {
   SidebarController,
   SidebarLayout,
   SvgIcon,
-  DisplaySection,
+  DisplayedVersion,
   TextEditorPopup,
   CommentsList,
   AddCommentBox,
