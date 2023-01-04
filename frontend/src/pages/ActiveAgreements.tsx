@@ -16,6 +16,8 @@ const AllAgreements: FC = () => {
 
   const { agreements, name, slug, id: groupId, isLoadingAgreements } = useContext(GroupContext);
 
+  document.title = t(StringBank.GROUP_AGREEMENTS, { group: name });
+
   const goToNewAgreement = (e: React.MouseEvent<HTMLElement>, slug = '') => {
     const url = `/${slug}/new-agreement`;
     if (!jwt) {
