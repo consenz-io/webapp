@@ -29,8 +29,16 @@ const CategoryAgreements = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { loginWithRedirect, jwt } = useContext(AuthContext);
-  const { slug, currentCategory, agreements, isLoadingAgreements } = useContext(GroupContext);
+  const {
+    slug,
+    currentCategory,
+    agreements,
+    isLoadingAgreements,
+    name: groupName,
+  } = useContext(GroupContext);
   const category = currentCategory || { id: 0, name: t(StringBank.UNCATEGORIZED) };
+
+  document.title = `${groupName} | ${category.name}`;
 
   function goToNewAgreement() {
     const url = `/${slug}/new-agreement`;
