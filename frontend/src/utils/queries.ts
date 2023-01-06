@@ -56,7 +56,7 @@ export const agreementQuery = gql`
             id
             content
           }
-          versions(order_by: { created_at: asc }) {
+          versions(order_by: { score: desc }) {
             id
             content
             created_at
