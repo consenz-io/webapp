@@ -111,6 +111,7 @@ select_permissions:
         - comment_count
         - downvotes
         - my_vote
+        - score
         - upvotes
       filter: {}
   - role: moderator
@@ -127,6 +128,7 @@ select_permissions:
         - comment_count
         - downvotes
         - my_vote
+        - score
         - upvotes
       filter: {}
   - role: public
@@ -145,6 +147,7 @@ select_permissions:
         - comment_count
         - downvotes
         - my_vote
+        - score
         - upvotes
       filter: {}
 update_permissions:
