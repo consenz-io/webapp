@@ -84,7 +84,7 @@ export const sectionQuery = gql`
       current_version {
         id
       }
-      versions(order_by: { created_at: asc }) {
+      versions(order_by: { score: desc }) {
         id
         content
         created_at
