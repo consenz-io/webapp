@@ -4,9 +4,9 @@ CREATE OR REPLACE FUNCTION core.section_version_score(version_row core.section_v
   STABLE
 AS $$
 DECLARE 
-  upvotes BIGINT;
-  downvotes BIGINT;
-  total_agreement_users BIGINT;
+  upvotes float;
+  downvotes float;
+  total_agreement_users float;
 BEGIN
   SELECT core.section_versions_count_votes_up(version_row) INTO upvotes;
   SELECT core.section_versions_count_votes_down(version_row) INTO downvotes;
