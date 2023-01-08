@@ -49,6 +49,11 @@ computed_fields:
         schema: core
       session_argument: hasura_session
     comment: 'The current hasura user''s vote on this section version: up, down, or null.'
+  - name: score
+    definition:
+      function:
+        name: section_version_score
+        schema: core
   - name: upvotes
     definition:
       function:
@@ -106,6 +111,7 @@ select_permissions:
         - comment_count
         - downvotes
         - my_vote
+        - score
         - upvotes
       filter: {}
   - role: moderator
@@ -122,6 +128,7 @@ select_permissions:
         - comment_count
         - downvotes
         - my_vote
+        - score
         - upvotes
       filter: {}
   - role: public
@@ -140,6 +147,7 @@ select_permissions:
         - comment_count
         - downvotes
         - my_vote
+        - score
         - upvotes
       filter: {}
 update_permissions:

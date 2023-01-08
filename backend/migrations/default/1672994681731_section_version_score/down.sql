@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS core.section_version_score(core.section_versions);
