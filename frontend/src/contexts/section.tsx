@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
+import { useMutation, useQuery, useLazyQuery, FetchResult } from '@apollo/client';
 import { createContext, FC, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IFCProps, Section } from 'types';
@@ -33,7 +33,7 @@ export interface fetchCommentsVars {
 interface SectionState {
   section?: Section;
   deleteComment: (commentId: number) => void;
-  deleteSectionVersion: (sectionVersionId: number) => void;
+  deleteSectionVersion: (sectionVersionId: number) => Promise<FetchResult>;
   addVersion: (content: JSONContent) => Promise<Version>;
   addComment: (content: string, versionId: number) => void;
   fetchComments: (sectionVersionId: number) => unknown;
@@ -75,13 +75,12 @@ const SectionProvider: FC<IFCProps> = ({ children }) => {
         },
       });
     },
-    deleteSectionVersion: (sectionVersionId: number) => {
+    deleteSectionVersion: (sectionVersionId: number) =>
       deleteSectionVersion({
         variables: {
           id: sectionVersionId,
         },
-      });
-    },
+      }),
     addVersion: useCallback(
       async (content: JSONContent) => {
         const { data } = await addVersion({ variables: { content, sectionId: Number(sectionId) } });

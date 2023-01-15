@@ -10,7 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { SvgIcon, Dialog } from 'components';
-import React, { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 import { BtnCapital } from './DropDownMenu/style';
 import { ReactComponent as LinkIcon } from 'assets/icons/link.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
@@ -19,14 +19,8 @@ import { ReactComponent as LikeIcon } from 'assets/icons/like.svg';
 import { useTranslation } from 'react-i18next';
 import ContentEditor from './ContentEditor';
 import { Role, Version } from 'types/entities';
-import { backgroundBorderColor, textSecondaryColor } from 'theme';
+import { textSecondaryColor } from 'theme';
 import { getVoteColor, getRemainingSupporters, getVersionProgress } from 'utils/functions';
-interface DisplayProns {
-  displayedVersion: Version;
-  sectionVersions: Version[];
-  setDisplayedVersion: Dispatch<SetStateAction<Version | undefined>>;
-  initialVersionId: string | undefined;
-}
 import { StringBank } from 'strings';
 import {
   AgreementContext,
@@ -38,7 +32,14 @@ import {
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-const DisplayedVersion: FC<DisplayProns> = ({
+interface Props {
+  displayedVersion: Version;
+  sectionVersions: Version[];
+  setDisplayedVersion: Dispatch<SetStateAction<Version | undefined>>;
+  initialVersionId: string | undefined;
+}
+
+const DisplayedVersion: FC<Props> = ({
   sectionVersions,
   displayedVersion,
   setDisplayedVersion,
@@ -53,7 +54,7 @@ const DisplayedVersion: FC<DisplayProns> = ({
   const [currentVersionIndex, setCurrentVersionIndex] = useState<number>(
     sectionVersions.findIndex((v) => v.id === displayedVersion.id)
   );
-  const { deleteSectionVersion, comments } = useContext(SectionContext);
+  const { deleteSectionVersion } = useContext(SectionContext);
   const [dialogContent, setDialogContent] = useState<string>('');
   const [dialogTitle, setDialogTitle] = useState<string>('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -144,16 +145,11 @@ const DisplayedVersion: FC<DisplayProns> = ({
                   onClick={() => {
                     setDialogTitle(t(StringBank.DELETE_SECTION_VERSION));
                     setDialogContent(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
-                    setDialogFinishFN(() => {
-                      return handleDelSectionVersion;
-                    });
+                    setDialogFinishFN(handleDelSectionVersion);
                     setIsDialogOpen(true);
                   }}
-                  disabled={!!comments?.length}
                 >
-                  <SvgIcon
-                    htmlColor={comments?.length ? backgroundBorderColor : textSecondaryColor}
-                  >
+                  <SvgIcon htmlColor={textSecondaryColor}>
                     <TrashIcon />
                   </SvgIcon>
                 </IconButton>
