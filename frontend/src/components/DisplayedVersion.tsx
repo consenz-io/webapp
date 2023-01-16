@@ -10,7 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { SvgIcon, Dialog } from 'components';
-import { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { BtnCapital } from './DropDownMenu/style';
 import { ReactComponent as LinkIcon } from 'assets/icons/link.svg';
 import { ReactComponent as DislikeIcon } from 'assets/icons/dislike.svg';
@@ -22,27 +22,24 @@ import { Role, Version } from 'types/entities';
 import { textSecondaryColor } from 'theme';
 import { getVoteColor, getRemainingSupporters, getVersionProgress } from 'utils/functions';
 import { StringBank } from 'strings';
-import {
-  AgreementContext,
-  AuthContext,
-  UserContext,
-  SectionContext,
-  SettingsContext,
-} from 'contexts';
+import { AgreementContext, AuthContext, UserContext, SettingsContext } from 'contexts';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 interface Props {
   displayedVersion: Version;
   sectionVersions: Version[];
-  setDisplayedVersion: Dispatch<SetStateAction<Version | undefined>>;
   initialVersionId: string | undefined;
+  onNextClick: () => void;
+  onPreviousClick: () => void;
+  onDelete: () => void;
 }
 
 const DisplayedVersion: FC<Props> = ({
-  sectionVersions,
   displayedVersion,
-  setDisplayedVersion,
+  onNextClick,
+  onPreviousClick,
+  onDelete,
 }) => {
   const theme = useTheme();
   const { vote } = useContext(AgreementContext);
@@ -51,28 +48,15 @@ const DisplayedVersion: FC<Props> = ({
   const { isRTL } = useContext(SettingsContext);
   const { t } = useTranslation();
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
-  const [currentVersionIndex, setCurrentVersionIndex] = useState<number>(
-    sectionVersions.findIndex((v) => v.id === displayedVersion.id)
-  );
-  const { deleteSectionVersion } = useContext(SectionContext);
-  const [dialogContent, setDialogContent] = useState<string>('');
-  const [dialogTitle, setDialogTitle] = useState<string>('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dialogFinishFN, setDialogFinishFN] = useState<(val: string) => void>(() =>
-    setIsDialogOpen(false)
-  );
 
   function getIconColor(voteType: 'up' | 'down'): string {
     return getVoteColor(theme, voteType, displayedVersion?.my_vote);
   }
 
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-  };
-
-  function handleDelSectionVersion() {
+  function handleDelete() {
     if (displayedVersion) {
-      deleteSectionVersion?.(displayedVersion.id);
+      onDelete();
     }
     setIsDialogOpen(false);
   }
@@ -87,27 +71,6 @@ const DisplayedVersion: FC<Props> = ({
     setTimeout(() => {
       setIsSnackbarVisible(false);
     }, 5000);
-  }
-
-  function changeDisplayedVersion(type: 'right' | 'left') {
-    switch (type) {
-      case 'right':
-        if (currentVersionIndex <= sectionVersions.length) {
-          const newVersion = sectionVersions[currentVersionIndex + 1];
-          if (newVersion) {
-            setCurrentVersionIndex(currentVersionIndex + 1);
-            setDisplayedVersion(newVersion);
-          }
-        }
-        break;
-      case 'left':
-        if (currentVersionIndex > 0) {
-          const newVersion = sectionVersions[currentVersionIndex - 1];
-          setCurrentVersionIndex(currentVersionIndex - 1);
-          setDisplayedVersion(newVersion);
-        }
-        break;
-    }
   }
 
   return (
@@ -140,15 +103,7 @@ const DisplayedVersion: FC<Props> = ({
               </IconButton>
 
               {checkAuthorOrModerator(displayedVersion.author?.id || -1) && (
-                <IconButton
-                  size="small"
-                  onClick={() => {
-                    setDialogTitle(t(StringBank.DELETE_SECTION_VERSION));
-                    setDialogContent(t(StringBank.CONFIRM_SECTION_VERSION_DELETE));
-                    setDialogFinishFN(handleDelSectionVersion);
-                    setIsDialogOpen(true);
-                  }}
-                >
+                <IconButton size="small" onClick={() => setIsDialogOpen(true)}>
                   <SvgIcon htmlColor={textSecondaryColor}>
                     <TrashIcon />
                   </SvgIcon>
@@ -162,10 +117,7 @@ const DisplayedVersion: FC<Props> = ({
             alignItems="center"
             marginBottom={3}
           >
-            <IconButton
-              onClick={() => changeDisplayedVersion('left')}
-              disabled={currentVersionIndex - 1 < 0}
-            >
+            <IconButton onClick={onPreviousClick}>
               {isRTL ? (
                 <ArrowForwardIosIcon sx={{ fontSize: '1rem' }} />
               ) : (
@@ -182,12 +134,7 @@ const DisplayedVersion: FC<Props> = ({
                 <ContentEditor readonly content={displayedVersion?.content} />
               </Stack>
             </Stack>
-            <IconButton
-              disabled={currentVersionIndex + 1 >= sectionVersions.length}
-              onClick={() => {
-                changeDisplayedVersion('right');
-              }}
-            >
+            <IconButton onClick={onNextClick}>
               {isRTL ? (
                 <ArrowBackIosNewIcon sx={{ fontSize: '1rem' }} />
               ) : (
@@ -238,10 +185,10 @@ const DisplayedVersion: FC<Props> = ({
       </Card>
       <Dialog
         openDialogState={isDialogOpen}
-        title={dialogTitle}
-        content={dialogContent}
-        cancelFunction={handleCloseDialog}
-        finishFunction={dialogFinishFN}
+        title={t(StringBank.DELETE_SECTION_VERSION)}
+        content={t(StringBank.CONFIRM_SECTION_VERSION_DELETE)}
+        cancelFunction={() => setIsDialogOpen(false)}
+        finishFunction={handleDelete}
         cancelBtnText={t(StringBank.CANCEL)}
         finishBtnText={t(StringBank.DELETE)}
         doneBtnVariant="delete"

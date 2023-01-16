@@ -32,28 +32,18 @@ const SectionCard: FC<Props> = ({ section }) => {
   const myVote = section.versions[versionIndex].my_vote;
   const theme = useTheme();
 
-  function updateContent(newversionIndex: number) {
-    setVersionIndex(newversionIndex);
-  }
-
   function checkIconColor(voteType: 'up' | 'down') {
     return getVoteColor(theme, voteType, myVote);
   }
 
-  function forwardVersion(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  function showNextVersion(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
-    if (versionIndex + 1 < section.versions.length) {
-      const newIndex = versionIndex + 1;
-      updateContent(newIndex);
-    }
+    setVersionIndex(versionIndex + 1 < section.versions.length ? versionIndex + 1 : 0);
   }
 
-  function backwardsVersion(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  function showPreviousVersion(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
-    if (versionIndex - 1 >= 0) {
-      const newIndex = versionIndex - 1;
-      updateContent(newIndex);
-    }
+    setVersionIndex(versionIndex - 1 >= 0 ? versionIndex - 1 : section.versions.length - 1);
   }
 
   function handleVote(type: 'up' | 'down', e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -69,7 +59,7 @@ const SectionCard: FC<Props> = ({ section }) => {
       onClick={() => navigate(`section/${section.id}/${displayedVersion.id}`)}
     >
       <Stack direction="row" justifyContent="space-between" alignItems="center" gap={2}>
-        <IconButton onClick={backwardsVersion} disabled={versionIndex === 0}>
+        <IconButton onClick={showPreviousVersion}>
           {isRTL ? (
             <ArrowForwardIosIcon fontSize="small" />
           ) : (
@@ -142,10 +132,7 @@ const SectionCard: FC<Props> = ({ section }) => {
             </Tooltip>
           </Stack>
         </Stack>
-        <IconButton
-          disabled={versionIndex === section.versions.length - 1}
-          onClick={forwardVersion}
-        >
+        <IconButton onClick={showNextVersion}>
           {isRTL ? (
             <ArrowBackIosNewIcon fontSize="small" />
           ) : (

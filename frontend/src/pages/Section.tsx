@@ -17,27 +17,30 @@ import { AuthContext } from 'contexts';
 import { GroupContext } from 'contexts/group';
 
 const Section: FC = () => {
-  const [openDialogState, setOpenDialogState] = useState(false);
-  const { section, addVersion, fetchComments, comments, deleteComment } =
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { section, addVersion, fetchComments, comments, deleteComment, deleteSectionVersion } =
     useContext(SectionContext);
   const { id: groupId } = useContext(GroupContext);
   const { agreement, vote } = useContext(AgreementContext);
   const { jwt, loginWithRedirect } = useContext(AuthContext);
   const { versionId } = useParams();
+  const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
   const [displayedVersion, setDisplayedVersion] = useState(
     section?.versions?.find((v) => v.id === Number(versionId))
   );
-  const { t } = useTranslation();
-  const [commentIdToDel, setCommentIdToDel] = useState<number>(-1);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
+  const [openDialogState, setOpenDialogState] = useState(false);
+
+  const displayedVersionIndex = section?.versions?.findIndex(
+    (version) => version.id === displayedVersion?.id
+  );
 
   const handleDeleteComment = () => {
     deleteComment(commentIdToDel);
     setCommentIdToDel(-1);
     setOpenDialogState(false);
   };
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const section_version_id = displayedVersion?.id;
@@ -77,6 +80,32 @@ const Section: FC = () => {
       });
     }
     setIsTextPopupOpen(true);
+  }
+
+  function goToNextVerion(): void {
+    if (!section || displayedVersionIndex === undefined || displayedVersionIndex < 0) {
+      return;
+    }
+    const desiredIndex =
+      displayedVersionIndex + 1 >= section.versions.length ? 0 : displayedVersionIndex + 1;
+    navigate(`../section/${section.id}/${section.versions[desiredIndex].id}`);
+  }
+
+  function goToPreviousVerion(): void {
+    if (!section || displayedVersionIndex === undefined || displayedVersionIndex < 0) {
+      return;
+    }
+    const desiredIndex =
+      displayedVersionIndex - 1 < 0 ? section.versions.length - 1 : displayedVersionIndex - 1;
+    navigate(`../section/${section.id}/${section.versions[desiredIndex].id}`);
+  }
+
+  function deleteVersion(): void {
+    if (!displayedVersion) {
+      return;
+    }
+    deleteSectionVersion(displayedVersion.id);
+    goToNextVerion();
   }
 
   return (
@@ -122,7 +151,9 @@ const Section: FC = () => {
       </Stack>
       {displayedVersion && (
         <DisplayedVersion
-          setDisplayedVersion={setDisplayedVersion}
+          onDelete={deleteVersion}
+          onNextClick={goToNextVerion}
+          onPreviousClick={goToPreviousVerion}
           sectionVersions={section?.versions || []}
           displayedVersion={displayedVersion}
           initialVersionId={versionId}
