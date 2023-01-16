@@ -225,7 +225,7 @@ const Agreement: FC = () => {
       </Stack>
       <TextEditorPopup
         isOpen={isTextPopupOpen}
-        parentSection={t(StringBank.NEW_SECTION)}
+        title={t(StringBank.NEW_SECTION)}
         onComplete={handleComplete}
         onCancel={() => setIsTextPopupOpen(false)}
         completeBtnText={t(StringBank.ADD_SECTION)}

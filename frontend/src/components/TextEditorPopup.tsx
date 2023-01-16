@@ -22,7 +22,7 @@ import { SettingsContext } from 'contexts';
 
 interface DialogProps {
   isOpen: boolean;
-  parentSection?: string;
+  title?: string;
   newVersionName?: string;
   onCancel: () => void;
   onComplete: (content: JSONContent) => void;
@@ -37,7 +37,7 @@ const TextEditorPopup: FC<DialogProps> = ({
   onComplete,
   isOpen,
   initialContent,
-  parentSection,
+  title,
   newVersionName,
   completeBtnText,
   cancelBtnText,
@@ -67,7 +67,7 @@ const TextEditorPopup: FC<DialogProps> = ({
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Stack direction="row" color={textSecondaryColor}>
             <Typography variant="h3" color={newVersionName ? undefined : 'text.primary'}>
-              {parentSection}
+              {title}
             </Typography>
             {newVersionName && (
               <>
@@ -103,7 +103,10 @@ const TextEditorPopup: FC<DialogProps> = ({
             {cancelBtnText}
           </Button>
           <Button
-            disabled={isJsonContentEmpty(newTextContent)}
+            disabled={
+              isJsonContentEmpty(newTextContent) ||
+              JSON.stringify(initialContent) === JSON.stringify(newTextContent)
+            }
             color="primary"
             variant="contained"
             onClick={() => onComplete(newTextContent ?? {})}
