@@ -59,7 +59,7 @@ const SectionCard: FC<Props> = ({ section }) => {
       onClick={() => navigate(`section/${section.id}/${displayedVersion.id}`)}
     >
       <Stack direction="row" justifyContent="space-between" alignItems="center" gap={2}>
-        <IconButton onClick={showPreviousVersion}>
+        <IconButton onClick={showPreviousVersion} disabled={versionIndex === 0}>
           {isRTL ? (
             <ArrowForwardIosIcon fontSize="small" />
           ) : (
@@ -132,7 +132,10 @@ const SectionCard: FC<Props> = ({ section }) => {
             </Tooltip>
           </Stack>
         </Stack>
-        <IconButton onClick={showNextVersion}>
+        <IconButton
+          onClick={showNextVersion}
+          disabled={versionIndex === section.versions.length - 1}
+        >
           {isRTL ? (
             <ArrowBackIosNewIcon fontSize="small" />
           ) : (

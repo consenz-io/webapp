@@ -11,7 +11,7 @@ import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { textSecondaryColor } from 'theme';
-import { Section as SectionType } from 'types';
+import { Section as ISection } from 'types';
 import { JSONContent } from '@tiptap/react';
 import { AuthContext } from 'contexts';
 import { GroupContext } from 'contexts/group';
@@ -32,15 +32,16 @@ const Section: FC = () => {
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
   const [openDialogState, setOpenDialogState] = useState(false);
 
-  const displayedVersionIndex = section?.versions?.findIndex(
-    (version) => version.id === displayedVersion?.id
-  );
+  const displayedVersionIndex =
+    section?.versions?.findIndex((version) => version.id === displayedVersion?.id) ?? -1;
 
-  const handleDeleteComment = () => {
+  const hasNextVersion = displayedVersionIndex < (section?.versions?.length ?? 0) - 1;
+
+  function handleDeleteComment() {
     deleteComment(commentIdToDel);
     setCommentIdToDel(-1);
     setOpenDialogState(false);
-  };
+  }
 
   useEffect(() => {
     const section_version_id = displayedVersion?.id;
@@ -53,7 +54,7 @@ const Section: FC = () => {
     setDisplayedVersion(section?.versions?.find((v) => v.id === Number(versionId)));
   }, [section, versionId]);
 
-  function generateVersionName(section: SectionType | undefined): string {
+  function generateVersionName(section: ISection | undefined): string {
     const versionNum = (section?.versions?.length ?? NaN) + 1;
     return `${t(StringBank.VERSION)} ${versionNum}`;
   }
@@ -152,8 +153,8 @@ const Section: FC = () => {
       {displayedVersion && (
         <DisplayedVersion
           onDelete={deleteVersion}
-          onNextClick={goToNextVerion}
-          onPreviousClick={goToPreviousVerion}
+          onPreviousClick={displayedVersionIndex > 0 ? goToPreviousVerion : undefined}
+          onNextClick={hasNextVersion ? goToNextVerion : undefined}
           sectionVersions={section?.versions || []}
           displayedVersion={displayedVersion}
           initialVersionId={versionId}

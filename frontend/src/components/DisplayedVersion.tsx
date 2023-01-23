@@ -30,8 +30,8 @@ interface Props {
   displayedVersion: Version;
   sectionVersions: Version[];
   initialVersionId: string | undefined;
-  onNextClick: () => void;
-  onPreviousClick: () => void;
+  onNextClick?: () => void;
+  onPreviousClick?: () => void;
   onDelete: () => void;
 }
 
@@ -117,7 +117,7 @@ const DisplayedVersion: FC<Props> = ({
             alignItems="center"
             marginBottom={3}
           >
-            <IconButton onClick={onPreviousClick}>
+            <IconButton onClick={onPreviousClick} disabled={!onPreviousClick}>
               {isRTL ? (
                 <ArrowForwardIosIcon sx={{ fontSize: '1rem' }} />
               ) : (
@@ -134,7 +134,7 @@ const DisplayedVersion: FC<Props> = ({
                 <ContentEditor readonly content={displayedVersion?.content} />
               </Stack>
             </Stack>
-            <IconButton onClick={onNextClick}>
+            <IconButton onClick={onNextClick} disabled={!onNextClick}>
               {isRTL ? (
                 <ArrowBackIosNewIcon sx={{ fontSize: '1rem' }} />
               ) : (
