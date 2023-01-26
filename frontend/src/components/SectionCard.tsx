@@ -25,8 +25,9 @@ const SectionCard: FC<Props> = ({ section }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { isRTL } = useContext(SettingsContext);
-  const [versionIndex, setVersionIndex] = useState<number>(0);
+  const [versionId, setVersionId] = useState<number>(section.versions[0].id);
   const { vote } = useContext(AgreementContext);
+  const versionIndex = section.versions.findIndex((version) => version.id === versionId);
   const displayedVersion = section.versions[versionIndex];
   const isCurrentVersionDisplayed = displayedVersion.id === section.current_version?.id;
   const myVote = section.versions[versionIndex].my_vote;
@@ -38,12 +39,20 @@ const SectionCard: FC<Props> = ({ section }) => {
 
   function showNextVersion(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
-    setVersionIndex(versionIndex + 1 < section.versions.length ? versionIndex + 1 : 0);
+    const desiredId =
+      versionIndex + 1 < section.versions.length
+        ? section.versions[versionIndex + 1].id
+        : section.versions[0].id;
+    setVersionId(desiredId);
   }
 
   function showPreviousVersion(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
-    setVersionIndex(versionIndex - 1 >= 0 ? versionIndex - 1 : section.versions.length - 1);
+    const desiredId =
+      versionIndex - 1 >= 0
+        ? section.versions[versionIndex - 1].id
+        : section.versions[section.versions.length - 1].id;
+    setVersionId(desiredId);
   }
 
   function handleVote(type: 'up' | 'down', e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
