@@ -17,9 +17,9 @@ interface DialogProps {
   title: string;
   content: string;
   openDialogState: boolean;
-  cancelFunction: () => void;
+  cancelFunction?: () => void;
   finishFunction: (val: string) => void;
-  cancelBtnText: string;
+  cancelBtnText?: string;
   finishBtnText: string;
   placeHolderText?: string;
   isTextBox?: boolean;
@@ -67,11 +67,13 @@ export default function Dialog(props: DialogProps) {
         >
           {props.title}
         </Typography>
-        <IconButton onClick={props.cancelFunction} edge="end">
-          <SvgIcon htmlColor={textSecondaryColor}>
-            <Xbtn />
-          </SvgIcon>
-        </IconButton>
+        {props.cancelFunction && (
+          <IconButton onClick={props.cancelFunction} edge="end">
+            <SvgIcon htmlColor={textSecondaryColor}>
+              <Xbtn />
+            </SvgIcon>
+          </IconButton>
+        )}
       </Stack>
       {props.content && (
         <Typography

@@ -104,4 +104,6 @@ Are you sure?`,
   WELCOME_HEADER: 'Welcome to consenz!',
   WELCOME_PARAGRAPH:
     'You are not part of a Group yet,\n  ask your Group Manager to invite you to join\n  \n  and have fun!',
+  WELCOME_TO_BETA_VERSION:
+    "Welcome to the beta version of consenz! We are excited to share our latest creation with you. Please keep in mind that this is a work in progress and some features may not work as intended. Your feedback is extremely valuable to us, and we appreciate your patience and understanding as we work to improve the app. Please don't hesitate to reach out to us with any comments or suggestions. Thank you for being a part of our beta testing community and helping us create a better experience for everyone.",
 };
