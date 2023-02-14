@@ -96,7 +96,9 @@ export default function Dialog(props: DialogProps) {
         />
       )}
       <DialogActions sx={{ padding: 0 }}>
-        <Button onClick={props.cancelFunction}>{props.cancelBtnText}</Button>
+        {props.cancelFunction && (
+          <Button onClick={props.cancelFunction}>{props.cancelBtnText}</Button>
+        )}
         <Button
           color={donBtnColor}
           variant={doneBtnVariant}
