@@ -85,7 +85,11 @@ const Agreement: FC = () => {
     if (section) {
       setCurrentSectionIndex(section.index + 1);
     } else {
-      setCurrentSectionIndex(chapter?.sections[0].index);
+      const desiredIndex =
+        chapter.sections[0]?.index ??
+        (agreement?.chapters?.filter((c) => c.index < chapter.index)?.flatMap((c) => c.sections)
+          .length ?? 0) + 1;
+      setCurrentSectionIndex(desiredIndex);
     }
     setIsTextPopupOpen(true);
   }
