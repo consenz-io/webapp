@@ -1,6 +1,6 @@
 export interface IFCProps {
-  mobileOpen: boolean;
-  handleSidebarToggle: () => void;
+  open: boolean;
+  onClose: () => void;
 }
 
 export interface IUserData {

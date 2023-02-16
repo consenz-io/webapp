@@ -4,12 +4,12 @@ import { Outlet } from 'react-router-dom';
 import { GroupContext } from 'contexts/group';
 import { Stack, Container, LinearProgress, Box, useTheme, useMediaQuery } from '@mui/material';
 import { Logo } from 'assets';
-import { SettingsContext } from '../../contexts/settings';
+import { SettingsContext } from '../contexts/settings';
 import { useTranslation } from 'react-i18next';
 import { StringBank } from 'strings';
 
 export const SidebarLayout: FC = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [hadSeenBetaVersion, setHadSeenBetaVersion] = useState(
     localStorage.getItem('hadSeenBetaVersion') === 'true'
   );
@@ -23,13 +23,13 @@ export const SidebarLayout: FC = () => {
     localStorage.setItem('hadSeenBetaVersion', String(hadSeenBetaVersion));
   }, [hadSeenBetaVersion]);
 
-  const handleSidebarToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  function handleSidebarToggle() {
+    setIsSidebarOpen(!isSidebarOpen);
+  }
 
   return (
     <>
-      <Sidebar mobileOpen={mobileOpen} handleSidebarToggle={handleSidebarToggle} />
+      <Sidebar open={!isMobile || isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <Box marginLeft={isMobile ? 0 : 30}>
         {isLoadingAgreements ? (
           <Container
@@ -48,7 +48,7 @@ export const SidebarLayout: FC = () => {
             <LinearProgress variant={isRTL ? 'query' : 'indeterminate'} />
           </Container>
         ) : (
-          <Outlet context={{ sidebar: { mobileOpen, handleSidebarToggle } }} />
+          <Outlet context={{ sidebar: { mobileOpen: isSidebarOpen, handleSidebarToggle } }} />
         )}
       </Box>
       <Dialog

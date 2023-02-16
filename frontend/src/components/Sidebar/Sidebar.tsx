@@ -52,7 +52,7 @@ const sidebarItems: SidebarItem[] = [
   },
 ];
 
-const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
+const Sidebar: FC<IFCProps> = ({ open, onClose }) => {
   const { user } = useContext(UserContext);
   const { logout, jwt, loginWithRedirect } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -74,11 +74,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   }
 
   return (
-    <SC.Drawer
-      variant={isMobile ? 'temporary' : 'permanent'}
-      open={!isMobile || mobileOpen}
-      onClose={handleSidebarToggle}
-    >
+    <SC.Drawer variant={isMobile ? 'temporary' : 'permanent'} open={open} onClose={onClose}>
       <Box padding={2}>
         <Link
           to={groupSlug ? `/${groupSlug}/active-agreements` : '/'}

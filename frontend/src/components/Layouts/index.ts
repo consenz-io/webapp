@@ -1,1 +1,0 @@
-export { SidebarLayout } from './Layouts';
