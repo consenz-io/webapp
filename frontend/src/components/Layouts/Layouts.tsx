@@ -1,9 +1,8 @@
-import * as SC from './style';
 import { Dialog, Sidebar } from 'components';
 import { FC, useContext, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { GroupContext } from 'contexts/group';
-import { Stack, Container, LinearProgress } from '@mui/material';
+import { Stack, Container, LinearProgress, Box, useTheme, useMediaQuery } from '@mui/material';
 import { Logo } from 'assets';
 import { SettingsContext } from '../../contexts/settings';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +16,8 @@ export const SidebarLayout: FC = () => {
   const { isLoadingAgreements } = useContext(GroupContext);
   const { isRTL } = useContext(SettingsContext);
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
     localStorage.setItem('hadSeenBetaVersion', String(hadSeenBetaVersion));
@@ -29,7 +30,7 @@ export const SidebarLayout: FC = () => {
   return (
     <>
       <Sidebar mobileOpen={mobileOpen} handleSidebarToggle={handleSidebarToggle} />
-      <SC.Wrapper>
+      <Box marginLeft={isMobile ? 0 : 30}>
         {isLoadingAgreements ? (
           <Container
             maxWidth="xs"
@@ -49,7 +50,7 @@ export const SidebarLayout: FC = () => {
         ) : (
           <Outlet context={{ sidebar: { mobileOpen, handleSidebarToggle } }} />
         )}
-      </SC.Wrapper>
+      </Box>
       <Dialog
         content={t(StringBank.WELCOME_TO_BETA_VERSION)}
         title=""

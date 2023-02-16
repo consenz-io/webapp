@@ -1,7 +1,6 @@
 import * as SC from './style';
 import { FC, useState, useContext } from 'react';
 import { IFCProps } from './types';
-import { useResponsive } from 'hooks';
 import { Logo } from 'assets';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -14,15 +13,17 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { MenuItem } from 'types';
 import { AuthContext, SettingsContext } from 'contexts';
 import {
+  Box,
   Button,
   ButtonBase,
-  Container,
   List,
   ListItemIcon,
   ListItemText,
   ListSubheader,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { ReactComponent as FilesIcon } from 'assets/icons/files.svg';
 import { ReactComponent as ArchiveIcon } from 'assets/icons/archive.svg';
@@ -54,7 +55,6 @@ const sidebarItems: SidebarItem[] = [
 const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
   const { user } = useContext(UserContext);
   const { logout, jwt, loginWithRedirect } = useContext(AuthContext);
-  const { isMobile } = useResponsive();
   const { t } = useTranslation();
   const { isRTL } = useContext(SettingsContext);
   const navigate = useNavigate();
@@ -65,74 +65,78 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
       action: logout,
     },
   ]);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   function handleFeedback(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     window.location.href = 'mailto:info@consenz.io?subject=Feedback for Consenz';
   }
 
-  const content = (
-    <>
-      <SC.LogoContainer>
+  return (
+    <SC.Drawer
+      variant={isMobile ? 'temporary' : 'permanent'}
+      open={!isMobile || mobileOpen}
+      onClose={handleSidebarToggle}
+    >
+      <Box padding={2}>
         <Link
           to={groupSlug ? `/${groupSlug}/active-agreements` : '/'}
           title={t(StringBank.GOTO_HOMEPAGE_TITLE)}
         >
           <Logo />
         </Link>
-      </SC.LogoContainer>
+      </Box>
       <GroupsNav name="group" menuItems={user?.groups} endIcon={<KeyboardArrowDownIcon />} />
-      <SC.Content>
-        <List>
-          {sidebarItems.map((item, i) => (
-            <SC.ListItemButton
-              key={i}
-              onClick={() => navigate(`/${groupSlug}/${item.to}`)}
-              selected={window.location.href.endsWith(item.to)}
-            >
-              <ListItemIcon>
-                <SvgIcon
-                  htmlColor={window.location.href.endsWith(item.to) ? '#fff' : textSecondaryColor}
-                >
-                  {item.icon}
-                </SvgIcon>
-              </ListItemIcon>
-              <ListItemText>
-                <Typography variant="h6">{t(item.name)}</Typography>
-              </ListItemText>
-            </SC.ListItemButton>
-          ))}
-          <ListSubheader>{t(StringBank.CATEGORIES)}</ListSubheader>
+      <List sx={{ flex: 1 }}>
+        {sidebarItems.map((item, i) => (
           <SC.ListItemButton
-            onClick={() => navigate(`/${groupSlug}/cat/0`)}
-            selected={window.location.href.endsWith('0')}
+            key={i}
+            onClick={() => navigate(`/${groupSlug}/${item.to}`)}
+            selected={window.location.href.endsWith(item.to)}
           >
             <ListItemIcon>
-              <CircleIcon sx={{ color: 'background.border' }} fontSize="small" />
+              <SvgIcon
+                htmlColor={window.location.href.endsWith(item.to) ? '#fff' : textSecondaryColor}
+              >
+                {item.icon}
+              </SvgIcon>
             </ListItemIcon>
             <ListItemText>
-              <Typography variant="h6">{t(StringBank.UNCATEGORIZED)}</Typography>
+              <Typography variant="h6">{t(item.name)}</Typography>
             </ListItemText>
           </SC.ListItemButton>
-          {categories?.map((category, i) => (
-            <SC.ListItemButton
-              key={i}
-              onClick={() => navigate(`/${groupSlug}/cat/${category.id}`)}
-              selected={window.location.href.endsWith(`cat/${String(category.id)}`)}
-            >
-              <ListItemIcon>
-                <CircleIcon
-                  htmlColor={generateColorFromString(category.name, true)}
-                  fontSize="small"
-                />
-              </ListItemIcon>
-              <ListItemText>
-                <Typography variant="h6">{category.name}</Typography>
-              </ListItemText>
-            </SC.ListItemButton>
-          ))}
-        </List>
-      </SC.Content>
+        ))}
+        <ListSubheader>{t(StringBank.CATEGORIES)}</ListSubheader>
+        <SC.ListItemButton
+          onClick={() => navigate(`/${groupSlug}/cat/0`)}
+          selected={window.location.href.endsWith('0')}
+        >
+          <ListItemIcon>
+            <CircleIcon sx={{ color: 'background.border' }} fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>
+            <Typography variant="h6">{t(StringBank.UNCATEGORIZED)}</Typography>
+          </ListItemText>
+        </SC.ListItemButton>
+        {categories?.map((category, i) => (
+          <SC.ListItemButton
+            key={i}
+            onClick={() => navigate(`/${groupSlug}/cat/${category.id}`)}
+            selected={window.location.href.endsWith(`cat/${String(category.id)}`)}
+          >
+            <ListItemIcon>
+              <CircleIcon
+                htmlColor={generateColorFromString(category.name, true)}
+                fontSize="small"
+              />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography variant="h6">{category.name}</Typography>
+            </ListItemText>
+          </SC.ListItemButton>
+        ))}
+      </List>
       {jwt ? (
         <>
           <ButtonBase sx={{ margin: 1 }} onClick={handleFeedback} disableRipple>
@@ -158,7 +162,7 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           />
         </>
       ) : (
-        <Container sx={{ padding: 2, borderTop: '1px solid rgba(248, 250, 252, 0.16)' }}>
+        <Box sx={{ padding: 2, borderTop: '1px solid rgba(248, 250, 252, 0.16)' }}>
           <Button
             fullWidth
             variant="contained"
@@ -172,34 +176,9 @@ const Sidebar: FC<IFCProps> = ({ mobileOpen, handleSidebarToggle }) => {
           >
             <Typography variant="body2">{t(StringBank.LOGIN)}</Typography>
           </Button>
-        </Container>
+        </Box>
       )}
-    </>
-  );
-
-  return (
-    <>
-      <SC.Container>
-        <nav>
-          {isMobile ? (
-            <SC.Drawer
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleSidebarToggle}
-              ModalProps={{
-                keepMounted: true,
-              }}
-            >
-              {content}
-            </SC.Drawer>
-          ) : (
-            <SC.Drawer variant="persistent" anchor="left" open>
-              {content}
-            </SC.Drawer>
-          )}
-        </nav>
-      </SC.Container>
-    </>
+    </SC.Drawer>
   );
 };
 

@@ -5,26 +5,13 @@ export const Drawer = styled(MuiDrawer)`
   && {
     .MuiDrawer-paper {
       width: 15rem;
-      border: none;
-      border-${(props) => (props.theme.direction === 'rtl' ? 'left' : 'right')}: 1px solid ${(
-  props
-) => props.theme.palette.background.border};
-      background: ${(props) => props.theme.palette.background.sidebar};
-      left: ${(props) => (props.theme.direction === 'rtl' ? 'auto' : '0')};
+      border-${({ theme }) => (theme.direction === 'rtl' ? 'left' : 'right')}: 1px solid ${({
+  theme,
+}) => theme.palette.background.border};
+  background: ${({ theme }) => theme.palette.background.sidebar};
+      left: ${({ theme }) => (theme.direction === 'rtl' ? 'auto' : '0')};
     }
   }
-`;
-
-export const Container = styled.div`
-  display: flex;
-`;
-
-export const LogoContainer = styled.div`
-  padding: 1.25rem 1rem;
-`;
-
-export const Content = styled.div`
-  flex: 1;
 `;
 
 export const ListItemButton = styled(MuiListItemButton)`
