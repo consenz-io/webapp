@@ -30,7 +30,7 @@ export const SidebarLayout: FC = () => {
   return (
     <>
       <Sidebar open={!isMobile || isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-      <Box sx={{ marginInlineStart: isMobile ? 0 : 30 }}>
+      <Box sx={{ marginInlineStart: isMobile ? 0 : 30 }} paddingX={1} paddingY={2}>
         {isLoadingAgreements ? (
           <Container
             maxWidth="xs"
