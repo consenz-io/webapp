@@ -172,7 +172,7 @@ const Draft: FC = () => {
           variant="contained"
           size="large"
           color="primary"
-          sx={{ boxShadow: 4 }}
+          disableElevation={false}
           onClick={() => navigate(`/${groupSlug}/agreement/${agreement?.id}`)}
         >
           {t(StringBank.PARTICIPATE_IN_DISCUSSION)}
