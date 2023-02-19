@@ -48,7 +48,6 @@ interface AppbarProps {
 const AppbarContainer = styled(Stack)`
   && {
     border-bottom: solid 1px ${backgroundBorderColor};
-    margin-top: -1rem;
     padding: 0 1rem;
     height: 57px;
   }
@@ -57,12 +56,7 @@ const AppbarContainer = styled(Stack)`
 const Appbar: FC<AppbarProps> = (props) => {
   const { isRTL } = useContext(SettingsContext);
   return (
-    <AppbarContainer
-      direction="row"
-      alignItems="center"
-      marginX={-1}
-      justifyContent="space-between"
-    >
+    <AppbarContainer direction="row" alignItems="center" justifyContent="space-between">
       {props.breadcrumbs?.length && (
         <Breadcrumbs
           separator={<ArrowLogo fontSize="1rem" {...(isRTL && { transform: 'rotate(180)' })} />}
