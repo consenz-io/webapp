@@ -55,6 +55,7 @@ export const he: Partial<Record<StringBank, string>> = {
   NO_CATEGORY: 'לא נבחרה קטגוריה',
   NO_SECTIONS_PARAGRAPH: ' עברו לדף הדיון על ההסכם, והצביעו עבור הסעיף שהייתם רוצים שיוצג כאן',
   NO_SECTIONS_TITLE: 'טרם אושרו סעיפים',
+  PARTICIPATE_IN_DISCUSSION: 'השתתפו בעריכת המסמך',
   PUBLISH: 'פרסום',
   PUBLISH_AGREEMENT: 'פרסום הסכם',
   RATIONALE: 'דברי הסבר',

@@ -1,4 +1,4 @@
-import { Box, Typography, Link, Container } from '@mui/material';
+import { Box, Typography, Container, Button, Stack, Link } from '@mui/material';
 import { AgreementContext } from 'contexts/agreement';
 import { FC, useContext, useEffect, useState } from 'react';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
@@ -7,7 +7,7 @@ import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import { StringBank } from 'strings';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { truncateAfterWords } from 'utils/functions';
 
@@ -23,6 +23,7 @@ const Draft: FC = () => {
   const { categories } = useContext(GroupContext);
   const { agreement, categoryName } = useContext(AgreementContext);
   const [displayedRationale, setDisplayedRationale] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     setDisplayedRationale(truncateAfterWords(agreement?.rationale ?? '', 30));
@@ -166,6 +167,16 @@ const Draft: FC = () => {
           </Box>
         </Box>
       </Container>
+      <Stack direction="row-reverse" position="sticky" bottom={0} padding={2} width="100%">
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          onClick={() => navigate(`/${groupSlug}/agreement/${agreement?.id}`)}
+        >
+          {t(StringBank.PARTICIPATE_IN_DISCUSSION)}
+        </Button>
+      </Stack>
     </>
   );
 };

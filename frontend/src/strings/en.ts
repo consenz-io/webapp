@@ -61,6 +61,7 @@ Are you sure?`,
   NO_SECTIONS_PARAGRAPH:
     'Go to the agreement discussion page and vote for the sections that you would like to see here',
   NO_SECTIONS_TITLE: 'No Sections were approved yet.',
+  PARTICIPATE_IN_DISCUSSION: 'Participate in the discussion',
   PUBLISH: 'Publish',
   PUBLISH_AGREEMENT: 'Publish Agreement',
   RATIONALE: 'Rationale',
