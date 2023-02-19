@@ -167,11 +167,12 @@ const Draft: FC = () => {
           </Box>
         </Box>
       </Container>
-      <Stack direction="row-reverse" position="sticky" bottom={0} padding={2} width="100%">
+      <Stack direction="row" position="sticky" bottom={0} padding={2} justifyContent="center">
         <Button
           variant="contained"
           size="large"
           color="primary"
+          sx={{ boxShadow: 4 }}
           onClick={() => navigate(`/${groupSlug}/agreement/${agreement?.id}`)}
         >
           {t(StringBank.PARTICIPATE_IN_DISCUSSION)}
