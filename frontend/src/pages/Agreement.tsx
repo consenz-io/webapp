@@ -17,7 +17,7 @@ import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import PlusIcon from 'assets/icons/plus.svg';
 import { debounce, generateColorFromString } from 'utils/functions';
-import { Appbar, TextEditorPopup } from 'components';
+import { Appbar, Dialog, TextEditorPopup } from 'components';
 import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import SectionCard from 'components/SectionCard';
@@ -29,6 +29,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { inputBackgroundColor, secondaryDarkColor } from 'theme/theme';
 import { JSONContent } from '@tiptap/react';
 import { AuthContext } from 'contexts';
+import { ReactComponent as PencilIcon } from 'assets/icons/pencil.svg';
 
 const Agreement: FC = () => {
   const { t } = useTranslation();
@@ -36,6 +37,7 @@ const Agreement: FC = () => {
   const { categories, slug, id: groupId } = useContext(GroupContext);
   const { jwt, loginWithRedirect } = useContext(AuthContext);
   const [isTextPopupOpen, setIsTextPopupOpen] = useState(false);
+  const [chapterToRename, setChapterToRename] = useState<Chapter>();
   const {
     agreement,
     categoryName,
@@ -45,6 +47,7 @@ const Agreement: FC = () => {
     setCurrentChapterId,
     setCurrentSectionIndex,
     updateAgreement,
+    renameChapter,
   } = useContext(AgreementContext);
   const navigate = useNavigate();
   const breadcrumsProps: Breadcrumb[] = [
@@ -94,6 +97,13 @@ const Agreement: FC = () => {
     setIsTextPopupOpen(true);
   }
 
+  async function handleSubmitRenameChapter(value: string): Promise<void> {
+    if (!chapterToRename || !value) {
+      return;
+    }
+    await renameChapter(chapterToRename.id, value.trim());
+    setChapterToRename(undefined);
+  }
   return (
     <Stack>
       <Appbar breadcrumbs={breadcrumsProps} />
@@ -158,7 +168,7 @@ const Agreement: FC = () => {
                   height: '4.5rem',
                 }}
               >
-                <Stack direction="row" alignItems="center" height="4rem" gap={2}>
+                <Stack direction="row" alignItems="center" gap={2} width="100%">
                   <Typography variant="h3">
                     {t(StringBank.SECTION_CARD_TITLE_CHAPTER, { chapterName: chapter.name })}
                   </Typography>
@@ -175,6 +185,19 @@ const Agreement: FC = () => {
                       ),
                     })}
                   </Typography>
+                  <Box flex={1} />
+                  {canEditAgreement && (
+                    <IconButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setChapterToRename(chapter);
+                      }}
+                    >
+                      <SvgIcon fontSize="small">
+                        <PencilIcon />
+                      </SvgIcon>
+                    </IconButton>
+                  )}
                 </Stack>
               </AccordionSummary>
               <AccordionDetails
@@ -227,6 +250,16 @@ const Agreement: FC = () => {
           ))}
         </Stack>
       </Stack>
+      <Dialog
+        title={t(StringBank.RENAME_CHAPTER)}
+        openDialogState={!!chapterToRename}
+        onClose={() => setChapterToRename(undefined)}
+        SubmitTitle={t(StringBank.CONTINUE)}
+        cancelTitle={t(StringBank.CANCEL)}
+        onSubmit={handleSubmitRenameChapter}
+        isTextBox
+        textboxPlaceholder={chapterToRename?.name}
+      />
       <TextEditorPopup
         isOpen={isTextPopupOpen}
         title={t(StringBank.NEW_SECTION)}

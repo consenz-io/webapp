@@ -174,11 +174,11 @@ const Section: FC = () => {
         openDialogState={openDialogState}
         title={t(StringBank.DELETE_AGREEMENT)}
         content={''}
-        cancelFunction={handleCloseDialog}
-        finishFunction={handleDeleteComment}
+        onClose={handleCloseDialog}
+        onSubmit={handleDeleteComment}
         isTextBox={false}
-        cancelBtnText={t(StringBank.CANCEL)}
-        finishBtnText={t(StringBank.DELETE)}
+        cancelTitle={t(StringBank.CANCEL)}
+        SubmitTitle={t(StringBank.DELETE)}
         doneBtnVariant="delete"
       />
       <TextEditorPopup

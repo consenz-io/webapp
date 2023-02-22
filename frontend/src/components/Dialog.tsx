@@ -15,13 +15,13 @@ import { secondaryDarkColor } from 'theme/theme';
 
 interface DialogProps {
   title: string;
-  content: string;
+  content?: string;
   openDialogState: boolean;
-  cancelFunction?: () => void;
-  finishFunction: (val: string) => void;
-  cancelBtnText?: string;
-  finishBtnText: string;
-  placeHolderText?: string;
+  onClose?: () => void;
+  onSubmit: (val: string) => void;
+  cancelTitle?: string;
+  SubmitTitle: string;
+  textboxPlaceholder?: string;
   isTextBox?: boolean;
   doneBtnColor?:
     | 'primary'
@@ -55,14 +55,14 @@ export default function Dialog(props: DialogProps) {
       maxWidth="sm"
       fullWidth
       open={props.openDialogState}
-      onClose={props.cancelFunction}
+      onClose={props.onClose}
     >
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography fontSize={22} fontWeight={600}>
           {props.title}
         </Typography>
-        {props.cancelFunction && (
-          <IconButton onClick={props.cancelFunction} edge="end">
+        {props.onClose && (
+          <IconButton onClick={props.onClose} edge="end">
             <SvgIcon htmlColor={textSecondaryColor}>
               <Xbtn />
             </SvgIcon>
@@ -79,21 +79,19 @@ export default function Dialog(props: DialogProps) {
           onChange={(e) => {
             setInputValue(e.target.value);
           }}
-          placeholder={props.placeHolderText}
+          placeholder={props.textboxPlaceholder}
         />
       )}
-      <DialogActions sx={{ padding: 0 }}>
-        {props.cancelFunction && (
-          <Button onClick={props.cancelFunction}>{props.cancelBtnText}</Button>
-        )}
+      <DialogActions sx={{ padding: 0, gap: 1 }}>
+        {props.onClose && <Button onClick={props.onClose}>{props.cancelTitle}</Button>}
         <Button
           color={donBtnColor}
           variant={doneBtnVariant}
           onClick={() => {
-            props.finishFunction(inputValue);
+            props.onSubmit(inputValue);
           }}
         >
-          {props.finishBtnText}
+          {props.SubmitTitle}
         </Button>
       </DialogActions>
     </MuiDialog>

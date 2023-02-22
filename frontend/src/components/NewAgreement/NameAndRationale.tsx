@@ -141,11 +141,11 @@ function NameAndRationale({
         openDialogState={openDialogState}
         title={t(StringBank.ADD_NEW_CATEGORY)}
         content=""
-        cancelFunction={handleCloseDialog}
-        finishFunction={onCreateCategory}
-        cancelBtnText={t(StringBank.CANCEL)}
-        finishBtnText={t(StringBank.CREATE)}
-        placeHolderText={t(StringBank.ADD_NEW_CATEGORY)}
+        onClose={handleCloseDialog}
+        onSubmit={onCreateCategory}
+        cancelTitle={t(StringBank.CANCEL)}
+        SubmitTitle={t(StringBank.CREATE)}
+        textboxPlaceholder={t(StringBank.ADD_NEW_CATEGORY)}
         isTextBox
       />
     </>

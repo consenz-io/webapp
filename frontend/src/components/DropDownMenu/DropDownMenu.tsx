@@ -8,7 +8,7 @@ import { VariantType } from 'types';
 
 interface IProps {
   value?: number | null;
-  name: string;
+  name?: string;
   buttonText?: string;
   menuItems: MenuItem[];
   endIcon?: ReactNode;

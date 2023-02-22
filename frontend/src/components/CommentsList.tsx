@@ -86,12 +86,12 @@ const CommentsList: FC<CommentsListProps> = ({ comments }) => {
         openDialogState={openDialogState}
         title={t(StringBank.DELETE_COMMENT)}
         content={dialogContent}
-        cancelFunction={handleCloseDialog}
-        finishFunction={handelDeleteComment}
+        onClose={handleCloseDialog}
+        onSubmit={handelDeleteComment}
         isTextBox={false}
-        cancelBtnText={t(StringBank.CANCEL)}
-        finishBtnText={t(StringBank.DELETE)}
-        placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
+        cancelTitle={t(StringBank.CANCEL)}
+        SubmitTitle={t(StringBank.DELETE)}
+        textboxPlaceholder={t(StringBank.AGREEMENT_NAME_FIELD)}
         doneBtnVariant="delete"
       />
     </>

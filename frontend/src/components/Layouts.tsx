@@ -55,8 +55,8 @@ export const SidebarLayout: FC = () => {
         content={t(StringBank.WELCOME_TO_BETA_VERSION)}
         title=""
         openDialogState={!hadSeenBetaVersion}
-        finishBtnText={t(StringBank.CONTINUE)}
-        finishFunction={() => setHadSeenBetaVersion(true)}
+        SubmitTitle={t(StringBank.CONTINUE)}
+        onSubmit={() => setHadSeenBetaVersion(true)}
       />
     </>
   );

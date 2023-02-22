@@ -143,3 +143,11 @@ export const updateAgreementMutation = gql`
     }
   }
 `;
+
+export const updateChapterMutation = gql`
+  mutation updateChapter($id: Int!, $name: String) {
+    update_core_chapters_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
+      id
+    }
+  }
+`;

@@ -187,10 +187,10 @@ const DisplayedVersion: FC<Props> = ({
         openDialogState={isDialogOpen}
         title={t(StringBank.DELETE_SECTION_VERSION)}
         content={t(StringBank.CONFIRM_SECTION_VERSION_DELETE)}
-        cancelFunction={() => setIsDialogOpen(false)}
-        finishFunction={handleDelete}
-        cancelBtnText={t(StringBank.CANCEL)}
-        finishBtnText={t(StringBank.DELETE)}
+        onClose={() => setIsDialogOpen(false)}
+        onSubmit={handleDelete}
+        cancelTitle={t(StringBank.CANCEL)}
+        SubmitTitle={t(StringBank.DELETE)}
         doneBtnVariant="delete"
       />
       <Snackbar

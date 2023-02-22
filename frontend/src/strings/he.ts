@@ -61,6 +61,7 @@ export const he: Partial<Record<StringBank, string>> = {
   RATIONALE: 'דברי הסבר',
   READ_MORE: 'קרא/י עוד',
   REMAINING_SUPPORTERS: 'עוד {{count}} תומכים נדרשים לאישור ההצעה',
+  RENAME_CHAPTER: 'שינוי שם פרק',
   REQUIRE_ADMIN_APPROVAL: 'דורש אישור מנהלים',
   REQUIRE_ADMIN_APPROVAL_DESCRIPTION: 'מנהלים חייבים לאשר שינויים לטיוטא',
   RETURN_TO_ALL_AGREEMENTS: 'חזרה לכלל ההסכמים',

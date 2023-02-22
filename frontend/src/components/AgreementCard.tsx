@@ -176,11 +176,11 @@ const AgreementCard: FC<IAgreementCardProps> = ({
         openDialogState={openDialogState}
         title={t(StringBank.DELETE_AGREEMENT)}
         content={currentContent}
-        cancelFunction={handleCloseDialog}
-        finishFunction={onDeleteAgreement}
-        cancelBtnText={t(StringBank.CANCEL)}
-        finishBtnText={t(StringBank.DELETE)}
-        placeHolderText={t(StringBank.AGREEMENT_NAME_FIELD)}
+        onClose={handleCloseDialog}
+        onSubmit={onDeleteAgreement}
+        cancelTitle={t(StringBank.CANCEL)}
+        SubmitTitle={t(StringBank.DELETE)}
+        textboxPlaceholder={t(StringBank.AGREEMENT_NAME_FIELD)}
         doneBtnVariant="delete"
         isTextBox
       />

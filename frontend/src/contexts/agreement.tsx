@@ -7,6 +7,7 @@ import {
   updateVoteMutation,
   deleteVoteMutation,
   updateAgreementMutation,
+  updateChapterMutation,
 } from 'utils/mutations';
 import { agreementQuery } from 'utils/queries';
 import { UserContext } from 'contexts/user';
@@ -35,6 +36,7 @@ interface AgreementContextState {
   addSection: (content: JSONContent) => Promise<Section>;
   setCurrentChapterId: (currentChapterId: number) => void;
   setCurrentSectionIndex: (currentSectionIndex: number) => void;
+  renameChapter: (chapterId: number, name: string) => Promise<FetchResult<void>>;
   updateAgreement: (agreement: Partial<Pick<Agreement, 'name' | 'rationale'>>) => void;
 }
 
@@ -66,6 +68,10 @@ const AgreementProvider: FC = () => {
     awaitRefetchQueries: true,
   });
   const [insertVote] = useMutation(insertVoteMutation, {
+    refetchQueries: ['agreement'],
+  });
+
+  const [renameChapter] = useMutation(updateChapterMutation, {
     refetchQueries: ['agreement'],
   });
 
@@ -137,6 +143,7 @@ const AgreementProvider: FC = () => {
     ),
     setCurrentChapterId,
     setCurrentSectionIndex,
+    renameChapter: (id, name) => renameChapter({ variables: { id, name } }),
     updateAgreement: ({ name = agreement?.name, rationale = agreement?.rationale }) => {
       updateAgreement({
         variables: {

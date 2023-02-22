@@ -71,3 +71,27 @@ select_permissions:
         - created_at
         - updated_at
       filter: {}
+update_permissions:
+  - role: authenticated
+    permission:
+      columns:
+        - name
+      filter:
+        agreement:
+          author:
+            user:
+              user_id:
+                _eq: X-Hasura-User-Id
+      check: null
+  - role: moderator
+    permission:
+      columns:
+        - name
+      filter:
+        agreement:
+          group:
+            group_users:
+              user:
+                user_id:
+                  _eq: X-Hasura-User-Id
+      check: null
