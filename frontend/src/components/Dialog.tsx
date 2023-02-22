@@ -58,13 +58,7 @@ export default function Dialog(props: DialogProps) {
       onClose={props.cancelFunction}
     >
       <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <Typography
-          sx={{
-            fontFamily: 'Lato',
-            fontSize: '22px',
-            fontWeight: '600',
-          }}
-        >
+        <Typography fontSize={22} fontWeight={600}>
           {props.title}
         </Typography>
         {props.cancelFunction && (
@@ -76,14 +70,7 @@ export default function Dialog(props: DialogProps) {
         )}
       </Stack>
       {props.content && (
-        <Typography
-          sx={{
-            fontFamily: 'Lato',
-            fontSize: '14px',
-            color: textSecondaryColor,
-          }}
-          variant="body1"
-        >
+        <Typography variant="body2" color="text.secondary">
           {props.content}
         </Typography>
       )}
