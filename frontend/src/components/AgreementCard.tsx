@@ -16,20 +16,11 @@ import { ReactComponent as ArchiveIcon } from 'assets/icons/archive.svg';
 import { AuthContext, SettingsContext } from 'contexts';
 import { ClickableCard, SvgIcon, Dialog } from '.';
 import { Role } from 'types/entities';
-import { JSONContent, generateText } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Link from '@tiptap/extension-link';
-import Table from '@tiptap/extension-table';
-import TableCell from '@tiptap/extension-table-cell';
-import TableHeader from '@tiptap/extension-table-header';
-import TableRow from '@tiptap/extension-table-row';
-import Underline from '@tiptap/extension-underline';
-import TextAlign from '@tiptap/extension-text-align';
 
 interface IAgreementCardProps {
   id: number;
   category?: string;
-  rationale?: string | JSONContent;
+  rationale?: string;
   title: string;
   updatedAt: Date;
   participants: number;
@@ -113,25 +104,6 @@ const AgreementCard: FC<IAgreementCardProps> = ({
     return menuItems;
   }
 
-  let truncatedRationale = '';
-  if (typeof rationale === 'string') {
-    truncatedRationale = truncateAfterWords(rationale, 12);
-  } else {
-    truncatedRationale = truncateAfterWords(
-      generateText(rationale as JSONContent, [
-        StarterKit,
-        Link.configure({ autolink: true, linkOnPaste: true, openOnClick: true }),
-        Underline,
-        TextAlign.configure({ types: ['heading', 'paragraph'] }),
-        Table.configure({ resizable: true }),
-        TableRow,
-        TableHeader,
-        TableCell,
-      ]),
-      12
-    );
-  }
-
   return (
     <>
       <ClickableCard onClick={() => navigate(`/${slug}/agreement/${id}`)}>
@@ -182,7 +154,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
                 {t(StringBank.AGREEMENT_PARTICIPANTS, { count: participants })}
               </Typography>
               <Typography variant="body2" marginY={1} minHeight="4em">
-                {truncatedRationale}
+                {truncateAfterWords(rationale ?? ' ', 12)}
               </Typography>
               <Typography variant="caption">
                 {t(StringBank.AGREEMENT_UPDATED_AT, {

@@ -95,12 +95,3 @@ export function debounce(func: () => void, wait: number): void {
   clearTimeout(Number(sessionStorage.getItem('timeout')));
   sessionStorage.setItem('timeout', `${setTimeout(() => func(), wait)}`);
 }
-
-export function safeParseJson(str: string): JSON | string {
-  try {
-    return JSON.parse(str);
-  } catch (e) {
-    console.info(e);
-    return str;
-  }
-}

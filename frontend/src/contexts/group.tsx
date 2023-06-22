@@ -6,9 +6,8 @@ import { Agreement, Category } from 'types';
 import { deleteAgreementMutation } from 'utils/mutations';
 import { agreementsQuery, groupsQuery } from 'utils/queries';
 import { addAgreementMutation } from 'utils/mutations';
-import { isJsonContentEmpty, safeParseJson } from 'utils/functions';
+import { isJsonContentEmpty } from 'utils/functions';
 import { SettingsContext } from './settings';
-import { JSONContent } from '@tiptap/react';
 
 interface GroupContext {
   slug: string;
@@ -22,7 +21,7 @@ interface GroupContext {
   addAgreement: (
     categoryId: number | null,
     name: string,
-    rationale: JSONContent,
+    rationale: string,
     chapters: LocalChapter[]
   ) => Promise<Agreement>;
   addAgreementData: unknown;
@@ -112,11 +111,7 @@ const GroupProvider: FC = () => {
     slug: currentGroup?.slug || '',
     name: currentGroup?.name || '',
     id: currentGroup?.id || -1,
-    agreements:
-      agreements?.core_agreements?.map((a) => ({
-        ...a,
-        rationale: safeParseJson(a.rationale as string),
-      })) || [],
+    agreements: agreements?.core_agreements || [],
     categories: categoriesData?.core_categories || [],
     currentCategory,
     archiveAgreement: (id, iArchived) => archiveAgreement({ variables: { id, iArchived } }),
@@ -129,7 +124,7 @@ const GroupProvider: FC = () => {
         variables: {
           groupId: currentGroup?.id,
           name,
-          rationale: JSON.stringify(rationale),
+          rationale,
           categoryId,
           chapters: chapters
             .filter((c) => c.name)

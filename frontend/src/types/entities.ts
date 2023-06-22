@@ -5,7 +5,7 @@ export interface Agreement {
   name: string;
   category: Category;
   updated_at: Date;
-  rationale: string | JSONContent;
+  rationale: string;
   is_archived?: boolean;
   is_created_by_me?: boolean;
   chapters?: Chapter[];

@@ -19,7 +19,6 @@ import { textSecondaryColor } from 'theme';
 import { AgreementContext } from 'contexts';
 import { isJsonContentEmpty } from 'utils/functions';
 import { SettingsContext } from '../contexts/settings';
-import { JSONContent } from '@tiptap/react';
 
 function initChapters(): LocalChapter[] {
   const existingChapters = localStorage.getItem('chapters');
@@ -27,14 +26,6 @@ function initChapters(): LocalChapter[] {
     return JSON.parse(existingChapters);
   }
   return [{ name: '', sections: [{}] }];
-}
-
-function initRationale(): JSONContent {
-  const existingRationale = localStorage.getItem('rationale');
-  if (existingRationale) {
-    return JSON.parse(existingRationale);
-  }
-  return {};
 }
 
 const NewAgreement: FC = () => {
@@ -52,7 +43,7 @@ const NewAgreement: FC = () => {
     Number(localStorage.getItem('categoryId')) || null
   );
   const [chapters, setChapters] = useState<LocalChapter[]>(initChapters());
-  const [rationale, setRationale] = useState<JSONContent>(initRationale());
+  const [rationale, setRationale] = useState(localStorage.getItem('rationale') || '');
   const [isAdminApprovalRequired, setIsAdminApprovalRequired] = useState(false);
   const navigate = useNavigate();
 
@@ -87,7 +78,7 @@ const NewAgreement: FC = () => {
   function saveAgreementLocally() {
     localStorage.setItem('agreementName', agreementName);
     localStorage.setItem('categoryId', String(categoryId));
-    localStorage.setItem('rationale', JSON.stringify(rationale));
+    localStorage.setItem('rationale', rationale);
     localStorage.setItem('chapters', JSON.stringify(chapters));
     localStorage.setItem('step', String(step));
   }

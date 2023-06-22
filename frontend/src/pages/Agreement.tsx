@@ -17,7 +17,7 @@ import './Agreement.css';
 import { ReactComponent as DocLogo } from 'assets/icons/document.svg';
 import PlusIcon from 'assets/icons/plus.svg';
 import { debounce, generateColorFromString } from 'utils/functions';
-import { Appbar, ContentEditor, Dialog, TextEditorPopup } from 'components';
+import { Appbar, Dialog, TextEditorPopup } from 'components';
 import { Breadcrumb } from 'components/Appbar';
 import { GroupContext } from 'contexts/group';
 import SectionCard from 'components/SectionCard';
@@ -67,7 +67,7 @@ const Agreement: FC = () => {
     document.title = `${agreement.name}`;
   }
 
-  function handleFieldUpdate(field: 'name' | 'rationale', value: string | JSONContent) {
+  function handleFieldUpdate(field: 'name' | 'rationale', value: string) {
     debounce(() => updateAgreement({ [field]: value }), 1000);
   }
 
@@ -141,11 +141,13 @@ const Agreement: FC = () => {
             </Typography>
           </Button>
         </Stack>
-        <ContentEditor
-          content={agreement?.rationale}
-          readonly={!canEditAgreement}
-          onChange={(value) => handleFieldUpdate('rationale', value)}
-        />
+        <Typography
+          contentEditable={canEditAgreement}
+          suppressContentEditableWarning
+          onInput={({ currentTarget }) => handleFieldUpdate('rationale', currentTarget.innerText)}
+        >
+          {agreement?.rationale}
+        </Typography>
         <Box />
         <Stack>
           {agreement?.chapters?.map((chapter: Chapter) => (
