@@ -144,7 +144,7 @@ const Agreement: FC = () => {
         <ContentEditor
           content={agreement?.rationale}
           readonly={!canEditAgreement}
-          onChange={(value) => handleFieldUpdate('rationale', value)}
+          onChange={(value) => handleFieldUpdate('rationale', JSON.stringify(value))}
         />
         <Box />
         <Stack>
