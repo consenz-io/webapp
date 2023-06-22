@@ -1,18 +1,19 @@
-import { InputBase, Stack, Typography } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import { Stack, Typography } from '@mui/material';
+import { useContext, useState } from 'react';
 import { StringBank } from 'strings';
 import styled from 'styled-components';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-import { DropDownMenu } from 'components';
+import { ContentEditor, DropDownMenu } from 'components';
 import { GroupContext } from 'contexts/group';
 import { useTranslation } from 'react-i18next';
-import { Category, VariantType } from 'types';
+import { VariantType } from 'types';
 import Dialog from 'components/Dialog';
 import { useMutation } from '@apollo/client';
 import { addCategoryMutation } from 'utils/mutations';
 import { generateColorFromString } from 'utils/functions';
+import { JSONContent } from '@tiptap/react';
 
 const Span = styled.span`
   ${(props) => props.theme.typography.h2};
@@ -29,17 +30,8 @@ interface IProps {
   name: string;
   onCategoryChange: (value: number | null) => void;
   onNameChange: (value: string) => void;
-  onRationaleChange: (value: string) => void;
-  rationale: string;
-}
-
-interface CategoryObj {
-  name: string;
-  color: string;
-}
-
-interface CategoryMap {
-  [key: string | number]: CategoryObj;
+  onRationaleChange: (value: JSONContent) => void;
+  rationale: JSONContent | string;
 }
 
 function NameAndRationale({
@@ -52,27 +44,13 @@ function NameAndRationale({
 }: IProps): JSX.Element {
   const [openDialogState, setOpenDialogState] = useState(false);
   const { id: groupId, categories } = useContext(GroupContext);
-  const [categoryIdNameMap, setcategoryIdNameMap] = useState<CategoryMap>({});
+
+  const categoryName = categories.find((cat) => cat.id === categoryId)?.name;
 
   const { t } = useTranslation();
   const [createCategoryMutationFN, { error: newCatError }] = useMutation(addCategoryMutation, {
     refetchQueries: ['categories'],
   });
-
-  const handleCloseDialog = () => {
-    setOpenDialogState(false);
-  };
-
-  useEffect(() => {
-    const newIdNameMap: CategoryMap = { ...categoryIdNameMap };
-    categories.forEach((catObj: Category) => {
-      newIdNameMap[catObj.id] = {
-        name: catObj.name,
-        color: generateColorFromString(catObj.name, true),
-      };
-    });
-    setcategoryIdNameMap(newIdNameMap);
-  }, [categories, categoryIdNameMap]);
 
   async function onCreateCategory(val: string) {
     const cat = await createCategoryMutationFN({
@@ -102,7 +80,7 @@ function NameAndRationale({
             isBorderHidden
             value={categoryId}
             name="user"
-            bgColor={categoryId ? categoryIdNameMap[categoryId]?.color : ''}
+            bgColor={categoryName ? generateColorFromString(categoryName) : ''}
             menuItems={[
               {
                 text: t(StringBank.NO_CATEGORY),
@@ -130,18 +108,17 @@ function NameAndRationale({
       </Stack>
       <Stack gap={1}>
         <Typography variant="h3">{t(StringBank.ADD_RATIONALE_HEADER)}</Typography>
-        <InputBase
-          value={rationale}
+        <ContentEditor
+          onChange={(value) => onRationaleChange(value)}
+          content={rationale}
           placeholder={t(StringBank.ADD_RATIONALE_PARAGRAPH)}
-          onChange={(event) => onRationaleChange(event.target.value)}
-          multiline
         />
       </Stack>
       <Dialog
         openDialogState={openDialogState}
         title={t(StringBank.ADD_NEW_CATEGORY)}
         content=""
-        onClose={handleCloseDialog}
+        onClose={() => setOpenDialogState(false)}
         onSubmit={onCreateCategory}
         cancelTitle={t(StringBank.CANCEL)}
         SubmitTitle={t(StringBank.CREATE)}
