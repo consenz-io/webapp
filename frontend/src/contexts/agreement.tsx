@@ -16,6 +16,7 @@ import { JSONContent } from '@tiptap/react';
 import { AuthContext } from './auth';
 import { GroupContext } from './group';
 import { Role } from 'types/entities';
+import { safeParseJson } from 'utils/functions';
 
 export interface AddSectionVariables {
   chapterId: number;
@@ -28,7 +29,6 @@ export interface AddSectionVariables {
 interface AgreementContextState {
   agreementId: number;
   agreement: Agreement | undefined;
-  rationale: string;
   agreementTitle: string;
   categoryName: string;
   canEditAgreement: boolean;
@@ -119,14 +119,17 @@ const AgreementProvider: FC = () => {
       },
     });
   }
-
   const state: AgreementContextState = {
     agreementId: agreement?.id || NaN,
     categoryName: agreement?.category?.name || '',
     canEditAgreement: agreement?.is_created_by_me || role === Role.MODERATOR,
-    rationale: agreement?.rationale || '',
     agreementTitle: agreement?.name || '',
-    agreement: agreement,
+    agreement: {
+      ...(agreement as Agreement),
+      rationale: safeParseJson(
+        typeof agreement?.rationale === 'string' ? agreement?.rationale : '{}'
+      ),
+    },
     vote,
     addSection: useCallback(
       async (content: JSONContent) => {

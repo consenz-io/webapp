@@ -26,7 +26,7 @@ const Draft: FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setDisplayedRationale(truncateAfterWords(agreement?.rationale ?? '', 30));
+    setDisplayedRationale(truncateAfterWords(agreement?.rationale?.toString() ?? '', 30));
   }, [agreement]);
 
   const breadcrumbsProps: Breadcrumb[] = [
@@ -80,7 +80,7 @@ const Draft: FC = () => {
                 {displayedRationale.length < (agreement?.rationale?.length || 0) && (
                   <Link
                     component="button"
-                    onClick={() => setDisplayedRationale(agreement?.rationale ?? '')}
+                    onClick={() => setDisplayedRationale(agreement?.rationale?.toString() ?? '')}
                     color="text.draftLink"
                     underline="none"
                     sx={{ verticalAlign: 'initial' }}
