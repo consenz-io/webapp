@@ -9,13 +9,9 @@ p {
 .ProseMirror p.is-editor-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);
-  float: left;
   height: 0;
+  position: absolute;
   pointer-events: none;
-}
-
-.ProseMirror p[data-placeholder]::before {
-  float: inherit!important;
 }
 
 .ProseMirror-focused {
