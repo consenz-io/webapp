@@ -1,11 +1,11 @@
-import { Stack, Typography } from '@mui/material';
+import { InputBase, Stack, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
 import { StringBank } from 'strings';
 import styled from 'styled-components';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-import { ContentEditor, DropDownMenu } from 'components';
+import { DropDownMenu } from 'components';
 import { GroupContext } from 'contexts/group';
 import { useTranslation } from 'react-i18next';
 import { VariantType } from 'types';
@@ -30,7 +30,7 @@ interface IProps {
   name: string;
   onCategoryChange: (value: number | null) => void;
   onNameChange: (value: string) => void;
-  onRationaleChange: (value: JSONContent) => void;
+  onRationaleChange: (value: string) => void;
   rationale: JSONContent | string;
 }
 
@@ -108,10 +108,11 @@ function NameAndRationale({
       </Stack>
       <Stack gap={1}>
         <Typography variant="h3">{t(StringBank.ADD_RATIONALE_HEADER)}</Typography>
-        <ContentEditor
-          onChange={(value) => onRationaleChange(value)}
-          content={rationale}
+        <InputBase
+          value={rationale}
           placeholder={t(StringBank.ADD_RATIONALE_PARAGRAPH)}
+          onChange={(event) => onRationaleChange(event.target.value)}
+          multiline
         />
       </Stack>
       <Dialog
