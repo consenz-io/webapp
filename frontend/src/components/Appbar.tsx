@@ -1,4 +1,3 @@
-import { FC, useContext } from 'react';
 import {
   Breadcrumbs,
   Button,
@@ -8,14 +7,14 @@ import {
   SvgIcon,
   Typography,
 } from '@mui/material';
-import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
-import styled from 'styled-components';
+import Stepper from '@mui/material/Stepper';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-left.svg';
-import { backgroundBorderColor } from 'theme';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { SettingsContext } from 'contexts';
+import styled from 'styled-components';
+import { backgroundBorderColor } from 'theme';
 
 export interface Action {
   icon: JSX.Element;
@@ -55,7 +54,6 @@ const AppbarContainer = styled(Stack)`
 `;
 
 const Appbar: FC<AppbarProps> = (props) => {
-  const { isRTL } = useContext(SettingsContext);
   return (
     <AppbarContainer
       direction="row"
@@ -65,7 +63,7 @@ const Appbar: FC<AppbarProps> = (props) => {
     >
       {props.breadcrumbs?.length && (
         <Breadcrumbs
-          separator={<ArrowLogo fontSize="1rem" {...(isRTL && { transform: 'rotate(180)' })} />}
+          separator={<ArrowLogo fontSize="1rem" />}
           sx={{ flexBasis: 'calc(100%/3)', flexGrow: 1 }}
         >
           {props.breadcrumbs.map((breadcrumb, i) => (
@@ -80,10 +78,7 @@ const Appbar: FC<AppbarProps> = (props) => {
               sx={{ textDecoration: 'none' }}
             >
               {breadcrumb.icon && <breadcrumb.icon />}
-              <Typography
-                variant="body2"
-                color={i === (props.breadcrumbs?.length || 0) - 1 ? 'white' : 'GrayText'}
-              >
+              <Typography variant="body2" color="white">
                 {breadcrumb.name}
               </Typography>
             </Stack>
