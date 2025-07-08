@@ -89,7 +89,7 @@ const AgreementCard: FC<IAgreementCardProps> = ({
     ];
     if (role === Role.MODERATOR) {
       menuItems.push({
-        text: 'Delete',
+        text: t(StringBank.DELETE),
         icon: (
           <SvgIcon htmlColor="#fc6d8f">
             <TrashIcon />
