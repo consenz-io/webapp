@@ -43,7 +43,9 @@ const AgreementCard: FC<IAgreementCardProps> = ({
   const navigate = useNavigate();
   const cardBackgroundColor = colorMode === ThemeModeType.LIGHT ? '#E3E3E3' : backgroundBorderColor;
 
-  const baseDelDialogContent = `Please write the name of the agreement: ${title} - to delete it.`;
+  const baseDelDialogContent = t(StringBank.DELETE_AGREEMENT_DESCRIPTION, {
+    title,
+  });
   const [currentContent, setDelPopContent] = useState<string>(baseDelDialogContent);
   const [openDialogState, setOpenDialogState] = useState(false);
   const handleClickOpenDialog = () => {

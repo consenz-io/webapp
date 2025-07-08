@@ -40,6 +40,7 @@ export const he: Partial<Record<StringBank, string>> = {
   CURRENT_VERSION: 'הגרסה הנוכחית',
   DELETE: 'מחיקה',
   DELETE_AGREEMENT: 'מחיקת מסמך',
+  DELETE_AGREEMENT_DESCRIPTION: 'אנא הזינו את שם המסמך ({{title}}) כדי למחוק אותו.',
   DELETE_COMMENT: 'מחיקת תגובה',
   DELETE_SECTION_VERSION: 'מחיקת גרסה של סעיף זה',
   FEEDBACK: 'העבירו משוב',
