@@ -11,7 +11,8 @@ import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import Stepper from '@mui/material/Stepper';
 import { ReactComponent as ArrowLogo } from 'assets/icons/chevron-left.svg';
-import { FC } from 'react';
+import { SettingsContext } from 'contexts';
+import { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { backgroundBorderColor } from 'theme';
@@ -54,6 +55,7 @@ const AppbarContainer = styled(Stack)`
 `;
 
 const Appbar: FC<AppbarProps> = (props) => {
+  const { isRTL } = useContext(SettingsContext);
   return (
     <AppbarContainer
       direction="row"
@@ -63,7 +65,7 @@ const Appbar: FC<AppbarProps> = (props) => {
     >
       {props.breadcrumbs?.length && (
         <Breadcrumbs
-          separator={<ArrowLogo fontSize="1rem" />}
+          separator={<ArrowLogo fontSize="1rem" {...(isRTL && { transform: 'rotate(180)' })} />}
           sx={{ flexBasis: 'calc(100%/3)', flexGrow: 1 }}
         >
           {props.breadcrumbs.map((breadcrumb, i) => (
